@@ -61,8 +61,7 @@
     
         // Initialize Firebase
    // Initialize Firebase
-   const app = firebase.initializeApp(firebaseConfig);
-    const functions = getFunctions(app);
+    const functions = getFunctions(db);
 
     // Handle form submission
     document.getElementById('contactForm').addEventListener('submit', function(e) {
