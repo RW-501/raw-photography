@@ -114,9 +114,8 @@
 
     <!-- Include your firebaseConfig.js as a module -->
     <script type="module">
-        import { db, storage } from './js/firebaseConfig.js';
+        import { db, storage } from './js/firebaseConfig.js'; // Ensure the path is correct
 
-        // Load gallery images
         async function loadGallery() {
             const galleryGrid = document.getElementById("gallery-grid");
             try {
@@ -127,7 +126,7 @@
                     imgElement.src = data.watermarkUrl;
                     imgElement.alt = data.title;
                     imgElement.classList.add("gallery-item");
-                    imgElement.setAttribute("loading", "lazy"); // Lazy loading
+                    imgElement.setAttribute("loading", "lazy");
                     imgElement.onclick = () => openLightbox(data.watermarkUrl);
                     galleryGrid.appendChild(imgElement);
                 });
@@ -137,6 +136,7 @@
         }
         loadGallery();
 
+        
         // Open lightbox
         function openLightbox(src) {
             const lightbox = document.getElementById('lightbox');
