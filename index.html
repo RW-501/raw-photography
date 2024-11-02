@@ -114,29 +114,30 @@
 
     <!-- Include your firebaseConfig.js as a module -->
     <script type="module">
-        import { db, storage } from './js/firebaseConfig.js'; // Ensure the path is correct
+    import { db, storage } from './js/firebaseConfig.js';
+import { collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js'; // Import necessary Firestore functions
 
-        async function loadGallery() {
-            const galleryGrid = document.getElementById("gallery-grid");
-            try {
-                const snapshot = await db.collection("images").where("isPublic", "==", true).get();
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    const imgElement = document.createElement("img");
-                    imgElement.src = data.watermarkUrl;
-                    imgElement.alt = data.title;
-                    imgElement.classList.add("gallery-item");
-                    imgElement.setAttribute("loading", "lazy");
-                    imgElement.onclick = () => openLightbox(data.watermarkUrl);
-                    galleryGrid.appendChild(imgElement);
-                });
-            } catch (error) {
-                console.error("Error loading gallery:", error);
-            }
-        }
-        loadGallery();
+async function loadGallery() {
+    const galleryGrid = document.getElementById("gallery-grid");
+    try {
+        const q = query(collection(db, "images"), where("isPublic", "==", true)); // Use collection and query
+        const snapshot = await getDocs(q);
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            const imgElement = document.createElement("img");
+            imgElement.src = data.watermarkUrl;
+            imgElement.alt = data.title;
+            imgElement.classList.add("gallery-item");
+            imgElement.setAttribute("loading", "lazy");
+            imgElement.onclick = () => openLightbox(data.watermarkUrl);
+            galleryGrid.appendChild(imgElement);
+        });
+    } catch (error) {
+        console.error("Error loading gallery:", error);
+    }
+}
 
-        
+
         // Open lightbox
         function openLightbox(src) {
             const lightbox = document.getElementById('lightbox');
@@ -152,20 +153,19 @@
 
         // Load testimonials
         async function loadTestimonials() {
-            const testimonialList = document.getElementById("testimonial-list");
-            try {
-                const snapshot = await db.collection("testimonials").get();
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    const testimonialElement = document.createElement("p");
-                    testimonialElement.textContent = `"${data.quote}" - ${data.author}`;
-                    testimonialList.appendChild(testimonialElement);
-                });
-            } catch (error) {
-                console.error("Error loading testimonials:", error);
-            }
-        }
-        loadTestimonials();
+    const testimonialList = document.getElementById("testimonial-list");
+    try {
+        const snapshot = await getDocs(collection(db, "testimonials")); // Use collection and getDocs
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            const testimonialElement = document.createElement("p");
+            testimonialElement.textContent = `"${data.quote}" - ${data.author}`;
+            testimonialList.appendChild(testimonialElement);
+        });
+    } catch (error) {
+        console.error("Error loading testimonials:", error);
+    }
+}
 
         // Contact form submission
         document.getElementById("contactForm").addEventListener("submit", async (event) => {
