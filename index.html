@@ -9,6 +9,42 @@
     <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-storage.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js"></script>
+    <link rel="stylesheet" href="css/lightbox.css"> <!-- Link to Lightbox CSS -->
+    <style>
+        /* Basic styles for responsive design */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        #gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        img {
+            width: 100%;
+            height: auto;
+            cursor: pointer;
+        }
+        #cta-buttons {
+            text-align: center;
+            margin: 20px 0;
+        }
+        #cta-buttons button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        /* Responsive Footer */
+        #site-footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f8f8;
+        }
+    </style>
 </head>
 <body>
 
@@ -31,7 +67,18 @@
         <div id="gallery-grid">
             <!-- Dynamically loaded images will be inserted here -->
         </div>
-        <button onclick="location.href='events.html'">View All Shoots & Events</button>
+        <div id="cta-buttons">
+            <button onclick="location.href='book-session.html'">Book a Session</button>
+            <button onclick="location.href='events.html'">View Portfolio</button>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials">
+        <h2>What Our Clients Say</h2>
+        <div id="testimonial-list">
+            <!-- Testimonials will be inserted here -->
+        </div>
     </section>
 
     <!-- Contact Form Section -->
@@ -55,6 +102,12 @@
     <footer id="site-footer">
         <p>&copy; 2024 RAW Photography. All Rights Reserved.</p>
     </footer>
+
+    <!-- Lightbox for images -->
+    <div id="lightbox" class="lightbox">
+        <span class="close" onclick="closeLightbox()">&times;</span>
+        <img class="lightbox-content" id="lightbox-image">
+    </div>
 
     <!-- Firebase Configuration -->
     <script>
@@ -82,6 +135,8 @@
                     imgElement.src = data.watermarkUrl;
                     imgElement.alt = data.title;
                     imgElement.classList.add("gallery-item");
+                    imgElement.setAttribute("loading", "lazy"); // Lazy loading
+                    imgElement.onclick = () => openLightbox(data.watermarkUrl);
                     galleryGrid.appendChild(imgElement);
                 });
             } catch (error) {
@@ -89,6 +144,36 @@
             }
         }
         loadGallery();
+
+        // Open lightbox
+        function openLightbox(src) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImage = document.getElementById('lightbox-image');
+            lightboxImage.src = src;
+            lightbox.style.display = "block";
+        }
+
+        // Close lightbox
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = "none";
+        }
+
+        // Load testimonials
+        async function loadTestimonials() {
+            const testimonialList = document.getElementById("testimonial-list");
+            try {
+                const snapshot = await db.collection("testimonials").get();
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    const testimonialElement = document.createElement("p");
+                    testimonialElement.textContent = `"${data.quote}" - ${data.author}`;
+                    testimonialList.appendChild(testimonialElement);
+                });
+            } catch (error) {
+                console.error("Error loading testimonials:", error);
+            }
+        }
+        loadTestimonials();
 
         // Contact form submission
         document.getElementById("contactForm").addEventListener("submit", async (event) => {
@@ -112,7 +197,9 @@
                 showToast("There was an error. Please try again.");
             }
         });
+
+
     </script>
-  
+    <script src="js/lightbox.js"></script> <!-- Include your lightbox script -->
 </body>
 </html>

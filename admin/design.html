@@ -8,6 +8,21 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
     <script src="../js/firebaseConfig.js"></script>
+    <style>
+        /* Live preview styles */
+        #live-preview {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-top: 20px;
+            transition: background-color 0.3s, color 0.3s, font-family 0.3s;
+        }
+        /* Add responsive styles */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -16,6 +31,7 @@
             <div class="form-group">
                 <label for="themeColor">Theme Color:</label>
                 <input type="color" id="themeColor" name="themeColor" required>
+                <span class="tooltip">Choose the main theme color</span>
             </div>
             <div class="form-group">
                 <label for="fontSelect">Font:</label>
@@ -26,15 +42,48 @@
                     <option value="Times New Roman">Times New Roman</option>
                     <option value="Verdana">Verdana</option>
                 </select>
+                <span class="tooltip">Select the font for the website</span>
+            </div>
+            <div class="form-group">
+                <label for="navFontColor">Navigation Font Color:</label>
+                <input type="color" id="navFontColor" name="navFontColor">
+                <span class="tooltip">Choose font color for the navigation</span>
+            </div>
+            <div class="form-group">
+                <label for="navBackgroundColor">Navigation Background Color:</label>
+                <input type="color" id="navBackgroundColor" name="navBackgroundColor">
+                <span class="tooltip">Choose background color for the navigation</span>
+            </div>
+            <div class="form-group">
+                <label for="footerFontColor">Footer Font Color:</label>
+                <input type="color" id="footerFontColor" name="footerFontColor">
+                <span class="tooltip">Choose font color for the footer</span>
+            </div>
+            <div class="form-group">
+                <label for="footerBackgroundColor">Footer Background Color:</label>
+                <input type="color" id="footerBackgroundColor" name="footerBackgroundColor">
+                <span class="tooltip">Choose background color for the footer</span>
+            </div>
+            <div class="form-group">
+                <label for="showTime">Display Time in Footer:</label>
+                <input type="checkbox" id="showTime" name="showTime">
+                <span class="tooltip">Check to show current time in the footer</span>
             </div>
             <div class="form-group">
                 <label for="homePageText">Homepage Text:</label>
                 <textarea id="homePageText" name="homePageText" rows="4" required></textarea>
+                <span class="tooltip">Update the text displayed on the homepage</span>
             </div>
             <button type="submit">Save Changes</button>
+            <button type="button" id="reset-button">Reset</button>
         </form>
         <div id="success-message" class="hidden">Changes saved successfully!</div>
         <div id="error-message" class="hidden">Error saving changes. Please try again.</div>
+
+        <div id="live-preview">
+            <h2>Live Preview</h2>
+            <p>This is a live preview of your changes.</p>
+        </div>
     </div>
 
     <script src="../js/admin.js"></script>
@@ -43,17 +92,70 @@
         const app = firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore(app);
 
+        // Function to apply styles dynamically
+        function applyStyles(styles) {
+            const livePreview = document.getElementById('live-preview');
+            livePreview.style.backgroundColor = styles.themeColor;
+            livePreview.style.color = styles.navFontColor;
+            livePreview.style.fontFamily = styles.font;
+            document.querySelector('nav').style.backgroundColor = styles.navBackgroundColor;
+            document.querySelector('nav').style.color = styles.navFontColor;
+            document.querySelector('footer').style.backgroundColor = styles.footerBackgroundColor;
+            document.querySelector('footer').style.color = styles.footerFontColor;
+        }
+
+        // Load existing styles from Firestore
+        async function loadStyles() {
+            const doc = await db.collection('settings').doc('siteDesign').get();
+            if (doc.exists) {
+                applyStyles(doc.data());
+            } else {
+                console.log("No such document!");
+            }
+        }
+
+        // Update live preview on input change
+        document.getElementById('design-form').addEventListener('input', (event) => {
+            const themeColor = document.getElementById('themeColor').value;
+            const navFontColor = document.getElementById('navFontColor').value;
+            const navBackgroundColor = document.getElementById('navBackgroundColor').value;
+            const footerFontColor = document.getElementById('footerFontColor').value;
+            const footerBackgroundColor = document.getElementById('footerBackgroundColor').value;
+            const font = document.getElementById('fontSelect').value;
+
+            const styles = {
+                themeColor,
+                navFontColor,
+                navBackgroundColor,
+                footerFontColor,
+                footerBackgroundColor,
+                font
+            };
+
+            applyStyles(styles);
+        });
+
         document.getElementById('design-form').addEventListener('submit', async (event) => {
             event.preventDefault();
             
             const themeColor = document.getElementById('themeColor').value;
             const font = document.getElementById('fontSelect').value;
+            const navFontColor = document.getElementById('navFontColor').value || null;
+            const navBackgroundColor = document.getElementById('navBackgroundColor').value || null;
+            const footerFontColor = document.getElementById('footerFontColor').value || null;
+            const footerBackgroundColor = document.getElementById('footerBackgroundColor').value || null;
+            const showTime = document.getElementById('showTime').checked;
             const homePageText = document.getElementById('homePageText').value;
 
             try {
                 await db.collection('settings').doc('siteDesign').set({
                     themeColor,
                     font,
+                    navFontColor,
+                    navBackgroundColor,
+                    footerFontColor,
+                    footerBackgroundColor,
+                    showTime,
                     homePageText
                 });
                 document.getElementById('success-message').classList.remove('hidden');
@@ -64,6 +166,15 @@
                 document.getElementById('success-message').classList.add('hidden');
             }
         });
+
+        // Reset functionality
+        document.getElementById('reset-button').addEventListener('click', () => {
+            document.getElementById('design-form').reset();
+            loadStyles(); // Load default styles
+        });
+
+        // Load styles on page load
+        window.onload = loadStyles;
     </script>
 </body>
 </html>

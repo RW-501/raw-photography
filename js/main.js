@@ -4,56 +4,46 @@ import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.0/fi
 
 
 // EVENTS.HTML
-document.addEventListener("DOMContentLoaded", () => {
-    loadEvents();
-});
 
-// Load events from Firestore and display them in the gallery
-async function loadEvents() {
-    const eventGalleryGrid = document.getElementById("eventGalleryGrid");
-    const eventsSnapshot = await getDocs(collection(db, "events"));
-
-    eventsSnapshot.forEach((doc) => {
-        const eventData = doc.data();
-        const eventDiv = document.createElement("div");
-        eventDiv.className = "event-item";
-        eventDiv.innerHTML = `
-            <img src="${eventData.coverImage}" alt="${eventData.title}" onclick="openModal('${doc.id}')">
-            <h3>${eventData.title}</h3>
-            <p>${eventData.date.toDate().toDateString()}</p>
-        `;
-        eventGalleryGrid.appendChild(eventDiv);
+// Fetch events from Firestore and populate the gallery
+function fetchEvents() {
+    db.collection("events").get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            const eventData = doc.data();
+            const eventItem = document.createElement("div");
+            eventItem.className = "event-item";
+            eventItem.innerHTML = `
+                <img src="${eventData.coverImage}" alt="${eventData.title}" onclick="openModal('${doc.id}')">
+                <h2>${eventData.title}</h2>
+            `;
+            document.getElementById("eventGalleryGrid").appendChild(eventItem);
+        });
     });
 }
 
-// Function to open the modal with event details
-window.openModal = async function(eventId) {
-    const modal = document.getElementById("eventModal");
-    const modalContent = document.getElementById("modalContent");
-
-    modal.style.display = "block";
-    modalContent.innerHTML = "";  // Clear previous content
-
-    const eventRef = collection(db, "events").doc(eventId);
-    const eventDoc = await eventRef.get();
-    if (eventDoc.exists) {
-        const eventData = eventDoc.data();
-
+// Open modal with event details
+function openModal(eventId) {
+    db.collection("events").doc(eventId).get().then((doc) => {
+        const eventData = doc.data();
+        const modalContent = document.getElementById("modalContent");
         modalContent.innerHTML = `
             <h2>${eventData.title}</h2>
             <p>${eventData.description}</p>
-            <div class="modal-gallery">
-                ${eventData.imageIds.map(id => `<img src="${id}" class="modal-image">`).join("")}
+            <div class="images">
+                ${eventData.imageIds.map(imgId => `<img src="${imgId}" alt="${eventData.title}">`).join("")}
             </div>
         `;
-    }
-};
+        document.getElementById("eventModal").style.display = "block";
+    });
+}
 
-// Function to close the modal
-window.closeModal = function() {
+// Close the modal
+function closeModal() {
     document.getElementById("eventModal").style.display = "none";
-};
+}
 
+// Initialize the fetch process
+fetchEvents();
 
 
 
