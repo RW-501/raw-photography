@@ -9,11 +9,13 @@
     <script src="js/firebaseConfig.js"></script>
     <script src="js/main.js" defer></script>
     <style>
+        /* Add your CSS styling here */
         .image-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: 20px;
+            margin: 40px auto;
+            max-width: 600px;
         }
         .image-container img {
             max-width: 100%;
@@ -41,7 +43,14 @@
 </head>
 <body>
     <header>
-        <h1>Purchase Image</h1>
+        <h1>Raw Photography</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="events.html">Shoots/Events</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
     </header>
 
     <main>
@@ -62,7 +71,7 @@
             apiKey: "AIzaSyC2bb6osv0jnvpnETCVoG6bvBynGGsOVaw",
             authDomain: "raw-photography-12616.firebaseapp.com",
             projectId: "raw-photography-12616",
-            storageBucket: "raw-photography-12616.firebasestorage.app",
+            storageBucket: "raw-photography-12616.appspot.com",
             messagingSenderId: "1078385378836",
             appId: "1:1078385378836:web:bb8f9611bfbdac1e480901",
             measurementId: "G-0DLEHE7DEK"
