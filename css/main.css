@@ -61,17 +61,26 @@
     }
 
 
-    /* EVENTS.HTML Basic styles for the gallery page */
-body {
-    font-family: Arial, sans-serif;
-}
-
+        /* Basic styles for responsive design */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
 nav {
     display: flex;
     gap: 10px;
     padding: 1rem;
 }
+        /* Responsive Footer */
+        #site-footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f8f8;
+        }
 
+        
 #events-gallery {
     padding: 2rem;
     text-align: center;
