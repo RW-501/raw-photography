@@ -5,8 +5,10 @@ import { getStorage } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-s
 
 // Firebase configuration object
 const firebaseConfig = {
-    apiKey: import.meta.env.VITE_FIREBASE_API_KEY, // Use environment variables for sensitive data
-    authDomain: "raw-photography-12616.firebaseapp.com",
+ //   apiKey: import.meta.env.VITE_FIREBASE_API_KEY, // Use environment variables for sensitive data
+ apiKey: "AIzaSyC2bb6osv0jnvpnETCVoG6bvBynGGsOVaw",
+
+ authDomain: "raw-photography-12616.firebaseapp.com",
     projectId: "raw-photography-12616",
     storageBucket: "raw-photography-12616.appspot.com",
     messagingSenderId: "1078385378836",
