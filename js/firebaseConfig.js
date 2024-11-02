@@ -3,6 +3,8 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.2/firebas
 import { getFirestore } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js';
 import { getStorage } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-storage.js'; // Include storage
 
+try {
+    // Your Firestore operation
 const firebaseConfig = {
     apiKey: "AIzaSyC2bb6osv0jnvpnETCVoG6bvBynGGsOVaw",
     authDomain: "raw-photography-12616.firebaseapp.com",
@@ -17,5 +19,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage(app); // Initialize storage
-
+} catch (error) {
+    console.error("Error accessing Firestore:", error);
+}
 export { db, storage };
