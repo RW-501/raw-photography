@@ -59,7 +59,11 @@
         </nav>
     </footer>
 
-    <script>
+
+    <!-- Include your firebaseConfig.js as a module -->
+    <script type="module">
+        import { db, storage } from './js/firebaseConfig.js';
+
         // Initialize Firebase
         const app = firebase.initializeApp(firebaseConfig);
         const functions = firebase.functions();

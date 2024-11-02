@@ -65,20 +65,10 @@
         <p>&copy; 2024 Raw Photography. All Rights Reserved.</p>
     </footer>
 
-    <script>
-        // Initialize Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyC2bb6osv0jnvpnETCVoG6bvBynGGsOVaw",
-            authDomain: "raw-photography-12616.firebaseapp.com",
-            projectId: "raw-photography-12616",
-            storageBucket: "raw-photography-12616.appspot.com",
-            messagingSenderId: "1078385378836",
-            appId: "1:1078385378836:web:bb8f9611bfbdac1e480901",
-            measurementId: "G-0DLEHE7DEK"
-        };
 
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
+    <!-- Include your firebaseConfig.js as a module -->
+    <script type="module">
+        import { db, storage } from './js/firebaseConfig.js';
 
         // Retrieve image ID from URL parameters
         const urlParams = new URLSearchParams(window.location.search);

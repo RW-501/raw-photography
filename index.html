@@ -113,11 +113,9 @@
         <img class="lightbox-content" id="lightbox-image">
     </div>
 
-    <!-- Firebase Configuration -->
-    <script>
-
-        const db = firebase.firestore();
-        const storage = firebase.storage();
+    <!-- Include your firebaseConfig.js as a module -->
+    <script type="module">
+        import { db, storage } from './js/firebaseConfig.js';
 
         // Load gallery images
         async function loadGallery() {

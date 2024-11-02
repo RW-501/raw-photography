@@ -1,49 +1,5 @@
-import { db } from './firebaseConfig.js';
-import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js';
 
 
-
-// EVENTS.HTML
-
-// Fetch events from Firestore and populate the gallery
-function fetchEvents() {
-    db.collection("events").get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            const eventData = doc.data();
-            const eventItem = document.createElement("div");
-            eventItem.className = "event-item";
-            eventItem.innerHTML = `
-                <img src="${eventData.coverImage}" alt="${eventData.title}" onclick="openModal('${doc.id}')">
-                <h2>${eventData.title}</h2>
-            `;
-            document.getElementById("eventGalleryGrid").appendChild(eventItem);
-        });
-    });
-}
-
-// Open modal with event details
-function openModal(eventId) {
-    db.collection("events").doc(eventId).get().then((doc) => {
-        const eventData = doc.data();
-        const modalContent = document.getElementById("modalContent");
-        modalContent.innerHTML = `
-            <h2>${eventData.title}</h2>
-            <p>${eventData.description}</p>
-            <div class="images">
-                ${eventData.imageIds.map(imgId => `<img src="${imgId}" alt="${eventData.title}">`).join("")}
-            </div>
-        `;
-        document.getElementById("eventModal").style.display = "block";
-    });
-}
-
-// Close the modal
-function closeModal() {
-    document.getElementById("eventModal").style.display = "none";
-}
-
-// Initialize the fetch process
-fetchEvents();
 
 
         // Auto move to next input (if applicable)
