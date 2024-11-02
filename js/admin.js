@@ -3,24 +3,6 @@ const loginForm = document.getElementById('loginForm');
 const errorMessage = document.getElementById('error-message');
 
 
-// Firebase configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyC2bb6osv0jnvpnETCVoG6bvBynGGsOVaw",
-    authDomain: "raw-photography-12616.firebaseapp.com",
-    projectId: "raw-photography-12616",
-    storageBucket: "raw-photography-12616.appspot.com",
-    messagingSenderId: "1078385378836",
-    appId: "1:1078385378836:web:bb8f9611bfbdac1e480901",
-    measurementId: "G-0DLEHE7DEK"
-};
-
-
-// Firebase Authentication setup
-const app = firebase.initializeApp(firebaseConfig);
-
-const db = firebase.firestore();
-const storage = firebase.storage();
-const auth = firebase.auth();
 
 // Authenticate admin
 auth.onAuthStateChanged(user => {
