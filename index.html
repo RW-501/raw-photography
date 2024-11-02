@@ -5,12 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RAW Photography</title>
     <link rel="stylesheet" href="css/main.css">
-    <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-storage.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js"></script>
     <style>
-
         #gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -32,14 +27,12 @@
             cursor: pointer;
         }
 
-.lightbox{
-    display: none;
-}
-
+        .lightbox {
+            display: none;
+        }
     </style>
 </head>
 <body>
-
     <!-- Header -->
     <header id="site-header">
         <h1>Welcome to RAW Photography</h1>
@@ -48,7 +41,7 @@
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="events.html">Events</a></li>
-                <li><a href="contact">Contact</a></li>
+                <li><a href="contact.html">Contact</a></li>
             </ul>
         </nav>
     </header>
@@ -103,29 +96,28 @@
 
     <!-- Include your firebaseConfig.js as a module -->
     <script type="module">
-    import { db, storage } from './js/firebaseConfig.js';
-import { collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js'; // Import necessary Firestore functions
+        import { db, storage } from './js/firebaseConfig.js';
+        import { collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js'; // Import necessary Firestore functions
 
-async function loadGallery() {
-    const galleryGrid = document.getElementById("gallery-grid");
-    try {
-        const q = query(collection(db, "images"), where("isPublic", "==", true)); // Use collection and query
-        const snapshot = await getDocs(q);
-        snapshot.forEach(doc => {
-            const data = doc.data();
-            const imgElement = document.createElement("img");
-            imgElement.src = data.watermarkUrl;
-            imgElement.alt = data.title;
-            imgElement.classList.add("gallery-item");
-            imgElement.setAttribute("loading", "lazy");
-            imgElement.onclick = () => openLightbox(data.watermarkUrl);
-            galleryGrid.appendChild(imgElement);
-        });
-    } catch (error) {
-        console.error("Error loading gallery:", error);
-    }
-}
-
+        async function loadGallery() {
+            const galleryGrid = document.getElementById("gallery-grid");
+            try {
+                const q = query(collection(db, "images"), where("isPublic", "==", true)); // Use collection and query
+                const snapshot = await getDocs(q);
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    const imgElement = document.createElement("img");
+                    imgElement.src = data.watermarkUrl;
+                    imgElement.alt = data.title;
+                    imgElement.classList.add("gallery-item");
+                    imgElement.setAttribute("loading", "lazy");
+                    imgElement.onclick = () => openLightbox(data.watermarkUrl);
+                    galleryGrid.appendChild(imgElement);
+                });
+            } catch (error) {
+                console.error("Error loading gallery:", error);
+            }
+        }
 
         // Open lightbox
         function openLightbox(src) {
@@ -142,19 +134,19 @@ async function loadGallery() {
 
         // Load testimonials
         async function loadTestimonials() {
-    const testimonialList = document.getElementById("testimonial-list");
-    try {
-        const snapshot = await getDocs(collection(db, "testimonials")); // Use collection and getDocs
-        snapshot.forEach(doc => {
-            const data = doc.data();
-            const testimonialElement = document.createElement("p");
-            testimonialElement.textContent = `"${data.quote}" - ${data.author}`;
-            testimonialList.appendChild(testimonialElement);
-        });
-    } catch (error) {
-        console.error("Error loading testimonials:", error);
-    }
-}
+            const testimonialList = document.getElementById("testimonial-list");
+            try {
+                const snapshot = await getDocs(collection(db, "testimonials")); // Use collection and getDocs
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    const testimonialElement = document.createElement("p");
+                    testimonialElement.textContent = `"${data.quote}" - ${data.author}`;
+                    testimonialList.appendChild(testimonialElement);
+                });
+            } catch (error) {
+                console.error("Error loading testimonials:", error);
+            }
+        }
 
         // Contact form submission
         document.getElementById("contactForm").addEventListener("submit", async (event) => {
@@ -179,7 +171,8 @@ async function loadGallery() {
             }
         });
 
-
+        loadGallery();
+        loadTestimonials();
     </script>
     <script src="js/lightbox.js"></script> <!-- Include your lightbox script -->
 </body>
