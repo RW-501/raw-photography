@@ -20,9 +20,12 @@ const firebaseConfig = {
 let app;
 let db;
 let storage;
+let auth;
 
 try {
-    app = initializeApp(firebaseConfig);
+     app = initializeApp(firebaseConfig);
+ auth = getAuth(app);
+
     db = getFirestore(app);
     storage = getStorage(app); // Initialize storage
     console.log("Firebase initialized successfully.");
@@ -31,4 +34,4 @@ try {
 }
 
 // Export Firestore and Storage instances for use in other modules
-export { db, storage };
+export { db, storage, auth };
