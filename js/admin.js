@@ -2,9 +2,54 @@
 const loginForm = document.getElementById('loginForm');
 const errorMessage = document.getElementById('error-message');
 
+
+// Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyC2bb6osv0jnvpnETCVoG6bvBynGGsOVaw",
+    authDomain: "raw-photography-12616.firebaseapp.com",
+    projectId: "raw-photography-12616",
+    storageBucket: "raw-photography-12616.appspot.com",
+    messagingSenderId: "1078385378836",
+    appId: "1:1078385378836:web:bb8f9611bfbdac1e480901",
+    measurementId: "G-0DLEHE7DEK"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
 // Firebase Authentication setup
 const app = firebase.initializeApp(firebaseConfig);
+
+const db = firebase.firestore();
+const storage = firebase.storage();
 const auth = firebase.auth();
+
+// Authenticate admin
+auth.onAuthStateChanged(user => {
+    if (!user || user.role !== 'admin') {
+        window.location = '../admin-login.html'; // Redirect to login if not authenticated
+    }
+});
+
+
+        // Logout function
+        function logout() {
+            firebase.auth().signOut()
+                .then(() => {
+                    // Clear local storage
+                    localStorage.removeItem('adminEmail');
+
+                    // Redirect to the login page
+                    window.location.href = '../';
+                })
+                .catch(error => {
+                    console.error("Error during logout:", error);
+                });
+        }
+
+        // Attach logout function to the button
+        document.getElementById('logoutBtn').addEventListener('click', logout);
+   
 
 loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -26,56 +71,103 @@ loginForm.addEventListener('submit', (e) => {
         });
 });
 
-// dashboard Initialize Firebase
-const db = firebase.firestore();
 
-// Function to fetch key metrics
-async function fetchMetrics() {
-    try {
-        // Get total images
-        const imagesSnapshot = await db.collection('images').get();
-        document.getElementById('totalImages').textContent = imagesSnapshot.size;
 
-        // Get total purchases
-        const purchasesSnapshot = await db.collection('purchases').get();
-        document.getElementById('totalPurchases').textContent = purchasesSnapshot.size;
-
-        // Get pending appointments
-        const appointmentsSnapshot = await db.collection('appointments').where('status', '==', 'pending').get();
-        document.getElementById('pendingAppointments').textContent = appointmentsSnapshot.size;
-
-        // Calculate total revenue
-        let totalRevenue = 0;
-        purchasesSnapshot.forEach(doc => {
-            totalRevenue += doc.data().amount;
-        });
-        document.getElementById('totalRevenue').textContent = `$${totalRevenue.toFixed(2)}`;
-    } catch (error) {
-        console.error("Error fetching metrics: ", error);
-    }
+// Function to fetch and display metrics
+function fetchMetrics() {
+    db.collection('analytics').doc('metrics').get().then(doc => {
+        if (doc.exists) {
+            document.getElementById('totalImages').innerText = doc.data().totalImages || 0;
+            document.getElementById('totalPurchases').innerText = doc.data().totalPurchases || 0;
+            document.getElementById('pendingAppointments').innerText = doc.data().pendingAppointments || 0;
+            document.getElementById('totalRevenue').innerText = `$${doc.data().totalRevenue || 0}`;
+        }
+    }).catch(error => console.error('Error fetching metrics:', error));
 }
 
 // Function to fetch recent purchases
-async function fetchRecentPurchases() {
-    try {
-        const purchasesSnapshot = await db.collection('purchases').orderBy('datePurchased', 'desc').limit(5).get();
+function fetchRecentPurchases() {
+    db.collection('purchases').orderBy('datePurchased', 'desc').limit(5).get().then(snapshot => {
         const purchasesList = document.getElementById('recentPurchases');
-        purchasesList.innerHTML = ''; // Clear the list
-
-        purchasesSnapshot.forEach(doc => {
-            const purchaseData = doc.data();
+        purchasesList.innerHTML = ''; // Clear existing list
+        snapshot.forEach(doc => {
+            const purchase = doc.data();
             const listItem = document.createElement('li');
-            listItem.textContent = `Purchase ID: ${purchaseData.purchaseId}, Amount: $${purchaseData.amount.toFixed(2)}, Date: ${purchaseData.datePurchased.toDate().toLocaleString()}`;
+            listItem.className = 'list-group-item';
+            listItem.textContent = `${purchase.userId} purchased ${purchase.imageId} on ${new Date(purchase.datePurchased).toLocaleDateString()}`;
             purchasesList.appendChild(listItem);
         });
-    } catch (error) {
-        console.error("Error fetching recent purchases: ", error);
-    }
+    }).catch(error => console.error('Error fetching purchases:', error));
 }
 
-// Call functions to fetch data on page load
-document.addEventListener('DOMContentLoaded', () => {
-    fetchMetrics();
-    fetchRecentPurchases();
-});
+// Function to set user preferences in local storage
+function setUserPreferences(preferences) {
+    localStorage.setItem('userPreferences', JSON.stringify(preferences));
+}
+
+// Call the functions on page load
+fetchMetrics();
+fetchRecentPurchases();
+
+
+
+// Toast Notification Function
+function showToast(message, type = 'info', duration = 3000) {
+   
+    // Create a div for the toast
+    const toast = document.createElement('div');
+    
+    // Set inline styles for the toast
+    toast.style.position = 'fixed';
+    toast.style.bottom = '20px'; // Position from the bottom
+    toast.style.left = '50%'; // Center horizontally
+    toast.style.transform = 'translateX(-50%)'; // Centering
+    toast.style.padding = '15px 20px'; // Padding for the toast
+    toast.style.borderRadius = '5px'; // Rounded corners
+    toast.style.color = 'white'; // Text color
+    toast.style.fontSize = '16px'; // Font size
+    toast.style.zIndex = '9999'; // Ensure it appears above other elements
+    toast.style.transition = 'opacity 0.5s ease'; // Fade transition
+    
+    // Set background color based on toast type
+    switch (type) {
+        case 'success':
+            toast.style.backgroundColor = '#4CAF50'; // Green for success
+            break;
+        case 'error':
+            toast.style.backgroundColor = '#F44336'; // Red for error
+            break;
+        case 'info':
+            toast.style.backgroundColor = '#2196F3'; // Blue for info
+            break;
+        case 'warning':
+            toast.style.backgroundColor = '#FF9800'; // Orange for warning
+            break;
+        default:
+            toast.style.backgroundColor = '#2196F3'; // Default to info
+    }
+
+   
+
+    toast.className = `toast toast-${type}`; // Add classes for styling
+    toast.innerText = message; // Set the message text
+
+    // Append the toast to the body
+    document.body.appendChild(toast);
+
+    // Set a timer to remove the toast after the specified duration
+    setTimeout(() => {
+        toast.classList.add('fade-out'); // Add fade-out effect
+        setTimeout(() => {
+            document.body.removeChild(toast); // Remove toast from DOM
+        }, 500); // Time to wait for fade-out animation
+    }, duration);
+}
+
+// Example usage: Replace alerts with showToast
+// showToast('This is a success message!', 'success');
+// showToast('This is an error message!', 'error');
+// showToast('This is an info message!', 'info');
+// showToast('This is a warning message!', 'warning');
+
 

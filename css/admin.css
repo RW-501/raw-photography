@@ -56,3 +56,44 @@ button:hover {
     margin-top: 10px;
     text-align: center;
 }
+
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.admin-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-header {
+    background-color: #f8f9fa;
+    padding: 1rem 0;
+}
+
+.dashboard-content {
+    flex: 1;
+}
+
+.footer {
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+.key-metrics {
+    margin-bottom: 2rem;
+}
+
+.card {
+    margin: 1rem 0;
+}
+
+.list-group-item {
+    cursor: pointer;
+}
+
+.list-group-item:hover {
+    background-color: #f1f1f1;
+}

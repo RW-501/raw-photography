@@ -46,7 +46,18 @@ function closeModal() {
 fetchEvents();
 
 
-
+        // Auto move to next input (if applicable)
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    const nextInput = e.target.nextElementSibling;
+                    if (nextInput) {
+                        nextInput.focus();
+                    }
+                }
+            });
+        });
 
 // Toast Notification Function
 function showToast(message, type = 'info', duration = 3000) {

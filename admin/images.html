@@ -3,80 +3,234 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Gallery</title>
-    <link rel="stylesheet" href="css/main.css">
+    <title>Admin - Manage Images</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/admin.css">
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js"></script>
     <script src="https://js.stripe.com/v3/"></script>
+    <script src="../js/firebaseConfig.js"></script>
+    <script src="../js/admin.js"></script>
+    <style>
+        /* Custom styles for a professional, minimalistic look */
+        /* Custom styles for a professional, minimalistic look */
+        .card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+        .btn-primary, .btn-success {
+            width: 100%;
+        }
+        .loading-spinner {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Image Gallery</h1>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="events.html">Events</a>
-            <a href="admin-login.html">Admin Login</a>
-        </nav>
+    <!-- Header -->
+    <header class="bg-dark text-white p-3 mb-4">
+        <div class="container">
+            <h1 class="text-center">Admin Dashboard - Manage Images & Events</h1>
+            <nav>
+                <a href="home.html" class="text-white mx-3">Home</a>
+                <a href="manage-events.html" class="text-white mx-3">Manage Events</a>
+                <a href="manage-images.html" class="text-white mx-3">Manage Images</a>
+                <a id="logoutBtn"  href="/" class="text-white mx-3">Logout</a>
+            </nav>
+        </div>
     </header>
 
-    <main>
-        <section id="gallery">
-            <h2>Available Images</h2>
-            <div class="image-grid" id="image-grid">
-                <!-- Images will be dynamically populated here -->
-            </div>
-        </section>
-    </main>
+    <p class="text-muted">Use this panel to manage images and events. Upload images, set prices, and save details. Please ensure all information is correct before saving.</p>
 
-    <footer>
-        <p>&copy; 2024 Raw Photography</p>
+    <div class="container mt-5">
+        <h1 class="text-center">Manage Images and Events</h1>
+
+        <!-- Event Information Section -->
+        <section class="my-4">
+            <h2>Add Event Details</h2>
+            <form id="eventForm">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="eventTitle">Event Title</label>
+                        <input type="text" class="form-control" id="eventTitle" placeholder="Event Title" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="eventDate">Event Date</label>
+                        <input type="date" class="form-control" id="eventDate" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="eventDescription">Event Description</label>
+                    <textarea class="form-control" id="eventDescription" rows="3" placeholder="Event Description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="eventPrice">Event Price (USD)</label>
+                    <input type="number" class="form-control" id="eventPrice" placeholder="Event Price" required>
+                </div>
+                <button type="button" class="btn btn-primary" onclick="saveEvent()">Save Event</button>
+            </form>
+        </section>
+
+        <!-- Image Upload Section -->
+        <section class="my-4">
+            <h2>Upload Images</h2>
+            <div id="imageUploadArea" class="border border-primary p-4 text-center">
+                <p>Drag and drop images here or click to upload</p>
+                <input type="file" id="imageInput" multiple accept="image/*" style="display: none;">
+            </div>
+
+            <div id="imagePreviewContainer" class="row mt-3"></div>
+            <button type="button" class="btn btn-success mt-3" onclick="saveImages()">Save All Images</button>
+        </section>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner text-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center p-3 mt-5">
+        <p>&copy; 2024 Your Company Name. All rights reserved.</p>
     </footer>
 
-    <script src="js/firebaseConfig.js"></script>
     <script>
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
+        // Firebase and Stripe Setup
+        firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
+        const stripe = Stripe("your-publishable-stripe-key");
+        firebase.auth().onAuthStateChanged(user => {
+   
+   
+            if (!user) {
+        window.location.href = "login.html"; // Redirect to login page
+    }
+});
 
-        const imageGrid = document.getElementById('image-grid');
+        let selectedImages = [];
 
-        // Fetch images from Firestore
-        function fetchImages() {
-            db.collection('images').where('isPublic', '==', true).get().then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    const imageData = doc.data();
-                    const imageElement = document.createElement('div');
-                    imageElement.classList.add('image-item');
+        document.getElementById('imageUploadArea').addEventListener('click', () => document.getElementById('imageInput').click());
+        document.getElementById('imageInput').addEventListener('change', handleFiles);
 
-                    // Create the image element
-                    const img = document.createElement('img');
-                    img.src = imageData.watermarkUrl;
-                    img.alt = imageData.title;
-
-                    // Create the purchase button
-                    const buyButton = document.createElement('button');
-                    buyButton.textContent = 'Buy - $' + imageData.price;
-                    buyButton.onclick = () => purchaseImage(imageData.imageId);
-
-                    imageElement.appendChild(img);
-                    imageElement.appendChild(buyButton);
-                    imageGrid.appendChild(imageElement);
-                });
-            }).catch((error) => {
-                console.error('Error fetching images: ', error);
+        function handleFiles(event) {
+            Array.from(event.target.files).forEach(file => {
+                if (file.size <= 2 * 1024 * 1024) { // Check size (2MB max)
+                    previewImage(file);
+                    selectedImages.push(file);
+                } else {
+                    alert("Image is too large. Max 2MB.");
+                }
             });
         }
+        function displayImages(pageNumber = 1, itemsPerPage = 12) {
+    // Fetch and display a specific page of images
+    const startIndex = (pageNumber - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginatedImages = selectedImages.slice(startIndex, endIndex);
+    renderImages(paginatedImages);
+}
 
-        // Function to handle image purchase
-        function purchaseImage(imageId) {
-            // Redirect to purchase page or handle checkout logic
-            window.location.href = `purchase.html?imageId=${imageId}`;
+function renderImages(images) {
+    document.getElementById('imagePreviewContainer').innerHTML = images.map(img => `
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <img src="${img.url}" class="card-img-top" alt="${img.title}">
+                <div class="card-body">
+                    <p>${img.title}</p>
+                    <p>$${img.price}</p>
+                </div>
+            </div>
+        </div>`).join('');
+}
+
+        function previewImage(file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const imgPreview = `
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            <img src="${reader.result}" class="card-img-top" alt="Preview">
+                            <div class="card-body">
+                                <input type="text" class="form-control" placeholder="Image Title" required>
+                                <input type="number" class="form-control mt-2" placeholder="Image Price (USD)" required>
+                            </div>
+                        </div>
+                    </div>`;
+                document.getElementById('imagePreviewContainer').insertAdjacentHTML('beforeend', imgPreview);
+            };
+            reader.readAsDataURL(file);
         }
 
-        // Load images on page load
-        window.onload = fetchImages;
+        function filterImages() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const filteredImages = selectedImages.filter(img =>
+        img.title.toLowerCase().includes(query) || img.price.toString().includes(query)
+    );
+    renderImages(filteredImages);
+}
+
+        async function saveImages() {
+    document.querySelector('.loading-spinner').style.display = 'block';
+    try {
+        for (const image of selectedImages) {
+            const title = image.querySelector('.form-control').value;
+            const price = parseFloat(image.querySelector('.form-control.mt-2').value);
+            
+            if (title && price) {
+                const product = await stripe.products.create({
+                    name: title,
+                    description: "Photo purchase",
+                });
+
+                await stripe.prices.create({
+                    unit_amount: price * 100,
+                    currency: "usd",
+                    product: product.id,
+                });
+
+                await db.collection('images').add({
+                    title,
+                    price,
+                    imageUrl: "URL-to-the-image", // Update this once uploaded
+                });
+            }
+        }
+        showToast("Images saved successfully!", "success");
+    } catch (error) {
+        console.error("Error saving images:", error);
+        showToast("An error occurred while saving images. Please try again.", "error");
+    }
+    document.querySelector('.loading-spinner').style.display = 'none';
+}
+
+
+
+
+function saveEvent() {
+            const title = document.getElementById('eventTitle').value;
+            const date = document.getElementById('eventDate').value;
+            const description = document.getElementById('eventDescription').value;
+            const price = parseFloat(document.getElementById('eventPrice').value);
+
+            if (title && date && description && !isNaN(price)) {
+                db.collection('events').add({
+                    title,
+                    date,
+                    description,
+                    price,
+                }).then(() => {
+                    alert("Event saved successfully!");
+                }).catch(error => {
+                    console.error("Error saving event:", error);
+                    alert("An error occurred while saving the event. Please try again.");
+                });
+            } else {
+                alert("Please fill in all fields.");
+            }
+        }
     </script>
 </body>
 </html>
