@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAW Photography</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js"></script>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>Welcome to RAW Photography</h1>
+        <p>Capturing Moments, One Click at a Time</p>
+    </header>
+
+    <!-- Gallery Section -->
+    <section id="gallery">
+        <h2>Gallery</h2>
+        <div id="gallery-grid">
+            <!-- Dynamically loaded images will be inserted here -->
+        </div>
+        <button onclick="location.href='events.html'">View All Shoots & Events</button>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <form id="contactForm">
+            <label for="name">Name</label>
+            <input type="text" id="name" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" required>
+
+            <label for="message">Message</label>
+            <textarea id="message" required></textarea>
+
+            <button type="submit">Send Message</button>
+        </form>
+    </section>
+
+    <!-- Firebase Configuration -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyC2bb6osv0jnvpnETCVoG6bvBynGGsOVaw",
+            authDomain: "raw-photography-12616.firebaseapp.com",
+            projectId: "raw-photography-12616",
+            storageBucket: "raw-photography-12616.appspot.com",
+            messagingSenderId: "1078385378836",
+            appId: "1:1078385378836:web:bb8f9611bfbdac1e480901",
+            measurementId: "G-0DLEHE7DEK"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const storage = firebase.storage();
+
+        // Load gallery images
+        async function loadGallery() {
+            const galleryGrid = document.getElementById("gallery-grid");
+            try {
+                const snapshot = await db.collection("images").where("isPublic", "==", true).get();
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    const imgElement = document.createElement("img");
+                    imgElement.src = data.watermarkUrl;
+                    imgElement.alt = data.title;
+                    imgElement.classList.add("gallery-item");
+                    galleryGrid.appendChild(imgElement);
+                });
+            } catch (error) {
+                console.error("Error loading gallery:", error);
+            }
+        }
+        loadGallery();
+
+        // Contact form submission
+        document.getElementById("contactForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const message = document.getElementById("message").value;
+
+            try {
+                await db.collection("appointments").add({
+                    name: name,
+                    email: email,
+                    message: message,
+                    dateRequested: new Date(),
+                    status: "pending"
+                });
+                showToast("Message sent successfully!");
+                document.getElementById("contactForm").reset();
+            } catch (error) {
+                console.error("Error sending message:", error);
+                showToast("There was an error. Please try again.");
+            }
+        });
+    </script>
+
+  
+</body>
+</html>

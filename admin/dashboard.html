@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/admin.css">
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <script src="../js/firebaseConfig.js"></script>
+    <title>Admin Dashboard</title>
+</head>
+
+<body>
+    <div class="admin-container">
+        <header class="admin-header">
+            <h1>Admin Dashboard</h1>
+            <nav>
+                <ul>
+                    <li><a href="design.html">Design</a></li>
+                    <li><a href="images.html">Images</a></li>
+                    <li><a href="analytics.html">Analytics</a></li>
+                    <li><a href="purchases.html">Purchases</a></li>
+                    <li><a href="appointments.html">Appointments</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="dashboard-content">
+            <section class="key-metrics">
+                <h2>Key Metrics</h2>
+                <div id="metrics">
+                    <div class="metric">
+                        <h3>Total Images</h3>
+                        <p id="totalImages">Loading...</p>
+                    </div>
+                    <div class="metric">
+                        <h3>Total Purchases</h3>
+                        <p id="totalPurchases">Loading...</p>
+                    </div>
+                    <div class="metric">
+                        <h3>Pending Appointments</h3>
+                        <p id="pendingAppointments">Loading...</p>
+                    </div>
+                    <div class="metric">
+                        <h3>Total Revenue</h3>
+                        <p id="totalRevenue">Loading...</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="recent-activity">
+                <h2>Recent Activity</h2>
+                <ul id="recentPurchases">
+                    <li>Loading recent purchases...</li>
+                </ul>
+            </section>
+        </main>
+    </div>
+
+    <script src="../js/admin.js"></script>
+</body>
+
+</html>

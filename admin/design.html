@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design and Customization - Admin</title>
+    <link rel="stylesheet" href="../css/admin.css">
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+    <script src="../js/firebaseConfig.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Design and Customization</h1>
+        <form id="design-form">
+            <div class="form-group">
+                <label for="themeColor">Theme Color:</label>
+                <input type="color" id="themeColor" name="themeColor" required>
+            </div>
+            <div class="form-group">
+                <label for="fontSelect">Font:</label>
+                <select id="fontSelect" name="fontSelect">
+                    <option value="Arial">Arial</option>
+                    <option value="Courier New">Courier New</option>
+                    <option value="Georgia">Georgia</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                    <option value="Verdana">Verdana</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="homePageText">Homepage Text:</label>
+                <textarea id="homePageText" name="homePageText" rows="4" required></textarea>
+            </div>
+            <button type="submit">Save Changes</button>
+        </form>
+        <div id="success-message" class="hidden">Changes saved successfully!</div>
+        <div id="error-message" class="hidden">Error saving changes. Please try again.</div>
+    </div>
+
+    <script src="../js/admin.js"></script>
+    <script>
+        // Firebase initialization
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore(app);
+
+        document.getElementById('design-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            
+            const themeColor = document.getElementById('themeColor').value;
+            const font = document.getElementById('fontSelect').value;
+            const homePageText = document.getElementById('homePageText').value;
+
+            try {
+                await db.collection('settings').doc('siteDesign').set({
+                    themeColor,
+                    font,
+                    homePageText
+                });
+                document.getElementById('success-message').classList.remove('hidden');
+                document.getElementById('error-message').classList.add('hidden');
+            } catch (error) {
+                console.error("Error saving settings: ", error);
+                document.getElementById('error-message').classList.remove('hidden');
+                document.getElementById('success-message').classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

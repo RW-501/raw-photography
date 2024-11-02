@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Image</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="js/firebaseConfig.js"></script>
+    <script src="js/main.js" defer></script>
+    <style>
+        .image-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .price {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .checkout-button {
+            background-color: #007BFF;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .checkout-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Purchase Image</h1>
+    </header>
+
+    <main>
+        <div class="image-container">
+            <img id="imagePreview" src="" alt="Image Preview" />
+            <div class="price" id="imagePrice">$0.00</div>
+            <button class="checkout-button" id="checkoutButton">Checkout</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Raw Photography. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyC2bb6osv0jnvpnETCVoG6bvBynGGsOVaw",
+            authDomain: "raw-photography-12616.firebaseapp.com",
+            projectId: "raw-photography-12616",
+            storageBucket: "raw-photography-12616.firebasestorage.app",
+            messagingSenderId: "1078385378836",
+            appId: "1:1078385378836:web:bb8f9611bfbdac1e480901",
+            measurementId: "G-0DLEHE7DEK"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Retrieve image ID from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const imageId = urlParams.get('imageId');
+
+        if (imageId) {
+            // Fetch image details from Firestore
+            firebase.firestore().collection('images').doc(imageId).get()
+                .then((doc) => {
+                    if (doc.exists) {
+                        const imageData = doc.data();
+                        document.getElementById('imagePreview').src = imageData.watermarkUrl; // Watermarked image
+                        document.getElementById('imagePrice').innerText = `$${imageData.price.toFixed(2)}`;
+                    } else {
+                        console.error("No such document!");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error getting document:", error);
+                });
+        }
+
+        // Handle checkout button click
+        document.getElementById('checkoutButton').addEventListener('click', () => {
+            // Integrate Stripe Checkout
+            const stripe = Stripe('your-publishable-key'); // Replace with your Stripe publishable key
+            const price = document.getElementById('imagePrice').innerText.replace('$', '');
+
+            // Call your server to create a checkout session
+            fetch('/create-checkout-session', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ price: price, imageId: imageId })
+            })
+            .then(response => response.json())
+            .then(sessionId => {
+                return stripe.redirectToCheckout({ sessionId: sessionId });
+            })
+            .then(result => {
+                if (result.error) {
+                    alert(result.error.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Management - Admin</title>
+    <link rel="stylesheet" href="../css/admin.css"> <!-- Admin-specific styles -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+    <script src="../js/firebaseConfig.js"></script>
+    <script src="../js/admin.js" defer></script> <!-- Your custom admin JavaScript -->
+</head>
+<body>
+    <div class="admin-container">
+        <h1>Purchase Management</h1>
+        <table id="purchases-table">
+            <thead>
+                <tr>
+                    <th>Purchase ID</th>
+                    <th>User Email</th>
+                    <th>Image Title</th>
+                    <th>Amount</th>
+                    <th>Date Purchased</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="purchases-body">
+                <!-- Dynamic rows will be injected here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Fetch purchases from Firestore
+        function fetchPurchases() {
+            db.collection('purchases').get().then(snapshot => {
+                const purchasesBody = document.getElementById('purchases-body');
+                purchasesBody.innerHTML = ''; // Clear existing entries
+
+                snapshot.forEach(doc => {
+                    const purchase = doc.data();
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${doc.id}</td>
+                        <td>${purchase.userId}</td>
+                        <td>${purchase.imageId}</td>
+                        <td>${purchase.amount}</td>
+                        <td>${new Date(purchase.datePurchased.seconds * 1000).toLocaleString()}</td>
+                        <td>${purchase.status}</td>
+                        <td>
+                            <button onclick="markAsFulfilled('${doc.id}')">Mark as Fulfilled</button>
+                            <button onclick="initiateRefund('${doc.id}')">Refund</button>
+                        </td>
+                    `;
+                    purchasesBody.appendChild(row);
+                });
+            }).catch(error => {
+                console.error('Error fetching purchases:', error);
+            });
+        }
+
+        // Mark purchase as fulfilled
+        function markAsFulfilled(purchaseId) {
+            db.collection('purchases').doc(purchaseId).update({ status: 'fulfilled' })
+                .then(() => {
+                    fetchPurchases(); // Refresh the table
+                    alert('Purchase marked as fulfilled.');
+                })
+                .catch(error => {
+                    console.error('Error updating purchase status:', error);
+                });
+        }
+
+        // Initiate a refund (additional implementation required for Stripe)
+        function initiateRefund(purchaseId) {
+            // Implement refund logic with Stripe here
+            alert('Refund initiated for purchase ID: ' + purchaseId);
+        }
+
+        // Load purchases on page load
+        document.addEventListener('DOMContentLoaded', fetchPurchases);
+    </script>
+</body>
+</html>

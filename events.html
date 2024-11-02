@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events Gallery</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-storage.js"></script>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="events.html">Events</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+
+    <!-- Events Gallery Section -->
+    <section id="events-gallery">
+        <h1>Events & Photoshoots</h1>
+        <div class="gallery-grid" id="eventGalleryGrid">
+            <!-- Event items will be dynamically added here -->
+        </div>
+    </section>
+
+    <!-- Modal for Event Details -->
+    <div id="eventModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div class="modal-content" id="modalContent">
+            <!-- Event details and images will populate here -->
+        </div>
+    </div>
+
+    <script src="js/firebaseConfig.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
