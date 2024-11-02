@@ -3,10 +3,9 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.2/firebas
 import { getFirestore } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js';
 import { getStorage } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-storage.js'; // Include storage
 
-try {
-    // Your Firestore operation
+// Firebase configuration object
 const firebaseConfig = {
-    apiKey: "AIzaSyC2bb6osv0jnvpnETCVoG6bvBynGGsOVaw",
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY, // Use environment variables for sensitive data
     authDomain: "raw-photography-12616.firebaseapp.com",
     projectId: "raw-photography-12616",
     storageBucket: "raw-photography-12616.appspot.com",
@@ -16,10 +15,18 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const storage = getStorage(app); // Initialize storage
+let app;
+let db;
+let storage;
+
+try {
+    app = initializeApp(firebaseConfig);
+    db = getFirestore(app);
+    storage = getStorage(app); // Initialize storage
+    console.log("Firebase initialized successfully.");
 } catch (error) {
-    console.error("Error accessing Firestore:", error);
+    console.error("Error initializing Firebase:", error);
 }
+
+// Export Firestore and Storage instances for use in other modules
 export { db, storage };
