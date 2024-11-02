@@ -68,6 +68,7 @@
             padding: 0;
             color: #333;
             height: 100%;
+            display: block;
         }
 nav {
     display: flex;

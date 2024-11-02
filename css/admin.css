@@ -58,9 +58,15 @@ button:hover {
 }
 
 
-body {
-    font-family: Arial, sans-serif;
-}
+        /* Basic styles for responsive design */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            height: 100%;
+            display: block;
+        }
 
 .admin-container {
     min-height: 100vh;
