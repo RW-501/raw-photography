@@ -1,3 +1,13 @@
+import {  db, doc,getDoc, query, updateDoc,
+  setDoc,     signInWithPopup,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+  OAuthProvider,
+  signOut,
+  onAuthStateChanged, firestore,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  where, getDocs, storage, collection, auth, analytics } from '../js/firebaseConfig.js';
 
 console.log("Page loaded main ?????????????");
 
@@ -280,16 +290,6 @@ function showToast(message, type = 'info', duration = 3000) {
 // showToast('This is an info message!', 'info');
 // showToast('This is a warning message!', 'warning');
 
-import {  db, doc,getDoc, query, updateDoc,
-    setDoc,     signInWithPopup,
-    GoogleAuthProvider,
-    FacebookAuthProvider,
-    OAuthProvider,
-    signOut,
-    onAuthStateChanged,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    where, getDocs, storage, collection, auth, analytics } from '../js/firebaseConfig.js';
 
 async function applyStylesFromSettings() {
     try {

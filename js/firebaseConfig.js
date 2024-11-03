@@ -3,7 +3,7 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.2/firebas
 import {     getFirestore,
     doc, where,
     updateDoc,
-    setDoc, limit,
+    setDoc, limit, 
     serverTimestamp,query ,
     collection,
     getDocs,
@@ -38,6 +38,7 @@ let db;
 let storage;
 let auth;
 let analytics;
+let firestore;
 
 try {
     app = initializeApp(firebaseConfig);
@@ -45,6 +46,8 @@ try {
     db = getFirestore(app); // Initialize Firestore
     storage = getStorage(app); // Initialize Storage
     analytics = initializeAnalytics(app);
+     firestore = getFirestore(app); // Initialize Firestore
+
     console.log("Firebase initialized successfully.");
 } catch (error) {
     console.error("Error initializing Firebase:", error);
@@ -56,7 +59,7 @@ export {  db, doc,getDoc, query, updateDoc,
     GoogleAuthProvider,
     FacebookAuthProvider,
     OAuthProvider,
-    signOut,
+    signOut, firestore,
     onAuthStateChanged,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
