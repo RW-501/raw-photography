@@ -308,7 +308,7 @@ function isSafeInput(input) {
 document.getElementById("contactForm").addEventListener("submit", function(event) {
     event.preventDefault(); // Prevent the default form submission behavior
 
-    showLoadingSpinner(true); // Show spinner during processing
+    showLoadingSpinner(false); // Show spinner during processing
 
     // Get form values and sanitize them
     const name = sanitizeInput(document.getElementById('name').value);

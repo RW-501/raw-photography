@@ -98,12 +98,12 @@ loadingContainer.style.display = 'none';
 
 
 // Function to show the loading spinner on page load
-function showLoadingSpinner(manual = false) {
+function showLoadingSpinner(automatic = true) {
     // Make the loading container visible
     loadingContainer.style.display = 'flex';
 
     // If `manual` is false, hide the spinner automatically after 3 seconds
-    if (!manual) {
+    if (!automatic) {
         setTimeout(() => {
             hideLoadingSpinner();
         }, 3000); // 3000 milliseconds = 3 seconds
