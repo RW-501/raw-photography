@@ -38,6 +38,7 @@ main {
     display: block;
     width: 90%;
     margin: auto;
+    justify-items: center;
 }
 
         /* Footer Styles */

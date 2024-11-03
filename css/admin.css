@@ -30,6 +30,34 @@ body {
     }
 }
 
+
+        /* Footer Styles */
+        #site-footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+            width: 100%;
+            margin-top: 2rem;
+        }
+
+#site-footer small {
+    display: block;
+    margin: 5px 0;
+}
+
+/* Social Media Icons */
+.social-icons {
+    margin-top: 10px;
+}
+
+.social-icons a {
+    margin: 0 10px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.5em;
+}
+
 /* Custom styles for hover effects and button styling */
 .card:hover {
     transform: scale(1.02);
