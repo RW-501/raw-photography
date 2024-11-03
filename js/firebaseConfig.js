@@ -106,4 +106,4 @@ document.addEventListener('DOMContentLoaded', loadFirebaseSDKs);
 
 
 // Export Firestore, Storage, and Auth instances for use in other modules
-export { db, doc, getDoc, query, updateDoc, setDoc, addDoc, signInWithPopup, GoogleAuthProvider, OAuthProvider, signOut, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, where, getDocs, storage, collection, auth, analytics };
+export { db, doc, getDoc, query, updateDoc, setDoc, addDoc, signInWithPopup,FacebookAuthProvider, GoogleAuthProvider, OAuthProvider, signOut, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, where, getDocs, storage, collection, auth, analytics };
