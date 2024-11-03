@@ -74,6 +74,7 @@ function showToast(message, type = 'info', duration = 3000) {
 // showToast('This is an info message!', 'info');
 // showToast('This is a warning message!', 'warning');
 
+import { db, storage } from './js/firebaseConfig.js';
 
 async function applyStylesFromSettings() {
     // Fetch settings from Firestore
@@ -121,7 +122,6 @@ applyStylesFromSettings();
 // Function to fetch settings and update footer elements
 async function updateFooterElements() {
     try {
-        const db = firebase.firestore();
 
         // Fetch social media links and other websites from the 'social_media' document
         const socialMediaDoc = await db.collection("settings").doc("social_media").get();
