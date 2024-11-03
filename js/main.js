@@ -74,7 +74,7 @@ function showToast(message, type = 'info', duration = 3000) {
 // showToast('This is an info message!', 'info');
 // showToast('This is a warning message!', 'warning');
 
-import { db, doc, storage } from '../js/firebaseConfig.js';
+import { db, doc, collection, storage } from '../js/firebaseConfig.js';
 
 async function applyStylesFromSettings() {
     // Fetch settings from Firestore
