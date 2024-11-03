@@ -1,3 +1,24 @@
+    // Function to dynamically append Firebase SDKs to the body
+    function loadFirebaseSDKs() {
+        const firebaseScripts = [
+            "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js",
+            "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js",
+            "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js",
+            "https://www.gstatic.com/firebasejs/9.17.2/firebase-storage.js",
+            "https://www.gstatic.com/firebasejs/9.17.2/firebase-analytics.js"
+        ];
+
+        firebaseScripts.forEach(src => {
+            const script = document.createElement('script');
+            script.src = src;
+            script.async = true; // Load script asynchronously
+            document.body.appendChild(script);
+        });
+    }
+
+    // Load Firebase SDKs when the DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', loadFirebaseSDKs);
+    
 // firebaseConfig.js
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js';
 import {     getFirestore,
@@ -64,3 +85,7 @@ export {  db, doc,getDoc, query, updateDoc,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     where, getDocs, storage, collection, auth, analytics};
+
+
+    console.log("Firestore initialized:", db);
+console.log("db.collection exists:", typeof db.collection === "function");
