@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Design and Customization - Admin</title>
     <link rel="stylesheet" href="../css/admin.css">
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
-    <script src="../js/firebaseConfig.js"></script>
-    <style>
+  <style>
         /* Live preview styles */
         #live-preview {
             border: 1px solid #ccc;
@@ -16,17 +13,39 @@
             margin-top: 20px;
             transition: background-color 0.3s, color 0.3s, font-family 0.3s;
         }
-        /* Add responsive styles */
-        @media (max-width: 600px) {
-            body {
-                padding: 10px;
-            }
-        }
+
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Design and Customization</h1>
+    
+    <header class="admin-header">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Design and Customization</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../admin/dashboard">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="design.html">Design</a></li>
+                    <li class="nav-item"><a class="nav-link" href="images.html">Images</a></li>
+                    <li class="nav-item"><a class="nav-link" href="analytics.html">Analytics</a></li>
+                    <li class="nav-item"><a class="nav-link" href="purchases.html">Purchases</a></li>
+                    <li class="nav-item"><a class="nav-link" href="appointments.html">Appointments</a></li>
+                    <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container-fluid admin-container">
+
+
+        <main class="dashboard-content">
+            
+            <h1>Design and Customization</h1>
         <form id="design-form">
             <div class="form-group">
                 <label for="themeColor">Theme Color:</label>
@@ -84,10 +103,23 @@
             <h2>Live Preview</h2>
             <p>This is a live preview of your changes.</p>
         </div>
+
+        </main>
     </div>
 
+    <!-- Footer -->
+    <footer id="site-footer">
+        <p>&copy; 2024 RAW Photography. All Rights Reserved.</p>
+        <p><small>Privacy Policy | Terms of Service</small></p>
+    </footer>
+    <script src="../js/main.js"></script>
     <script src="../js/admin.js"></script>
-    <script>
+    
+        <!-- Include your firebaseConfig.js as a module -->
+        <script type="module">
+            import { db, storage } from '../js/firebaseConfig.js';
+            import { collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js'; // Import necessary Firestore functions
+    
         // Firebase initialization
         const app = firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore(app);

@@ -5,15 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Analytics - Admin Dashboard</title>
     <link rel="stylesheet" href="../css/admin.css"> <!-- Link to your admin CSS file -->
-    <script src="https://www.gstatic.com/firebasejs/9.8.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.8.2/firebase-analytics.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.8.2/firebase-firestore.js"></script>
-    <script src="../js/firebaseConfig.js"></script> <!-- Your Firebase config -->
-    <script src="../js/admin.js"></script> <!-- Link to your admin JS file -->
 </head>
 <body>
-    <div class="container">
-        <header>
+    
+    <header class="admin-header">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Admin Analytics Dashboard</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../admin/dashboard">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="design.html">Design</a></li>
+                    <li class="nav-item"><a class="nav-link" href="images.html">Images</a></li>
+                    <li class="nav-item"><a class="nav-link" href="analytics.html">Analytics</a></li>
+                    <li class="nav-item"><a class="nav-link" href="purchases.html">Purchases</a></li>
+                    <li class="nav-item"><a class="nav-link" href="appointments.html">Appointments</a></li>
+                    <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container-fluid admin-container">
+
+
+        <main class="dashboard-content">
+            
+            <header>
             <h1>Admin Analytics Dashboard</h1>
             <nav>
                 <ul>
@@ -41,13 +63,21 @@
                 </div>
             </section>
         </main>
+        </main>
+</div>
+   <!-- Footer -->
+   <footer id="site-footer">
+    <p>&copy; 2024 RAW Photography. All Rights Reserved.</p>
+    <p><small>Privacy Policy | Terms of Service</small></p>
+</footer>
+<script src="../js/main.js"></script>
+<script src="../js/admin.js"></script>
 
-        <footer>
-            <p>&copy; 2024 Raw Photography. All rights reserved.</p>
-        </footer>
-    </div>
+    <!-- Include your firebaseConfig.js as a module -->
+    <script type="module">
+        import { db, storage } from '../js/firebaseConfig.js';
+        import { collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js'; // Import necessary Firestore functions
 
-    <script>
         // Initialize Firebase
         const app = firebase.initializeApp(firebaseConfig);
         const analytics = firebase.analytics();

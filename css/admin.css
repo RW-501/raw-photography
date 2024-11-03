@@ -7,7 +7,25 @@ body {
     height: 100vh;
     margin: 0;
 }
-
+        /* Add responsive styles */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+        }
+        /* Custom styles for a professional, minimalistic look */
+        /* Custom styles for a professional, minimalistic look */
+        .card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+        .btn-primary, .btn-success {
+            width: 100%;
+        }
+        .loading-spinner {
+            display: none;
+        }
 .login-container {
     background: white;
     padding: 20px;

@@ -6,11 +6,6 @@
     <title>Manage Images</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/admin.css">
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js"></script>
-    <script src="../js/firebaseConfig.js" defer></script>
-    <script src="../js/admin.js" defer></script>
 </head>
 <body>
 
@@ -30,7 +25,10 @@
             </div>
         </nav>
     </header>
+    <div class="container-fluid admin-container">
 
+
+        <main class="dashboard-content">
     <div class="container my-4">
         <h2 class="my-4">Manage Images</h2>
         
@@ -47,13 +45,23 @@
             <!-- Uploaded images will be displayed here -->
         </div>
     </div>
+</main>
+</div>
 
-    <!-- Footer -->
-    <footer class="bg-dark text-white text-center py-3">
-        <p>&copy; 2024 Photography Management System. All rights reserved.</p>
-    </footer>
 
-    <script>
+   <!-- Footer -->
+   <footer id="site-footer">
+    <p>&copy; 2024 RAW Photography. All Rights Reserved.</p>
+    <p><small>Privacy Policy | Terms of Service</small></p>
+</footer>
+<script src="../js/main.js"></script>
+<script src="../js/admin.js"></script>
+
+    <!-- Include your firebaseConfig.js as a module -->
+    <script type="module">
+        import { db, storage } from '../js/firebaseConfig.js';
+        import { collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js'; // Import necessary Firestore functions
+
         // JavaScript to handle image upload and display
         document.getElementById('imageForm').addEventListener('submit', function(event) {
             event.preventDefault();

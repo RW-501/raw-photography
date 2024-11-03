@@ -5,29 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Appointment Management | Raw Photography</title>
     <link rel="stylesheet" href="../css/main.css">
-    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js"></script>
-    <script src="firebaseConfig.js"></script>
-    <script src="admin.js" defer></script>
 </head>
 <body>
-    <header>
-        <h1>Appointment Management</h1>
-        <nav>
-            <ul>
-                <li><a href="dashboard.html">Dashboard</a></li>
-                <li><a href="design.html">Design</a></li>
-                <li><a href="images.html">Images</a></li>
-                <li><a href="analytics.html">Analytics</a></li>
-                <li><a href="purchases.html">Purchases</a></li>
-                <li><a href="appointments.html" class="active">Appointments</a></li>
-                <li><a href="settings.html">Settings</a></li>
-            </ul>
+
+    <header class="admin-header">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Admin Dashboard</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../admin/dashboard">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="design.html">Design</a></li>
+                    <li class="nav-item"><a class="nav-link" href="images.html">Images</a></li>
+                    <li class="nav-item"><a class="nav-link" href="analytics.html">Analytics</a></li>
+                    <li class="nav-item"><a class="nav-link" href="purchases.html">Purchases</a></li>
+                    <li class="nav-item"><a class="nav-link" href="appointments.html">Appointments</a></li>
+                    <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
+                </ul>
+            </div>
         </nav>
     </header>
 
-    <main>
-        <section id="appointments-section">
+
+    <div class="container-fluid admin-container">
+
+
+        <main class="dashboard-content">
+            
+            <section id="appointments-section">
             <h2>Submitted Appointments</h2>
             <table id="appointments-table">
                 <thead>
@@ -64,12 +73,20 @@
             </form>
         </section>
     </main>
+</div>
+   <!-- Footer -->
+   <footer id="site-footer">
+    <p>&copy; 2024 RAW Photography. All Rights Reserved.</p>
+    <p><small>Privacy Policy | Terms of Service</small></p>
+</footer>
+<script src="../js/main.js"></script>
+<script src="../js/admin.js"></script>
 
-    <footer>
-        <p>&copy; 2024 Raw Photography. All rights reserved.</p>
-    </footer>
+    <!-- Include your firebaseConfig.js as a module -->
+    <script type="module">
+        import { db, storage } from '../js/firebaseConfig.js';
+        import { collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js'; // Import necessary Firestore functions
 
-    <script>
         // Initialize Firebase
         const app = firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();

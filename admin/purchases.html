@@ -5,12 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Purchase Management - Admin</title>
     <link rel="stylesheet" href="../css/admin.css"> <!-- Admin-specific styles -->
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
-    <script src="../js/firebaseConfig.js"></script>
-    <script src="../js/admin.js" defer></script> <!-- Your custom admin JavaScript -->
 </head>
 <body>
+    
+    <header class="admin-header">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Purchase Management</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../admin/dashboard">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="design.html">Design</a></li>
+                    <li class="nav-item"><a class="nav-link" href="images.html">Images</a></li>
+                    <li class="nav-item"><a class="nav-link" href="analytics.html">Analytics</a></li>
+                    <li class="nav-item"><a class="nav-link" href="purchases.html">Purchases</a></li>
+                    <li class="nav-item"><a class="nav-link" href="appointments.html">Appointments</a></li>
+                    <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="container-fluid admin-container">
+
+
+        <main class="dashboard-content">
+
     <div class="admin-container">
         <h1>Purchase Management</h1>
         <table id="purchases-table">
@@ -29,6 +52,8 @@
                 <!-- Dynamic rows will be injected here -->
             </tbody>
         </table>
+    </div>
+    </main>
     </div>
 
     <script>
