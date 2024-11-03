@@ -150,7 +150,7 @@ loadingContainer.style.display = 'none';
 
 // Function to apply loading spinner colors based on settings
 async function applyLoadingSpinnerColors() {
-  const docRef = doc(firestore, "settings", "loading_spinner"); // Create a document reference
+  const docRef = doc(db, "settings", "loading_spinner"); // Create a document reference
   const docSnap = await getDoc(docRef); // Get the document snapshot
 
   if (docSnap.exists()) {
