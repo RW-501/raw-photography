@@ -31,7 +31,38 @@ function loadFirebaseSDKs() {
 }
 
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js';
-import { getFirestore, getAuth, getStorage, initializeAnalytics } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js';
+// Firestore imports
+import { 
+    getFirestore, 
+    doc, 
+    getDoc, 
+    query, 
+    updateDoc, 
+    setDoc, 
+    addDoc, 
+    getDocs, 
+    where, 
+    collection 
+} from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js';
+
+// Authentication imports
+import { 
+    getAuth, 
+    signInWithPopup, 
+    GoogleAuthProvider, 
+    FacebookAuthProvider, 
+    OAuthProvider, 
+    signOut, 
+    onAuthStateChanged, 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword 
+} from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js';
+
+// Storage import
+import { getStorage } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-storage.js';
+
+// Analytics import
+import { initializeAnalytics } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-analytics.js';
 
 let auth;
 let db;
