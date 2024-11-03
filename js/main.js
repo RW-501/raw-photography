@@ -185,9 +185,10 @@ async function applyLoadingSpinnerColors() {
   applyLoadingSpinnerColors();
   
 
+  window.showLoadingSpinner = function(automatic = true) {
 
 // Function to show the loading spinner on page load
-function showLoadingSpinner(automatic = true) {
+//function showLoadingSpinner(automatic = true) {
   const loadingContainer = document.querySelector("#loadingContainer");
   //console.log("Loading Container:", loadingContainer);
     loadingContainer.style.display = 'flex';
