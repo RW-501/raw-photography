@@ -77,7 +77,6 @@ document.addEventListener('DOMContentLoaded', loadFirebaseSDKs);
 export {  db, doc,getDoc, query, updateDoc,
     setDoc,  addDoc,    signInWithPopup,
     GoogleAuthProvider,
-    FacebookAuthProvider,
     OAuthProvider,
     signOut,
     onAuthStateChanged,
