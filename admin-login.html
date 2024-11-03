@@ -168,7 +168,7 @@
 
             db.auth().signInWithEmailAndPassword(email, password)
                 .then(() => {
-                    window.location.href = 'admin/dashboard.html'; // Redirect to admin dashboard
+                    window.location.href = 'admin/dashboard'; // Redirect to admin dashboard
                 })
                 .catch(error => {
                     showError(error.message);
