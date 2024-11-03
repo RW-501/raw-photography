@@ -1,5 +1,5 @@
 
-import { db, storage,auth } from './js/firebaseConfig.js';
+import { db, storage,auth } from '..main.js';
 
 // Get the elements
 const loginForm = document.getElementById('loginForm');
