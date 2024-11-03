@@ -1,15 +1,15 @@
-html, body {
-    margin: 0;
-    padding: 0;
-}
-
+        /* Global Styles */
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            color: #333;
+            background-color: #f4f4f4;
+            width: 100%;
+        }
+        
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    display: grid;
 
-    color: #333;
-    height: 100vh;
     animation: backgroundFade 2s ease forwards;
 }
 
@@ -105,7 +105,7 @@ nav {
 #site-footer, .footer {
     text-align: center;
     padding: 20px;
-    background-color: #f8f9fa;
+    width: 100%;
 }
 
 /* Admin panel container and layout styling */
