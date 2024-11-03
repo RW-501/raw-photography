@@ -212,9 +212,7 @@
             import { db, storage } from '../js/firebaseConfig.js';
             import { collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js'; // Import necessary Firestore functions
     
-        // Firebase initialization
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore(app);
+
 
         // Function to apply styles dynamically
         function applyStyles(styles) {
