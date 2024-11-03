@@ -50,7 +50,7 @@
     <!-- Include your firebaseConfig.js as a module -->
     <script type="module">
         import { db, storage } from './js/firebaseConfig.js';
-        import { collection, getDocs, doc, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js'; // Import necessary Firestore functions
+        import { collection, doc, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js'; // Import necessary Firestore functions
 
 async function fetchEvents() {
     const eventsCollection = collection(db, "events");
