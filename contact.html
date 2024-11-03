@@ -347,6 +347,10 @@ document.getElementById("contactForm").addEventListener("submit", async function
         const formResponse = document.getElementById("formResponse");
         formResponse.textContent = 'There was an error sending your message. Please try again.';
         formResponse.style.color = 'red';
+
+                // Additional logging (optional)
+                logErrorToServer(error); // You can implement this function to send logs to your server
+
     } finally {
         window.hideLoadingSpinner(); // Ensure the spinner is hidden after processing
     }
@@ -355,6 +359,27 @@ document.getElementById("contactForm").addEventListener("submit", async function
 // Close the thank you modal when clicking on the <span> (x) element
 document.getElementById("closeModal").onclick = function() {
     document.getElementById("thankYouModal").style.display = "none"; // Hide the modal
+}
+
+
+// Function to log errors to the server (implement as needed)
+function logErrorToServer(error) {
+    // Example: You can send the error details to your server for logging
+    fetch('/log-error', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ error: error.message, stack: error.stack })
+    })
+    .then(response => {
+        if (!response.ok) {
+            console.error('Failed to log error to server:', response.statusText);
+        }
+    })
+    .catch(serverError => {
+        console.error('Error logging to server:', serverError);
+    });
 }
 
 // Close the modal when clicking anywhere outside of it
