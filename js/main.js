@@ -190,7 +190,7 @@ function showLoadingSpinner(automatic = true) {
     // Make the loading container visible
     loadingContainer.style.display = 'flex';
 
-    console.log("automatic  ",automatic);
+    console.log("automatic??  ",automatic);
 
     // If `manual` is false, hide the spinner automatically after 3 seconds
     if (automatic === true || automatic === null) {
