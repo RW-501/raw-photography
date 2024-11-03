@@ -310,7 +310,7 @@ document.getElementById("contactForm").addEventListener("submit", function(event
         const formResponse = document.getElementById("formResponse");
         formResponse.textContent = 'Invalid characters detected in form. Please remove any special characters.';
         formResponse.style.color = 'red';
-        hideLoadingSpinner();
+        window.hideLoadingSpinner();
         return;
     }
 
@@ -328,7 +328,7 @@ document.getElementById("contactForm").addEventListener("submit", function(event
     // Simulate an API call with a delay
     setTimeout(() => {
         showToast('Message sent successfully!', 'success');
-        hideLoadingSpinner();
+        window.hideLoadingSpinner();
 
         // Clear the form
         document.getElementById("contactForm").reset();
