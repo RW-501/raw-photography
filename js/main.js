@@ -137,7 +137,44 @@ document.body.appendChild(loadingContainer);
 
 // Optionally, set display to none initially if you want it hidden by default
 loadingContainer.style.display = 'none';
-
+// Function to apply loading spinner colors based on settings
+async function applyLoadingSpinnerColors() {
+    try {
+      // Fetch the settings document
+      const docRef = firestore.collection("settings").doc("loading_spinner");
+      const doc = await docRef.get();
+  
+      if (doc.exists) {
+        // Extract color settings from the document
+        const {
+          backgroundColor = "rgba(255, 255, 255, 0.8)", 
+          cameraBodyColor = "#333",
+          shutterButtonColor = "#007bff",
+          flashColor = "#999",
+          lensColor = "#222",
+          lensBorderColor = "#666",
+          spinnerCircleColor = "#007bff"
+        } = doc.data();
+  
+        // Apply colors to individual elements
+        document.querySelector("#loadingContainer").style.backgroundColor = backgroundColor;
+        document.querySelector(".camera-icon").style.backgroundColor = cameraBodyColor;
+        document.querySelector(".camera-icon::before").style.backgroundColor = shutterButtonColor;
+        document.querySelector(".camera-icon::after").style.backgroundColor = flashColor;
+        document.querySelector(".lens").style.backgroundColor = lensColor;
+        document.querySelector(".lens").style.borderColor = lensBorderColor;
+        document.querySelector(".spinner-circle").style.borderTopColor = spinnerCircleColor;
+      } else {
+        console.error("No color settings found in 'loading_spinner' document.");
+      }
+    } catch (error) {
+      console.error("Error fetching color settings:", error);
+    }
+  }
+  
+  // Call the function to apply settings when needed (e.g., on page load or spinner show)
+  applyLoadingSpinnerColors();
+  
 
 
 // Function to show the loading spinner on page load
@@ -219,7 +256,8 @@ function showToast(message, type = 'info', duration = 3000) {
             toast.style.backgroundColor = '#2196F3'; // Default to info
     }
 
-   
+             // Implement your toast display logic here
+             console.log(`${type.toUpperCase()}: ${message}`);
 
     toast.className = `toast toast-${type}`; // Add classes for styling
     toast.innerText = message; // Set the message text

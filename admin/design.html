@@ -70,14 +70,14 @@
     </header>
 
     <div class="container-fluid admin-container">
-        <main class="dashboard-content"> 
-            <h1>Design and Customization</h1>
-        
+        <main class="dashboard-content">
+            <h1 class="page-title">Design and Customization</h1>
+    
             <!-- Collapsible Website Design Area -->
             <div class="collapsible">
                 <button class="collapsible-header">Website Design</button>
                 <div class="collapsible-content">
-                    <form id="design-form">
+                    <form id="design-form" class="form-design">
                         <div class="form-group">
                             <label for="themeColor">Theme Color:</label>
                             <input type="color" id="themeColor" name="themeColor" required>
@@ -94,6 +94,8 @@
                             </select>
                             <span class="tooltip">Select the font for the website</span>
                         </div>
+                        <h1>Navigation Design</h1>
+
                         <div class="form-group">
                             <label for="navFontColor">Navigation Font Color:</label>
                             <input type="color" id="navFontColor" name="navFontColor">
@@ -104,6 +106,8 @@
                             <input type="color" id="navBackgroundColor" name="navBackgroundColor">
                             <span class="tooltip">Choose background color for the navigation</span>
                         </div>
+                        <h1>Footer Design</h1>
+
                         <div class="form-group">
                             <label for="footerFontColor">Footer Font Color:</label>
                             <input type="color" id="footerFontColor" name="footerFontColor">
@@ -119,113 +123,173 @@
                             <input type="checkbox" id="showTime" name="showTime">
                             <span class="tooltip">Check to show current time in the footer</span>
                         </div>
+                        <h1>Loading Spinner Design</h1>
+
+                        <h3>Camera Settings</h3>
                         <div class="form-group">
-                            <label for="homePageText">Homepage Text:</label>
-                            <textarea id="homePageText" name="homePageText" rows="4" required></textarea>
-                            <span class="tooltip">Update the text displayed on the homepage</span>
+                            <label for="backgroundColor">Background Color:</label>
+                            <input type="color" id="backgroundColor" name="backgroundColor" value="#ffffff" required>
                         </div>
-                        <button type="submit">Save Changes</button>
-                        <button type="button" id="reset-button">Reset</button>
+                        <div class="form-group">
+                            <label for="cameraBodyColor">Camera Body Color:</label>
+                            <input type="color" id="cameraBodyColor" name="cameraBodyColor" value="#333333" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="shutterButtonColor">Shutter Button Color:</label>
+                            <input type="color" id="shutterButtonColor" name="shutterButtonColor" value="#007bff" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="flashColor">Flash Color:</label>
+                            <input type="color" id="flashColor" name="flashColor" value="#999999" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lensColor">Lens Color:</label>
+                            <input type="color" id="lensColor" name="lensColor" value="#222222" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lensBorderColor">Lens Border Color:</label>
+                            <input type="color" id="lensBorderColor" name="lensBorderColor" value="#666666" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="spinnerCircleColor">Spinner Circle Color:</label>
+                            <input type="color" id="spinnerCircleColor" name="spinnerCircleColor" value="#007bff" required>
+                        </div>
+    
+                        <button type="submit" class="btn btn-primary">Update Colors</button>
+                        <button type="button" class="btn btn-secondary" id="reset-button">Reset</button>
                     </form>
+                    <div id="colorResponse" style="margin-top: 10px;"></div>
                 </div>
             </div>
-                    <!-- Update Footer and Social Media Links Area -->
-                    <div class="collapsible">
-                        <button class="collapsible-header">Update Footer and Social Media Links</button>
-                        <div class="collapsible-content">
-
-                            <div class="form-section">
-                                <h2>Update Footer and Social Media Links</h2>
-                            
-                                <!-- Social Media Links Form -->
-                                <h3>Social Media Links</h3>
-                                <label for="facebook">Facebook:</label>
-                                <input type="text" id="facebook" placeholder="Facebook URL">
-                            
-                                <label for="instagram">Instagram:</label>
-                                <input type="text" id="instagram" placeholder="Instagram URL">
-                            
-                                <label for="twitter">Twitter:</label>
-                                <input type="text" id="twitter" placeholder="Twitter URL">
-                            
-                                <label for="additionalLink">Additional Website:</label>
-                                <input type="text" id="additionalLink" placeholder="Other URL (e.g., LinkedIn, YouTube)">
-                            
-                                <!-- Footer Text Content Form -->
-                                <h3>Footer Content</h3>
-                                <label for="footerText">Footer Text:</label>
-                                <textarea id="footerText" placeholder="Footer copyright text"></textarea>
-                            
-                                <button onclick="updateSettings()">Save Changes</button>
-                            </div>
-
+    
+            <!-- Collapsible Update Footer and Social Media Links Area -->
+            <div class="collapsible">
+                <button class="collapsible-header">Update Footer and Social Media Links</button>
+                <div class="collapsible-content">
+                    <div class="form-section">
+                        <h2>Update Footer and Social Media Links</h2>
+    
+                        <!-- Social Media Links Form -->
+                        <h3>Social Media Links</h3>
+                        <div class="form-group">
+                            <label for="facebook">Facebook:</label>
+                            <input type="text" id="facebook" placeholder="Facebook URL">
                         </div>
+                        <div class="form-group">
+                            <label for="instagram">Instagram:</label>
+                            <input type="text" id="instagram" placeholder="Instagram URL">
+                        </div>
+                        <div class="form-group">
+                            <label for="twitter">Twitter:</label>
+                            <input type="text" id="twitter" placeholder="Twitter URL">
+                        </div>
+                        <div class="form-group">
+                            <label for="additionalLink">Additional Website:</label>
+                            <input type="text" id="additionalLink" placeholder="Other URL (e.g., LinkedIn, YouTube)">
+                        </div>
+    
+                        <!-- Footer Text Content Form -->
+                        <h3>Footer Content</h3>
+                        <div class="form-group">
+                            <label for="footerText">Footer Text:</label>
+                            <textarea id="footerText" placeholder="Footer copyright text"></textarea>
+                        </div>
+    
+                        <button class="btn btn-primary" onclick="updateSettings()">Save Changes</button>
                     </div>
-
+                </div>
+            </div>
+    
             <!-- Collapsible Home Page Design Area -->
             <div class="collapsible">
                 <button class="collapsible-header">Home Page Design</button>
                 <div class="collapsible-content">
-                    <form id="settings-form">
-                        <label for="headerTitle">Header Title:</label>
-                        <input type="text" id="headerTitle" required>
-                        
-                        <label for="headerSubtitle">Header Subtitle:</label>
-                        <input type="text" id="headerSubtitle" required>
-                        
-                        <label for="navigationItems">Navigation Items (comma-separated):</label>
-                        <input type="text" id="navigationItems" required>
-                
-                        <label for="galleryTitle">Gallery Title:</label>
-                        <input type="text" id="galleryTitle" required>
-                
-                        <label for="galleryItems">Gallery Items (comma-separated URLs):</label>
-                        <input type="text" id="galleryItems" required>
-                
-                        <label for="testimonialsTitle">Testimonials Title:</label>
-                        <input type="text" id="testimonialsTitle" required>
-                
-                        <label for="testimonials">Testimonials (comma-separated):</label>
-                        <input type="text" id="testimonials" required>
-                
-                        <label for="contactTitle">Contact Title:</label>
-                        <input type="text" id="contactTitle" required>
-                
-                        <button type="submit">Update Settings</button>
+                    <h1>Home Page Settings</h1>
+    
+                    <!-- Section to display current settings -->
+                    <section>
+                        <h2>Header</h2>
+                        <p><strong>Title:</strong> <span id="header-title"></span></p>
+                        <p><strong>Subtitle:</strong> <span id="header-subtitle"></span></p>
+    
+                        <h2>Navigation Menu</h2>
+                        <ul id="navigation-menu"></ul>
+    
+                        <h2>Gallery</h2>
+                        <p><strong>Title:</strong> <span id="gallery-title"></span></p>
+    
+                        <h2>Testimonials</h2>
+                        <p><strong>Title:</strong> <span id="testimonials-title"></span></p>
+                        <div id="testimonial-list"></div>
+    
+                        <h2>Contact</h2>
+                        <p><strong>Title:</strong> <span id="contact-title"></span></p>
+                    </section>
+    
+                    <!-- Form for updating settings -->
+                    <form id="settingsForm" class="form-settings">
+                        <h2>Update Settings</h2>
+                        <div class="form-group">
+                            <label for="headerTitle">Header Title:</label>
+                            <input type="text" id="headerTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="headerSubtitle">Header Subtitle:</label>
+                            <input type="text" id="headerSubtitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="navigationItems">Navigation Items (comma-separated):</label>
+                            <input type="text" id="navigationItems" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="galleryTitle">Gallery Title:</label>
+                            <input type="text" id="galleryTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="testimonialsTitle">Testimonials Title:</label>
+                            <input type="text" id="testimonialsTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="testimonials">Testimonials (comma-separated):</label>
+                            <input type="text" id="testimonials" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactTitle">Contact Title:</label>
+                            <input type="text" id="contactTitle" required>
+                        </div>
+    
+                        <button type="submit" class="btn btn-primary">Update Settings</button>
                     </form>
+    
+                    <div id="responseMessage" style="margin-top: 10px;"></div>
                 </div>
             </div>
-        
+    
             <!-- Collapsible Events Page Area -->
             <div class="collapsible">
                 <button class="collapsible-header">Events Page</button>
                 <div class="collapsible-content">
-                    <p>Content for the Events page goes here.</p>
-                    <!-- You can add a form or more content as needed -->
+                    <h1>Events Page Settings</h1>
+    
+                    <!-- Section to display current event settings -->
+                   
                 </div>
-            </div>
-        
-            <!-- Collapsible Contact Page Area -->
-            <div class="collapsible">
-                <button class="collapsible-header">Contact Page</button>
-                <div class="collapsible-content">
-                    <p>Content for the Contact page goes here.</p>
-                    <!-- You can add a form or more content as needed -->
-                </div>
-            </div>
-        
-            <div id="success-message" class="hidden">Changes saved successfully!</div>
-            <div id="error-message" class="hidden">Error saving changes. Please try again.</div>
-        
-            <div id="live-preview">
-                <h2>Live Preview</h2>
-                <p>This is a live preview of your changes.</p>
             </div>
         </main>
-        
     </div>
-
-
+    
+            <!-- Collapsible Portfolio Page Area -->
+            <div class="collapsible">
+                <button class="collapsible-header">Portfolio Page</button>
+                <div class="collapsible-content">
+                    <h1>Portfolio Page Settings</h1>
+    
+                    <!-- Section to display current Portfolio settings -->
+                   
+                </div>
+            </div>
+        </main>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
@@ -252,11 +316,7 @@
     where, getDocs, storage, collection, auth, analytics } from '../js/firebaseConfig.js';
      
     
-            // ** Function to Show Toast Notifications **
-            function showToast(message, type = 'info', duration = 3000) {
-                // Implement your toast display logic here
-                console.log(`${type.toUpperCase()}: ${message}`);
-            }
+       
         
             // ** Function to Apply Styles Dynamically to Preview **
             function applyStyles(styles) {
@@ -292,6 +352,73 @@
                 }
             }
         
+
+            async function applyLoadingSpinnerColors() {
+            try {
+                const docRef = firestore.collection("settings").doc("loading_spinner");
+                const doc = await docRef.get();
+
+                if (doc.exists) {
+                    const {
+                        backgroundColor = "rgba(255, 255, 255, 0.8)", 
+                        cameraBodyColor = "#333",
+                        shutterButtonColor = "#007bff",
+                        flashColor = "#999",
+                        lensColor = "#222",
+                        lensBorderColor = "#666",
+                        spinnerCircleColor = "#007bff"
+                    } = doc.data();
+
+                    document.querySelector("#loadingContainer").style.backgroundColor = backgroundColor;
+                    document.querySelector(".camera-icon").style.backgroundColor = cameraBodyColor;
+                    document.querySelector(".camera-icon::before").style.backgroundColor = shutterButtonColor;
+                    document.querySelector(".camera-icon::after").style.backgroundColor = flashColor;
+                    document.querySelector(".lens").style.backgroundColor = lensColor;
+                    document.querySelector(".lens").style.borderColor = lensBorderColor;
+                    document.querySelector(".spinner-circle").style.borderTopColor = spinnerCircleColor;
+                } else {
+                    console.error("No color settings found in 'loading_spinner' document.");
+                }
+            } catch (error) {
+                console.error("Error fetching color settings:", error);
+            }
+        }
+
+        document.getElementById("colorSettingsForm").addEventListener("submit", async function(event) {
+            event.preventDefault(); 
+
+            const backgroundColor = document.getElementById('backgroundColor').value;
+            const cameraBodyColor = document.getElementById('cameraBodyColor').value;
+            const shutterButtonColor = document.getElementById('shutterButtonColor').value;
+            const flashColor = document.getElementById('flashColor').value;
+            const lensColor = document.getElementById('lensColor').value;
+            const lensBorderColor = document.getElementById('lensBorderColor').value;
+            const spinnerCircleColor = document.getElementById('spinnerCircleColor').value;
+
+            const colorSettings = {
+                backgroundColor,
+                cameraBodyColor,
+                shutterButtonColor,
+                flashColor,
+                lensColor,
+                lensBorderColor,
+                spinnerCircleColor
+            };
+
+            try {
+                const docRef = firestore.collection("settings").doc("loading_spinner");
+                await docRef.set(colorSettings, { merge: true });
+                document.getElementById("colorResponse").textContent = "Color settings updated successfully!";
+                applyLoadingSpinnerColors(); 
+            } catch (error) {
+                console.error("Error updating color settings:", error);
+                document.getElementById("colorResponse").textContent = "Error updating color settings.";
+            }
+        });
+
+        // Call to apply initial colors on page load
+        window.onload = applyLoadingSpinnerColors;
+
             // ** Function to Load Current Social Media and Footer Data into Input Fields **
             async function loadSocialMediaAndFooter() {
                 try {
@@ -325,7 +452,6 @@
                 const footerFontColor = document.getElementById('footerFontColor').value;
                 const footerBackgroundColor = document.getElementById('footerBackgroundColor').value;
                 const showTime = document.getElementById('showTime').checked;
-                const homePageText = document.getElementById('homePageText').value;
         
                 try {
                     await db.collection('settings').doc('siteDesign').set({
@@ -335,8 +461,8 @@
                         navBackgroundColor,
                         footerFontColor,
                         footerBackgroundColor,
-                        showTime,
-                        homePageText
+                        showTime
+                    
                     }, { merge: true });
                     showToast("Design settings updated successfully!", "success");
                 } catch (error) {
@@ -402,6 +528,91 @@
             });
        
         
+
+        // Load settings from Firestore
+        async function loadSettings() {
+            const docRef = db.collection("settings").doc("Home_Page");
+            const docSnap = await docRef.get();
+
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+
+                // Update header section
+                document.getElementById("header-title").innerText = data.headerTitle || "Default Title";
+                document.getElementById("header-subtitle").innerText = data.headerSubtitle || "Default Subtitle";
+               
+                // Update navigation menu
+                const navMenu = document.getElementById("navigation-menu");
+                navMenu.innerHTML = ''; // Clear existing menu
+                data.navigationItems.forEach(item => {
+                    const li = document.createElement("li");
+                    li.innerText = item; // Add each navigation item
+                    navMenu.appendChild(li);
+                });
+
+                // Update gallery section
+                document.getElementById("gallery-title").innerText = data.galleryTitle || "Gallery";
+
+                // Update testimonials section
+                document.getElementById("testimonials-title").innerText = data.testimonialsTitle || "Testimonials";
+                
+                const testimonialList = document.getElementById("testimonial-list");
+                testimonialList.innerHTML = ''; // Clear existing testimonials
+                data.testimonials.forEach(testimonial => {
+                    const div = document.createElement("div");
+                    div.className = "testimonial-item";
+                    div.innerText = testimonial; // Add testimonial text
+                    testimonialList.appendChild(div);
+                });
+
+                // Update contact section
+                document.getElementById("contact-title").innerText = data.contactTitle || "Contact Us";
+            } else {
+                console.log("No such document!");
+            }
+        }
+
+        // Initialize
+        async function init() {
+            await loadSettings();
+        }
+
+        // Handle form submission to update settings
+        document.getElementById("settingsForm").addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const headerTitle = document.getElementById('headerTitle').value;
+            const headerSubtitle = document.getElementById('headerSubtitle').value;
+            const navigationItems = document.getElementById('navigationItems').value.split(',').map(item => item.trim());
+            const galleryTitle = document.getElementById('galleryTitle').value;
+            const testimonialsTitle = document.getElementById('testimonialsTitle').value;
+            const testimonials = document.getElementById('testimonials').value.split(',').map(item => item.trim());
+            const contactTitle = document.getElementById('contactTitle').value;
+
+            const updatedData = {
+                headerTitle,
+                headerSubtitle,
+                navigationItems,
+                galleryTitle,
+                testimonialsTitle,
+                testimonials,
+                contactTitle
+            };
+
+            // Update Firestore document
+            try {
+                await db.collection("settings").doc("Home_Page").set(updatedData, { merge: true });
+                document.getElementById("responseMessage").innerText = "Settings updated successfully!";
+                loadSettings(); // Reload settings to show updated values
+            } catch (error) {
+                console.error("Error updating settings:", error);
+                document.getElementById("responseMessage").innerText = "Error updating settings.";
+            }
+        });
+
+        // Call init on page load
+        window.onload = init;
+
 
       // ** Toggle Collapsible Section and Save Inputs to Local Storage **
 document.querySelectorAll('.collapsible-header').forEach((header, index) => {
