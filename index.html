@@ -359,7 +359,7 @@ const formData = {
 // Simulate an API call with a delay
 setTimeout(() => {
     showToast('Message sent successfully!', 'success');
-    window.showLoadingSpinner();
+    window.hideLoadingSpinner();
 
     // Clear the form
     document.getElementById("contactForm").reset();
