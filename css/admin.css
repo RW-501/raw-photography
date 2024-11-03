@@ -1,17 +1,18 @@
-html { margin: 0; padding: 0;  }
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     display: grid;
     justify-content: center;
     align-items: center;
+    color: #333;
     height: 100vh;
-    margin: 0;
-    padding: 0;
     animation: backgroundFade 2s ease forwards;
-
 }
-
 
 /* Keyframes for fading background color */
 @keyframes backgroundFade {
@@ -23,25 +24,29 @@ body {
     }
 }
 
-        /* Add responsive styles */
-        @media (max-width: 600px) {
-            body {
-                padding: 10px;
-            }
-        }
-        /* Custom styles for a professional, minimalistic look */
-        /* Custom styles for a professional, minimalistic look */
-        .card:hover {
-            transform: scale(1.02);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
-            transition: all 0.3s ease;
-        }
-        .btn-primary, .btn-success {
-            width: 100%;
-        }
-        .loading-spinner {
-            display: none;
-        }
+/* Responsive styling */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+}
+
+/* Custom styles for hover effects and button styling */
+.card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.btn-primary, .btn-success {
+    width: 100%;
+}
+
+.loading-spinner {
+    display: none;
+}
+
+/* Login container styling */
 .login-container {
     background: white;
     padding: 20px;
@@ -91,29 +96,20 @@ button:hover {
     text-align: center;
 }
 
-
-        /* Basic styles for responsive design */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            color: #333;
-            height: 100%;
-            display: block;
-        }
+/* Navbar and footer styling */
 nav {
     display: flex;
     gap: 10px;
     padding: 1rem;
 }
-        /* Responsive Footer */
-        #site-footer {
-            text-align: center;
-            padding: 20px;
-            background-color: #f8f8f8;
-        }
 
+#site-footer, .footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #f8f9fa;
+}
 
+/* Admin panel container and layout styling */
 .admin-container {
     min-height: 100vh;
     display: flex;
@@ -129,11 +125,7 @@ nav {
     flex: 1;
 }
 
-.footer {
-    background-color: #f8f9fa;
-    text-align: center;
-}
-
+/* Key metrics and cards */
 .key-metrics {
     margin-bottom: 2rem;
 }
@@ -142,6 +134,7 @@ nav {
     margin: 1rem 0;
 }
 
+/* List group item hover effect */
 .list-group-item {
     cursor: pointer;
 }
