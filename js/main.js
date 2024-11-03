@@ -187,13 +187,12 @@ async function applyLoadingSpinnerColors() {
 
 // Function to show the loading spinner on page load
 function showLoadingSpinner(automatic = true) {
-    // Make the loading container visible
-    loadingContainer.style.display = 'flex';
+  const loadingContainer = document.querySelector("#loadingContainer"); // Example selector
+  loadingContainer.style.display = 'flex';
 
     console.log("automatic??  ",automatic);
 
-    // If `manual` is false, hide the spinner automatically after 3 seconds
-    if (automatic === true || automatic === null) {
+    if (automatic === true ) {
         setTimeout(() => {
             hideLoadingSpinner();
         }, 3000); // 3000 milliseconds = 3 seconds
@@ -201,6 +200,7 @@ function showLoadingSpinner(automatic = true) {
 }
 
 function hideLoadingSpinner() {
+  const loadingContainer = document.querySelector("#loadingContainer"); // Example selector
     loadingContainer.style.display = 'none';
 }
 
