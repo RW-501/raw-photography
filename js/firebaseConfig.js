@@ -51,4 +51,13 @@ try {
 }
 
 // Export Firestore, Storage, and Auth instances for use in other modules
-export { db, doc, getDoc, storage, collection, auth, analytics};
+export {  db, doc,getDoc, query, updateDoc,
+    setDoc,     signInWithPopup,
+    GoogleAuthProvider,
+    FacebookAuthProvider,
+    OAuthProvider,
+    signOut,
+    onAuthStateChanged,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    where, getDocs, storage, collection, auth, analytics};

@@ -241,9 +241,18 @@
     
         <!-- Include your firebaseConfig.js as a module -->
         <script type="module">
-            import { db, storage } from '../js/firebaseConfig.js';
-            import { collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js';
-        
+            import {  db, doc,getDoc, query, updateDoc,
+    setDoc,     signInWithPopup,
+    GoogleAuthProvider,
+    FacebookAuthProvider,
+    OAuthProvider,
+    signOut,
+    onAuthStateChanged,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    where, getDocs, storage, collection, auth, analytics } from '../js/firebaseConfig.js';
+     
+    
             // ** Function to Show Toast Notifications **
             function showToast(message, type = 'info', duration = 3000) {
                 // Implement your toast display logic here

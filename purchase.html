@@ -81,7 +81,16 @@
 
     <!-- Include your firebaseConfig.js as a module -->
     <script type="module">
-        import { db, storage } from './js/firebaseConfig.js';
+        import { db, doc,getDoc, query, updateDoc,
+    setDoc,     signInWithPopup,
+    GoogleAuthProvider,
+    FacebookAuthProvider,
+    OAuthProvider,
+    signOut,
+    onAuthStateChanged,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    where, getDocs, storage, collection, auth, analytics } from './js/firebaseConfig.js';
 
         // Retrieve image ID from URL parameters
         const urlParams = new URLSearchParams(window.location.search);

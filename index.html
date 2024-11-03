@@ -233,8 +233,16 @@
 
 
     <script type="module">
-        import {  db, doc, collection, storage  } from './js/firebaseConfig.js';
-        import {  query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js';
+        import {  db, doc,getDoc, query, updateDoc,
+    setDoc,     signInWithPopup,
+    GoogleAuthProvider,
+    FacebookAuthProvider,
+    OAuthProvider,
+    signOut,
+    onAuthStateChanged,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    where, getDocs, storage, collection, auth, analytics  } from './js/firebaseConfig.js';
 
         async function loadSettings() {
     const docRef = doc(db, "settings", "Home_Page"); // Reference to the Home_Page document

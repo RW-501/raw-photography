@@ -122,12 +122,18 @@
 
     <!-- Include your firebaseConfig.js as a module -->
     <script type="module">
-        import { db, storage } from '../js/firebaseConfig.js';
-        import { collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js'; // Import necessary Firestore functions
-
-        // Firebase and Stripe Setup
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+        import {  db, doc,getDoc, query, updateDoc,
+    setDoc,     signInWithPopup,
+    GoogleAuthProvider,
+    FacebookAuthProvider,
+    OAuthProvider,
+    signOut,
+    onAuthStateChanged,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    where, getDocs, storage, collection, auth, analytics } from '../js/firebaseConfig.js';
+  
+    
         const stripe = Stripe("your-publishable-stripe-key");
         firebase.auth().onAuthStateChanged(user => {
    
