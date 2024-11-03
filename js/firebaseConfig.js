@@ -19,6 +19,7 @@ import {   getAuth,
     onAuthStateChanged,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js'; // Updated to match other imports
+    import { initializeAnalytics } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-analytics.js";
 
 // Firebase configuration object
 const firebaseConfig = {

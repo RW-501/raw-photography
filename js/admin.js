@@ -1,9 +1,9 @@
+
+import { db, storage,auth } from './js/firebaseConfig.js';
+
 // Get the elements
 const loginForm = document.getElementById('loginForm');
 const errorMessage = document.getElementById('error-message');
-
-
-import { db, storage,auth } from './js/firebaseConfig.js';
 
 
 // Authenticate admin
