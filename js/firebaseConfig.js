@@ -51,4 +51,4 @@ try {
 }
 
 // Export Firestore, Storage, and Auth instances for use in other modules
-export { db, storage, auth, analytics};
+export { db, storage, doc, auth, analytics};
