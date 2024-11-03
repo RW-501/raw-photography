@@ -97,6 +97,35 @@
             <button type="submit">Save Changes</button>
             <button type="button" id="reset-button">Reset</button>
         </form>
+
+        <form id="settings-form">
+            <label for="headerTitle">Header Title:</label>
+            <input type="text" id="headerTitle" required>
+            
+            <label for="headerSubtitle">Header Subtitle:</label>
+            <input type="text" id="headerSubtitle" required>
+            
+            <label for="navigationItems">Navigation Items (comma-separated):</label>
+            <input type="text" id="navigationItems" required>
+    
+            <label for="galleryTitle">Gallery Title:</label>
+            <input type="text" id="galleryTitle" required>
+    
+            <label for="galleryItems">Gallery Items (comma-separated URLs):</label>
+            <input type="text" id="galleryItems" required>
+    
+            <label for="testimonialsTitle">Testimonials Title:</label>
+            <input type="text" id="testimonialsTitle" required>
+    
+            <label for="testimonials">Testimonials (comma-separated):</label>
+            <input type="text" id="testimonials" required>
+    
+            <label for="contactTitle">Contact Title:</label>
+            <input type="text" id="contactTitle" required>
+    
+            <button type="submit">Update Settings</button>
+        </form>
+    
         <div id="success-message" class="hidden">Changes saved successfully!</div>
         <div id="error-message" class="hidden">Error saving changes. Please try again.</div>
 
@@ -212,6 +241,41 @@
             loadStyles(); // Load default styles
         });
 
+        // Function to update settings in Firestore
+        async function updateSettings(e) {
+            e.preventDefault(); // Prevent form from submitting the traditional way
+
+            // Gather input values
+            const headerTitle = document.getElementById("headerTitle").value;
+            const headerSubtitle = document.getElementById("headerSubtitle").value;
+            const navigationItems = document.getElementById("navigationItems").value.split(',').map(item => item.trim());
+            const galleryTitle = document.getElementById("galleryTitle").value;
+            const galleryItems = document.getElementById("galleryItems").value.split(',').map(item => item.trim());
+            const testimonialsTitle = document.getElementById("testimonialsTitle").value;
+            const testimonials = document.getElementById("testimonials").value.split(',').map(item => item.trim());
+            const contactTitle = document.getElementById("contactTitle").value;
+
+            // Update Firestore document
+            try {
+                await db.collection("settings").doc("Home_Page").set({
+                    headerTitle,
+                    headerSubtitle,
+                    navigationItems,
+                    galleryTitle,
+                    galleryItems,
+                    testimonialsTitle,
+                    testimonials,
+                    contactTitle
+                });
+                showToast("Settings updated successfully!", 'success');
+            } catch (error) {
+                showToast("Failed to update settings. Please try again.", 'error');
+            }
+        }
+
+        // Attach event listener to form
+        document.getElementById("settings-form").addEventListener("submit", updateSettings);
+   
         // Load styles on page load
         window.onload = loadStyles;
     </script>

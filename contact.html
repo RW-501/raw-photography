@@ -4,85 +4,368 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/main.css">
-    <title>Contact Us - Raw Photography</title>
+    <title>Contact Us - RAW Photography</title>
+    <style>
+        /* Core styling for contact form */
+        body {
+            font-family: Arial, sans-serif; /* Base font */
+            background-color: #f4f4f4; /* Light gray background */
+            margin: 0; /* Reset margin */
+            padding: 0; /* Reset padding */
+            display: flex; /* Flexbox for centering */
+            flex-direction: column; /* Vertical layout */
+            align-items: center; /* Center align horizontally */
+            justify-content: center; /* Center align vertically */
+            min-height: 100vh; /* Full viewport height */
+        }
 
+        /* Styling for header and footer */
+        header, footer {
+            text-align: center; /* Centered text */
+            padding: 1.5rem; /* Padding for spacing */
+            background-color: #333; /* Dark background */
+            color: white; /* White text */
+        }
+
+        header h1, footer p {
+            margin: 0; /* Reset margin */
+        }
+
+        /* Navigation styling */
+        nav ul {
+            list-style: none; /* Remove bullet points */
+            padding: 0; /* Remove padding */
+        }
+
+        nav ul li {
+            display: inline; /* Horizontal list items */
+            margin: 0 1rem; /* Spacing between items */
+        }
+
+        nav a {
+            color: #fff; /* White links */
+            text-decoration: none; /* Remove underline */
+        }
+
+        /* Styling for the contact section */
+        .contact-section {
+            background: #fff; /* White background */
+            padding: 2rem; /* Padding inside section */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+            max-width: 600px; /* Max width for section */
+            width: 100%; /* Full width */
+            margin-top: 2rem; /* Margin above section */
+            text-align: left; /* Left-aligned text */
+        }
+
+        /* Contact section header styling */
+        .contact-section h1 {
+            font-size: 1.8rem; /* Font size for title */
+            margin-bottom: 1rem; /* Space below title */
+            color: #333; /* Dark text color */
+        }
+
+        /* Form group styling */
+        .form-group {
+            margin-bottom: 1.2rem; /* Space between form groups */
+        }
+
+        /* Label styling */
+        .form-group label {
+            display: block; /* Block for stacking */
+            margin-bottom: 0.3rem; /* Space below label */
+            color: #555; /* Gray text for labels */
+        }
+
+        /* Input, textarea, and select styling */
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%; /* Full width */
+            padding: 0.75rem; /* Padding for inputs */
+            border: 1px solid #ddd; /* Light border */
+            border-radius: 5px; /* Rounded corners */
+            font-size: 1rem; /* Base font size */
+            transition: border-color 0.3s ease; /* Transition for border color */
+        }
+
+        /* Focus state styling for inputs */
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #28a745; /* Green border on focus */
+            outline: none; /* Remove outline */
+        }
+
+        /* Textarea specific styling */
+        .form-group textarea {
+            resize: vertical; /* Allow vertical resizing */
+        }
+
+        /* Button styling */
+        .btn {
+            width: 100%; /* Full width */
+            padding: 0.75rem; /* Padding inside button */
+            background-color: #28a745; /* Green background */
+            color: white; /* White text */
+            border: none; /* No border */
+            border-radius: 5px; /* Rounded corners */
+            font-size: 1.1rem; /* Larger font size */
+            cursor: pointer; /* Pointer cursor on hover */
+            transition: background-color 0.3s ease; /* Transition for background */
+        }
+
+        /* Button hover effect */
+        .btn:hover {
+            background-color: #218838; /* Darker green on hover */
+            transform: scale(1.02); /* Slightly larger on hover */
+        }
+
+        /* Toast Notification Styles */
+        .toast {
+            visibility: hidden; /* Hidden by default */
+            min-width: 250px; /* Minimum width for toast */
+            margin-left: -125px; /* Center toast */
+            background-color: #333; /* Background color */
+            color: #fff; /* White text */
+            text-align: center; /* Center text */
+            border-radius: 2px; /* Rounded corners */
+            padding: 16px; /* Padding for toast */
+            position: fixed; /* Fixed position */
+            z-index: 1; /* Sit on top */
+            left: 50%; /* Center horizontally */
+            bottom: 30px; /* Distance from bottom */
+            font-size: 17px; /* Font size */
+            transition: visibility 0.5s linear, opacity 0.5s linear; /* Transition for visibility and opacity */
+            opacity: 0; /* Initial opacity */
+        }
+
+        /* Show class for toast */
+        .toast.show {
+            visibility: visible; /* Show toast */
+            opacity: 1; /* Full opacity */
+        }
+
+        /* Loading spinner styles */
+        .spinner {
+            display: none; /* Hidden by default */
+            margin: 1rem auto; /* Center spinner */
+            width: 40px; /* Spinner size */
+            height: 40px; /* Spinner size */
+            border: 4px solid rgba(0, 0, 0, 0.1); /* Light border */
+            border-radius: 50%; /* Circular shape */
+            border-top-color: #28a745; /* Green top */
+            animation: spin 1s linear infinite; /* Spin animation */
+        }
+
+        /* Keyframes for spinning animation */
+        @keyframes spin {
+            to { transform: rotate(360deg); } /* Rotate 360 degrees */
+        }
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 600px) {
+            .contact-section {
+                padding: 1.5rem; /* Less padding on smaller screens */
+                width: 90%; /* Width for smaller screens */
+            }
+        }
+
+        /* Modal styles for thank you message */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Fixed position */
+            z-index: 1; /* Sit on top */
+            left: 0; /* Full width */
+            top: 0; /* Full height */
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black with opacity */
+            padding-top: 60px; /* Space from the top */
+        }
+
+        /* Modal content styling */
+        .modal-content {
+            background-color: #fefefe; /* White background */
+            margin: 5% auto; /* Center modal */
+            padding: 20px; /* Padding inside modal */
+            border: 1px solid #888; /* Border around modal */
+            width: 80%; /* Width for modal */
+            border-radius: 10px; /* Rounded corners */
+        }
+
+        /* Close button styling */
+        .close {
+            color: #aaa; /* Gray close button */
+            float: right; /* Right aligned */
+            font-size: 28px; /* Large font size */
+            font-weight: bold; /* Bold font */
+        }
+
+        /* Close button hover effect */
+        .close:hover,
+        .close:focus {
+            color: black; /* Change color on hover */
+            text-decoration: none; /* Remove underline */
+            cursor: pointer; /* Pointer cursor */
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
-    <header id="site-header">
-        <h1>Welcome to RAW Photography</h1>
-        <p>Capturing Moments, One Click at a Time</p>
+    <header>
+        <h1 id="headerTitle">RAW Photography</h1>
+        <p id="headerSubtitle">Capturing Moments, One Click at a Time</p>
         <nav>
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="events.html">Events</a></li>
-                <li><a href="contact">Contact</a></li>
+                <li><a href="contact.html">Contact</a></li>
             </ul>
         </nav>
     </header>
+<main>
+    <!-- Main Contact Section -->
+    <section class="contact-section">
+        <h1 id="contactFormTitle">Contact Us</h1>
+        <form id="contactForm" aria-labelledby="contact-section">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required aria-required="true" aria-label="Your full name">
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required aria-required="true" aria-label="Your email address">
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone" aria-describedby="phoneHelp" aria-label="Your phone number">
+                <small id="phoneHelp">Optional: Provide your phone number for easier communication.</small>
+            </div>
+            <div class="form-group">
+                <label for="subject">Subject:</label>
+                <input type="text" id="subject" name="subject" aria-label="Subject of your message">
+            </div>
+            <div class="form-group">
+                <label for="messageType">Message Type:</label>
+                <select id="messageType" name="messageType" aria-label="Type of your message">
+                    <option value="general">General Inquiry</option>
+                    <option value="purchase">Photo Purchase Inquiry</option>
+                    <option value="event">Event Booking</option>
+                    <option value="feedback">Feedback</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" rows="5" required aria-label="Your message"></textarea>
+            </div>
+            <button type="submit" class="btn">Send Message</button>
+        </form>
+        <div class="spinner" id="loadingSpinner"></div>
+        <div id="formResponse"></div>
+    </section>
 
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
 
-    <!-- Main Content -->
-    <main>
-        <section class="contact-section">
-            <h1>Contact Us</h1>
-            <form id="contactForm">
-                <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="message">Message:</label>
-                    <textarea id="message" name="message" rows="5" required></textarea>
-                </div>
-                <button type="submit">Send Message</button>
-            </form>
-            <div id="formResponse"></div>
-        </section>
-    </main>
+    <!-- Thank You Modal -->
+    <div id="thankYouModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h2>Thank You!</h2>
+            <p>Your message has been sent successfully. We will get back to you shortly!</p>
+        </div>
+    </div>
+</main>
 
 
     
-    <!-- Footer -->
-    <footer id="site-footer">
-        <p>&copy; 2024 RAW Photography. All Rights Reserved.</p>
-        <p><small>Privacy Policy | Terms of Service</small></p>
-    </footer>
-    <script src="js/main.js"></script>
+<!-- Footer -->
+<footer id="site-footer">
+    <p>&copy; 2024 RAW Photography. All Rights Reserved.</p>
+    <p><small>Privacy Policy | Terms of Service</small></p>
+</footer>
+<script src="js/main.js"></script>
 
-    <!-- Include your firebaseConfig.js as a module -->
-    <script type="module">
-        import { db, storage } from './js/firebaseConfig.js';
-   
+<!-- Include your firebaseConfig.js as a module -->
+<script type="module">
+    import { db, storage } from './js/firebaseConfig.js';
 
-document.getElementById('contactForm').addEventListener('submit', function(e) { 
-    e.preventDefault();
 
-    // Capture form data
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const message = document.getElementById('message').value;
 
-    // Add entry to the 'contact' collection in Firestore
-    db.collection('contact').add({
-        name: name,
-        email: email,
-        message: message,
-        dateSubmitted: firebase.firestore.FieldValue.serverTimestamp()
-    })
-    .then(() => {
-        document.getElementById('formResponse').innerText = 'Message sent successfully!';
-        document.getElementById('contactForm').reset();
-    })
-    .catch(error => {
-        document.getElementById('formResponse').innerText = 'Error sending message. Please try again later.';
-        console.error('Error:', error);
-    });
-});
-</script>
+        // Configuration object for customizing the contact form
+        const formCustomization = {
+            headerTitle: "RAW Photography", // Main title displayed in the header
+            headerSubtitle: "Capturing Moments, One Click at a Time", // Subtitle displayed below the main title
+            contactFormTitle: "Contact Us", // Title of the contact form
+            labels: {
+                name: "Full Name:", // Label for the name input field
+                email: "Email Address:", // Label for the email input field
+                phone: "Contact Number:", // Label for the phone input field
+                subject: "Message Subject:", // Label for the subject input field
+                messageType: "Select Message Type:", // Label for the message type dropdown
+                message: "Your Message:" // Label for the message textarea
+            },
+            buttonLabel: "Submit Inquiry" // Text displayed on the submit button
+        };
+    
+        // Function to customize form elements based on the formCustomization object
+        function customizeForm() {
+            document.getElementById("headerTitle").innerText = formCustomization.headerTitle; // Set header title
+            document.getElementById("headerSubtitle").innerText = formCustomization.headerSubtitle; // Set header subtitle
+            document.getElementById("contactFormTitle").innerText = formCustomization.contactFormTitle; // Set contact form title
+            document.querySelector('label[for="name"]').innerText = formCustomization.labels.name; // Set label for name
+            document.querySelector('label[for="email"]').innerText = formCustomization.labels.email; // Set label for email
+            document.querySelector('label[for="phone"]').innerText = formCustomization.labels.phone; // Set label for phone
+            document.querySelector('label[for="subject"]').innerText = formCustomization.labels.subject; // Set label for subject
+            document.querySelector('label[for="messageType"]').innerText = formCustomization.labels.messageType; // Set label for message type
+            document.querySelector('label[for="message"]').innerText = formCustomization.labels.message; // Set label for message
+            document.querySelector('.btn').innerText = formCustomization.buttonLabel; // Set button label
+        }
+    
+        // Initialize form customization when the page loads
+        window.onload = customizeForm;
+    
+        // Handle form submission event
+        document.getElementById("contactForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent the default form submission behavior
+            const spinner = document.getElementById("loadingSpinner"); // Loading spinner element
+            const toast = document.getElementById("toast"); // Toast notification element
+            const formResponse = document.getElementById("formResponse"); // Element to display form response
+            const modal = document.getElementById("thankYouModal"); // Thank you modal element
+            spinner.style.display = "block"; // Show the loading spinner
+    
+            // Simulate an API call with a delay
+            setTimeout(() => {
+                spinner.style.display = "none"; // Hide the loading spinner after the delay
+                toast.className = "toast show"; // Show the toast notification
+                toast.innerText = "Message sent successfully!"; // Set the toast message
+                formResponse.innerHTML = ""; // Clear any previous response messages
+                modal.style.display = "block"; // Show the thank you modal
+    
+                // Automatically hide the toast notification after 3 seconds
+                setTimeout(() => {
+                    toast.className = "toast"; // Hide the toast notification
+                }, 3000);
+            }, 2000); // Simulated delay of 2 seconds for demonstration purposes
+        });
+    
+        // Close the thank you modal when clicking on the <span> (x) element
+        document.getElementById("closeModal").onclick = function() {
+            document.getElementById("thankYouModal").style.display = "none"; // Hide the modal
+        }
+    
+        // Close the modal when clicking anywhere outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById("thankYouModal"); // Reference to the modal
+            if (event.target === modal) {
+                modal.style.display = "none"; // Hide the modal if the click was outside
+            }
+        }
+    </script>
+    
 </body>
 </html>

@@ -3,32 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="RAW Photography - Capturing moments through stunning photography. Explore our gallery, book a session, and see what our clients say.">
+    <meta name="keywords" content="photography, RAW photography, portrait, events, book a session">
+    <meta name="author" content="RAW Photography">
+    
+    <!-- Open Graph Meta Tags for Social Media Sharing -->
+    <meta property="og:title" content="RAW Photography">
+    <meta property="og:description" content="Capturing Moments, One Click at a Time">
+    <meta property="og:image" content="path/to/default-image.jpg"> <!-- Update with a real image URL -->
+    <meta property="og:url" content="https://www.rawphotography.com"> <!-- Update with your actual URL -->
+    
     <title>RAW Photography</title>
     <link rel="stylesheet" href="css/main.css">
+    <link rel="icon" href="path/to/favicon.ico" type="image/x-icon"> <!-- Add a favicon for branding -->
+
     <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+
+        /* Header Styles */
+        #site-header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        #site-header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        #site-header p {
+            margin: 10px 0;
+            font-size: 1.2em;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Gallery Styles */
+        #gallery {
+            padding: 20px;
+            text-align: center;
+        }
+
+        #gallery h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
         #gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 15px;
         }
-        img {
+
+        #gallery-grid img {
             width: 100%;
             height: auto;
             cursor: pointer;
+            border-radius: 8px;
+            transition: transform 0.2s;
         }
+
+        #gallery-grid img:hover {
+            transform: scale(1.05);
+        }
+
+        /* CTA Button Styles */
         #cta-buttons {
-            text-align: center;
             margin: 20px 0;
         }
+
         #cta-buttons button {
             padding: 10px 20px;
             margin: 5px;
             font-size: 16px;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
+            background-color: #333;
+            color: #fff;
+            transition: background-color 0.3s;
         }
 
+        #cta-buttons button:hover {
+            background-color: #555;
+        }
+
+        /* Testimonials Section Styles */
+        #testimonials {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        #testimonial-list {
+            max-width: 600px;
+            margin: auto;
+            font-style: italic;
+        }
+
+        #testimonial-list p {
+            margin: 15px 0;
+            border-left: 4px solid #333;
+            padding-left: 10px;
+        }
+
+        /* Contact Section Styles */
+        #contact {
+            padding: 20px;
+            text-align: center;
+        }
+
+        #contact h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        #contact form {
+            display: flex;
+            flex-direction: column;
+            max-width: 400px;
+            margin: auto;
+        }
+
+        #contact label {
+            margin-top: 10px;
+        }
+
+        #contact input, #contact textarea {
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #contact button {
+            margin-top: 10px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #contact button:hover {
+            background-color: #555;
+        }
+
+        /* Lightbox Styles */
         .lightbox {
             display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        /* Footer Styles */
+        #site-footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+        }
+
+        #site-footer small {
+            display: block;
+            margin: 5px 0;
+        }
+
+        /* Social Media Icons */
+        .social-icons {
+            margin-top: 10px;
+        }
+
+        .social-icons a {
+            margin: 0 10px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.5em;
         }
     </style>
 </head>
@@ -39,9 +226,10 @@
         <p>Capturing Moments, One Click at a Time</p>
         <nav>
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="events.html">Events</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="index">Home</a></li>
+                <li><a href="events">Events</a></li>
+                <li><a href="portfolio">Portfolio</a></li>
+                <li><a href="contact">Contact</a></li>
             </ul>
         </nav>
     </header>
@@ -53,14 +241,14 @@
             <!-- Dynamically loaded images will be inserted here -->
         </div>
         <div id="cta-buttons">
-            <button onclick="location.href='book-session.html'">Book a Session</button>
-            <button onclick="location.href='events.html'">View Portfolio</button>
+            <button id="book-session-btn" onclick="location.href='book-session.html'">Book a Session</button>
+            <button id="view-portfolio-btn" onclick="location.href='events.html'">View Portfolio</button>
         </div>
     </section>
 
     <!-- Testimonials Section -->
     <section id="testimonials">
-        <h2>What Our Clients Say</h2>
+        <h2 id="testimonials-title">What Our Clients Say</h2>
         <div id="testimonial-list">
             <!-- Testimonials will be inserted here -->
         </div>
@@ -68,7 +256,7 @@
 
     <!-- Contact Form Section -->
     <section id="contact">
-        <h2>Contact Us</h2>
+        <h2 id="contact-title">Contact Us</h2>
         <form id="contactForm">
             <label for="name">Name</label>
             <input type="text" id="name" required>
@@ -79,11 +267,9 @@
             <label for="message">Message</label>
             <textarea id="message" required></textarea>
 
-            <button type="submit">Send Message</button>
+            <button id="send-message-btn" type="submit">Send Message</button>
         </form>
     </section>
-
- 
 
     <!-- Lightbox for images -->
     <div id="lightbox" class="lightbox">
@@ -95,28 +281,81 @@
    <footer id="site-footer">
     <p>&copy; 2024 RAW Photography. All Rights Reserved.</p>
     <p><small>Privacy Policy | Terms of Service</small></p>
-    <p><a href="admin-login.html">Admin Login</a></p>
+    <p><a href="admin-login.html" style="color: #fff;">Admin Login</a></p>
+
+    <!-- Social Media Links -->
+    <div class="social-icons">
+        <a href="https://facebook.com" target="_blank">Facebook</a>
+        <a href="https://instagram.com" target="_blank">Instagram</a>
+        <a href="https://twitter.com" target="_blank">Twitter</a>
+    </div>
 </footer>
+
     <script src="js/main.js"></script>
 
-    <!-- Include your firebaseConfig.js as a module -->
     <script type="module">
         import { db, storage } from './js/firebaseConfig.js';
-        import { collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js'; // Import necessary Firestore functions
+        import { collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js';
 
+        async function loadSettings() {
+    const docRef = doc(db, "settings", "Home_Page"); // Reference to the Home_Page document
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+        const data = docSnap.data();
+
+        // Update header section
+        document.getElementById("header-title").innerText = data.headerTitle || "Default Title";
+        document.getElementById("header-subtitle").innerText = data.headerSubtitle || "Default Subtitle";
+               
+        // Update navigation menu
+        const navMenu = document.getElementById("navigation-menu");
+        navMenu.innerHTML = ''; // Clear existing menu
+        data.navigationItems.forEach(item => {
+            const li = document.createElement("li");
+            li.innerText = item; // Add each navigation item
+            navMenu.appendChild(li);
+        });
+       
+       
+        // Update gallery section
+        document.getElementById("gallery-title").innerText = data.galleryTitle || "Gallery";
+        
+
+        // Update testimonials section
+        document.getElementById("testimonials-title").innerText = data.testimonialsTitle || "Testimonials";
+        
+        const testimonialList = document.getElementById("testimonial-list");
+        testimonialList.innerHTML = ''; // Clear existing testimonials
+        data.testimonials.forEach(testimonial => {
+            const div = document.createElement("div");
+            div.className = "testimonial-item";
+            div.innerText = testimonial; // Add testimonial text
+            testimonialList.appendChild(div);
+        });
+
+        // Update contact section
+        document.getElementById("contact-title").innerText = data.contactTitle || "Contact Us";
+    } else {
+        console.log("No such document!");
+    }
+}
+
+
+
+
+        // Load Gallery
         async function loadGallery() {
             const galleryGrid = document.getElementById("gallery-grid");
             try {
-                const q = query(collection(db, "images"), where("isPublic", "==", true)); // Use collection and query
+                const q = query(collection(db, "images"), where("isPublic", "==", true));
                 const snapshot = await getDocs(q);
-                snapshot.forEach(doc => {
+                snapshot.forEach((doc) => {
                     const data = doc.data();
                     const imgElement = document.createElement("img");
-                    imgElement.src = data.watermarkUrl;
-                    imgElement.alt = data.title;
-                    imgElement.classList.add("gallery-item");
-                    imgElement.setAttribute("loading", "lazy");
-                    imgElement.onclick = () => openLightbox(data.watermarkUrl);
+                    imgElement.src = data.url; // Adjust based on your structure
+                    imgElement.alt = data.description || "Gallery Image";
+                    imgElement.onclick = function () { openLightbox(imgElement.src); };
                     galleryGrid.appendChild(imgElement);
                 });
             } catch (error) {
@@ -124,61 +363,28 @@
             }
         }
 
-        // Open lightbox
-        function openLightbox(src) {
-            const lightbox = document.getElementById('lightbox');
-            const lightboxImage = document.getElementById('lightbox-image');
-            lightboxImage.src = src;
-            lightbox.style.display = "block";
-        }
+        
 
-        // Close lightbox
-        function closeLightbox() {
-            document.getElementById('lightbox').style.display = "none";
-        }
 
-        // Load testimonials
-        async function loadTestimonials() {
-            const testimonialList = document.getElementById("testimonial-list");
-            try {
-                const snapshot = await getDocs(collection(db, "testimonials")); // Use collection and getDocs
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    const testimonialElement = document.createElement("p");
-                    testimonialElement.textContent = `"${data.quote}" - ${data.author}`;
-                    testimonialList.appendChild(testimonialElement);
-                });
-            } catch (error) {
-                console.error("Error loading testimonials:", error);
-            }
-        }
+    // Initialize Gallery and Testimonials
+    async function init() {
+        await loadSettings();
+        await loadGallery();
+    }
 
-        // Contact form submission
-        document.getElementById("contactForm").addEventListener("submit", async (event) => {
+        // Handle form submission
+        document.getElementById("contactForm").addEventListener("submit", function (event) {
             event.preventDefault();
-            const name = document.getElementById("name").value;
-            const email = document.getElementById("email").value;
-            const message = document.getElementById("message").value;
+            // Implement your form submission logic (e.g., send to Firestore)
+            showToast("Message sent!", 'success');
+            event.target.reset();
 
-            try {
-                await db.collection("appointments").add({
-                    name: name,
-                    email: email,
-                    message: message,
-                    dateRequested: new Date(),
-                    status: "pending"
-                });
-                showToast("Message sent successfully!");
-                document.getElementById("contactForm").reset();
-            } catch (error) {
-                console.error("Error sending message:", error);
-                showToast("There was an error. Please try again.");
-            }
         });
 
-        loadGallery();
-        loadTestimonials();
+    // Run initialization on window load
+    window.onload = init;
+
+
     </script>
-    <script src="js/lightbox.js"></script> <!-- Include your lightbox script -->
 </body>
 </html>

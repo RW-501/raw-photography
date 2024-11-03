@@ -75,3 +75,46 @@ function showToast(message, type = 'info', duration = 3000) {
 // showToast('This is a warning message!', 'warning');
 
 
+async function applyStylesFromSettings() {
+    // Fetch settings from Firestore
+    const db = firebase.firestore();
+    try {
+        const doc = await db.collection('settings').doc('siteDesign').get();
+
+        if (doc.exists) {
+            const data = doc.data();
+
+            // Create a style element
+            const style = document.createElement('style');
+            style.type = 'text/css';
+
+            // Add styles to the style element
+            style.innerHTML = `
+                body {
+                    background-color: ${data.themeColor} !important;
+                    font-family: ${data.font} !important;
+                }
+                #navigation-menu {
+                    color: ${data.navFontColor} !important;
+                    background-color: ${data.navBackgroundColor} !important;
+                }
+                #site-footer {
+                    color: ${data.footerFontColor} !important;
+                    background-color: ${data.footerBackgroundColor} !important;
+                }
+                /* Add additional styles as needed */
+            `;
+
+            // Append the style element to the head
+            document.head.appendChild(style);
+            console.log("Styles applied successfully!");
+        } else {
+            console.error("No such document!");
+        }
+    } catch (error) {
+        console.error("Error fetching styles: ", error);
+    }
+}
+
+// Call the function to apply styles
+applyStylesFromSettings();

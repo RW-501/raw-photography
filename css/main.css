@@ -9,8 +9,7 @@ html, body {
 
 body {
     display: grid;
-    justify-content: center;
-    align-items: center;
+
     height: 100%;
     animation: backgroundFade 2s ease forwards;
 }
