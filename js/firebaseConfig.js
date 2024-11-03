@@ -11,14 +11,14 @@
         firebaseScripts.forEach(src => {
             const script = document.createElement('script');
             script.src = src;
-            script.async = true; // Load script asynchronously
-            document.body.appendChild(script);
+            script.type = "module"; // Specify the script type as module
+            script.async = true; // Load script asynchronously            document.body.appendChild(script);
         });
     }
 
     // Load Firebase SDKs when the DOM is fully loaded
     document.addEventListener('DOMContentLoaded', loadFirebaseSDKs);
-    
+
 // firebaseConfig.js
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js';
 import {     getFirestore,
