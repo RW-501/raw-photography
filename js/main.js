@@ -1,4 +1,5 @@
 
+console.log("Page loaded main ?????????????");
 
         // Auto move to next input (if applicable)
         const inputs = document.querySelectorAll('input');
@@ -11,6 +12,8 @@ console.log("e.key ????   ",e.key);
                     const nextInput = e.target.nextElementSibling;
                     if (nextInput) {
                         nextInput.focus();
+                        console.log("nextInput ????   ",nextInput);
+
                     }
                 }
             });

@@ -10,6 +10,16 @@ import {  db, doc,getDoc, query, updateDoc,
     signInWithEmailAndPassword,
     where, getDocs, storage, collection, auth, analytics } from '../js/firebaseConfig.js';
 
+// Check if the current page is not 'admin-login' or 'admin-login.html'
+const currentPath = window.location.pathname;
+if (!currentPath.endsWith('admin-login') && !currentPath.endsWith('admin-login.html')) {
+    // Authenticate admin
+    auth.onAuthStateChanged(user => {
+        if (!user || user.role !== 'admin') {
+            window.location = './admin-login'; // Redirect to login if not authenticated
+        }
+    });
+}
 
 
 
@@ -55,12 +65,6 @@ const loginForm = document.getElementById('loginForm');
 const errorMessage = document.getElementById('error-message');
 
 
-// Authenticate admin
-auth.onAuthStateChanged(user => {
-    if (!user || user.role !== 'admin') {
-        window.location = '../admin-login.html'; // Redirect to login if not authenticated
-    }
-});
 
 
         // Logout function
