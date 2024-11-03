@@ -104,14 +104,6 @@ function initializeFirebase() {
 // Load Firebase SDKs when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', loadFirebaseSDKs);
 
-// Export Firestore, Storage, and Auth instances for use in other modules
-export {  db, doc,getDoc, query, updateDoc,
-    setDoc,  addDoc,    signInWithPopup,
-    GoogleAuthProvider,
-    OAuthProvider,
-    signOut,
-    onAuthStateChanged,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    where, getDocs, storage, collection, auth, analytics};
 
+// Export Firestore, Storage, and Auth instances for use in other modules
+export { db, doc, getDoc, query, updateDoc, setDoc, addDoc, signInWithPopup, GoogleAuthProvider, OAuthProvider, signOut, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, where, getDocs, storage, collection, auth, analytics };
