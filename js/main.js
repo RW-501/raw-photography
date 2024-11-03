@@ -98,16 +98,22 @@ loadingContainer.style.display = 'none';
 
 
 // Function to show the loading spinner on page load
-function showLoadingSpinner() {
+function showLoadingSpinner(manual = false) {
     // Make the loading container visible
     loadingContainer.style.display = 'flex';
-  
-    // Set a timeout to hide the spinner after 3 seconds
-    setTimeout(() => {
-      loadingContainer.style.display = 'none';
-    }, 3000); // 3000 milliseconds = 3 seconds
-  }
-  
+
+    // If `manual` is false, hide the spinner automatically after 3 seconds
+    if (!manual) {
+        setTimeout(() => {
+            hideLoadingSpinner();
+        }, 3000); // 3000 milliseconds = 3 seconds
+    }
+}
+
+function hideLoadingSpinner() {
+    loadingContainer.style.display = 'none';
+}
+
   // Call the function when the page loads
   window.addEventListener('load', showLoadingSpinner);
   

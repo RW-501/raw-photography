@@ -207,8 +207,7 @@
         <div id="formResponse"></div>
     </section>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="toast"></div>
+  
 
     <!-- Thank You Modal -->
     <div id="thankYouModal" class="modal">
@@ -286,43 +285,92 @@
         // Initialize form customization when the page loads
         window.onload = customizeForm;
     
-        // Handle form submission event
-        document.getElementById("contactForm").addEventListener("submit", function(event) {
-            event.preventDefault(); // Prevent the default form submission behavior
-            const spinner = document.getElementById("loadingSpinner"); // Loading spinner element
-            const toast = document.getElementById("toast"); // Toast notification element
-            const formResponse = document.getElementById("formResponse"); // Element to display form response
-            const modal = document.getElementById("thankYouModal"); // Thank you modal element
-            spinner.style.display = "block"; // Show the loading spinner
-    
-            // Simulate an API call with a delay
-            setTimeout(() => {
-                spinner.style.display = "none"; // Hide the loading spinner after the delay
-                toast.className = "toast show"; // Show the toast notification
-                toast.innerText = "Message sent successfully!"; // Set the toast message
-                formResponse.innerHTML = ""; // Clear any previous response messages
-                modal.style.display = "block"; // Show the thank you modal
-    
-                // Automatically hide the toast notification after 3 seconds
-                setTimeout(() => {
-                    toast.className = "toast"; // Hide the toast notification
-                }, 3000);
-            }, 2000); // Simulated delay of 2 seconds for demonstration purposes
-        });
-    
-        // Close the thank you modal when clicking on the <span> (x) element
-        document.getElementById("closeModal").onclick = function() {
-            document.getElementById("thankYouModal").style.display = "none"; // Hide the modal
-        }
-    
-        // Close the modal when clicking anywhere outside of it
-        window.onclick = function(event) {
-            const modal = document.getElementById("thankYouModal"); // Reference to the modal
-            if (event.target === modal) {
-                modal.style.display = "none"; // Hide the modal if the click was outside
-            }
-        }
-    </script>
+
+
+        // Sanitize user input to escape HTML characters
+function sanitizeInput(input) {
+    const div = document.createElement('div');
+    div.appendChild(document.createTextNode(input));
+    return div.innerHTML;
+}
+
+// Function to check if input contains potential script injection characters
+function isSafeInput(input) {
+    const dangerousPatterns = /(<|>|"|;|&|\$|\(|\)|\*|\\|\/|script|SELECT|UPDATE|DELETE|INSERT|DROP|TABLE|ALTER)/i;
+    return !dangerousPatterns.test(input);
+}
+
+
+
+
+
+// Handle form submission event
+document.getElementById("contactForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent the default form submission behavior
+
+    showLoadingSpinner(true); // Show spinner during processing
+
+    // Get form values and sanitize them
+    const name = sanitizeInput(document.getElementById('name').value);
+    const email = sanitizeInput(document.getElementById('email').value);
+    const phone = sanitizeInput(document.getElementById('phone').value);
+    const subject = sanitizeInput(document.getElementById('subject').value);
+    const messageType = document.getElementById('messageType').value; // value already predefined in select
+    const message = sanitizeInput(document.getElementById('message').value);
+
+    // Input validation
+    if (!isSafeInput(name) || !isSafeInput(email) || !isSafeInput(phone) || !isSafeInput(subject) || !isSafeInput(message)) {
+        const formResponse = document.getElementById("formResponse");
+        formResponse.textContent = 'Invalid characters detected in form. Please remove any special characters.';
+        formResponse.style.color = 'red';
+        hideLoadingSpinner();
+        return;
+    }
+
+    // Prepare data for Firestore
+    const formData = {
+        name,
+        email,
+        phone,
+        subject,
+        messageType,
+        message,
+        timestamp: new Date()  // Optional: Add timestamp
+    };
+
+    // Simulate an API call with a delay
+    setTimeout(() => {
+        showToast('Message sent successfully!', 'success');
+        hideLoadingSpinner();
+
+        // Clear the form
+        document.getElementById("contactForm").reset();
+
+        // Clear any previous response messages
+        const formResponse = document.getElementById("formResponse");
+        formResponse.innerHTML = ""; 
+
+        // Show the thank you modal
+        const modal = document.getElementById("thankYouModal");
+        modal.style.display = "block";
+    }, 2000); // Simulated delay of 2 seconds for demonstration purposes
+});
+
+// Close the thank you modal when clicking on the <span> (x) element
+document.getElementById("closeModal").onclick = function() {
+    document.getElementById("thankYouModal").style.display = "none"; // Hide the modal
+}
+
+// Close the modal when clicking anywhere outside of it
+window.onclick = function(event) {
+    const modal = document.getElementById("thankYouModal"); // Reference to the modal
+    if (event.target === modal) {
+        modal.style.display = "none"; // Hide the modal if the click was outside
+    }
+}
+
+</script>
+
     <script  type="module" src="./js/main.js"></script>
 
 </body>
