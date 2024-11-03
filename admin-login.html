@@ -120,8 +120,8 @@
     </div>
 
     <!-- Include your firebaseConfig.js as a module -->
-    <script type="module">
-        import { db, storage,auth } from './js/firebaseConfig.js';
+    <script type="module" src="./js/firebaseConfig.js">
+    import { db, storage,auth } from './js/firebaseConfig.js';
         import { collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js'; // Import necessary Firestore functions
 
 
