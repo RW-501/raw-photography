@@ -147,6 +147,7 @@ document.body.appendChild(loadingContainer);
 
 // Optionally, set display to none initially if you want it hidden by default
 loadingContainer.style.display = 'none';
+
 // Function to apply loading spinner colors based on settings
 async function applyLoadingSpinnerColors() {
   const docRef = doc(firestore, "settings", "loading_spinner"); // Create a document reference
@@ -193,7 +194,7 @@ function showLoadingSpinner(automatic = true) {
 
     console.log("automatic??  ",automatic);
 
-    if (automatic.isTrusted = true) {
+    if (automatic.isTrusted == true || automatic == true) {
       console.log("hide?? ");
       setTimeout(() => {
             hideLoadingSpinner();
