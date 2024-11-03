@@ -188,7 +188,6 @@ async function applyLoadingSpinnerColors() {
   window.showLoadingSpinner = function(automatic = true) {
 
 // Function to show the loading spinner on page load
-//function showLoadingSpinner(automatic = true) {
   const loadingContainer = document.querySelector("#loadingContainer");
   //console.log("Loading Container:", loadingContainer);
     loadingContainer.style.display = 'flex';
@@ -200,8 +199,7 @@ async function applyLoadingSpinnerColors() {
         }, 1000); // 3000 milliseconds = 3 seconds
     }
 }
-
-function hideLoadingSpinner() {
+window.hideLoadingSpinner = function() {
   const loadingContainer = document.querySelector("#loadingContainer"); // Example selector
   loadingContainer.style.display = 'none';
 }
@@ -211,14 +209,14 @@ function hideLoadingSpinner() {
   
 
         // Sanitize user input to escape HTML characters
-        function sanitizeInput(input) {
+        window.sanitizeInput = function(input) {
           const div = document.createElement('div');
           div.appendChild(document.createTextNode(input));
           return div.innerHTML;
       }
       
       // Function to check if input contains potential script injection characters
-      function isSafeInput(input) {
+        window.isSafeInput = function(input) {
           const dangerousPatterns = /(<|>|"|;|&|\$|\(|\)|\*|\\|\/|script|SELECT|UPDATE|DELETE|INSERT|DROP|TABLE|ALTER)/i;
           return !dangerousPatterns.test(input);
       }
@@ -246,8 +244,9 @@ function hideLoadingSpinner() {
         
 
 // Toast Notification Function
-function showToast(message, type = 'info', duration = 3000) {
-   
+//function showToast(message, type = 'info', duration = 3000) {
+  window.showToast = function(message, type = 'info', duration = 3000) {
+
     // Create a div for the toast
     const toast = document.createElement('div');
     
