@@ -72,17 +72,18 @@ let analytics;
 // Function to initialize Firebase
 function initializeFirebase() {
 
-    // Firebase configuration object
-    const firebaseConfig = {
-        apiKey: "AIzaSyC2bb6osv0jnvpnETCVoG6bvBynGGsOVaw",
-        authDomain: "raw-photography-12616.firebaseapp.com",
-        projectId: "raw-photography-12616",
-        storageBucket: "raw-photography-12616.appspot.com",
-        messagingSenderId: "1078385378836",
-        appId: "1:1078385378836:web:bb8f9611bfbdac1e480901",
-        measurementId: "G-0DLEHE7DEK"
-    };
 
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+    apiKey: "AIzaSyC2bb6osv0jnvpnETCVoG6bvBynGGsOVaw",
+    authDomain: "raw-photography-12616.firebaseapp.com",
+    databaseURL: "https://raw-photography-12616-default-rtdb.firebaseio.com",
+    projectId: "raw-photography-12616",
+    storageBucket: "raw-photography-12616.firebasestorage.app",
+    messagingSenderId: "1078385378836",
+    appId: "1:1078385378836:web:bb8f9611bfbdac1e480901",
+    measurementId: "G-0DLEHE7DEK"
+  };
     try {
         const app = initializeApp(firebaseConfig);
          auth = getAuth(app); // Initialize auth
