@@ -291,8 +291,8 @@
 
 
 
-// Handle form submission event
-document.getElementById("contactForm").addEventListener("submit", function(event) {
+
+document.getElementById("contactForm").addEventListener("submit", async function(event) {
     event.preventDefault(); // Prevent the default form submission behavior
 
     window.showLoadingSpinner(false); // Show spinner during processing
@@ -325,11 +325,13 @@ document.getElementById("contactForm").addEventListener("submit", function(event
         timestamp: new Date()  // Optional: Add timestamp
     };
 
-    // Simulate an API call with a delay
-    setTimeout(() => {
+    try {
+        // Send data to Firestore
+        await db.collection('messages').add(formData);
+        
+        // Show success message
         showToast('Message sent successfully!', 'success');
-        window.hideLoadingSpinner();
-
+        
         // Clear the form
         document.getElementById("contactForm").reset();
 
@@ -340,7 +342,14 @@ document.getElementById("contactForm").addEventListener("submit", function(event
         // Show the thank you modal
         const modal = document.getElementById("thankYouModal");
         modal.style.display = "block";
-    }, 2000); // Simulated delay of 2 seconds for demonstration purposes
+    } catch (error) {
+        console.error("Error sending message: ", error);
+        const formResponse = document.getElementById("formResponse");
+        formResponse.textContent = 'There was an error sending your message. Please try again.';
+        formResponse.style.color = 'red';
+    } finally {
+        window.hideLoadingSpinner(); // Ensure the spinner is hidden after processing
+    }
 });
 
 // Close the thank you modal when clicking on the <span> (x) element
