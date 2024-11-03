@@ -193,7 +193,7 @@ function showLoadingSpinner(automatic = true) {
 
     console.log("automatic??  ",automatic);
 
-    if (automatic === true || automatic === null) {
+    if (automatic.isTrusted = true) {
       console.log("hide?? ");
       setTimeout(() => {
             hideLoadingSpinner();
