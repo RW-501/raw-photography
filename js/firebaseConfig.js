@@ -1,8 +1,25 @@
 // firebaseConfig.js
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js';
 import { getFirestore } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js';
-import { getStorage } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-storage.js';
-import { getAuth } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js'; // Updated to match other imports
+import { getStorage,
+    getFirestore,
+    doc, where,
+    updateDoc,
+    setDoc, limit,
+    serverTimestamp,query ,
+    collection,
+    getDocs,
+    getDoc
+ } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-storage.js';
+import {   getAuth,
+    signInWithPopup,
+    GoogleAuthProvider,
+    FacebookAuthProvider,
+    OAuthProvider,
+    signOut,
+    onAuthStateChanged,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js'; // Updated to match other imports
 
 // Firebase configuration object
 const firebaseConfig = {
@@ -20,16 +37,18 @@ let app;
 let db;
 let storage;
 let auth;
+let analytics;
 
 try {
     app = initializeApp(firebaseConfig);
     auth = getAuth(app); // Initialize auth
     db = getFirestore(app); // Initialize Firestore
     storage = getStorage(app); // Initialize Storage
+    analytics = initializeAnalytics(app);
     console.log("Firebase initialized successfully.");
 } catch (error) {
     console.error("Error initializing Firebase:", error);
 }
 
 // Export Firestore, Storage, and Auth instances for use in other modules
-export { db, storage, auth };
+export { db, storage, auth, analytics};
