@@ -356,8 +356,11 @@ document.getElementById("contactForm").addEventListener("submit", async function
     };
 
     try {
-        // Send data to Firestore
-        await db.collection('messages').add(formData);
+        // Specify the 'messages' collection in the Firestore database
+        const messagesCollectionRef = collection(db, 'messages');
+        
+        // Add the document to the 'messages' collection
+        await addDoc(messagesCollectionRef, formData);
         
         // Show success message
         showToast('Message sent successfully!', 'success');
