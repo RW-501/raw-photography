@@ -1,15 +1,14 @@
 // firebaseConfig.js
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js';
-import { getFirestore } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js';
-import { getStorage,
-    getFirestore,
+import {     getFirestore,
     doc, where,
     updateDoc,
     setDoc, limit,
     serverTimestamp,query ,
     collection,
     getDocs,
-    getDoc
+    getDoc } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js';
+import { getStorage
  } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-storage.js';
 import {   getAuth,
     signInWithPopup,
