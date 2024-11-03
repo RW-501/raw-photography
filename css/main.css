@@ -1,11 +1,12 @@
-/* Basic Styles */
-html, body {
+        /* Global Styles */
+        html, body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
     color: #333;
     background-color: #f4f4f4;
 }
+
 
 body {
     display: grid;
@@ -33,12 +34,73 @@ body {
     }
 }
 
+
+        /* Footer Styles */
+        #site-footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+        }
+
+#site-footer small {
+    display: block;
+    margin: 5px 0;
+}
+
+/* Social Media Icons */
+.social-icons {
+    margin-top: 10px;
+}
+
+.social-icons a {
+    margin: 0 10px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.5em;
+}
+
+
 /* Utility Classes */
 .font-weight-bold {
     font-weight: 700 !important;
     user-select: none;
     font-size: 2.75rem !important;
 }
+
+        /* Header Styles */
+        #site-header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        #site-header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        #site-header p {
+            margin: 10px 0;
+            font-size: 1.2em;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
 
 /* Color Classes */
 .mainBGcolor, .bg-mainColor { background-color: #639ad4 !important; }
@@ -59,11 +121,6 @@ header {
     color: #fff;
 }
 
-nav {
-    display: flex;
-    gap: 10px;
-    padding: 1rem;
-}
 
 /* Typography */
 h1, h2 {
@@ -126,13 +183,6 @@ button:hover {
     background-color: #0056b3;
 }
 
-/* Footer */
-#site-footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #f8f8f8;
-}
-
 /* Events Gallery */
 #events-gallery {
     padding: 2rem;
@@ -180,3 +230,7 @@ button:hover {
     width: 100px;
     height: auto;
 }
+
+
+
+
