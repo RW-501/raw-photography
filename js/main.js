@@ -189,22 +189,19 @@ async function applyLoadingSpinnerColors() {
 // Function to show the loading spinner on page load
 function showLoadingSpinner(automatic = true) {
   const loadingContainer = document.querySelector("#loadingContainer");
-  console.log("Loading Container:", loadingContainer);
+  //console.log("Loading Container:", loadingContainer);
     loadingContainer.style.display = 'flex';
 
-    console.log("automatic??  ",automatic);
 
     if (automatic.isTrusted == true || automatic == true) {
-      console.log("hide?? ");
       setTimeout(() => {
             hideLoadingSpinner();
-        }, 3000); // 3000 milliseconds = 3 seconds
+        }, 1000); // 3000 milliseconds = 3 seconds
     }
 }
 
 function hideLoadingSpinner() {
   const loadingContainer = document.querySelector("#loadingContainer"); // Example selector
-  console.log("Hiding loading spinner");
   loadingContainer.style.display = 'none';
 }
 
