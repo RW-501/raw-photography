@@ -139,12 +139,12 @@ document.body.appendChild(loadingContainer);
 loadingContainer.style.display = 'none';
 // Function to apply loading spinner colors based on settings
 async function applyLoadingSpinnerColors() {
-    try {
-      // Fetch the settings document
-      const docRef = firestore.collection("settings").doc("loading_spinner");
-      const doc = await docRef.get();
-  
-      if (doc.exists) {
+  const docRef = doc(firestore, "settings", "loading_spinner"); // Create a document reference
+  const docSnap = await getDoc(docRef); // Get the document snapshot
+
+  if (docSnap.exists()) {
+      const data = docSnap.data();
+
         // Extract color settings from the document
         const {
           backgroundColor = "rgba(255, 255, 255, 0.8)", 
@@ -167,9 +167,7 @@ async function applyLoadingSpinnerColors() {
       } else {
         console.error("No color settings found in 'loading_spinner' document.");
       }
-    } catch (error) {
-      console.error("Error fetching color settings:", error);
-    }
+   
   }
   
   // Call the function to apply settings when needed (e.g., on page load or spinner show)
