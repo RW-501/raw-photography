@@ -1,6 +1,6 @@
 
 
-
+console.log("Page loaded ?????????????");
 
         // Auto move to next input (if applicable)
         const inputs = document.querySelectorAll('input');
