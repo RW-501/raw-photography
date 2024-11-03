@@ -2,7 +2,7 @@
 console.log("Page loaded main ?????????????");
 
 // Create the CSS styles as a string
-const styles = `
+const styles = ` 
   #loadingContainer {
     position: fixed;
     top: 0;
@@ -18,42 +18,85 @@ const styles = `
 
   #cameraSpinner {
     position: relative;
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
   }
 
+  /* DSLR Camera Body */
   .camera-icon {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 60px;
+    width: 80px;
     height: 60px;
-    border-radius: 50%;
     background-color: #333;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   }
 
-  .camera-icon .lens {
-    width: 25px;
-    height: 25px;
-    background-color: #fff;
+  /* Shutter button on the camera */
+  .camera-icon::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    right: 10px;
+    width: 10px;
+    height: 10px;
+    background-color: #007bff;
     border-radius: 50%;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
   }
 
+  /* Flash on the camera */
+  .camera-icon::after {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: 15px;
+    width: 6px;
+    height: 10px;
+    background-color: #999;
+    border-radius: 2px;
+  }
+
+  /* Lens */
+  .lens {
+    width: 35px;
+    height: 35px;
+    background-color: #222;
+    border: 5px solid #666;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3) inset;
+    position: relative;
+  }
+
+  /* Inner lens glass effect */
+  .lens::after {
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    top: 5px;
+    left: 5px;
+  }
+
+  /* Spinner Circle to simulate rotating lens */
   .spinner-circle {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    border: 5px solid transparent;
+    border: 6px solid transparent;
     border-top-color: #007bff;
     border-radius: 50%;
     animation: spin 1s linear infinite;
+    z-index: -1;
   }
 
   @keyframes spin {
