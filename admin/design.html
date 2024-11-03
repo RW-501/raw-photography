@@ -15,6 +15,34 @@
             transition: background-color 0.3s, color 0.3s, font-family 0.3s;
         }
 
+        .collapsible {
+    margin: 10px 0;
+}
+
+.collapsible-header {
+    background-color: #f1f1f1;
+    color: #444;
+    cursor: pointer;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 16px;
+}
+
+.collapsible-content {
+    display: none; /* Hidden by default */
+    overflow: hidden;
+    padding: 0 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+}
+
+.active {
+    background-color: #ccc; /* Change background color when active */
+}
+
     </style>
 </head>
 <body>
@@ -44,97 +72,127 @@
     <div class="container-fluid admin-container">
 
 
-        <main class="dashboard-content">
-            
+        <main class="dashboard-content"> 
             <h1>Design and Customization</h1>
-        <form id="design-form">
-            <div class="form-group">
-                <label for="themeColor">Theme Color:</label>
-                <input type="color" id="themeColor" name="themeColor" required>
-                <span class="tooltip">Choose the main theme color</span>
+        
+            <!-- Collapsible Website Design Area -->
+            <div class="collapsible">
+                <button class="collapsible-header">Website Design</button>
+                <div class="collapsible-content">
+                    <form id="design-form">
+                        <div class="form-group">
+                            <label for="themeColor">Theme Color:</label>
+                            <input type="color" id="themeColor" name="themeColor" required>
+                            <span class="tooltip">Choose the main theme color</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="fontSelect">Font:</label>
+                            <select id="fontSelect" name="fontSelect">
+                                <option value="Arial">Arial</option>
+                                <option value="Courier New">Courier New</option>
+                                <option value="Georgia">Georgia</option>
+                                <option value="Times New Roman">Times New Roman</option>
+                                <option value="Verdana">Verdana</option>
+                            </select>
+                            <span class="tooltip">Select the font for the website</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="navFontColor">Navigation Font Color:</label>
+                            <input type="color" id="navFontColor" name="navFontColor">
+                            <span class="tooltip">Choose font color for the navigation</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="navBackgroundColor">Navigation Background Color:</label>
+                            <input type="color" id="navBackgroundColor" name="navBackgroundColor">
+                            <span class="tooltip">Choose background color for the navigation</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="footerFontColor">Footer Font Color:</label>
+                            <input type="color" id="footerFontColor" name="footerFontColor">
+                            <span class="tooltip">Choose font color for the footer</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="footerBackgroundColor">Footer Background Color:</label>
+                            <input type="color" id="footerBackgroundColor" name="footerBackgroundColor">
+                            <span class="tooltip">Choose background color for the footer</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="showTime">Display Time in Footer:</label>
+                            <input type="checkbox" id="showTime" name="showTime">
+                            <span class="tooltip">Check to show current time in the footer</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="homePageText">Homepage Text:</label>
+                            <textarea id="homePageText" name="homePageText" rows="4" required></textarea>
+                            <span class="tooltip">Update the text displayed on the homepage</span>
+                        </div>
+                        <button type="submit">Save Changes</button>
+                        <button type="button" id="reset-button">Reset</button>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="fontSelect">Font:</label>
-                <select id="fontSelect" name="fontSelect">
-                    <option value="Arial">Arial</option>
-                    <option value="Courier New">Courier New</option>
-                    <option value="Georgia">Georgia</option>
-                    <option value="Times New Roman">Times New Roman</option>
-                    <option value="Verdana">Verdana</option>
-                </select>
-                <span class="tooltip">Select the font for the website</span>
+        
+            <!-- Collapsible Home Page Design Area -->
+            <div class="collapsible">
+                <button class="collapsible-header">Home Page Design</button>
+                <div class="collapsible-content">
+                    <form id="settings-form">
+                        <label for="headerTitle">Header Title:</label>
+                        <input type="text" id="headerTitle" required>
+                        
+                        <label for="headerSubtitle">Header Subtitle:</label>
+                        <input type="text" id="headerSubtitle" required>
+                        
+                        <label for="navigationItems">Navigation Items (comma-separated):</label>
+                        <input type="text" id="navigationItems" required>
+                
+                        <label for="galleryTitle">Gallery Title:</label>
+                        <input type="text" id="galleryTitle" required>
+                
+                        <label for="galleryItems">Gallery Items (comma-separated URLs):</label>
+                        <input type="text" id="galleryItems" required>
+                
+                        <label for="testimonialsTitle">Testimonials Title:</label>
+                        <input type="text" id="testimonialsTitle" required>
+                
+                        <label for="testimonials">Testimonials (comma-separated):</label>
+                        <input type="text" id="testimonials" required>
+                
+                        <label for="contactTitle">Contact Title:</label>
+                        <input type="text" id="contactTitle" required>
+                
+                        <button type="submit">Update Settings</button>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="navFontColor">Navigation Font Color:</label>
-                <input type="color" id="navFontColor" name="navFontColor">
-                <span class="tooltip">Choose font color for the navigation</span>
+        
+            <!-- Collapsible Events Page Area -->
+            <div class="collapsible">
+                <button class="collapsible-header">Events Page</button>
+                <div class="collapsible-content">
+                    <p>Content for the Events page goes here.</p>
+                    <!-- You can add a form or more content as needed -->
+                </div>
             </div>
-            <div class="form-group">
-                <label for="navBackgroundColor">Navigation Background Color:</label>
-                <input type="color" id="navBackgroundColor" name="navBackgroundColor">
-                <span class="tooltip">Choose background color for the navigation</span>
+        
+            <!-- Collapsible Contact Page Area -->
+            <div class="collapsible">
+                <button class="collapsible-header">Contact Page</button>
+                <div class="collapsible-content">
+                    <p>Content for the Contact page goes here.</p>
+                    <!-- You can add a form or more content as needed -->
+                </div>
             </div>
-            <div class="form-group">
-                <label for="footerFontColor">Footer Font Color:</label>
-                <input type="color" id="footerFontColor" name="footerFontColor">
-                <span class="tooltip">Choose font color for the footer</span>
+        
+            <div id="success-message" class="hidden">Changes saved successfully!</div>
+            <div id="error-message" class="hidden">Error saving changes. Please try again.</div>
+        
+            <div id="live-preview">
+                <h2>Live Preview</h2>
+                <p>This is a live preview of your changes.</p>
             </div>
-            <div class="form-group">
-                <label for="footerBackgroundColor">Footer Background Color:</label>
-                <input type="color" id="footerBackgroundColor" name="footerBackgroundColor">
-                <span class="tooltip">Choose background color for the footer</span>
-            </div>
-            <div class="form-group">
-                <label for="showTime">Display Time in Footer:</label>
-                <input type="checkbox" id="showTime" name="showTime">
-                <span class="tooltip">Check to show current time in the footer</span>
-            </div>
-            <div class="form-group">
-                <label for="homePageText">Homepage Text:</label>
-                <textarea id="homePageText" name="homePageText" rows="4" required></textarea>
-                <span class="tooltip">Update the text displayed on the homepage</span>
-            </div>
-            <button type="submit">Save Changes</button>
-            <button type="button" id="reset-button">Reset</button>
-        </form>
-
-        <form id="settings-form">
-            <label for="headerTitle">Header Title:</label>
-            <input type="text" id="headerTitle" required>
-            
-            <label for="headerSubtitle">Header Subtitle:</label>
-            <input type="text" id="headerSubtitle" required>
-            
-            <label for="navigationItems">Navigation Items (comma-separated):</label>
-            <input type="text" id="navigationItems" required>
-    
-            <label for="galleryTitle">Gallery Title:</label>
-            <input type="text" id="galleryTitle" required>
-    
-            <label for="galleryItems">Gallery Items (comma-separated URLs):</label>
-            <input type="text" id="galleryItems" required>
-    
-            <label for="testimonialsTitle">Testimonials Title:</label>
-            <input type="text" id="testimonialsTitle" required>
-    
-            <label for="testimonials">Testimonials (comma-separated):</label>
-            <input type="text" id="testimonials" required>
-    
-            <label for="contactTitle">Contact Title:</label>
-            <input type="text" id="contactTitle" required>
-    
-            <button type="submit">Update Settings</button>
-        </form>
-    
-        <div id="success-message" class="hidden">Changes saved successfully!</div>
-        <div id="error-message" class="hidden">Error saving changes. Please try again.</div>
-
-        <div id="live-preview">
-            <h2>Live Preview</h2>
-            <p>This is a live preview of your changes.</p>
-        </div>
-
         </main>
+        
     </div>
 
 
@@ -278,6 +336,34 @@
    
         // Load styles on page load
         window.onload = loadStyles;
+
+
+
+
+
+
+
+
+
+        document.querySelectorAll('.collapsible-header').forEach(header => {
+    header.addEventListener('click', function() {
+        // Toggle the active class on the header
+        this.classList.toggle('active');
+
+        // Toggle the display of the collapsible content
+        const content = this.nextElementSibling;
+        if (content.style.display === "block") {
+            content.style.display = "none";
+        } else {
+            content.style.display = "block";
+        }
+    });
+});
+
+
+
+
+
     </script>
 </body>
 </html>
