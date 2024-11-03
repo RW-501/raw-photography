@@ -45,36 +45,33 @@
         <p>&copy; 2024 RAW Photography. All Rights Reserved.</p>
         <p><small>Privacy Policy | Terms of Service</small></p>
     </footer>
-    <script src="js/firebaseConfig.js"></script>
     <script src="js/main.js"></script>
 
     <!-- Include your firebaseConfig.js as a module -->
     <script type="module">
         import { db, storage } from './js/firebaseConfig.js';
+        import { collection, getDocs, doc, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js'; // Import necessary Firestore functions
 
-
-// EVENTS.HTML
-
-// Fetch events from Firestore and populate the gallery
-function fetchEvents() {
-    db.collection("events").get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            const eventData = doc.data();
-            const eventItem = document.createElement("div");
-            eventItem.className = "event-item";
-            eventItem.innerHTML = `
-                <img src="${eventData.coverImage}" alt="${eventData.title}" onclick="openModal('${doc.id}')">
-                <h2>${eventData.title}</h2>
-            `;
-            document.getElementById("eventGalleryGrid").appendChild(eventItem);
-        });
+async function fetchEvents() {
+    const eventsCollection = collection(db, "events");
+    const querySnapshot = await getDocs(eventsCollection);
+    querySnapshot.forEach((doc) => {
+        const eventData = doc.data();
+        const eventItem = document.createElement("div");
+        eventItem.className = "event-item";
+        eventItem.innerHTML = `
+            <img src="${eventData.coverImage}" alt="${eventData.title}" onclick="openModal('${doc.id}')">
+            <h2>${eventData.title}</h2>
+        `;
+        document.getElementById("eventGalleryGrid").appendChild(eventItem);
     });
 }
 
-// Open modal with event details
-function openModal(eventId) {
-    db.collection("events").doc(eventId).get().then((doc) => {
-        const eventData = doc.data();
+async function openModal(eventId) {
+    const eventDoc = doc(db, "events", eventId);
+    const docSnapshot = await getDoc(eventDoc);
+    if (docSnapshot.exists()) {
+        const eventData = docSnapshot.data();
         const modalContent = document.getElementById("modalContent");
         modalContent.innerHTML = `
             <h2>${eventData.title}</h2>
@@ -84,7 +81,7 @@ function openModal(eventId) {
             </div>
         `;
         document.getElementById("eventModal").style.display = "block";
-    });
+    }
 }
 
 // Close the modal
