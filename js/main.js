@@ -77,7 +77,6 @@ function showToast(message, type = 'info', duration = 3000) {
 
 async function applyStylesFromSettings() {
     // Fetch settings from Firestore
-    const db = firebase.firestore();
     try {
         const doc = await db.collection('settings').doc('siteDesign').get();
 
