@@ -74,15 +74,18 @@ function showToast(message, type = 'info', duration = 3000) {
 // showToast('This is an info message!', 'info');
 // showToast('This is a warning message!', 'warning');
 
-import { db, doc, collection, storage } from '../js/firebaseConfig.js';
+import { db, doc, getDoc, collection, storage } from '../js/firebaseConfig.js';
 
 async function applyStylesFromSettings() {
-    // Fetch settings from Firestore
     try {
-        const doc = await db.collection('settings').doc('siteDesign').get();
+        // Reference the document in the 'settings' collection
+        const settingsDocRef = doc(db, 'settings', 'siteDesign');
+        
+        // Fetch the document
+        const docSnap = await getDoc(settingsDocRef);
 
-        if (doc.exists) {
-            const data = doc.data();
+        if (docSnap.exists()) {
+            const data = docSnap.data();
 
             // Create a style element
             const style = document.createElement('style');
@@ -115,7 +118,6 @@ async function applyStylesFromSettings() {
         console.error("Error fetching styles: ", error);
     }
 }
-
 // Call the function to apply styles
 applyStylesFromSettings();
 
