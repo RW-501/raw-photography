@@ -296,7 +296,7 @@
 document.getElementById("contactForm").addEventListener("submit", function(event) {
     event.preventDefault(); // Prevent the default form submission behavior
 
-    window.showLoadingSpinner(false); // Show spinner during processing
+    showLoadingSpinner(false); // Show spinner during processing
 
     // Get form values and sanitize them
     const name = sanitizeInput(document.getElementById('name').value);
@@ -311,7 +311,7 @@ document.getElementById("contactForm").addEventListener("submit", function(event
         const formResponse = document.getElementById("formResponse");
         formResponse.textContent = 'Invalid characters detected in form. Please remove any special characters.';
         formResponse.style.color = 'red';
-        window.showLoadingSpinner();
+        showLoadingSpinner();
         return;
     }
 
