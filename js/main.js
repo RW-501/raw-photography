@@ -122,15 +122,18 @@ async function applyStylesFromSettings() {
 applyStylesFromSettings();
 
 // Function to fetch settings and update footer elements
-async function updateFooterElements() {
-    try {
 
-        // Fetch social media links and other websites from the 'social_media' document
-        const socialMediaDoc = await db.collection("settings").doc("social_media").get();
+async function updateFooterElements() { 
+    try {
+        // Reference to the 'social_media' document in the 'settings' collection
+        const socialMediaDocRef = doc(db, "settings", "social_media");
+        
+        // Fetch the 'social_media' document
+        const socialMediaDocSnap = await getDoc(socialMediaDocRef);
         const socialIconsContainer = document.querySelector(".social-icons");
 
-        if (socialMediaDoc.exists) {
-            const socialMediaData = socialMediaDoc.data();
+        if (socialMediaDocSnap.exists()) {
+            const socialMediaData = socialMediaDocSnap.data();
             
             // Clear existing social links
             socialIconsContainer.innerHTML = "";
@@ -152,7 +155,6 @@ async function updateFooterElements() {
                 } else if (key.toLowerCase() === "twitter") {
                     icon = `<i class="fab fa-twitter"></i>`;
                 } else {
-                    // Default icon or name if it's another website
                     icon = `<i class="fas fa-globe"></i> ${key.charAt(0).toUpperCase() + key.slice(1)}`;
                 }
 
@@ -163,12 +165,15 @@ async function updateFooterElements() {
             console.error("No 'social_media' document found.");
         }
 
-        // Fetch footer text content from the 'footer' document
-        const footerDoc = await db.collection("settings").doc("footer").get();
-        if (footerDoc.exists) {
-            const footerData = footerDoc.data();
+        // Reference to the 'footer' document in the 'settings' collection
+        const footerDocRef = doc(db, "settings", "footer");
+        
+        // Fetch the 'footer' document
+        const footerDocSnap = await getDoc(footerDocRef);
+        if (footerDocSnap.exists()) {
+            const footerData = footerDocSnap.data();
             const currentYear = new Date().getFullYear();
-            document.querySelector("footer-body p").innerHTML = 
+            document.querySelector(".footer-body p").innerHTML = 
                 `${footerData.copyrightText} &copy; ${currentYear}`;
         } else {
             console.error("No 'footer' document found.");
