@@ -7,8 +7,7 @@
     <!-- Bootstrap CSS for styling -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/admin.css">
-  <script src="js/firebaseConfig.js" defer></script>
-    <script src="js/admin.js" defer></script>
+
     <style>
         body {
             background-color: #f8f9fa;
@@ -118,7 +117,10 @@
     </div>
 
     <!-- Include your firebaseConfig.js as a module -->
-    <script type="module" src="./js/firebaseConfig.js">
+    <script type="module" src="./js/firebaseConfig.js"></script> 
+
+    <!-- module -->
+    <script type="module">
     import { db, storage,auth } from './js/firebaseConfig.js';
         import { collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js'; // Import necessary Firestore functions
 
