@@ -1,27 +1,49 @@
-function replaceNavbarNav() {
-    // Select the .navbar-nav element within the .admin-header
-    const navbarNav = document.querySelector('.admin-header .navbar-nav');
 
-    // If .navbar-nav is found, proceed
-    if (navbarNav) {
-        // Define the new list items for .navbar-nav
-        const newNavItemsHTML = `
-            <li class="nav-item"><a class="nav-link" href="../index">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="../admin/dashboard">Dashboard</a></li>
-            <li class="nav-item"><a class="nav-link" href="design">Design</a></li>
-            <li class="nav-item"><a class="nav-link" href="images">Images</a></li>
-            <li class="nav-item"><a class="nav-link" href="analytics">Analytics</a></li>
-            <li class="nav-item"><a class="nav-link" href="purchases">Purchases</a></li>
-            <li class="nav-item"><a class="nav-link" href="appointments">Appointments</a></li>
-            <li class="nav-item"><a class="nav-link" href="settings">Settings</a></li>
-        `;
+import {  db, doc,getDoc, query, updateDoc,
+    setDoc,     signInWithPopup,
+    GoogleAuthProvider,
+    FacebookAuthProvider,
+    OAuthProvider,
+    signOut,
+    onAuthStateChanged,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    where, getDocs, storage, collection, auth, analytics } from '../js/firebaseConfig.js';
 
-        // Replace the contents of .navbar-nav with the new items
-        navbarNav.innerHTML = newNavItemsHTML;
-    } else {
-        console.error("The .navbar-nav element within .admin-header was not found.");
-    }
+
+
+
+
+function replaceNavbarNav() { 
+    // Select the .admin-header element
+    const adminHeader = document.querySelector('.admin-header');
+
+    // If .admin-header is found, check for .navbar-nav within it
+    if (adminHeader) {
+        const navbarNav = adminHeader.querySelector('.navbar-nav');
+
+        // If .navbar-nav is found, proceed
+        if (navbarNav) {
+            // Define the new list items for .navbar-nav
+            const newNavItemsHTML = `
+                <li class="nav-item"><a class="nav-link" href="../index">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="../admin/dashboard">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="design">Design</a></li>
+                <li class="nav-item"><a class="nav-link" href="images">Images</a></li>
+                <li class="nav-item"><a class="nav-link" href="analytics">Analytics</a></li>
+                <li class="nav-item"><a class="nav-link" href="purchases">Purchases</a></li>
+                <li class="nav-item"><a class="nav-link" href="appointments">Appointments</a></li>
+                <li class="nav-item"><a class="nav-link" href="settings">Settings</a></li>
+            `;
+
+            // Replace the contents of .navbar-nav with the new items
+            navbarNav.innerHTML = newNavItemsHTML;
+        } else {
+            console.warn("The .navbar-nav element was not found within .admin-header.");
+        }
+    } 
 }
+
 
 // Run the function to replace the .navbar-nav content
 replaceNavbarNav();
