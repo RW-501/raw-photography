@@ -8,8 +8,9 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/admin.css">
 
+    <script src="js/admin.js" defer></script>
     <style>
-        body {
+            body {
             background-color: #f8f9fa;
         }
         .login-container {
@@ -115,11 +116,16 @@
             </div>
         </div>
     </div>
+    
+    <!-- Footer -->
+    <footer id="site-footer">
+        <p>&copy; 2024 RAW Photography. All Rights Reserved.</p>
+        <p><small>Privacy Policy | Terms of Service</small></p>
+    </footer>
+    <script src="js/firebaseConfig.js"></script>
+    <script src="js/main.js"></script>
 
     <!-- Include your firebaseConfig.js as a module -->
-    <script type="module" src="./js/firebaseConfig.js"></script> 
-
-    <!-- module -->
     <script type="module">
     import { db, storage,auth } from './js/firebaseConfig.js';
         import { collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js'; // Import necessary Firestore functions
@@ -234,13 +240,7 @@
         });
     </script>
 
-    <!-- Footer -->
-    <footer class="bg-dark text-white text-center py-3 mt-5">
-        <div class="container">
-            <p>&copy; 2024 Your Company Name. All rights reserved.</p>
-            <p><small>Privacy Policy | Terms of Service</small></p>
-        </div>
-    </footer>
+
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
