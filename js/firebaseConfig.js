@@ -72,7 +72,6 @@ let analytics;
 // Function to initialize Firebase
 function initializeFirebase() {
 
-
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
     apiKey: "AIzaSyC2bb6osv0jnvpnETCVoG6bvBynGGsOVaw",
@@ -84,7 +83,7 @@ const firebaseConfig = {
     appId: "1:1078385378836:web:bb8f9611bfbdac1e480901",
     measurementId: "G-0DLEHE7DEK"
   };
-  
+
     try {
         const app = initializeApp(firebaseConfig);
          auth = getAuth(app); // Initialize auth
@@ -104,8 +103,8 @@ const firebaseConfig = {
 }
 
 // Load Firebase SDKs when the DOM is fully loaded
-document.addEventListener('DOMContentLoaded', loadFirebaseSDKs);
-
+//document.addEventListener('DOMContentLoaded', loadFirebaseSDKs);
+document.addEventListener('DOMContentLoaded', initializeFirebase);
 
 // Export Firestore, Storage, and Auth instances for use in other modules
 export { db, doc, getDoc, query, updateDoc, setDoc, addDoc, signInWithPopup,FacebookAuthProvider, GoogleAuthProvider, OAuthProvider, signOut, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, where, getDocs, storage, collection, auth, analytics };
