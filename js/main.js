@@ -146,7 +146,7 @@ function showLoadingSpinner(automatic = true) {
     loadingContainer.style.display = 'flex';
 
     // If `manual` is false, hide the spinner automatically after 3 seconds
-    if (!automatic) {
+    if (automatic == true) {
         setTimeout(() => {
             hideLoadingSpinner();
         }, 3000); // 3000 milliseconds = 3 seconds
