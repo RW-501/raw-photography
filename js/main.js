@@ -1,6 +1,117 @@
 
 console.log("Page loaded main ?????????????");
 
+// Create the CSS styles as a string
+const styles = `
+  #loadingContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+
+  #cameraSpinner {
+    position: relative;
+    width: 100px;
+    height: 100px;
+  }
+
+  .camera-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .camera-icon .lens {
+    width: 25px;
+    height: 25px;
+    background-color: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .spinner-circle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 5px solid transparent;
+    border-top-color: #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+`;
+
+// Create a style element and add the CSS to the document head
+const styleSheet = document.createElement('style');
+styleSheet.type = 'text/css';
+styleSheet.innerText = styles;
+document.head.appendChild(styleSheet);
+
+// Create the main loading container
+const loadingContainer = document.createElement('div');
+loadingContainer.id = 'loadingContainer';
+
+// Create the camera icon with spinner
+const cameraSpinner = document.createElement('div');
+cameraSpinner.id = 'cameraSpinner';
+cameraSpinner.innerHTML = `
+  <div class="camera-icon">
+    <div class="lens"></div>
+  </div>
+  <div class="spinner-circle"></div>
+`;
+
+// Append camera spinner to loading container
+loadingContainer.appendChild(cameraSpinner);
+
+// Add the loading container to the body
+document.body.appendChild(loadingContainer);
+
+// Optionally, set display to none initially if you want it hidden by default
+loadingContainer.style.display = 'none';
+
+
+
+// Function to show the loading spinner on page load
+function showLoadingSpinner() {
+    // Make the loading container visible
+    loadingContainer.style.display = 'flex';
+  
+    // Set a timeout to hide the spinner after 3 seconds
+    setTimeout(() => {
+      loadingContainer.style.display = 'none';
+    }, 3000); // 3000 milliseconds = 3 seconds
+  }
+  
+  // Call the function when the page loads
+  window.addEventListener('load', showLoadingSpinner);
+  
+
         // Auto move to next input (if applicable)
         const inputs = document.querySelectorAll('input');
         inputs.forEach((input, index) => {
