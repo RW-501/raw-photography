@@ -209,6 +209,19 @@ function hideLoadingSpinner() {
   window.addEventListener('load', showLoadingSpinner);
   
 
+        // Sanitize user input to escape HTML characters
+        function sanitizeInput(input) {
+          const div = document.createElement('div');
+          div.appendChild(document.createTextNode(input));
+          return div.innerHTML;
+      }
+      
+      // Function to check if input contains potential script injection characters
+      function isSafeInput(input) {
+          const dangerousPatterns = /(<|>|"|;|&|\$|\(|\)|\*|\\|\/|script|SELECT|UPDATE|DELETE|INSERT|DROP|TABLE|ALTER)/i;
+          return !dangerousPatterns.test(input);
+      }
+      
         // Auto move to next input (if applicable)
         const inputs = document.querySelectorAll('input');
         inputs.forEach((input, index) => {

@@ -200,10 +200,15 @@
             <input type="text" id="name" required>
 
             <label for="email">Email</label>
-            <input type="email" id="email" required>
+            <input type="email" id="email" >
+
+            <label for="phone">Email</label>
+            <input type="tel" id="phone" required>
 
             <label for="message">Message</label>
             <textarea id="message" required></textarea>
+
+            <div id="formResponse"></div>
 
             <button id="send-message-btn" type="submit">Send Message</button>
         </form>
@@ -321,10 +326,54 @@
 
         // Handle form submission
         document.getElementById("contactForm").addEventListener("submit", function (event) {
-            event.preventDefault();
-            // Implement your form submission logic (e.g., send to Firestore)
-            showToast("Message sent!", 'success');
-            event.target.reset();
+            event.preventDefault(); // Prevent the default form submission behavior
+
+window.showLoadingSpinner(false); // Show spinner during processing
+
+// Get form values and sanitize them
+const name = sanitizeInput(document.getElementById('name').value);
+const email = sanitizeInput(document.getElementById('email').value);
+const phone = sanitizeInput(document.getElementById('phone').value);
+const message = sanitizeInput(document.getElementById('message').value);
+
+// Input validation
+if (!isSafeInput(name) || !isSafeInput(email) || !isSafeInput(phone) || !isSafeInput(message)) {
+    const formResponse = document.getElementById("formResponse");
+    formResponse.textContent = 'Invalid characters detected in form. Please remove any special characters.';
+    formResponse.style.color = 'red';
+    window.showLoadingSpinner();
+    return;
+}
+
+// Prepare data for Firestore
+const formData = {
+    name,
+    email,
+    phone,
+    subject,
+    messageType,
+    message,
+    timestamp: new Date()  // Optional: Add timestamp
+};
+
+// Simulate an API call with a delay
+setTimeout(() => {
+    showToast('Message sent successfully!', 'success');
+    window.showLoadingSpinner();
+
+    // Clear the form
+    document.getElementById("contactForm").reset();
+
+    // Clear any previous response messages
+    const formResponse = document.getElementById("formResponse");
+    formResponse.innerHTML = ""; 
+
+ 
+    event.target.reset();
+
+}, 2000);
+
+
 
         });
 
