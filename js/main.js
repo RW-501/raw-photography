@@ -3,21 +3,25 @@ console.log("Page loaded main ?????????????");
 
         // Auto move to next input (if applicable)
         const inputs = document.querySelectorAll('input');
-        inputs.forEach(input => {
+        inputs.forEach((input, index) => {
             input.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') {
+                    console.log("Pressed Enter on:", input);
                     
-console.log("e.key ????   ",e.key);
-
-                    const nextInput = e.target.nextElementSibling;
+                    // Prevent form submission if Enter is pressed
+                    e.preventDefault();
+        
+                    // Find the next input in the NodeList
+                    const nextInput = inputs[index + 1];
+                    
                     if (nextInput) {
                         nextInput.focus();
-                        console.log("nextInput ????   ",nextInput);
-
+                        console.log("Focused on next input:", nextInput);
                     }
                 }
             });
         });
+        
 
 // Toast Notification Function
 function showToast(message, type = 'info', duration = 3000) {
