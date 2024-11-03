@@ -122,12 +122,11 @@
         <p>&copy; 2024 RAW Photography. All Rights Reserved.</p>
         <p><small>Privacy Policy | Terms of Service</small></p>
     </footer>
-    <script src="js/firebaseConfig.js"></script>
     <script src="js/main.js"></script>
 
     <!-- Include your firebaseConfig.js as a module -->
     <script type="module">
-    import { db, storage,auth } from 'js/firebaseConfig.js';
+    import { db, storage,auth } from './js/firebaseConfig.js';
         import { collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js'; // Import necessary Firestore functions
 
 
