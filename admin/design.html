@@ -242,207 +242,220 @@
         <!-- Include your firebaseConfig.js as a module -->
         <script type="module">
             import { db, storage } from '../js/firebaseConfig.js';
-            import { collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js'; // Import necessary Firestore functions
-    
-
-
-        // Function to apply styles dynamically
-        function applyStyles(styles) {
-            const livePreview = document.getElementById('live-preview');
-            livePreview.style.backgroundColor = styles.themeColor;
-            livePreview.style.color = styles.navFontColor;
-            livePreview.style.fontFamily = styles.font;
-            document.querySelector('nav').style.backgroundColor = styles.navBackgroundColor;
-            document.querySelector('nav').style.color = styles.navFontColor;
-            document.querySelector('footer').style.backgroundColor = styles.footerBackgroundColor;
-            document.querySelector('footer').style.color = styles.footerFontColor;
-        }
-
-        // Load existing styles from Firestore
-        async function loadStyles() {
-            const doc = await db.collection('settings').doc('siteDesign').get();
-            if (doc.exists) {
-                applyStyles(doc.data());
-            } else {
-                console.log("No such document!");
+            import { collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js';
+        
+            // ** Function to Show Toast Notifications **
+            function showToast(message, type = 'info', duration = 3000) {
+                // Implement your toast display logic here
+                console.log(`${type.toUpperCase()}: ${message}`);
             }
-        }
-
-        // Update live preview on input change
-        document.getElementById('design-form').addEventListener('input', (event) => {
-            const themeColor = document.getElementById('themeColor').value;
-            const navFontColor = document.getElementById('navFontColor').value;
-            const navBackgroundColor = document.getElementById('navBackgroundColor').value;
-            const footerFontColor = document.getElementById('footerFontColor').value;
-            const footerBackgroundColor = document.getElementById('footerBackgroundColor').value;
-            const font = document.getElementById('fontSelect').value;
-
-            const styles = {
-                themeColor,
-                navFontColor,
-                navBackgroundColor,
-                footerFontColor,
-                footerBackgroundColor,
-                font
-            };
-
-            applyStyles(styles);
-        });
-
-        document.getElementById('design-form').addEventListener('submit', async (event) => {
-            event.preventDefault();
-            
-            const themeColor = document.getElementById('themeColor').value;
-            const font = document.getElementById('fontSelect').value;
-            const navFontColor = document.getElementById('navFontColor').value || null;
-            const navBackgroundColor = document.getElementById('navBackgroundColor').value || null;
-            const footerFontColor = document.getElementById('footerFontColor').value || null;
-            const footerBackgroundColor = document.getElementById('footerBackgroundColor').value || null;
-            const showTime = document.getElementById('showTime').checked;
-            const homePageText = document.getElementById('homePageText').value;
-
-            try {
-                await db.collection('settings').doc('siteDesign').set({
-                    themeColor,
-                    font,
-                    navFontColor,
-                    navBackgroundColor,
-                    footerFontColor,
-                    footerBackgroundColor,
-                    showTime,
-                    homePageText
-                });
-                document.getElementById('success-message').classList.remove('hidden');
-                document.getElementById('error-message').classList.add('hidden');
-            } catch (error) {
-                console.error("Error saving settings: ", error);
-                document.getElementById('error-message').classList.remove('hidden');
-                document.getElementById('success-message').classList.add('hidden');
+        
+            // ** Function to Apply Styles Dynamically to Preview **
+            function applyStyles(styles) {
+                const livePreview = document.getElementById('live-preview');
+                livePreview.style.backgroundColor = styles.themeColor;
+                livePreview.style.color = styles.navFontColor;
+                livePreview.style.fontFamily = styles.font;
+                document.querySelector('nav').style.backgroundColor = styles.navBackgroundColor;
+                document.querySelector('nav').style.color = styles.navFontColor;
+                document.querySelector('footer').style.backgroundColor = styles.footerBackgroundColor;
+                document.querySelector('footer').style.color = styles.footerFontColor;
             }
-        });
-
-        // Reset functionality
-        document.getElementById('reset-button').addEventListener('click', () => {
-            document.getElementById('design-form').reset();
-            loadStyles(); // Load default styles
-        });
-
-        // Function to update settings in Firestore
-        async function updateSettings(e) {
-            e.preventDefault(); // Prevent form from submitting the traditional way
-
-            // Gather input values
-            const headerTitle = document.getElementById("headerTitle").value;
-            const headerSubtitle = document.getElementById("headerSubtitle").value;
-            const navigationItems = document.getElementById("navigationItems").value.split(',').map(item => item.trim());
-            const galleryTitle = document.getElementById("galleryTitle").value;
-            const galleryItems = document.getElementById("galleryItems").value.split(',').map(item => item.trim());
-            const testimonialsTitle = document.getElementById("testimonialsTitle").value;
-            const testimonials = document.getElementById("testimonials").value.split(',').map(item => item.trim());
-            const contactTitle = document.getElementById("contactTitle").value;
-
-            // Update Firestore document
-            try {
-                await db.collection("settings").doc("Home_Page").set({
-                    headerTitle,
-                    headerSubtitle,
-                    navigationItems,
-                    galleryTitle,
-                    galleryItems,
-                    testimonialsTitle,
-                    testimonials,
-                    contactTitle
-                });
-                showToast("Settings updated successfully!", 'success');
-            } catch (error) {
-                showToast("Failed to update settings. Please try again.", 'error');
+        
+            // ** Function to Load Existing Styles from Firestore to Input Fields **
+            async function loadStyles() {
+                try {
+                    const doc = await db.collection('settings').doc('siteDesign').get();
+                    if (doc.exists) {
+                        const styles = doc.data();
+                        applyStyles(styles);
+                        document.getElementById('themeColor').value = styles.themeColor || '';
+                        document.getElementById('navFontColor').value = styles.navFontColor || '';
+                        document.getElementById('navBackgroundColor').value = styles.navBackgroundColor || '';
+                        document.getElementById('footerFontColor').value = styles.footerFontColor || '';
+                        document.getElementById('footerBackgroundColor').value = styles.footerBackgroundColor || '';
+                        document.getElementById('fontSelect').value = styles.font || '';
+                    } else {
+                        showToast("No style settings found.", "error");
+                    }
+                } catch (error) {
+                    showToast("Failed to load styles. Please try again.", "error");
+                    console.error("Error loading styles:", error);
+                }
             }
-        }
-
-        // Attach event listener to form
-        document.getElementById("settings-form").addEventListener("submit", updateSettings);
-   
-        // Load styles on page load
-        window.onload = loadStyles;
-
-
-    // Function to load current data
-    async function loadSettings() {
-        try {
-            // Load Social Media Links
-            const socialMediaDoc = await db.collection("settings").doc("social_media").get();
-            if (socialMediaDoc.exists) {
-                const socialData = socialMediaDoc.data();
-                document.getElementById("facebook").value = socialData.facebook || "";
-                document.getElementById("instagram").value = socialData.instagram || "";
-                document.getElementById("twitter").value = socialData.twitter || "";
-                document.getElementById("additionalLink").value = socialData.additionalLink || "";
+        
+            // ** Function to Load Current Social Media and Footer Data into Input Fields **
+            async function loadSocialMediaAndFooter() {
+                try {
+                    const socialMediaDoc = await db.collection("settings").doc("social_media").get();
+                    if (socialMediaDoc.exists) {
+                        const socialData = socialMediaDoc.data();
+                        document.getElementById("facebook").value = socialData.facebook || "";
+                        document.getElementById("instagram").value = socialData.instagram || "";
+                        document.getElementById("twitter").value = socialData.twitter || "";
+                        document.getElementById("additionalLink").value = socialData.additionalLink || "";
+                    }
+        
+                    const footerDoc = await db.collection("settings").doc("footer").get();
+                    if (footerDoc.exists) {
+                        const footerData = footerDoc.data();
+                        document.getElementById("footerText").value = footerData.copyrightText || "";
+                    }
+                } catch (error) {
+                    showToast("Failed to load social media and footer settings.", "error");
+                    console.error("Error loading social media and footer settings:", error);
+                }
             }
-
-            // Load Footer Content
-            const footerDoc = await db.collection("settings").doc("footer").get();
-            if (footerDoc.exists) {
-                const footerData = footerDoc.data();
-                document.getElementById("footerText").value = footerData.copyrightText || "";
+        
+            // ** Function to Save Design Settings to Firestore **
+            async function saveDesignSettings(event) {
+                event.preventDefault();
+                const themeColor = document.getElementById('themeColor').value;
+                const font = document.getElementById('fontSelect').value;
+                const navFontColor = document.getElementById('navFontColor').value;
+                const navBackgroundColor = document.getElementById('navBackgroundColor').value;
+                const footerFontColor = document.getElementById('footerFontColor').value;
+                const footerBackgroundColor = document.getElementById('footerBackgroundColor').value;
+                const showTime = document.getElementById('showTime').checked;
+                const homePageText = document.getElementById('homePageText').value;
+        
+                try {
+                    await db.collection('settings').doc('siteDesign').set({
+                        themeColor,
+                        font,
+                        navFontColor,
+                        navBackgroundColor,
+                        footerFontColor,
+                        footerBackgroundColor,
+                        showTime,
+                        homePageText
+                    }, { merge: true });
+                    showToast("Design settings updated successfully!", "success");
+                } catch (error) {
+                    showToast("Failed to update design settings. Please try again.", "error");
+                    console.error("Error saving design settings:", error);
+                }
             }
-        } catch (error) {
-            console.error("Error loading settings:", error);
-        }
-    }
+        
+            // ** Function to Save Social Media Links and Footer Content to Firestore **
+            async function saveSocialMediaAndFooter() {
+                try {
+                    const facebook = document.getElementById("facebook").value;
+                    const instagram = document.getElementById("instagram").value;
+                    const twitter = document.getElementById("twitter").value;
+                    const additionalLink = document.getElementById("additionalLink").value;
+                    const footerText = document.getElementById("footerText").value;
+        
+                    await db.collection("settings").doc("social_media").set({
+                        facebook: facebook || null,
+                        instagram: instagram || null,
+                        twitter: twitter || null,
+                        additionalLink: additionalLink || null
+                    }, { merge: true });
+        
+                    await db.collection("settings").doc("footer").set({
+                        copyrightText: footerText
+                    }, { merge: true });
+        
+                    showToast("Social media and footer settings updated successfully!", "success");
+                } catch (error) {
+                    showToast("Failed to update social media and footer settings. Please try again.", "error");
+                    console.error("Error updating social media and footer settings:", error);
+                }
+            }
+        
+            // ** Update Live Preview on Input Change **
+            document.getElementById('design-form').addEventListener('input', () => {
+                const themeColor = document.getElementById('themeColor').value;
+                const navFontColor = document.getElementById('navFontColor').value;
+                const navBackgroundColor = document.getElementById('navBackgroundColor').value;
+                const footerFontColor = document.getElementById('footerFontColor').value;
+                const footerBackgroundColor = document.getElementById('footerBackgroundColor').value;
+                const font = document.getElementById('fontSelect').value;
+        
+                applyStyles({ themeColor, navFontColor, navBackgroundColor, footerFontColor, footerBackgroundColor, font });
+            });
+        
+            // ** Form Submission Event Listeners **
+            document.getElementById('design-form').addEventListener('submit', saveDesignSettings);
+            document.getElementById('settings-form').addEventListener('submit', saveSocialMediaAndFooter);
+        
+            // ** Load Settings on Page Load **
+            document.addEventListener("DOMContentLoaded", () => {
+                loadStyles();
+                loadSocialMediaAndFooter();
+            });
+        
+            // ** Reset Button Functionality **
+            document.getElementById('reset-button').addEventListener('click', () => {
+                document.getElementById('design-form').reset();
+                loadStyles(); // Reload initial styles
+                showToast("Settings reset to last saved values.", "info");
+            });
+       
+        
 
-    // Function to update social media links and footer text
-    async function updateSettings() {
-        try {
-            // Get values from input fields
-            const facebook = document.getElementById("facebook").value;
-            const instagram = document.getElementById("instagram").value;
-            const twitter = document.getElementById("twitter").value;
-            const additionalLink = document.getElementById("additionalLink").value;
-            const footerText = document.getElementById("footerText").value;
-
-            // Update social media links in Firestore
-            await db.collection("settings").doc("social_media").set({
-                facebook: facebook || null,
-                instagram: instagram || null,
-                twitter: twitter || null,
-                additionalLink: additionalLink || null
-            }, { merge: true });
-
-            // Update footer content in Firestore
-            await db.collection("settings").doc("footer").set({
-                copyrightText: footerText
-            }, { merge: true });
-
-            showToast("Settings updated successfully!");
-        } catch (error) {
-            console.error("Error updating settings:", error);
-            showToast("Failed to update settings. Please try again.");
-        }
-    }
-
-    // Load settings when the page is loaded
-    document.addEventListener("DOMContentLoaded", loadSettings);
-
-
-
-
-
-
-
-        document.querySelectorAll('.collapsible-header').forEach(header => {
-    header.addEventListener('click', function() {
+      // ** Toggle Collapsible Section and Save Inputs to Local Storage **
+document.querySelectorAll('.collapsible-header').forEach((header, index) => {
+    header.addEventListener('click', function () {
         // Toggle the active class on the header
         this.classList.toggle('active');
 
         // Toggle the display of the collapsible content
         const content = this.nextElementSibling;
-        if (content.style.display === "block") {
-            content.style.display = "none";
-        } else {
-            content.style.display = "block";
-        }
+        content.style.display = content.style.display === "block" ? "none" : "block";
+
+        // Save input values to local storage on each toggle
+        saveInputsToLocalStorage(index);
     });
 });
+
+// ** Function to Save All Inputs within a Collapsible Section to Local Storage **
+function saveInputsToLocalStorage(sectionIndex) {
+    const section = document.querySelectorAll('.collapsible-header')[sectionIndex].nextElementSibling;
+    const inputs = section.querySelectorAll('input, select, textarea'); // Collect all form elements
+
+    inputs.forEach(input => {
+        if (input.type === 'checkbox') {
+            localStorage.setItem(input.id, input.checked); // Save checkbox state
+        } else {
+            localStorage.setItem(input.id, input.value); // Save text, select, textarea values
+        }
+    });
+}
+
+// ** Load Inputs from Local Storage on Page Load **
+function loadInputsFromLocalStorage() {
+    document.querySelectorAll('.collapsible-header').forEach((header, index) => {
+        const section = header.nextElementSibling;
+        const inputs = section.querySelectorAll('input, select, textarea');
+
+        inputs.forEach(input => {
+            if (input.type === 'checkbox') {
+                input.checked = JSON.parse(localStorage.getItem(input.id)) || false;
+            } else {
+                input.value = localStorage.getItem(input.id) || '';
+            }
+        });
+
+        // Optionally, restore the collapsible open/close state from local storage
+        const isExpanded = localStorage.getItem(`sectionExpanded_${index}`) === "true";
+        section.style.display = isExpanded ? "block" : "none";
+        if (isExpanded) header.classList.add('active');
+    });
+}
+
+// ** Store Collapsible Expanded/Collapsed State on Change **
+document.querySelectorAll('.collapsible-header').forEach((header, index) => {
+    header.addEventListener('click', function () {
+        const isExpanded = this.classList.contains('active');
+        localStorage.setItem(`sectionExpanded_${index}`, isExpanded);
+    });
+});
+
+// ** Load Saved Inputs and Collapsible State on Page Load **
+document.addEventListener("DOMContentLoaded", loadInputsFromLocalStorage);
+
 
 
 

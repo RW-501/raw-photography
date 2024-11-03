@@ -70,7 +70,7 @@ function showToast(message, type = 'info', duration = 3000) {
 
 // Example usage: Replace alerts with showToast
 // showToast('This is a success message!', 'success');
-// showToast('This is an error message!', 'error');
+// showToast('This is an error message!', 'error', duration);
 // showToast('This is an info message!', 'info');
 // showToast('This is a warning message!', 'warning');
 
