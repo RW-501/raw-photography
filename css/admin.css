@@ -6,7 +6,21 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
+    animation: backgroundFade 2s ease forwards;
+
 }
+
+
+/* Keyframes for fading background color */
+@keyframes backgroundFade {
+    from {
+        background-color: #ffffff !important; /* Start with white */
+    }
+    to {
+        background-color: #f4f4f4 !important; /* Fade to target color */
+    }
+}
+
         /* Add responsive styles */
         @media (max-width: 600px) {
             body {
