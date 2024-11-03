@@ -193,7 +193,7 @@ function showLoadingSpinner(automatic = true) {
     console.log("automatic  ",automatic);
 
     // If `manual` is false, hide the spinner automatically after 3 seconds
-    if (automatic == true || automatic == null) {
+    if (automatic === true || automatic === null) {
         setTimeout(() => {
             hideLoadingSpinner();
         }, 3000); // 3000 milliseconds = 3 seconds
