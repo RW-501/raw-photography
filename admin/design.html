@@ -601,7 +601,7 @@
 
             // Update Firestore document
             try {
-                await db.collection("settings").doc("Home_Page").set(updatedData, { merge: true });
+                await db.collection("settings").doc("home_Page").set(updatedData, { merge: true });
                 document.getElementById("responseMessage").innerText = "Settings updated successfully!";
                 loadSettings(); // Reload settings to show updated values
             } catch (error) {

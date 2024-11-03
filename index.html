@@ -245,7 +245,7 @@
     where, getDocs, storage, collection, auth, analytics  } from './js/firebaseConfig.js';
 
         async function loadSettings() {
-    const docRef = doc(db, "settings", "Home_Page"); // Reference to the Home_Page document
+    const docRef = doc(db, "settings", "home_Page"); // Reference to the Home_Page document
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
