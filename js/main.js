@@ -4,7 +4,7 @@ import {  db, doc,getDoc, query, updateDoc,
   FacebookAuthProvider,
   OAuthProvider,
   signOut,
-  onAuthStateChanged, firestore,
+  onAuthStateChanged, 
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   where, getDocs, storage, collection, auth, analytics } from '../js/firebaseConfig.js';
