@@ -13,6 +13,8 @@ import {  db, doc,getDoc, query, updateDoc,
 
 
 
+    console.log("Page loaded admin ?????????????");
+
 
 function replaceNavbarNav() { 
     // Select the .admin-header element

@@ -1,12 +1,13 @@
 
 
-console.log("Page loaded ?????????????");
-
         // Auto move to next input (if applicable)
         const inputs = document.querySelectorAll('input');
         inputs.forEach(input => {
             input.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') {
+                    
+console.log("e.key ????   ",e.key);
+
                     const nextInput = e.target.nextElementSibling;
                     if (nextInput) {
                         nextInput.focus();
