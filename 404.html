@@ -5,57 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 Not Found</title>
     <link rel="stylesheet" href="css/main.css"> <!-- Link to your main stylesheet -->
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f9f9f9;
-            color: #333;
-            text-align: center;
-        }
-        h1 {
-            font-size: 3em;
-            margin: 0;
-            color: #ff6347; /* Tomato color for a pop */
-        }
-        p {
-            font-size: 1.2em;
-            margin: 1em 0;
-        }
-        a {
-            text-decoration: none;
-            color: #007bff; /* Bootstrap primary color */
-            font-weight: bold;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            margin-top: 20px;
-            border: none;
-            background-color: #007bff; /* Bootstrap primary color */
-            color: white;
-            font-size: 1em;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .button:hover {
-            background-color: #0056b3; /* Darker blue on hover */
-        }
-    </style>
+
 </head>
 <body>
+
+    <!-- Header -->
+    <header id="site-header">
+        <h1>Welcome to RAW Photography</h1>
+        <p>Capturing Moments, One Click at a Time</p>
+        <nav>
+            <ul>
+                <li><a href="index">Home</a></li>
+                <li><a href="events">Events</a></li>
+                <li><a href="portfolio">Portfolio</a></li>
+                <li><a href="contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
     <h1>404</h1>
     <p>Oops! The page you are looking for could not be found.</p>
     <p>It may have been removed, or you may have entered the wrong URL.</p>
-    <p>You can return to the <a href="index.html">home page</a> or explore our <a href="events.html">events</a>.</p>
-    <button class="button" onclick="window.location.href='index.html'">Go to Home</button>
+    <p>You can return to the <a href="index">home page</a> or explore our <a href="events">events</a>.</p>
+    <button class="button" onclick="window.location.href='index'">Go to Home</button>
+
+
+
+
+ <!-- Footer -->
+ <footer id="site-footer">
+    <div class="social-icons">
+        <!-- Social media links dynamically added here -->
+    </div>
+    <footer-body>
+        <p>&copy; 2024 RAW Photography. All Rights Reserved.</p>
+        <p><small><a href="privacy" style="color: #fff;">Privacy Policy</a> | <a href="terms" style="color: #fff;">Terms of Service</a></small></p>
+        <p><a href="admin-login.html" style="color: #fff;">Admin Login</a></p>
+    </footer-body>
+</footer>
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <script src="js/main.js"></script>
+
 </body>
 </html>

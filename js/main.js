@@ -117,3 +117,64 @@ async function applyStylesFromSettings() {
 
 // Call the function to apply styles
 applyStylesFromSettings();
+
+// Function to fetch settings and update footer elements
+async function updateFooterElements() {
+    try {
+        const db = firebase.firestore();
+
+        // Fetch social media links and other websites from the 'social_media' document
+        const socialMediaDoc = await db.collection("settings").doc("social_media").get();
+        const socialIconsContainer = document.querySelector(".social-icons");
+
+        if (socialMediaDoc.exists) {
+            const socialMediaData = socialMediaDoc.data();
+            
+            // Clear existing social links
+            socialIconsContainer.innerHTML = "";
+
+            // Loop through social media and website links dynamically
+            Object.keys(socialMediaData).forEach(key => {
+                const link = socialMediaData[key];
+                const anchor = document.createElement("a");
+                anchor.href = link;
+                anchor.target = "_blank";
+                anchor.classList.add("social-link");
+
+                // Add an icon or text based on the platform name
+                let icon;
+                if (key.toLowerCase() === "facebook") {
+                    icon = `<i class="fab fa-facebook"></i>`;
+                } else if (key.toLowerCase() === "instagram") {
+                    icon = `<i class="fab fa-instagram"></i>`;
+                } else if (key.toLowerCase() === "twitter") {
+                    icon = `<i class="fab fa-twitter"></i>`;
+                } else {
+                    // Default icon or name if it's another website
+                    icon = `<i class="fas fa-globe"></i> ${key.charAt(0).toUpperCase() + key.slice(1)}`;
+                }
+
+                anchor.innerHTML = icon;
+                socialIconsContainer.appendChild(anchor);
+            });
+        } else {
+            console.error("No 'social_media' document found.");
+        }
+
+        // Fetch footer text content from the 'footer' document
+        const footerDoc = await db.collection("settings").doc("footer").get();
+        if (footerDoc.exists) {
+            const footerData = footerDoc.data();
+            const currentYear = new Date().getFullYear();
+            document.querySelector("footer-body p").innerHTML = 
+                `${footerData.copyrightText} &copy; ${currentYear}`;
+        } else {
+            console.error("No 'footer' document found.");
+        }
+    } catch (error) {
+        console.error("Error fetching footer elements:", error);
+    }
+}
+
+// Call the function to update the footer elements when the page loads
+document.addEventListener("DOMContentLoaded", updateFooterElements);

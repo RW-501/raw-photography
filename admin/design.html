@@ -129,7 +129,39 @@
                     </form>
                 </div>
             </div>
-        
+                    <!-- Update Footer and Social Media Links Area -->
+                    <div class="collapsible">
+                        <button class="collapsible-header">Update Footer and Social Media Links</button>
+                        <div class="collapsible-content">
+
+                            <div class="form-section">
+                                <h2>Update Footer and Social Media Links</h2>
+                            
+                                <!-- Social Media Links Form -->
+                                <h3>Social Media Links</h3>
+                                <label for="facebook">Facebook:</label>
+                                <input type="text" id="facebook" placeholder="Facebook URL">
+                            
+                                <label for="instagram">Instagram:</label>
+                                <input type="text" id="instagram" placeholder="Instagram URL">
+                            
+                                <label for="twitter">Twitter:</label>
+                                <input type="text" id="twitter" placeholder="Twitter URL">
+                            
+                                <label for="additionalLink">Additional Website:</label>
+                                <input type="text" id="additionalLink" placeholder="Other URL (e.g., LinkedIn, YouTube)">
+                            
+                                <!-- Footer Text Content Form -->
+                                <h3>Footer Content</h3>
+                                <label for="footerText">Footer Text:</label>
+                                <textarea id="footerText" placeholder="Footer copyright text"></textarea>
+                            
+                                <button onclick="updateSettings()">Save Changes</button>
+                            </div>
+
+                        </div>
+                    </div>
+
             <!-- Collapsible Home Page Design Area -->
             <div class="collapsible">
                 <button class="collapsible-header">Home Page Design</button>
@@ -334,6 +366,62 @@
         window.onload = loadStyles;
 
 
+    // Function to load current data
+    async function loadSettings() {
+        try {
+            // Load Social Media Links
+            const socialMediaDoc = await db.collection("settings").doc("social_media").get();
+            if (socialMediaDoc.exists) {
+                const socialData = socialMediaDoc.data();
+                document.getElementById("facebook").value = socialData.facebook || "";
+                document.getElementById("instagram").value = socialData.instagram || "";
+                document.getElementById("twitter").value = socialData.twitter || "";
+                document.getElementById("additionalLink").value = socialData.additionalLink || "";
+            }
+
+            // Load Footer Content
+            const footerDoc = await db.collection("settings").doc("footer").get();
+            if (footerDoc.exists) {
+                const footerData = footerDoc.data();
+                document.getElementById("footerText").value = footerData.copyrightText || "";
+            }
+        } catch (error) {
+            console.error("Error loading settings:", error);
+        }
+    }
+
+    // Function to update social media links and footer text
+    async function updateSettings() {
+        try {
+            // Get values from input fields
+            const facebook = document.getElementById("facebook").value;
+            const instagram = document.getElementById("instagram").value;
+            const twitter = document.getElementById("twitter").value;
+            const additionalLink = document.getElementById("additionalLink").value;
+            const footerText = document.getElementById("footerText").value;
+
+            // Update social media links in Firestore
+            await db.collection("settings").doc("social_media").set({
+                facebook: facebook || null,
+                instagram: instagram || null,
+                twitter: twitter || null,
+                additionalLink: additionalLink || null
+            }, { merge: true });
+
+            // Update footer content in Firestore
+            await db.collection("settings").doc("footer").set({
+                copyrightText: footerText
+            }, { merge: true });
+
+            showToast("Settings updated successfully!");
+        } catch (error) {
+            console.error("Error updating settings:", error);
+            showToast("Failed to update settings. Please try again.");
+        }
+    }
+
+    // Load settings when the page is loaded
+    document.addEventListener("DOMContentLoaded", loadSettings);
 
 
 
