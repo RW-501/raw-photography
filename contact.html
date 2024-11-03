@@ -57,32 +57,32 @@
     <!-- Include your firebaseConfig.js as a module -->
     <script type="module">
         import { db, storage } from './js/firebaseConfig.js';
-        import { getFunctions, httpsCallable } from 'https://www.gstatic.com/firebasejs/9.8.3/firebase-functions.js';
-    
-        // Initialize Firebase
-   // Initialize Firebase
-    const functions = getFunctions(db);
+   
 
-    // Handle form submission
-    document.getElementById('contactForm').addEventListener('submit', function(e) {
-        e.preventDefault();
+document.getElementById('contactForm').addEventListener('submit', function(e) { 
+    e.preventDefault();
 
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const message = document.getElementById('message').value;
+    // Capture form data
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
 
-        // Call Firebase function to send the message
-        const sendMessage = httpsCallable(functions, 'sendMessage');
-        sendMessage({ name, email, message })
-            .then(result => {
-                document.getElementById('formResponse').innerText = result.data.message;
-                document.getElementById('contactForm').reset();
-            })
-            .catch(error => {
-                document.getElementById('formResponse').innerText = 'Error sending message. Please try again later.';
-                console.error('Error:', error);
-            });
+    // Add entry to the 'contact' collection in Firestore
+    db.collection('contact').add({
+        name: name,
+        email: email,
+        message: message,
+        dateSubmitted: firebase.firestore.FieldValue.serverTimestamp()
+    })
+    .then(() => {
+        document.getElementById('formResponse').innerText = 'Message sent successfully!';
+        document.getElementById('contactForm').reset();
+    })
+    .catch(error => {
+        document.getElementById('formResponse').innerText = 'Error sending message. Please try again later.';
+        console.error('Error:', error);
     });
+});
 </script>
 </body>
 </html>
