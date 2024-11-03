@@ -6,7 +6,7 @@ console.log("Page loaded main ?????????????");
         inputs.forEach((input, index) => {
             input.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') {
-                    console.log("Pressed Enter on:", input);
+                  //  console.log("Pressed Enter on:", input);
                     
                     // Prevent form submission if Enter is pressed
                     e.preventDefault();
@@ -16,7 +16,7 @@ console.log("Page loaded main ?????????????");
                     
                     if (nextInput) {
                         nextInput.focus();
-                        console.log("Focused on next input:", nextInput);
+                       // console.log("Focused on next input:", nextInput);
                     }
                 }
             });

@@ -112,6 +112,59 @@
 
     
 
+// Function to fetch and display metrics
+async function fetchMetrics() {
+    try {
+        const metricsDocRef = doc(db, 'analytics', 'metrics');
+        const docSnap = await getDoc(metricsDocRef);
+
+        if (docSnap.exists()) {
+            const metrics = docSnap.data();
+            document.getElementById('totalImages').innerText = metrics.totalImages || 0;
+            document.getElementById('totalPurchases').innerText = metrics.totalPurchases || 0;
+            document.getElementById('pendingAppointments').innerText = metrics.pendingAppointments || 0;
+            document.getElementById('totalRevenue').innerText = `$${metrics.totalRevenue || 0}`;
+        } else {
+            console.log("No metrics document found!");
+        }
+    } catch (error) {
+        console.error('Error fetching metrics:', error);
+    }
+}
+
+// Function to fetch recent purchases
+async function fetchRecentPurchases() {
+    try {
+        const purchasesQuery = query(
+            collection(db, 'purchases'),
+            orderBy('datePurchased', 'desc'),
+            limit(5)
+        );
+
+        const querySnapshot = await getDocs(purchasesQuery);
+        const purchasesList = document.getElementById('recentPurchases');
+        purchasesList.innerHTML = ''; // Clear existing list
+
+        querySnapshot.forEach((doc) => {
+            const purchase = doc.data();
+            const listItem = document.createElement('li');
+            listItem.className = 'list-group-item';
+            listItem.textContent = `${purchase.userId} purchased ${purchase.imageId} on ${new Date(purchase.datePurchased).toLocaleDateString()}`;
+            purchasesList.appendChild(listItem);
+        });
+    } catch (error) {
+        console.error('Error fetching purchases:', error);
+    }
+}
+
+
+
+// Call the functions on page load
+fetchMetrics();
+fetchRecentPurchases();
+
+
+
 
 
         </script>

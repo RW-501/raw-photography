@@ -107,44 +107,10 @@ loginForm.addEventListener('submit', (e) => {
 });
 
 
-
-// Function to fetch and display metrics
-function fetchMetrics() {
-    db.collection('analytics').doc('metrics').get().then(doc => {
-        if (doc.exists) {
-            document.getElementById('totalImages').innerText = doc.data().totalImages || 0;
-            document.getElementById('totalPurchases').innerText = doc.data().totalPurchases || 0;
-            document.getElementById('pendingAppointments').innerText = doc.data().pendingAppointments || 0;
-            document.getElementById('totalRevenue').innerText = `$${doc.data().totalRevenue || 0}`;
-        }
-    }).catch(error => console.error('Error fetching metrics:', error));
-}
-
-// Function to fetch recent purchases
-function fetchRecentPurchases() {
-    db.collection('purchases').orderBy('datePurchased', 'desc').limit(5).get().then(snapshot => {
-        const purchasesList = document.getElementById('recentPurchases');
-        purchasesList.innerHTML = ''; // Clear existing list
-        snapshot.forEach(doc => {
-            const purchase = doc.data();
-            const listItem = document.createElement('li');
-            listItem.className = 'list-group-item';
-            listItem.textContent = `${purchase.userId} purchased ${purchase.imageId} on ${new Date(purchase.datePurchased).toLocaleDateString()}`;
-            purchasesList.appendChild(listItem);
-        });
-    }).catch(error => console.error('Error fetching purchases:', error));
-}
-
 // Function to set user preferences in local storage
 function setUserPreferences(preferences) {
     localStorage.setItem('userPreferences', JSON.stringify(preferences));
 }
-
-// Call the functions on page load
-fetchMetrics();
-fetchRecentPurchases();
-
-
 
 // Toast Notification Function
 function showToast(message, type = 'info', duration = 3000) {
