@@ -158,12 +158,20 @@ async function updateViewData() {
         console.error("Missing IP address. View data not recorded.");
         return;
     }
+    const plainLocation = {
+    // Convert your Location object properties to simple key-value pairs
+    city: location.city,
+    zipCode: location.zipcode,
+    state: location.state,
+    country: location.country,
+    // Add other necessary properties from the location object
+};
 
     // Prepare the view data to be updated
     const viewData = {
         eventsViewedBy: arrayUnion({
             ipAddress: ipAddress,                       // ID of the user or 'guest'
-            location: location,                         // Role of the viewer (e.g., 'job seeker', 'recruiter', or 'guest')
+            location: plainLocation, // Use the plain object instead
             viewDate: new Date().toISOString(),
             viewMethod: navigator.userAgentData?.mobile ? "mobile" : "desktop", // Detects desktop or mobile view
             durationOfView: durationOfView || null,    // Optional: estimated duration of view in seconds
