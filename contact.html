@@ -494,7 +494,7 @@ async function updateViewData() {
             durationOfView: durationOfView || null,    // Optional: estimated duration of view in seconds
             viewSource: viewSource,                     // Tracks the source of the view
         }),
-        contactViews: firebase.firestore.FieldValue.increment(1), // Increment contactViews by 1
+        contactViews: db.firestore.FieldValue.increment(1), // Increment contactViews by 1
     };
 
     // Update or create the job view data in the Jobs collection
