@@ -146,112 +146,126 @@
 
 
         // Show error messages
-        function showError(message) {
-            const errorMessageElement = document.getElementById('error-message');
-            errorMessageElement.textContent = message;
-            errorMessageElement.style.display = 'block'; // Show error message
+        function showError(message) { 
+    const errorMessageElement = document.getElementById('error-message');
+    errorMessageElement.textContent = message;
+    errorMessageElement.style.display = 'block'; // Show error message
+}
+
+function showSuccess(message) { 
+    const successMessageElement = document.getElementById('success-message');
+    successMessageElement.textContent = message;
+    successMessageElement.style.display = 'block'; // Show success message
+    setTimeout(() => successMessageElement.style.display = 'none', 3000); // Hide after 3 seconds
+}
+
+// Auth functions
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    // Store email in local storage
+    localStorage.setItem('adminEmail', email);
+
+    // Show loading spinner
+    window.showLoadingSpinner(false);
+
+
+    db.auth().signInWithEmailAndPassword(email, password)
+        .then(() => {
+            showSuccess('Logged in successfully!'); // Show success message
+            window.location.href = 'admin/dashboard'; // Redirect to admin dashboard
+        })
+        .catch(error => {
+            showError(error.message);
+        })
+        .finally(() => {
+            // Hide loading spinner
+            window.hideLoadingSpinner();
+        });
+});
+
+// Phone login handling
+document.getElementById('phoneLoginForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const phone = document.getElementById('phone').value;
+    const appVerifier = new firebase.auth.RecaptchaVerifier('phoneLoginForm', {
+        size: 'invisible',
+        callback: function(response) {
+            // reCAPTCHA solved
         }
+    });
 
-        // Auth functions
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+    window.showLoadingSpinner(false);
 
-            // Store email in local storage
-            localStorage.setItem('adminEmail', email);
+    db.auth().signInWithPhoneNumber(phone, appVerifier)
+        .then(confirmationResult => {
+            // Show modal for code entry
+            $('#phoneVerificationModal').modal('show');
 
-            // Show loading spinner
-            document.getElementById('loadingSpinner').style.display = 'block';
-
-            db.auth().signInWithEmailAndPassword(email, password)
-                .then(() => {
-                    window.location.href = 'admin/dashboard'; // Redirect to admin dashboard
-                })
-                .catch(error => {
-                    showError(error.message);
-                })
-                .finally(() => {
-                    // Hide loading spinner
-                    document.getElementById('loadingSpinner').style.display = 'none';
-                });
+            document.getElementById('confirmCodeBtn').onclick = function() {
+                const code = document.getElementById('verificationCode').value;
+                confirmationResult.confirm(code)
+                    .then(() => {
+                        showSuccess('Logged in successfully!'); // Show success message
+                        window.location.href = 'admin/dashboard.html'; // Redirect to admin dashboard
+                    })
+                    .catch(error => {
+                        showError(error.message);
+                    });
+            };
+        })
+        .catch(error => {
+            showError(error.message);
+        })
+        .finally(() => {
+            // Hide loading spinner
+            window.hideLoadingSpinner();
         });
+});
 
-        // Phone login handling
-        document.getElementById('phoneLoginForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const phone = document.getElementById('phone').value;
-            const appVerifier = new firebase.auth.RecaptchaVerifier('phoneLoginForm', {
-                size: 'invisible',
-                callback: function(response) {
-                    // reCAPTCHA solved
-                }
-            });
+// Google login
+document.getElementById('googleLoginBtn').addEventListener('click', function() {
+    const provider = new db.auth.GoogleAuthProvider();
+    // Show loading spinner
+    window.showLoadingSpinner(false);
 
-            // Show loading spinner
-            document.getElementById('loadingSpinner').style.display = 'block';
 
-            db.auth().signInWithPhoneNumber(phone, appVerifier)
-                .then(confirmationResult => {
-                    // Show modal for code entry
-                    $('#phoneVerificationModal').modal('show');
-
-                    document.getElementById('confirmCodeBtn').onclick = function() {
-                        const code = document.getElementById('verificationCode').value;
-                        confirmationResult.confirm(code)
-                            .then(() => {
-                                window.location.href = 'admin/dashboard.html'; // Redirect to admin dashboard
-                            })
-                            .catch(error => {
-                                showError(error.message);
-                            });
-                    };
-                })
-                .catch(error => {
-                    showError(error.message);
-                })
-                .finally(() => {
-                    // Hide loading spinner
-                    document.getElementById('loadingSpinner').style.display = 'none';
-                });
+    db.auth().signInWithPopup(provider)
+        .then(() => {
+            showSuccess('Logged in successfully!'); // Show success message
+            window.location.href = 'admin/dashboard'; // Redirect to admin dashboard
+        })
+        .catch(error => {
+            showError(error.message);
+        })
+        .finally(() => {
+            // Hide loading spinner
+            window.hideLoadingSpinner();
         });
+});
 
-        // Google login
-        document.getElementById('googleLoginBtn').addEventListener('click', function() {
-            const provider = new db.auth.GoogleAuthProvider();
-            // Show loading spinner
-            document.getElementById('loadingSpinner').style.display = 'block';
+// Anonymous login
+document.getElementById('anonymousLoginBtn').addEventListener('click', function() {
+    // Show loading spinner
+    window.showLoadingSpinner(false);
 
-            db.auth().signInWithPopup(provider)
-                .then(() => {
-                    window.location.href = 'admin/dashboard'; // Redirect to admin dashboard
-                })
-                .catch(error => {
-                    showError(error.message);
-                })
-                .finally(() => {
-                    // Hide loading spinner
-                    document.getElementById('loadingSpinner').style.display = 'none';
-                });
+
+    db.auth().signInAnonymously()
+        .then(() => {
+            showSuccess('Logged in successfully!'); // Show success message
+            window.location.href = 'admin/dashboard'; // Redirect to admin dashboard
+        })
+        .catch(error => {
+            showError(error.message);
+        })
+        .finally(() => {
+            // Hide loading spinner
+            window.hideLoadingSpinner();
         });
+});
 
-        // Anonymous login
-        document.getElementById('anonymousLoginBtn').addEventListener('click', function() {
-            // Show loading spinner
-            document.getElementById('loadingSpinner').style.display = 'block';
-
-            db.auth().signInAnonymously()
-                .then(() => {
-                    window.location.href = 'admin/dashboard'; // Redirect to admin dashboard
-                })
-                .catch(error => {
-                    showError(error.message);
-                })
-                .finally(() => {
-                    // Hide loading spinner
-                    document.getElementById('loadingSpinner').style.display = 'none';
-                });
-        });
     </script>
 
 
