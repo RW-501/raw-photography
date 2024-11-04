@@ -420,8 +420,9 @@ async function updateFooterElements() {
 document.addEventListener("DOMContentLoaded", updateFooterElements);
 
 
+window.getUserIP = function() {
 
-function getUserIP(){
+
 // Function to fetch the user's IP address and location
 const getUserIP = async () => {
   try {
@@ -435,7 +436,9 @@ const getUserIP = async () => {
 };
 
 }
-function getUserLocationByIP(){
+
+window.getUserLocationByIP = function() {
+
 const getUserLocationByIP = async (ip) => {
   try {
       const response = await fetch(`https://ipapi.co/${ip}/json/`);
