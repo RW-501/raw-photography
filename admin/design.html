@@ -255,7 +255,7 @@
                   <label for="contactTitle">Contact Title:</label>
                   <input type="text" id="contactTitle" required aria-label="Contact title">
                 </div>
-                <button type="submit" class="btn btn-primary">Update Home Page</button>
+                <button id="update_home_page" type="submit" class="btn btn-primary">Update Home Page</button>
               </form>
             </div>
           </div>
@@ -566,7 +566,7 @@ window.onload = function() {
 
 // Handle form submission to update settings
 document
-  .getElementById("settingsForm")
+  .getElementById("update_home_page")
   .addEventListener("submit", async function (event) {
     event.preventDefault();
 
@@ -601,9 +601,6 @@ document
         "Error updating settings.";
     }
   });
-
-// Call init on page load
-window.onload = init;
 
 
 
