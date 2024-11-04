@@ -29,7 +29,6 @@ div, main, label, input, textarea, button, img, image{
 
 body {
     display: grid;
-    text-align: -webkit-center;
     overflow-x: hidden; 
        height: 100%;
     animation: backgroundFade 2s ease forwards;
