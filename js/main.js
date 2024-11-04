@@ -514,3 +514,16 @@ document.addEventListener("keydown", function (e) {
         navMenu.classList.remove("show");
     }
 });
+
+
+
+function checkUrl(keyword) {
+  // Get the current URL
+  const currentUrl = window.location.href;
+
+  // Check if the URL contains 
+  if (currentUrl.includes(keyword)) {
+      return true; // The URL contains either 
+      }
+  return false; // Neither keyword is found
+}

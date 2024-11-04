@@ -337,7 +337,28 @@ document.getElementById("messageType").addEventListener("change", function () {
     
         // Initialize form customization when the page loads
         window.onload = customizeForm;
-    
+
+
+
+        
+document.addEventListener("DOMContentLoaded", () => {
+    if (checkUrl("/book")) {
+        const messageTypeSelect = document.getElementById("messageType");
+
+// Set the value to "event"
+messageTypeSelect.value = "event";
+
+// Create and dispatch a change event
+const event = new Event('change', {
+    bubbles: true,
+    cancelable: true
+});
+messageTypeSelect.dispatchEvent(event);
+} 
+});
+
+
+
 
 
         let viewStartTime;

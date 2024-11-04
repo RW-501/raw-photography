@@ -192,7 +192,7 @@
             <!-- Dynamically loaded images will be inserted here -->
         </div>
         <div id="cta-buttons">
-            <button id="book-session-btn" onclick="location.href='contact'">Book a Session</button>
+            <button id="book-session-btn" onclick="location.href='contact/book'">Book a Session</button>
             <button id="view-portfolio-btn" onclick="location.href='events'">View Portfolio</button>
         </div>
     </section>
@@ -274,7 +274,7 @@
         document.getElementById("header-subtitle").innerText = data.headerSubtitle || "Default Subtitle";
                
         // Update navigation menu
-        const navMenu = document.getElementById("navigation-menu");
+        const navMenu = document.getElementById("nav-menu");
         navMenu.innerHTML = ''; // Clear existing menu
         data.navigationItems.forEach(item => {
             const li = document.createElement("li");
@@ -476,9 +476,7 @@ document.getElementById("send-message-btn").innerHTML = "Sending..."; // Show lo
     country: locationData.country,
     homeViews: increment(1)                         // Increment homeViews by 1
 };
-   
-navigator.sendBeacon('https://raw-photography-12616-default-rtdb.firebaseio.com', JSON.stringify(viewData));
-
+ 
 //console.log("viewData   ",viewData);
 
 // Update or create the job view data in the Jobs collection
