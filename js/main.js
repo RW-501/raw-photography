@@ -371,6 +371,8 @@ async function applySettings() {
         updateNavMenu(headerFooterData.navigationItems);
       updateFooter(headerFooterData);
 
+    }else{
+      console.log("Admin Mode");
     } 
     });
 
@@ -599,6 +601,7 @@ window.checkUrl = (function(keyword) {
 
   // Get the current URL
   const currentUrl = window.location.href;
+  console.log("currentUrl   ",currentUrl);
 
   // Check if the URL contains 
   if (currentUrl.includes(keyword)) {
