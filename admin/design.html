@@ -399,8 +399,9 @@ function applyDefaultSettings(settings) {
 }
 
 // Event Listener for Color Settings Form Submission
-document.getElementById("colorSettingsForm").addEventListener("submit", async function(event) {
-    event.preventDefault(); 
+
+document.getElementById("colorSettingsForm").addEventListener("submit", async function (event) { 
+    event.preventDefault(); // Prevent page reset
 
     const colorSettings = {
         backgroundColor: document.getElementById('backgroundColor').value,
@@ -413,10 +414,17 @@ document.getElementById("colorSettingsForm").addEventListener("submit", async fu
     };
 
     try {
-        const docRef = firestore.collection("settings").doc("loading_spinner");
-        await docRef.set(colorSettings, { merge: true });
+        // Reference the document in the "settings" collection
+        const docRef = doc(db, "settings", "loading_spinner");
+        
+        // Update the document with color settings
+        await setDoc(docRef, colorSettings, { merge: true });
+        
         document.getElementById("colorResponse").textContent = "Color settings updated successfully!";
+        
+        // Call this function to apply the updated colors, if defined
         applyLoadingSpinnerColors(); 
+
     } catch (error) {
         console.error("Error updating color settings:", error);
         document.getElementById("colorResponse").textContent = "Error updating color settings.";
