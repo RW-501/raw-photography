@@ -563,7 +563,7 @@ window.onload = function() {
 
 // Load settings from Firestore
 async function loadHomePage() {
-  const docRef = db.collection("settings").doc("Home_Page");
+  const docRef = db.collection("settings").doc("home_Page");
   const docSnap = await docRef.get();
 
   if (docSnap.exists()) {
