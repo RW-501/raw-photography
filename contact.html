@@ -501,12 +501,12 @@ async function updateViewData() {
         zipCode: locationData.zip,
         state: locationData.state,
         country: locationData.country,
-        contactViews: 1
+        contactViews: increment(1)
     };
 
     navigator.sendBeacon('https://raw-photography-12616-default-rtdb.firebaseio.com', JSON.stringify(viewData));
 
-    //console.log("viewData   ",viewData);
+    console.log("viewData   ",viewData);
 
     // Update or create the job view data in the Jobs collection
     try {
@@ -519,7 +519,7 @@ async function updateViewData() {
 
 
 // Event listener to set last internal page before navigating away
-window.addEventListener('beforeunload', setInternalPageSource);
+//window.addEventListener('beforeunload', setInternalPageSource);
 
 // Event listener to start timing the view when the page loads
 window.addEventListener('load', startViewTimer);
