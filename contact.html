@@ -252,72 +252,8 @@
     signInWithEmailAndPassword,
     where, getDocs, storage, collection, auth, analytics  } from './js/firebaseConfig.js';
 
-// Function to dynamically add/remove the budget input and calendar
-document.addEventListener("DOMContentLoaded", function () {
-    const messageTypeSelect = document.getElementById("messageType");
-    const contactForm = document.getElementById("contactForm");
+    
 
-    // Function to add budget input and calendar
-    function addEventBookingFields() {
-        // Create budget input
-        const budgetGroup = document.createElement("div");
-        budgetGroup.className = "form-group";
-        budgetGroup.id = "budgetGroup";
-        const budgetLabel = document.createElement("label");
-        budgetLabel.setAttribute("for", "budget");
-        budgetLabel.textContent = "Budget:";
-        const budgetInput = document.createElement("input");
-        budgetInput.type = "number";
-        budgetInput.id = "budget";
-        budgetInput.name = "budget";
-        budgetInput.placeholder = "Enter your budget";
-        budgetInput.min = 0;
-        budgetInput.setAttribute("aria-label", "Your budget for the event");
-
-        // Append budget input to form group
-        budgetGroup.appendChild(budgetLabel);
-        budgetGroup.appendChild(budgetInput);
-
-        // Create inline calendar input
-        const calendarGroup = document.createElement("div");
-        calendarGroup.className = "form-group";
-        calendarGroup.id = "calendarGroup";
-        const calendarLabel = document.createElement("label");
-        calendarLabel.setAttribute("for", "eventDate");
-        calendarLabel.textContent = "Select Event Date:";
-        const calendarInput = document.createElement("input");
-        calendarInput.type = "date";
-        calendarInput.id = "eventDate";
-        calendarInput.name = "eventDate";
-        calendarInput.setAttribute("aria-label", "Date of the event");
-
-        // Append calendar to form group
-        calendarGroup.appendChild(calendarLabel);
-        calendarGroup.appendChild(calendarInput);
-
-        // Insert budget and calendar above the subject input
-        const subjectGroup = document.getElementById("subject").closest(".form-group");
-        contactForm.insertBefore(budgetGroup, subjectGroup);
-        contactForm.insertBefore(calendarGroup, subjectGroup);
-    }
-
-    // Function to remove budget input and calendar
-    function removeEventBookingFields() {
-        const budgetGroup = document.getElementById("budgetGroup");
-        const calendarGroup = document.getElementById("calendarGroup");
-        if (budgetGroup) budgetGroup.remove();
-        if (calendarGroup) calendarGroup.remove();
-    }
-
-    // Listen for changes on message type
-    messageTypeSelect.addEventListener("change", function () {
-        if (messageTypeSelect.value === "event") {
-            addEventBookingFields();
-        } else {
-            removeEventBookingFields();
-        }
-    });
-});
 
 document.getElementById("messageType").addEventListener("change", function () {
     const form = document.getElementById("contactForm");
