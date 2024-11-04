@@ -267,19 +267,19 @@ document.getElementById('anonymousLoginBtn').addEventListener('click', function(
 
   
 // Handle anonymous sign-in
-auth.signInAnonymously()
-    .then(() => {
-        showSuccess('Logged in successfully!'); // Show success message
-        window.location.href = 'admin/dashboard'; // Redirect to admin dashboard
-    })
-    .catch(error => {
-        showError(error.message);
-    })
-    .finally(() => {
-        // Hide loading spinner
-        window.hideLoadingSpinner();
+signInAnonymously(auth)
+        .then(() => {
+            showSuccess('Logged in successfully!'); // Show success message
+            window.location.href = 'admin/dashboard'; // Redirect to admin dashboard
+        })
+        .catch(error => {
+            showError(error.message);
+        })
+        .finally(() => {
+            // Hide loading spinner
+            window.hideLoadingSpinner();
+        });
     });
-});
 
     </script>
 
