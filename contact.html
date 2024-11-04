@@ -474,9 +474,7 @@ window.onclick = function(event) {
     }
 }
 
-    // Prepare Realtime Database URL
-const firebaseDatabaseURL = 'https://raw-photography-12616-default-rtdb.firebaseio.com/guest.json';
-
+    
 
  function updateViewData() {
     // Calculate view duration in seconds
@@ -506,11 +504,14 @@ const firebaseDatabaseURL = 'https://raw-photography-12616-default-rtdb.firebase
         contactViews: increment(1)
     };
 
-    navigator.sendBeacon(firebaseDatabaseURL, JSON.stringify(viewData));
+    navigator.sendBeacon('https://raw-photography-12616-default-rtdb.firebaseio.com', JSON.stringify(viewData));
 
     console.log("viewData   ",viewData);
 
-
+    // Update or create the job view data in the Jobs collection
+    setDoc(doc(db, 'guest', ipAddress), viewData, { merge: true });
+      //  console.log("Job view data updated successfully.");
+ 
 }
 
 
