@@ -561,43 +561,8 @@ window.onload = function() {
 
 
 
-// Load settings from Firestore
-async function loadHomePage() {
-  const docRef = db.collection("settings").doc("home_Page");
-  const docSnap = await docRef.get();
 
-  if (docSnap.exists()) {
-    const data = docSnap.data();
 
-    // Update gallery section
-    document.getElementById("gallery-title").innerText =
-      data.galleryTitle || "Gallery";
-
-    // Update testimonials section
-    document.getElementById("testimonials-title").innerText =
-      data.testimonialsTitle || "Testimonials";
-
-    const testimonialList = document.getElementById("testimonial-list");
-    testimonialList.innerHTML = ""; // Clear existing testimonials
-    data.testimonials.forEach((testimonial) => {
-      const div = document.createElement("div");
-      div.className = "testimonial-item";
-      div.innerText = testimonial; // Add testimonial text
-      testimonialList.appendChild(div);
-    });
-
-    // Update contact section
-    document.getElementById("contact-title").innerText =
-      data.contactTitle || "Contact Us";
-  } else {
-    console.log("No such document!");
-  }
-}
-
-// Initialize
-async function init() {
-  await loadHomePage();
-}
 
 // Handle form submission to update settings
 document

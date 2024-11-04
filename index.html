@@ -265,30 +265,6 @@
     signInWithEmailAndPassword,
     where, getDocs, storage, collection, auth, analytics  } from './js/firebaseConfig.js';
 
-    async function loadSettings() {
-  try {
-    const docRef = doc(db, "settings", "loading_spinner"); // Reference to Firestore document
-    const docSnap = await getDoc(docRef); // Get document snapshot
-
-    if (docSnap.exists()) {
-      const data = docSnap.data();
-
-      // Check if 'settingsField' exists and is an array before using forEach
-      if (data && Array.isArray(data.settingsField)) {
-        data.settingsField.forEach(setting => {
-          // Process each setting here
-          console.log(setting);
-        });
-      } else {
-        console.warn("Expected 'settingsField' is either missing or not an array.");
-      }
-    } else {
-      console.error("Document does not exist.");
-    }
-  } catch (error) {
-    console.error("Error loading settings:", error);
-  }
-}
 
 
 
@@ -341,10 +317,50 @@
 }
 
 
+async function loadHomePage() {
+  // Reference to the document in Firestore
+  const docRef = doc(db, "settings", "home_Page");
+  
+  try {
+    // Get the document snapshot
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+
+      // Update gallery section
+      document.getElementById("gallery-title").innerText =
+        data.galleryTitle || "Gallery";
+
+      // Update testimonials section
+      document.getElementById("testimonials-title").innerText =
+        data.testimonialsTitle || "Testimonials";
+
+      const testimonialList = document.getElementById("testimonial-list");
+      testimonialList.innerHTML = ""; // Clear existing testimonials
+      data.testimonials.forEach((testimonial) => {
+        const div = document.createElement("div");
+        div.className = "testimonial-item";
+        div.innerText = testimonial; // Add testimonial text
+        testimonialList.appendChild(div);
+      });
+
+      // Update contact section
+      document.getElementById("contact-title").innerText =
+        data.contactTitle || "Contact Us";
+    } else {
+      console.log("No such document!");
+    }
+  } catch (error) {
+    console.error("Error loading home page data:", error);
+  }
+}
+
+
 
     // Initialize Gallery and Testimonials
     async function init() {
-        await loadSettings();
+        await loadHomePage();
         await loadGallery();
     }
 
