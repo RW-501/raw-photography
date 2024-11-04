@@ -427,7 +427,7 @@ document.getElementById("submitButton").innerHTML = "Sending..."; // Show loadin
         internalSource,
         ipAddress: ipAddress,                       // ID of the user or 'guest'
             city: locationData.city,
-            zipCode: location.zip,
+            zipCode: locationData.zip,
     state: locationData.state,
     country: locationData.country,
         contact_form: "Contact Page",
@@ -493,7 +493,7 @@ async function updateViewData() {
         contactViewedBy: arrayUnion({
             ipAddress: ipAddress,                       // ID of the user or 'guest'
             city: locationData.city,
-            zipCode: location.zip,
+            zipCode: locationData.zip,
     state: locationData.state,
     country: locationData.country,
                 viewDate: new Date().toISOString(),
