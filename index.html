@@ -360,6 +360,8 @@ document.getElementById("contactForm").addEventListener("submit", async function
     event.preventDefault(); // Prevent the default form submission behavior
 
     window.showLoadingSpinner(false); // Show spinner during processing
+    document.getElementById("send-message-btn").disabled = true; // Disable button
+document.getElementById("send-message-btn").innerHTML = "Sending..."; // Show loading state
 
     // Get form values and sanitize them
     const name = sanitizeInput(document.getElementById('name').value);
@@ -406,6 +408,7 @@ document.getElementById("contactForm").addEventListener("submit", async function
         formResponse.style.color = 'red';
     } finally {
         window.hideLoadingSpinner(); // Ensure the spinner is hidden after processing
+        document.getElementById("send-message-btn").innerHTML = "Sent"; // Show loading state
 
         // Clear the form
         document.getElementById("contactForm").reset();
