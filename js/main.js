@@ -515,9 +515,8 @@ document.addEventListener("keydown", function (e) {
     }
 });
 
+window.checkUrl = (function(keyword) {
 
-
-function checkUrl(keyword) {
   // Get the current URL
   const currentUrl = window.location.href;
 
@@ -526,4 +525,4 @@ function checkUrl(keyword) {
       return true; // The URL contains either 
       }
   return false; // Neither keyword is found
-}
+});
