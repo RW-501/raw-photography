@@ -494,7 +494,7 @@ async function updateViewData() {
             viewDate: new Date().toISOString(),
             viewMethod: navigator.userAgentData?.mobile ? "mobile" : "desktop", // Detects desktop or mobile view
             durationOfView: durationOfView || null,    // Optional: estimated duration of view in seconds
-            viewSource: viewSource,                     // Tracks the source of the view
+            viewSource: viewSource                     // Tracks the source of the view
         }),
         ipAddress: ipAddress,                       // ID of the user or 'guest'
             city: locationData.city,
