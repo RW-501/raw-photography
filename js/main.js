@@ -406,7 +406,7 @@ async function updateFooterElements() {
         if (footerDocSnap.exists()) {
             const footerData = footerDocSnap.data();
             const currentYear = new Date().getFullYear();
-            document.querySelector(".footer-body p").innerHTML = 
+            document.querySelector("footer-body p").innerHTML = 
                 `${footerData.copyrightText} &copy; ${currentYear}`;
         } else {
             console.error("No 'footer' document found.");
