@@ -1,34 +1,3 @@
-// Function to dynamically append Firebase SDKs to the body
-function loadFirebaseSDKs() {
-    const firebaseScripts = [
-        "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js",
-        "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js",
-        "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js",
-        "https://www.gstatic.com/firebasejs/9.17.2/firebase-storage.js",
-        "https://www.gstatic.com/firebasejs/9.17.2/firebase-analytics.js"
-    ];
-
-    let loadPromises = firebaseScripts.map(src => {
-        return new Promise((resolve, reject) => {
-            const script = document.createElement('script');
-            script.src = src;
-            script.type = "module"; // Specify the script type as module
-            script.async = true; // Load script asynchronously
-            script.onload = () => resolve(); // Resolve promise when loaded
-            script.onerror = () => reject(new Error(`Failed to load script: ${src}`));
-            document.body.appendChild(script);
-        });
-    });
-
-    // Wait for all scripts to load
-    Promise.all(loadPromises)
-        .then(() => {
-            initializeFirebase(); // Call Firebase initialization after all scripts are loaded
-        })
-        .catch(error => {
-            console.error("Error loading Firebase SDKs:", error);
-        });
-}
 
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js';
 // Firestore imports
@@ -51,7 +20,7 @@ import {
     signInWithPopup, 
     GoogleAuthProvider, 
     FacebookAuthProvider, 
-    OAuthProvider, 
+    OAuthProvider, signInAnonymously ,
     signOut, RecaptchaVerifier,
     onAuthStateChanged, 
     createUserWithEmailAndPassword, 
@@ -106,4 +75,4 @@ const firebaseConfig = {
 document.addEventListener('DOMContentLoaded', initializeFirebase);
 
 // Export Firestore, Storage, and Auth instances for use in other modules
-export { db, doc,arrayUnion, RecaptchaVerifier ,increment, getDoc, query, updateDoc, setDoc, addDoc, signInWithPopup,FacebookAuthProvider, GoogleAuthProvider, OAuthProvider, signOut, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, where, getDocs, storage, collection, auth, analytics };
+export { db, doc,arrayUnion, RecaptchaVerifier ,increment, getDoc, query, updateDoc, setDoc, addDoc,signInAnonymously , signInWithPopup,FacebookAuthProvider, GoogleAuthProvider, OAuthProvider, signOut, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, where, getDocs, storage, collection, auth, analytics };

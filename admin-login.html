@@ -9,26 +9,7 @@
     <link rel="stylesheet" href="css/main.css">
 
     <style>
-            body {
-            background-color: #f8f9fa;
-        }
-        .login-container {
-            max-width: 400px;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #dee2e6;
-            border-radius: 10px;
-            background-color: #ffffff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        #loadingSpinner {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1000;
-        }
+
         .text-danger {
             display: none; /* Initially hide error messages */
         }
@@ -160,7 +141,7 @@
     import {   db, doc,getDoc, query, updateDoc,
     setDoc,     signInWithPopup,
     GoogleAuthProvider,
-    FacebookAuthProvider,
+    FacebookAuthProvider, signInAnonymously ,
     OAuthProvider,
     signOut, arrayUnion , RecaptchaVerifier,
     onAuthStateChanged,
