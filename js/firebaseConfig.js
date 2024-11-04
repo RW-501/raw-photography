@@ -16,7 +16,7 @@ import {
 
 // Authentication imports
 import { 
-    getAuth, 
+    getAuth, auth,
     signInWithPopup, 
     GoogleAuthProvider, 
     FacebookAuthProvider, 

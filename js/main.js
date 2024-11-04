@@ -548,7 +548,7 @@ window.userLocationService = (function() {
   };
 })();
 
-
+if(document.getElementById("menu-toggle")){
 const menuToggle = document.getElementById("menu-toggle");
 const navMenu = document.getElementById("nav-menu");
 
@@ -570,6 +570,8 @@ document.addEventListener("click", function (e) {
         navMenu.classList.remove("show");
     }
 });
+
+}
 
 // Ensure escape key closes the menu for accessibility
 document.addEventListener("keydown", function (e) {
