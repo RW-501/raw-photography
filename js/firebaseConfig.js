@@ -90,11 +90,10 @@ const firebaseConfig = {
          db = getFirestore(app); // Initialize Firestore
          storage = getStorage(app); // Initialize Storage
          analytics = initializeAnalytics(app);
-
+/*
         console.log("Firebase initialized successfully.");
         console.log("Firestore initialized:", db);
-        console.log("db.collection exists:", typeof db.collection === "function"); // Expect this to be false with v9
-
+*/
         // Export your Firebase instances if needed
 
     } catch (error) {

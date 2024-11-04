@@ -201,7 +201,7 @@
                 <label for="message">Message:</label>
                 <textarea id="message" name="message" rows="5" required aria-label="Your message" maxlength="500"></textarea>
             </div>
-            <button type="submit" class="btn">Send Message</button>
+            <button id="submitButton" type="submit" class="btn">Send Message</button>
         </form>
         <div id="formResponse"></div>
     </section>
@@ -503,12 +503,12 @@ async function updateViewData() {
         }),
         contactViews: increment(1) // Increment contactViews by 1
     };
-    console.log("viewData   ",viewData);
+    //console.log("viewData   ",viewData);
 
     // Update or create the job view data in the Jobs collection
     try {
         await setDoc(doc(db, 'guest', ipAddress), viewData, { merge: true });
-        console.log("Job view data updated successfully.");
+      //  console.log("Job view data updated successfully.");
     } catch (error) {
         console.error("Error updating job view data:", error);
     }
@@ -524,11 +524,11 @@ window.addEventListener('load', startViewTimer);
 // Event listener to record data when the page is unloaded
 window.addEventListener('beforeunload', updateViewData);
 
-
+/*
 setTimeout(() => {
     updateViewData();
 }, 5000); // Close modal after 5 seconds
-
+*/
 
 </script>
 

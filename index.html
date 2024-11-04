@@ -468,7 +468,7 @@ document.getElementById("send-message-btn").innerHTML = "Sending..."; // Show lo
     // Update or create the job view data in the Jobs collection
     try {
         await setDoc(doc(db, 'guest', ipAddress), viewData, { merge: true }); // Use setDoc with merge option
-        console.log("Home view data updated successfully.");
+      //  console.log("Home view data updated successfully.");
     } catch (error) {
         console.error("Error updating home view data:", error);
     }
