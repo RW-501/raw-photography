@@ -81,10 +81,10 @@ const errorMessage = document.getElementById('error-message');
                     console.error("Error during logout:", error);
                 });
         }
-
+if(document.getElementById('logoutBtn')){
         // Attach logout function to the button
         document.getElementById('logoutBtn').addEventListener('click', logout);
-   
+}
 
 loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -96,7 +96,7 @@ loginForm.addEventListener('submit', (e) => {
     auth.signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
             // Successfully signed in
-            window.location.href = 'admin/dashboard.html'; // Redirect to admin dashboard
+            window.location.href = 'admin/dashboard'; // Redirect to admin dashboard
         })
         .catch((error) => {
             // Handle Errors here.
