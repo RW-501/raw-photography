@@ -244,7 +244,7 @@
     FacebookAuthProvider,
     OAuthProvider, arrayUnion ,
     signOut, addDoc ,
-    onAuthStateChanged,
+    onAuthStateChanged, increment,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     where, getDocs, storage, collection, auth, analytics  } from './js/firebaseConfig.js';
@@ -453,7 +453,7 @@ document.getElementById("send-message-btn").innerHTML = "Sending..."; // Show lo
             durationOfView: durationOfView || null,    // Optional: estimated duration of view in seconds
             viewSource: viewSource                      // Tracks the source of the view
         }),
-        homeViews: + 1 // Increment homeViews by 1
+        homeViews: increment(1) // Increment homeViews by 1
     };
 
     // Update or create the job view data in the Jobs collection

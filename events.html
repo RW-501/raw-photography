@@ -65,7 +65,7 @@
     FacebookAuthProvider,
     OAuthProvider,
     signOut, arrayUnion ,
-    onAuthStateChanged,
+    onAuthStateChanged, increment,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     where, getDocs, storage, collection, auth, analytics  } from './js/firebaseConfig.js';
@@ -169,7 +169,7 @@ async function updateViewData() {
             durationOfView: durationOfView || null,    // Optional: estimated duration of view in seconds
             viewSource: viewSource                      // Tracks the source of the view
         }),
-        eventsViews: + 1 // Increment eventsViews by 1
+        eventsViews: increment(1) // Increment eventsViews by 1
     };
 
     // Update or create the job view data in the Jobs collection

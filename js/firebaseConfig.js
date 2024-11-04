@@ -40,7 +40,7 @@ import {
     updateDoc, 
     setDoc, 
     addDoc, 
-    getDocs, 
+    getDocs, increment,
     where, arrayUnion,
     collection 
 } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js';
@@ -107,4 +107,4 @@ const firebaseConfig = {
 document.addEventListener('DOMContentLoaded', initializeFirebase);
 
 // Export Firestore, Storage, and Auth instances for use in other modules
-export { db, doc,arrayUnion , getDoc, query, updateDoc, setDoc, addDoc, signInWithPopup,FacebookAuthProvider, GoogleAuthProvider, OAuthProvider, signOut, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, where, getDocs, storage, collection, auth, analytics };
+export { db, doc,arrayUnion ,increment, getDoc, query, updateDoc, setDoc, addDoc, signInWithPopup,FacebookAuthProvider, GoogleAuthProvider, OAuthProvider, signOut, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, where, getDocs, storage, collection, auth, analytics };

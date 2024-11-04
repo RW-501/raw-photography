@@ -246,7 +246,7 @@
     GoogleAuthProvider,
     FacebookAuthProvider,
     OAuthProvider,arrayUnion ,
-    signOut, addDoc ,
+    signOut, addDoc , increment,
     onAuthStateChanged,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
@@ -494,7 +494,7 @@ async function updateViewData() {
             durationOfView: durationOfView || null,    // Optional: estimated duration of view in seconds
             viewSource: viewSource,                     // Tracks the source of the view
         }),
-        contactViews: + 1 // Increment contactViews by 1
+        contactViews: increment(1) // Increment contactViews by 1
     };
 
     // Update or create the job view data in the Jobs collection
