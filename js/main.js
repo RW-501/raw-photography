@@ -266,13 +266,20 @@ function updateNavMenu(navItems) {
   const navMenu = document.getElementById("nav-menu");
   if (!navMenu) return;
 
-  navMenu.innerHTML = '';
+  // Clear existing menu items
+  const ul = navMenu.querySelector("ul"); // Select the <ul> within the nav
+  if (ul) {
+      ul.innerHTML = ''; // Clear existing items
+  }
+
+  // Create new list items based on navItems
   navItems.forEach(item => {
       const li = document.createElement("li");
-      li.innerHTML = `<a href="${item.link}">${item.label}</a>`;
-      navMenu.appendChild(li);
+      li.innerHTML = `<a href="${item.link}" class="nav-link">${item.label}</a>`; // Added class for styling
+      ul.appendChild(li);
   });
 }
+
 // Function to update the footer
 function updateFooter(footerData) {
 const currentYear = new Date().getFullYear();
@@ -577,9 +584,8 @@ window.checkUrl = (function(keyword) {
 });
 
 
-function formatCurrency(value, options = {}) { 
+function formatCurrency(value, options = {}) {  
   const { locale = "en-US", currency = "USD", decimals = 0 } = options;
-
 
   // Convert to string if value is a number
   let cleanValue = typeof value === "number" ? value.toString() : String(value);
@@ -593,41 +599,42 @@ function formatCurrency(value, options = {}) {
 
   // Handle invalid numbers
   if (isNaN(number)) {
-    return "$0.00"; // Return default if value is invalid
+      return "$0.00"; // Return default if value is invalid
   }
 
   // Manually format the number as currency (with commas)
   let formattedNumber = number
-    .toFixed(decimals)
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      .toFixed(decimals)
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
   return `$${formattedNumber}`;
 }
-window.updateCurrency = (function(input) {
+
+window.updateCurrency = function(input) {
   // Format the current input value
   const formattedValue = formatCurrency(input.value, { decimals: 0 });
   // Update the input value with formatted currency or "Negotiable"
-  input.value  = formattedValue;
+  input.value = formattedValue;
 
-  // Optionally, set the cursor position after the formatted number
-  const position = formattedValue.length; // Cursor position at the end
-  input.setSelectionRange(position, position);
-});
+  // If using type="text", you can uncomment the line below
+  // const position = formattedValue.length; // Cursor position at the end
+  // input.setSelectionRange(position, position);
+};
 
-window.restrictKeys = (function(event) {
+window.restrictKeys = function(event) {
   const allowedKeys = [
-    "Backspace",
-    "Tab",
-    "ArrowLeft",
-    "ArrowRight",
-    "Delete",
-    "Enter",
-    "Escape"
+      "Backspace",
+      "Tab",
+      "ArrowLeft",
+      "ArrowRight",
+      "Delete",
+      "Enter",
+      "Escape"
   ];
   if (!/[0-9]/.test(event.key) && !allowedKeys.includes(event.key)) {
-    event.preventDefault();
+      event.preventDefault();
   }
-});
+};
 
 
 
