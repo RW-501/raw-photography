@@ -101,7 +101,7 @@
 
     <!-- Header -->
     <header id="site-header">
-        <h1>Welcome to RAW Photography</h1>
+        <h1>Welcome to My Photography Site</h1>
         <p>Capturing Moments, One Click at a Time</p>
         <nav>
             <ul>
@@ -124,7 +124,7 @@
             <button class="search-button" onclick="handleSearch()">Search</button>
         </div>
         
-        <button class="button-home" onclick="window.location.href='index'">Go to Home</button>
+        <button class="button-home" onclick="window.location.href='/raw-photography/'">Go to Home</button>
     </div>
     
 
@@ -135,7 +135,7 @@
         <!-- Social media links dynamically added here -->
     </div>
     <footer-body>
-        <p>&copy; 2024 RAW Photography. All Rights Reserved.</p>
+        <p>&copy; 2024 My Photography Site. All Rights Reserved.</p>
         <p><small><a href="privacy" style="color: #fff;">Privacy Policy</a> | <a href="terms" style="color: #fff;">Terms of Service</a></small></p>
         <p><a href="../admin-login" style="color: #fff;">Admin Login</a></p>
     </footer-body>
@@ -150,7 +150,7 @@
     if (query) {
         window.location.href = `/help?q=${encodeURIComponent(query)}`;
     } else {
-        showToast("Please enter a search term.");
+        showToast("Please enter a search term.","error");
     }
 }
 
