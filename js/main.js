@@ -208,6 +208,162 @@ window.hideLoadingSpinner = function() {
   window.addEventListener('load', showLoadingSpinner);
   
 
+
+// Function to inject styles based on site design data
+function injectStyles(styles) {
+  const styleElement = document.createElement('style');
+  styleElement.type = 'text/css';
+  styleElement.innerHTML = `
+      body {
+          background-color: ${styles.themeColor} !important;
+          font-family: ${styles.font} !important;
+      }
+      #navigation-menu {
+          color: ${styles.navFontColor} !important;
+          background-color: ${styles.navBackgroundColor} !important;
+      }
+      #site-footer {
+          color: ${styles.footerFontColor} !important;
+          background-color: ${styles.footerBackgroundColor} !important;
+      }
+  `;
+  document.head.appendChild(styleElement);
+  console.log("Styles applied successfully!");
+}
+
+// Function to update social media links
+function updateSocialLinks(socialMediaData) {
+  const socialIconsContainer = document.querySelector(".social-icons");
+  if (!socialIconsContainer) return;
+
+  socialIconsContainer.innerHTML = ""; // Clear existing links
+
+  const iconMap = {
+      facebook: '<i class="fab fa-facebook"></i>',
+      instagram: '<i class="fab fa-instagram"></i>',
+      twitter: '<i class="fab fa-twitter"></i>',
+      default: '<i class="fas fa-globe"></i>'
+  };
+
+  Object.entries(socialMediaData).forEach(([platform, url]) => {
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.target = "_blank";
+      anchor.classList.add("social-link");
+      anchor.innerHTML = iconMap[platform.toLowerCase()] || `${iconMap.default} ${platform}`;
+      socialIconsContainer.appendChild(anchor);
+  });
+}
+
+// Function to update header content
+function updateHeader(headerData) {
+  document.getElementById("header-title").innerText = headerData.headerTitle;
+  document.getElementById("header-subtitle").innerText = headerData.headerSubtitle;
+}
+
+// Function to update navigation menu
+function updateNavMenu(navItems) {
+  const navMenu = document.getElementById("nav-menu");
+  if (!navMenu) return;
+
+  navMenu.innerHTML = '';
+  navItems.forEach(item => {
+      const li = document.createElement("li");
+      li.innerHTML = `<a href="${item.link}">${item.label}</a>`;
+      navMenu.appendChild(li);
+  });
+}
+// Function to update the footer
+function updateFooter(footerData) {
+const currentYear = new Date().getFullYear();
+const footerElement = document.querySelector(".footer-body p");
+
+if (footerElement) {
+    // Construct the footer content
+    const footerContent = `${footerData.copyrightText} &copy; ${currentYear} 
+    <a href="https://www.linkedin.com/in/lrpinc/" target="_blank" rel="noopener noreferrer">TeachNoob</a>`;
+    
+    // Append current time if showTime is true
+    if (footerData.showTime) {
+        const currentTime = new Date().toLocaleTimeString(); // Format to a readable time string
+        footerElement.innerHTML = `${footerContent}<br>${currentTime}`;
+    } else {
+        footerElement.innerHTML = footerContent;
+    }
+}
+}
+
+// Consolidated function to fetch and apply settings with defaults
+async function applySettings() {
+  try {
+      // Reference the 'settings' collection
+      const settingsQuery = query(collection(db, "settings"));
+      const settingsSnapshots = await getDocs(settingsQuery);
+      
+      // Default settings
+      let siteDesignData = {
+          themeColor: "#ffffff",
+          font: "Arial, sans-serif",
+          navFontColor: "#333333",
+          navBackgroundColor: "#f0f0f0",
+          footerFontColor: "#666666",
+          footerBackgroundColor: "#e0e0e0"
+      };
+      
+      let socialMediaData = {
+          facebook: "https://facebook.com/default",
+          instagram: "https://instagram.com/default",
+          twitter: "https://twitter.com/default"
+      };
+
+      let headerFooterData = {
+          headerTitle: "Welcome to My Photography Site",
+          headerSubtitle: "We On Beast Mode",
+          navigationItems: [
+              { label: "Home", link: "index" },
+              { label: "Events", link: "events" },
+              { label: "Portfolio", link: "portfolio" },
+              { label: "Contact", link: "contact" }
+          ],
+          copyrightText: "My Photography Site"
+      };
+
+      // Loop through fetched documents to assign data
+      settingsSnapshots.forEach(docSnapshot => {
+          const docData = docSnapshot.data();
+          if (docSnapshot.id === "siteDesign") {
+              siteDesignData = { ...siteDesignData, ...docData };
+          } else if (docSnapshot.id === "social_media") {
+              socialMediaData = { ...socialMediaData, ...docData };
+          } else if (docSnapshot.id === "header_footer") {
+              headerFooterData = { ...headerFooterData, ...docData };
+          }
+      });
+
+      // Apply fetched or default settings
+      injectStyles(siteDesignData);
+      updateSocialLinks(socialMediaData);
+      updateHeader(headerFooterData);
+      updateNavMenu(headerFooterData.navigationItems);
+      updateFooter(headerFooterData);
+
+  } catch (error) {
+      console.error("Error fetching settings:", error);
+  }
+}
+
+// Call the function to apply all settings when the page loads
+document.addEventListener("DOMContentLoaded", applySettings);
+
+
+
+
+
+
+
+
+
+
         // Sanitize user input to escape HTML characters
         window.sanitizeInput = function(input) {
           const div = document.createElement('div');
@@ -307,146 +463,6 @@ window.hideLoadingSpinner = function() {
 // showToast('This is an error message!', 'error', duration);
 // showToast('This is an info message!', 'info');
 // showToast('This is a warning message!', 'warning');
-
-
-
-// Function to inject styles based on site design data
-function injectStyles(styles) {
-    const styleElement = document.createElement('style');
-    styleElement.type = 'text/css';
-    styleElement.innerHTML = `
-        body {
-            background-color: ${styles.themeColor} !important;
-            font-family: ${styles.font} !important;
-        }
-        #navigation-menu {
-            color: ${styles.navFontColor} !important;
-            background-color: ${styles.navBackgroundColor} !important;
-        }
-        #site-footer {
-            color: ${styles.footerFontColor} !important;
-            background-color: ${styles.footerBackgroundColor} !important;
-        }
-    `;
-    document.head.appendChild(styleElement);
-    console.log("Styles applied successfully!");
-}
-
-// Function to update social media links
-function updateSocialLinks(socialMediaData) {
-    const socialIconsContainer = document.querySelector(".social-icons");
-    if (!socialIconsContainer) return;
-
-    socialIconsContainer.innerHTML = ""; // Clear existing links
-
-    const iconMap = {
-        facebook: '<i class="fab fa-facebook"></i>',
-        instagram: '<i class="fab fa-instagram"></i>',
-        twitter: '<i class="fab fa-twitter"></i>',
-        default: '<i class="fas fa-globe"></i>'
-    };
-
-    Object.entries(socialMediaData).forEach(([platform, url]) => {
-        const anchor = document.createElement("a");
-        anchor.href = url;
-        anchor.target = "_blank";
-        anchor.classList.add("social-link");
-        anchor.innerHTML = iconMap[platform.toLowerCase()] || `${iconMap.default} ${platform}`;
-        socialIconsContainer.appendChild(anchor);
-    });
-}
-
-// Function to update header content
-function updateHeader(headerData) {
-    document.getElementById("header-title").innerText = headerData.headerTitle;
-    document.getElementById("header-subtitle").innerText = headerData.headerSubtitle;
-}
-
-// Function to update navigation menu
-function updateNavMenu(navItems) {
-    const navMenu = document.getElementById("nav-menu");
-    if (!navMenu) return;
-
-    navMenu.innerHTML = '';
-    navItems.forEach(item => {
-        const li = document.createElement("li");
-        li.innerHTML = `<a href="${item.link}">${item.label}</a>`;
-        navMenu.appendChild(li);
-    });
-}
-
-// Function to update footer
-function updateFooter(footerData) {
-    const currentYear = new Date().getFullYear();
-    const footerElement = document.querySelector(".footer-body p");
-    if (footerElement) {
-        footerElement.innerHTML = `${footerData.copyrightText} &copy; ${currentYear}`;
-    }
-}
-
-// Consolidated function to fetch and apply settings with defaults
-async function applySettings() {
-    try {
-        // Reference the 'settings' collection
-        const settingsQuery = query(collection(db, "settings"));
-        const settingsSnapshots = await getDocs(settingsQuery);
-        
-        // Default settings
-        let siteDesignData = {
-            themeColor: "#ffffff",
-            font: "Arial, sans-serif",
-            navFontColor: "#333333",
-            navBackgroundColor: "#f0f0f0",
-            footerFontColor: "#666666",
-            footerBackgroundColor: "#e0e0e0"
-        };
-        
-        let socialMediaData = {
-            facebook: "https://facebook.com/default",
-            instagram: "https://instagram.com/default",
-            twitter: "https://twitter.com/default"
-        };
-
-        let headerFooterData = {
-            headerTitle: "Welcome to ReelCareer",
-            headerSubtitle: "Your Career, Our Passion",
-            navigationItems: [
-                { label: "Home", link: "index" },
-                { label: "Events", link: "events" },
-                { label: "Portfolio", link: "portfolio" },
-                { label: "Contact", link: "contact" }
-            ],
-            copyrightText: "ReelCareer"
-        };
-
-        // Loop through fetched documents to assign data
-        settingsSnapshots.forEach(docSnapshot => {
-            const docData = docSnapshot.data();
-            if (docSnapshot.id === "siteDesign") {
-                siteDesignData = { ...siteDesignData, ...docData };
-            } else if (docSnapshot.id === "social_media") {
-                socialMediaData = { ...socialMediaData, ...docData };
-            } else if (docSnapshot.id === "header_footer") {
-                headerFooterData = { ...headerFooterData, ...docData };
-            }
-        });
-
-        // Apply fetched or default settings
-        injectStyles(siteDesignData);
-        updateSocialLinks(socialMediaData);
-        updateHeader(headerFooterData);
-        updateNavMenu(headerFooterData.navigationItems);
-        updateFooter(headerFooterData);
-
-    } catch (error) {
-        console.error("Error fetching settings:", error);
-    }
-}
-
-// Call the function to apply all settings when the page loads
-document.addEventListener("DOMContentLoaded", applySettings);
-
-
 
 
 
