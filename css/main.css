@@ -11,7 +11,19 @@
 div, main, label, input, textarea, button{
     box-sizing: border-box;
 }
-
+:root {
+    --shutter-button-color: #007bff;
+    --flash-color: #999;
+  }
+  
+  .camera-icon::before {
+    background-color: var(--shutter-button-color);
+  }
+  
+  .camera-icon::after {
+    background-color: var(--flash-color);
+  }
+  
 
 body {
     display: grid;

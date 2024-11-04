@@ -148,41 +148,50 @@ document.body.appendChild(loadingContainer);
 // Optionally, set display to none initially if you want it hidden by default
 loadingContainer.style.display = 'none';
 
-// Function to apply loading spinner colors based on settings
+// Define and call the function to apply spinner colors
 async function applyLoadingSpinnerColors() {
-  const docRef = doc(db, "settings", "loading_spinner"); // Create a document reference
-  const docSnap = await getDoc(docRef); // Get the document snapshot
+  try {
+    const docRef = doc(db, "settings", "loading_spinner"); // Reference to Firestore document
+    const docSnap = await getDoc(docRef); // Get document snapshot
 
-  if (docSnap.exists()) {
-      const data = docSnap.data();
+    if (docSnap.exists()) {
+      const data = docSnap.data(); // Retrieve data from the document
 
-        // Extract color settings from the document
-        const {
-          backgroundColor = "rgba(255, 255, 255, 0.8)", 
-          cameraBodyColor = "#333",
-          shutterButtonColor = "#007bff",
-          flashColor = "#999",
-          lensColor = "#222",
-          lensBorderColor = "#666",
-          spinnerCircleColor = "#007bff"
-        } = doc.data();
-  
-        // Apply colors to individual elements
-        document.querySelector("#loadingContainer").style.backgroundColor = backgroundColor;
-        document.querySelector(".camera-icon").style.backgroundColor = cameraBodyColor;
-        document.querySelector(".camera-icon::before").style.backgroundColor = shutterButtonColor;
-        document.querySelector(".camera-icon::after").style.backgroundColor = flashColor;
-        document.querySelector(".lens").style.backgroundColor = lensColor;
-        document.querySelector(".lens").style.borderColor = lensBorderColor;
-        document.querySelector(".spinner-circle").style.borderTopColor = spinnerCircleColor;
-      } else {
-        console.error("No color settings found in 'loading_spinner' document.");
-      }
-   
+      // Destructure color settings from the document with default values
+      const {
+        backgroundColor = "rgba(255, 255, 255, 0.8)",
+        cameraBodyColor = "#333",
+        shutterButtonColor = "#007bff",
+        flashColor = "#999",
+        lensColor = "#222",
+        lensBorderColor = "#666",
+        spinnerCircleColor = "#007bff"
+      } = data;
+
+      // Apply colors to elements
+      document.querySelector("#loadingContainer").style.backgroundColor = backgroundColor;
+      document.querySelector(".camera-icon").style.backgroundColor = cameraBodyColor;
+      document.querySelector(".lens").style.backgroundColor = lensColor;
+      document.querySelector(".lens").style.borderColor = lensBorderColor;
+      document.querySelector(".spinner-circle").style.borderTopColor = spinnerCircleColor;
+
+      // Add a class to handle pseudo-elements in CSS for the shutter and flash colors
+      document.querySelector(".camera-icon").classList.add("apply-spinner-colors");
+
+      // Define these styles in your CSS to handle pseudo-elements
+      document.documentElement.style.setProperty("--shutter-button-color", shutterButtonColor);
+      document.documentElement.style.setProperty("--flash-color", flashColor);
+
+    } else {
+      console.error("No color settings found in 'loading_spinner' document.");
+    }
+  } catch (error) {
+    console.error("Error applying loading spinner colors:", error);
   }
-  
-  // Call the function to apply settings when needed (e.g., on page load or spinner show)
-  applyLoadingSpinnerColors();
+}
+
+// Call the function to apply settings
+applyLoadingSpinnerColors();
   
 
   window.showLoadingSpinner = function(automatic = true) {
