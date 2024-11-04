@@ -25,7 +25,7 @@ body {
 
 /* Responsive styling */
 @media (max-width: 600px) {
-    body {
+    main {
         padding: 10px;
     }
 }

@@ -481,3 +481,36 @@ window.userLocationService = (function() {
       getUserIPAndLocation
   };
 })();
+
+
+const menuToggle = document.getElementById("menu-toggle");
+const navMenu = document.getElementById("nav-menu");
+
+// Toggle the navigation menu
+menuToggle.addEventListener("click", function () {
+    const isExpanded = menuToggle.getAttribute("aria-expanded") === "true" || false;
+    menuToggle.setAttribute("aria-expanded", !isExpanded);
+    navMenu.setAttribute("aria-hidden", isExpanded);
+    menuToggle.classList.toggle("active");
+    navMenu.classList.toggle("show");
+});
+
+// Close menu when clicking outside
+document.addEventListener("click", function (e) {
+    if (!menuToggle.contains(e.target) && !navMenu.contains(e.target)) {
+        menuToggle.setAttribute("aria-expanded", "false");
+        navMenu.setAttribute("aria-hidden", "true");
+        menuToggle.classList.remove("active");
+        navMenu.classList.remove("show");
+    }
+});
+
+// Ensure escape key closes the menu for accessibility
+document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && navMenu.classList.contains("show")) {
+        menuToggle.setAttribute("aria-expanded", "false");
+        navMenu.setAttribute("aria-hidden", "true");
+        menuToggle.classList.remove("active");
+        navMenu.classList.remove("show");
+    }
+});
