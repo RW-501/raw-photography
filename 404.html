@@ -5,7 +5,97 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 Not Found</title>
     <link rel="stylesheet" href="/raw-photography/css/main.css"> <!-- Link to your main stylesheet -->
+<style>
+    .error-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    color: #333;
+    padding: 0 20px;
+    background: #f5f5f5;
+}
 
+.error-code {
+    font-size: 10rem;
+    font-weight: bold;
+    color: #ff5e5e;
+}
+
+.error-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.error-message {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: #666;
+}
+
+.error-suggestion {
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+.link {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#search-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
+    width: 250px;
+    outline: none;
+}
+
+.search-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    font-size: 1rem;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+    background-color: #0056b3;
+}
+
+.button-home {
+    padding: 10px 20px;
+    border: none;
+    background-color: #ff5e5e;
+    color: white;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button-home:hover {
+    background-color: #cc4b4b;
+}
+
+</style>
 </head>
 <body>
 
@@ -23,13 +113,20 @@
         </nav>
     </header>
 
-    <h1>404</h1>
-    <p>Oops! The page you are looking for could not be found.</p>
-    <p>It may have been removed, or you may have entered the wrong URL.</p>
-    <p>You can return to the <a href="/raw-photography/">home page</a> or explore our <a href="events">events</a>.</p>
-    <button class="button" onclick="window.location.href='index'">Go to Home</button>
-
-
+    <div class="error-page">
+        <h1 class="error-code">404</h1>
+        <p class="error-title">Page Not Found</p>
+        <p class="error-message">Oops! The page you're looking for doesn’t exist or may have been moved.</p>
+        <p class="error-suggestion">You can go back to the <a href="/raw-photography/" class="link">home page</a>, explore our <a href="events" class="link">events</a>, or use the search below.</p>
+        
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search for photos, events, or articles..." aria-label="Search">
+            <button class="search-button" onclick="handleSearch()">Search</button>
+        </div>
+        
+        <button class="button-home" onclick="window.location.href='index'">Go to Home</button>
+    </div>
+    
 
 
  <!-- Footer -->
@@ -39,14 +136,24 @@
     </div>
     <footer-body>
         <p>&copy; 2024 RAW Photography. All Rights Reserved.</p>
-        <p><small><a href="../privacy" style="color: #fff;">Privacy Policy</a> | <a href="terms" style="color: #fff;">Terms of Service</a></small></p>
-        <p><a href="/raw-photography/admin-login" style="color: #fff;">Admin Login</a></p>
+        <p><small><a href="privacy" style="color: #fff;">Privacy Policy</a> | <a href="terms" style="color: #fff;">Terms of Service</a></small></p>
+        <p><a href="../admin-login" style="color: #fff;">Admin Login</a></p>
     </footer-body>
 </footer>
 
 <!-- Font Awesome for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-<script  type="module" src="/raw-photography/js/main.js"></script>
+<script  type="module" src="../js/main.js">
+    function handleSearch() {
+    const query = document.getElementById('search-input').value;
+    if (query) {
+        window.location.href = `/help?q=${encodeURIComponent(query)}`;
+    } else {
+        showToast("Please enter a search term.");
+    }
+}
+
+</script>
 </body>
 </html>
