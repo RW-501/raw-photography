@@ -367,7 +367,7 @@
                 lensColor = defaultSettings.lensColor,
                 lensBorderColor = defaultSettings.lensBorderColor,
                 spinnerCircleColor = defaultSettings.spinnerCircleColor
-            } = data;
+            } = data || {};
 
             document.querySelector("#loadingContainer").style.backgroundColor = backgroundColor;
             document.querySelector(".camera-icon").style.backgroundColor = cameraBodyColor;
@@ -420,14 +420,14 @@ document.getElementById("colorSettingsForm").addEventListener("submit", async fu
         // Update the document with color settings
         await setDoc(docRef, colorSettings, { merge: true });
         
-        document.getElementById("colorResponse").textContent = "Color settings updated successfully!";
+        showToast("Color settings updated successfully!","success");
         
         // Call this function to apply the updated colors, if defined
         applyLoadingSpinnerColors(); 
 
     } catch (error) {
         console.error("Error updating color settings:", error);
-        document.getElementById("colorResponse").textContent = "Error updating color settings.";
+        showToast("Error updating color settings.","error");
     }
 });
 
