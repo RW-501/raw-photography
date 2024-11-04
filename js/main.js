@@ -554,10 +554,7 @@ function formatCurrency(value, options = {}) {
 
   return `$${formattedNumber}`;
 }
-
-function updateCurrency(input) {
-
-
+window.updateCurrency = (function(input) {
   // Format the current input value
   const formattedValue = formatCurrency(input.value, { decimals: 0 });
   // Update the input value with formatted currency or "Negotiable"
@@ -566,9 +563,9 @@ function updateCurrency(input) {
   // Optionally, set the cursor position after the formatted number
   const position = formattedValue.length; // Cursor position at the end
   input.setSelectionRange(position, position);
-}
-   
-function restrictKeys(event) {
+});
+
+window.restrictKeys = (function(event) {
   const allowedKeys = [
     "Backspace",
     "Tab",
@@ -581,12 +578,13 @@ function restrictKeys(event) {
   if (!/[0-9]/.test(event.key) && !allowedKeys.includes(event.key)) {
     event.preventDefault();
   }
-}
+});
 
-// Truncate text function
-function truncateText(text, maxLength, href) {
+
+
+window.truncateText = (function(text, maxLength, href) {
   return text.length > maxLength 
       ? text.substring(0, maxLength) + `... <a href="${href}">See More</a>` 
       : text;
-}
+});
 
