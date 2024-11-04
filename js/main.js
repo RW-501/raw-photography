@@ -429,8 +429,10 @@ applyLoadingSpinnerColors();
 applySettings();
 updateFooter(headerFooterData);
 loadMenuToggleControls();
+console.log("User View");
+
     }else{
-      console.log("Admin Mode");
+      console.log("Admin View");
     } 
     });
 
