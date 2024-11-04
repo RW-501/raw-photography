@@ -357,12 +357,24 @@ async function applySettings() {
           }
       });
 
-      // Apply fetched or default settings
-      injectStyles(siteDesignData);
-      updateSocialLinks(socialMediaData);
-      updateHeader(headerFooterData);
-      updateNavMenu(headerFooterData.navigationItems);
+    
+
+
+
+        
+      document.addEventListener("DOMContentLoaded", () => {
+        if (!window.checkUrl("/admin/")) {
+        // Apply fetched or default settings
+        injectStyles(siteDesignData);
+        updateSocialLinks(socialMediaData);
+        updateHeader(headerFooterData);
+        updateNavMenu(headerFooterData.navigationItems);
       updateFooter(headerFooterData);
+
+    } 
+    });
+
+
 
   } catch (error) {
       console.error("Error fetching settings:", error);
