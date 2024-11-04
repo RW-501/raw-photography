@@ -478,30 +478,34 @@ async function updateViewData() {
     const viewEndTime = Date.now();
     const durationOfView = (viewEndTime - viewStartTime) / 1000; // Convert ms to seconds
 
-    // Validate job ID before proceeding
+    // Validate IP address before proceeding
     if (!ipAddress) {
-       // console.error("Missing jobId. View data not recorded.");
+        console.error("Missing IP address. View data not recorded.");
         return;
     }
 
-    // Update the job view data in the Jobs collection
+    // Prepare the data to be updated
+    const viewData = {
+        contactViewedBy: arrayUnion({
+            ipAddress: ipAddress,                       // ID of the user or 'guest'
+            location: location,                         // Role of the viewer (e.g., 'job seeker', 'recruiter', or 'guest')
+            viewDate: new Date().toISOString(),
+            viewMethod: navigator.userAgentData?.mobile ? "mobile" : "desktop", // Detects desktop or mobile view
+            durationOfView: durationOfView || null,    // Optional: estimated duration of view in seconds
+            viewSource: viewSource,                     // Tracks the source of the view
+        }),
+        contactViews: firebase.firestore.FieldValue.increment(1), // Increment contactViews by 1
+    };
+
+    // Update or create the job view data in the Jobs collection
     try {
-        await updateDoc(doc(db, 'guest', ipAddress), {
-            contactViewedBy: arrayUnion({
-                ipAddress: ipAddress,                       // ID of the user or 'guest'
-                location: location,                 // Role of the viewer (e.g., 'job seeker', 'recruiter', or 'guest')
-                viewDate: new Date().toISOString(),
-                viewMethod: navigator.userAgentData?.mobile ? "mobile" : "desktop", // Detects desktop or mobile view
-                durationOfView: durationOfView || null, // Optional: estimated duration of view in seconds
-                viewSource: viewSource,                 // Tracks the source of the view
-            }),
-            contactViews: + 1,
-        });
+        await setDoc(doc(db, 'guest', ipAddress), viewData, { merge: true });
         console.log("Job view data updated successfully.");
     } catch (error) {
         console.error("Error updating job view data:", error);
     }
 }
+
 
 // Event listener to set last internal page before navigating away
 window.addEventListener('beforeunload', setInternalPageSource);
