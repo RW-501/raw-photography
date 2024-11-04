@@ -517,6 +517,9 @@ window.addEventListener('load', startViewTimer);
 window.addEventListener('beforeunload', updateViewData);
 
 
+setTimeout(() => {
+    updateViewData();
+}, 5000); // Close modal after 5 seconds
 
 
 </script>
