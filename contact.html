@@ -487,9 +487,9 @@ async function updateViewData() {
     const plainLocation = {
     // Convert your Location object properties to simple key-value pairs
     city: location.city,
-    zipCode: location.zipcode,
-    state: location.state,
-    country: location.country,
+    zipCode: location.postal,
+    state: location.region,
+    country: location.country_name,
     // Add other necessary properties from the location object
 };
     // Prepare the data to be updated
