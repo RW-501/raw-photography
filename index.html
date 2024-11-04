@@ -475,14 +475,13 @@ document.getElementById("send-message-btn").innerHTML = "Sending..."; // Show lo
 }
 
 
-// Event listener to set last internal page before navigating away
-window.addEventListener('beforeunload', setInternalPageSource);
+
 
 // Event listener to start timing the view when the page loads
 window.addEventListener('load', startViewTimer);
 
-// Event listener to record data when the page is unloaded
-window.addEventListener('beforeunload', updateViewData);
+window.addEventListener('beforeunload', setInternalPageSource,
+ updateViewData);
 document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'hidden') {
         updateViewData();
