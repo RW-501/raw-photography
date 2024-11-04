@@ -149,7 +149,7 @@
     GoogleAuthProvider,
     FacebookAuthProvider,
     OAuthProvider,
-    signOut, arrayUnion ,
+    signOut, arrayUnion , RecaptchaVerifier,
     onAuthStateChanged,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
@@ -170,9 +170,6 @@ function showSuccess(message) {
     setTimeout(() => successMessageElement.style.display = 'none', 3000); // Hide after 3 seconds
 }
 
-// Auth functions
-// Import Firebase modules
-import { getAuth, signInWithEmailAndPassword, signInWithPhoneNumber, GoogleAuthProvider, signInWithPopup, RecaptchaVerifier } from "firebase/auth";
 
 // Initialize Firebase Authentication
 const auth = getAuth();

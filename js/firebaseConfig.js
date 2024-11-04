@@ -52,7 +52,7 @@ import {
     GoogleAuthProvider, 
     FacebookAuthProvider, 
     OAuthProvider, 
-    signOut, 
+    signOut, RecaptchaVerifier,
     onAuthStateChanged, 
     createUserWithEmailAndPassword, 
     signInWithEmailAndPassword 
@@ -106,4 +106,4 @@ const firebaseConfig = {
 document.addEventListener('DOMContentLoaded', initializeFirebase);
 
 // Export Firestore, Storage, and Auth instances for use in other modules
-export { db, doc,arrayUnion ,increment, getDoc, query, updateDoc, setDoc, addDoc, signInWithPopup,FacebookAuthProvider, GoogleAuthProvider, OAuthProvider, signOut, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, where, getDocs, storage, collection, auth, analytics };
+export { db, doc,arrayUnion, RecaptchaVerifier ,increment, getDoc, query, updateDoc, setDoc, addDoc, signInWithPopup,FacebookAuthProvider, GoogleAuthProvider, OAuthProvider, signOut, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, where, getDocs, storage, collection, auth, analytics };
