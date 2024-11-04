@@ -425,8 +425,11 @@ document.getElementById("submitButton").innerHTML = "Sending..."; // Show loadin
         eventDate: messageType === "event" ? eventDate : null,
         externalSource,
         internalSource,
-        ipAddress,
-        location,
+        ipAddress: ipAddress,                       // ID of the user or 'guest'
+            city: locationData.city,
+    zipCode: location.postal,
+    state: locationData.region,
+    country: locationData.country_name,
         contact_form: "Contact Page",
         timestamp: new Date(),
     };
@@ -489,10 +492,10 @@ async function updateViewData() {
     const viewData = {
         contactViewedBy: arrayUnion({
             ipAddress: ipAddress,                       // ID of the user or 'guest'
-            city: location.city,
+            city: locationData.city,
     zipCode: location.postal,
-    state: location.region,
-    country: location.country_name,
+    state: locationData.region,
+    country: locationData.country_name,
                 viewDate: new Date().toISOString(),
             viewMethod: navigator.userAgentData?.mobile ? "mobile" : "desktop", // Detects desktop or mobile view
             durationOfView: durationOfView || null,    // Optional: estimated duration of view in seconds
