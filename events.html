@@ -166,9 +166,9 @@ async function updateViewData() {
         eventsViewedBy: arrayUnion({
             ipAddress: ipAddress,                       // ID of the user or 'guest'
             city: locationData.city,
-    zipCode: location.postal,
-    state: locationData.region,
-    country: locationData.country_name,
+            zipCode: location.zip,
+    state: locationData.state,
+    country: locationData.country,
                 viewDate: new Date().toISOString(),
             viewMethod: navigator.userAgentData?.mobile ? "mobile" : "desktop", // Detects desktop or mobile view
             durationOfView: durationOfView || null,    // Optional: estimated duration of view in seconds
