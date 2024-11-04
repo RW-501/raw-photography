@@ -418,43 +418,66 @@ async function updateFooterElements() {
 
 // Call the function to update the footer elements when the page loads
 document.addEventListener("DOMContentLoaded", updateFooterElements);
+window.userLocationService = (function() {
+  const ipAPI = 'https://api.ipify.org?format=json';
+  const locationAPI = 'https://ipapi.co';
 
+  // Fetch the user's IP address
+  const getUserIP = async () => {
+      try {
+          const response = await fetch(ipAPI);
+          const data = await response.json();
+          return data.ip;
+      } catch (error) {
+          console.error('Error fetching IP address:', error);
+          return null;
+      }
+  };
 
-window.getUserIP = function() {
+  // Fetch the user's location based on IP address
+  const getUserLocationByIP = async (ip) => {
+      try {
+          const response = await fetch(`${locationAPI}/${ip}/json/`);
+          const data = await response.json();
+          return {
+              city: data.city || 'N/A',
+              state: data.region || 'N/A',
+              zip: data.postal || 'N/A',
+              country: data.country_name || 'N/A'
+          };
+      } catch (error) {
+          console.error('Error fetching location by IP:', error);
+          return null;
+      }
+  };
 
+  // Main function to get IP and location together
+  const getUserIPAndLocation = async () => {
+      try {
+          let ip = sessionStorage.getItem('userIP');
+          let location = JSON.parse(sessionStorage.getItem('userLocation'));
 
-// Function to fetch the user's IP address and location
-const getUserIP = async () => {
-  try {
-      const response = await fetch('https://api.ipify.org?format=json');
-      const data = await response.json();
-      return data.ip;
-  } catch (error) {
-      console.error('Error fetching IP address:', error);
-      return null;
-  }
-};
+          // If IP or location are not cached, fetch them
+          if (!ip || !location) {
+              ip = await getUserIP();
+              location = await getUserLocationByIP(ip);
 
-}
+              // Cache in session storage for the current session
+              if (ip && location) {
+                  sessionStorage.setItem('userIP', ip);
+                  sessionStorage.setItem('userLocation', JSON.stringify(location));
+              }
+          }
 
-window.getUserLocationByIP = function() {
+          return { ip, location };
+      } catch (error) {
+          console.error('Error retrieving user IP and location:', error);
+          return null;
+      }
+  };
 
-const getUserLocationByIP = async (ip) => {
-  try {
-      const response = await fetch(`https://ipapi.co/${ip}/json/`);
-      const data = await response.json();
-      return {
-          city: data.city,
-          state: data.region,
-          zip: data.postal,
-          country: data.country_name,
-      };
-  } catch (error) {
-      console.error('Error fetching location by IP:', error);
-      return null;
-  }
-};
-}
-
-
-
+  // Expose only the main function
+  return {
+      getUserIPAndLocation
+  };
+})();

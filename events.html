@@ -134,8 +134,18 @@ function startViewTimer() {
 
 
 
-  const ipAddress = await getUserIP();
-  const location = await getUserLocation();
+    let ipAddress;
+let locationData;
+
+(async () => {
+    const { ip, location } = await window.userLocationService.getUserIPAndLocation();
+    
+    ipAddress = ip;
+    locationData = location;
+
+    console.log('User IP:', ipAddress);
+    console.log('User Location:', locationData);
+})();
 
 
 
