@@ -309,115 +309,148 @@ window.hideLoadingSpinner = function() {
 // showToast('This is a warning message!', 'warning');
 
 
-async function applyStylesFromSettings() {
-    try {
-        // Reference the document in the 'settings' collection
-        const settingsDocRef = doc(db, 'settings', 'siteDesign');
-        
-        // Fetch the document
-        const docSnap = await getDoc(settingsDocRef);
 
-        if (docSnap.exists()) {
-            const data = docSnap.data();
-
-            // Create a style element
-            const style = document.createElement('style');
-            style.type = 'text/css';
-
-            // Add styles to the style element
-            style.innerHTML = `
-                body {
-                    background-color: ${data.themeColor} !important;
-                    font-family: ${data.font} !important;
-                }
-                #navigation-menu {
-                    color: ${data.navFontColor} !important;
-                    background-color: ${data.navBackgroundColor} !important;
-                }
-                #site-footer {
-                    color: ${data.footerFontColor} !important;
-                    background-color: ${data.footerBackgroundColor} !important;
-                }
-                /* Add additional styles as needed */
-            `;
-
-            // Append the style element to the head
-            document.head.appendChild(style);
-            console.log("Styles applied successfully!");
-        } else {
-            console.error("No such document!");
+// Function to inject styles based on site design data
+function injectStyles(styles) {
+    const styleElement = document.createElement('style');
+    styleElement.type = 'text/css';
+    styleElement.innerHTML = `
+        body {
+            background-color: ${styles.themeColor} !important;
+            font-family: ${styles.font} !important;
         }
-    } catch (error) {
-        console.error("Error fetching styles: ", error);
-    }
+        #navigation-menu {
+            color: ${styles.navFontColor} !important;
+            background-color: ${styles.navBackgroundColor} !important;
+        }
+        #site-footer {
+            color: ${styles.footerFontColor} !important;
+            background-color: ${styles.footerBackgroundColor} !important;
+        }
+    `;
+    document.head.appendChild(styleElement);
+    console.log("Styles applied successfully!");
 }
-// Call the function to apply styles
-applyStylesFromSettings();
 
-// Function to fetch settings and update footer elements
+// Function to update social media links
+function updateSocialLinks(socialMediaData) {
+    const socialIconsContainer = document.querySelector(".social-icons");
+    if (!socialIconsContainer) return;
 
-async function updateFooterElements() { 
-    try {
-        // Reference to the 'social_media' document in the 'settings' collection
-        const socialMediaDocRef = doc(db, "settings", "social_media");
-        
-        // Fetch the 'social_media' document
-        const socialMediaDocSnap = await getDoc(socialMediaDocRef);
-        const socialIconsContainer = document.querySelector(".social-icons");
+    socialIconsContainer.innerHTML = ""; // Clear existing links
 
-        if (socialMediaDocSnap.exists()) {
-            const socialMediaData = socialMediaDocSnap.data();
-            
-            // Clear existing social links
-            socialIconsContainer.innerHTML = "";
+    const iconMap = {
+        facebook: '<i class="fab fa-facebook"></i>',
+        instagram: '<i class="fab fa-instagram"></i>',
+        twitter: '<i class="fab fa-twitter"></i>',
+        default: '<i class="fas fa-globe"></i>'
+    };
 
-            // Loop through social media and website links dynamically
-            Object.keys(socialMediaData).forEach(key => {
-                const link = socialMediaData[key];
-                const anchor = document.createElement("a");
-                anchor.href = link;
-                anchor.target = "_blank";
-                anchor.classList.add("social-link");
+    Object.entries(socialMediaData).forEach(([platform, url]) => {
+        const anchor = document.createElement("a");
+        anchor.href = url;
+        anchor.target = "_blank";
+        anchor.classList.add("social-link");
+        anchor.innerHTML = iconMap[platform.toLowerCase()] || `${iconMap.default} ${platform}`;
+        socialIconsContainer.appendChild(anchor);
+    });
+}
 
-                // Add an icon or text based on the platform name
-                let icon;
-                if (key.toLowerCase() === "facebook") {
-                    icon = `<i class="fab fa-facebook"></i>`;
-                } else if (key.toLowerCase() === "instagram") {
-                    icon = `<i class="fab fa-instagram"></i>`;
-                } else if (key.toLowerCase() === "twitter") {
-                    icon = `<i class="fab fa-twitter"></i>`;
-                } else {
-                    icon = `<i class="fas fa-globe"></i> ${key.charAt(0).toUpperCase() + key.slice(1)}`;
-                }
+// Function to update header content
+function updateHeader(headerData) {
+    document.getElementById("header-title").innerText = headerData.headerTitle;
+    document.getElementById("header-subtitle").innerText = headerData.headerSubtitle;
+}
 
-                anchor.innerHTML = icon;
-                socialIconsContainer.appendChild(anchor);
-            });
-        } else {
-            console.error("No 'social_media' document found.");
-        }
+// Function to update navigation menu
+function updateNavMenu(navItems) {
+    const navMenu = document.getElementById("nav-menu");
+    if (!navMenu) return;
 
-        // Reference to the 'footer' document in the 'settings' collection
-        const footerDocRef = doc(db, "settings", "footer");
-        
-        // Fetch the 'footer' document
-        const footerDocSnap = await getDoc(footerDocRef);
-        if (footerDocSnap.exists()) {
-            const footerData = footerDocSnap.data();
-            const currentYear = new Date().getFullYear();
-            document.querySelector("footer-body p").innerHTML = 
-                `${footerData.copyrightText} &copy; ${currentYear}`;
-        } else {
-            console.error("No 'footer' document found.");
-        }
-    } catch (error) {
-        console.error("Error fetching footer elements:", error);
+    navMenu.innerHTML = '';
+    navItems.forEach(item => {
+        const li = document.createElement("li");
+        li.innerHTML = `<a href="${item.link}">${item.label}</a>`;
+        navMenu.appendChild(li);
+    });
+}
+
+// Function to update footer
+function updateFooter(footerData) {
+    const currentYear = new Date().getFullYear();
+    const footerElement = document.querySelector(".footer-body p");
+    if (footerElement) {
+        footerElement.innerHTML = `${footerData.copyrightText} &copy; ${currentYear}`;
     }
 }
 
-// Call the function to update the footer elements when the page loads
-document.addEventListener("DOMContentLoaded", updateFooterElements);
+// Consolidated function to fetch and apply settings with defaults
+async function applySettings() {
+    try {
+        // Reference the 'settings' collection
+        const settingsQuery = query(collection(db, "settings"));
+        const settingsSnapshots = await getDocs(settingsQuery);
+        
+        // Default settings
+        let siteDesignData = {
+            themeColor: "#ffffff",
+            font: "Arial, sans-serif",
+            navFontColor: "#333333",
+            navBackgroundColor: "#f0f0f0",
+            footerFontColor: "#666666",
+            footerBackgroundColor: "#e0e0e0"
+        };
+        
+        let socialMediaData = {
+            facebook: "https://facebook.com/default",
+            instagram: "https://instagram.com/default",
+            twitter: "https://twitter.com/default"
+        };
+
+        let headerFooterData = {
+            headerTitle: "Welcome to ReelCareer",
+            headerSubtitle: "Your Career, Our Passion",
+            navigationItems: [
+                { label: "Home", link: "index" },
+                { label: "Events", link: "events" },
+                { label: "Portfolio", link: "portfolio" },
+                { label: "Contact", link: "contact" }
+            ],
+            copyrightText: "ReelCareer"
+        };
+
+        // Loop through fetched documents to assign data
+        settingsSnapshots.forEach(docSnapshot => {
+            const docData = docSnapshot.data();
+            if (docSnapshot.id === "siteDesign") {
+                siteDesignData = { ...siteDesignData, ...docData };
+            } else if (docSnapshot.id === "social_media") {
+                socialMediaData = { ...socialMediaData, ...docData };
+            } else if (docSnapshot.id === "header_footer") {
+                headerFooterData = { ...headerFooterData, ...docData };
+            }
+        });
+
+        // Apply fetched or default settings
+        injectStyles(siteDesignData);
+        updateSocialLinks(socialMediaData);
+        updateHeader(headerFooterData);
+        updateNavMenu(headerFooterData.navigationItems);
+        updateFooter(headerFooterData);
+
+    } catch (error) {
+        console.error("Error fetching settings:", error);
+    }
+}
+
+// Call the function to apply all settings when the page loads
+document.addEventListener("DOMContentLoaded", applySettings);
+
+
+
+
+
+
 window.userLocationService = (function() {
   const ipAPI = 'https://api.ipify.org?format=json';
   const locationAPI = 'https://ipapi.co';
