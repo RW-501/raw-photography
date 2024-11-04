@@ -450,19 +450,19 @@ document.getElementById("send-message-btn").innerHTML = "Sending..."; // Show lo
 
     // Prepare the view data to be updated
     const viewData = {
-        homeViewedBy: arrayUnion({
-            viewDate: new Date().toISOString(),
-            viewMethod: navigator.userAgentData?.mobile ? "mobile" : "desktop", // Detects desktop or mobile view
-            durationOfView: durationOfView || null,    // Optional: estimated duration of view in seconds
-            viewSource: viewSource                     // Tracks the source of the view
-        }),
-        ipAddress: ipAddress,                       // ID of the user or 'guest'
-            city: locationData.city,
-            zipCode: locationData.zip,
+    homeViewedBy: arrayUnion({
+        viewDate: new Date().toISOString(),
+        viewMethod: navigator.userAgentData?.mobile ? "mobile" : "desktop", // Detects desktop or mobile view
+        durationOfView: durationOfView || null,    // Optional: estimated duration of view in seconds
+        viewSource: viewSource                     // Tracks the source of the view
+    }),
+    ipAddress: ipAddress,                           // ID of the user or 'guest'
+    city: locationData.city,
+    zipCode: locationData.zip,
     state: locationData.state,
     country: locationData.country,
-        homeViews: increment(1) // Increment homeViews by 1
-    };
+    homeViews: increment(1)                         // Increment homeViews by 1
+};
     console.log("viewData   ",viewData);
 
     // Update or create the job view data in the Jobs collection
