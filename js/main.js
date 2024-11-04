@@ -352,6 +352,12 @@ async function applySettings() {
           } else if (docSnapshot.id === "header_footer") {
               headerFooterData = { ...headerFooterData, ...docData };
           }
+
+          injectStyles(siteDesignData);
+       updateHeader(headerFooterData);
+        updateNavMenu(headerFooterData.navigationItems);
+        updateFooter(headerFooterData);
+
       });
 
   
@@ -422,12 +428,9 @@ function loadMenuToggleControls(){
         // Call the function to apply settings
 applyLoadingSpinnerColors();
   
-        injectStyles(siteDesignData);
-        updateHeader(headerFooterData);
-        updateNavMenu(headerFooterData.navigationItems);
+
         updateSocialLinks(socialMediaData);
 applySettings();
-updateFooter(headerFooterData);
 loadMenuToggleControls();
 console.log("User View");
 
