@@ -198,7 +198,7 @@ function updateUserCollection(uid, data) {
 }
 
 // Authentication handler
-function handleAuth(authMethod) {
+function handleAuth(authMethod,loginMethod) {
     window.showLoadingSpinner(false);
 
     authMethod()
@@ -210,7 +210,7 @@ function handleAuth(authMethod) {
                 displayName: user.displayName || 'Anonymous',
                 lastLogin: new Date(),
                 loginDevice: navigator.userAgentData?.mobile ? "mobile" : "desktop",
-                loginMethod: authMethod,
+                loginMethod: loginMethod,
                 ipAddress: ipAddress,
         city: locationData.city,
         zipCode: locationData.zip,
@@ -233,7 +233,7 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
     const password = document.getElementById('password').value;
     localStorage.setItem('adminEmail', email);
 
-    handleAuth(() => signInWithEmailAndPassword(auth, email, password));
+    handleAuth(() => signInWithEmailAndPassword(auth, email, password),"Email");
 });
 
 document.getElementById('phoneLoginForm').addEventListener('submit', function (event) {
@@ -249,15 +249,15 @@ document.getElementById('phoneLoginForm').addEventListener('submit', function (e
                 return confirmationResult.confirm(code);
             };
         })
-    );
+    ,"Phone");
 });
 
 document.getElementById('googleLoginBtn').addEventListener('click', function () {
-    handleAuth(() => signInWithPopup(auth, new GoogleAuthProvider()));
+    handleAuth(() => signInWithPopup(auth, new GoogleAuthProvider()),"Google");
 });
 
 document.getElementById('anonymousLoginBtn').addEventListener('click', function () {
-    handleAuth(() => signInAnonymously(auth));
+    handleAuth(() => signInAnonymously(auth),"Anonymous");
 });
 
     </script>
