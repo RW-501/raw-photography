@@ -10,6 +10,8 @@ import {  db, doc,getDoc, query, updateDoc,
     signInWithEmailAndPassword,
     where, getDocs, storage, collection, auth, analytics } from '../js/firebaseConfig.js';
 
+
+   /* 
 // Check if the current page is not 'admin-login' or 'admin-login.html'
 const currentPath = window.location.pathname;
 if (!currentPath.endsWith('admin-login') && !currentPath.endsWith('admin-login.html')) {
@@ -20,7 +22,7 @@ if (!currentPath.endsWith('admin-login') && !currentPath.endsWith('admin-login.h
         }
     });
 }
-
+*/
 
 
     console.log("Page loaded admin ?????????????");
