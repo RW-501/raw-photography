@@ -327,9 +327,9 @@ async function applySettings() {
       };
       
       let socialMediaData = {
-          facebook: "https://facebook.com/default",
-          instagram: "https://instagram.com/default",
-          twitter: "https://twitter.com/default"
+          facebook: "https://facebook.com/Mr.RonWilson",
+          instagram: "https://instagram.com/ron_dot.dot",
+          twitter: "https://x.com/LRPinc"
       };
 
       let headerFooterData = {
