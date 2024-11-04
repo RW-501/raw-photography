@@ -389,14 +389,16 @@ function startViewTimer() {
     let ipAddress;
 let locationData;
 
-(async () => {
-    const { ip, location } = await window.userLocationService.getUserIPAndLocation();
-    
-    ipAddress = ip;
-    locationData = location;
+document.addEventListener("DOMContentLoaded", async () => {
+    try {
+        const { ip, location } = await window.userLocationService.getUserIPAndLocation();
 
-  
-})();
+        ipAddress = ip;
+        locationData = location;
+    } catch (error) {
+        console.error("Error fetching user IP and location:", error);
+    }
+});
 
 
 
