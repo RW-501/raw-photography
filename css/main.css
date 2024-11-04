@@ -89,7 +89,7 @@ main {
     }
 
     #header-title, #header-subtitle {
-        margin: 0.5em 0;
+        margin: 1rem 0;
     }
 
     /* Hamburger button styling */
