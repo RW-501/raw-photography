@@ -129,7 +129,18 @@
 <!-- Font Awesome for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
- 
+
+
+
+<script  type="module" src="./js/firebaseConfig.js"></script>
+
+<script  type="module" src="./js/main.js"></script>
+      
+
+<script  type="module" src="./js/admin.js"></script>
+
+
+
 
     <!-- Include your firebaseConfig.js as a module -->
     <script type="module">
@@ -160,6 +171,12 @@ function showSuccess(message) {
 }
 
 // Auth functions
+// Import Firebase modules
+import { getAuth, signInWithEmailAndPassword, signInWithPhoneNumber, GoogleAuthProvider, signInWithPopup, RecaptchaVerifier } from "firebase/auth";
+
+// Initialize Firebase Authentication
+const auth = getAuth();
+
 document.getElementById('loginForm').addEventListener('submit', function(event) {
     event.preventDefault();
     const email = document.getElementById('email').value;
@@ -171,8 +188,8 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     // Show loading spinner
     window.showLoadingSpinner(false);
 
-
-    db.auth().signInWithEmailAndPassword(email, password)
+    // Sign in with email and password
+    signInWithEmailAndPassword(auth, email, password)
         .then(() => {
             showSuccess('Logged in successfully!'); // Show success message
             window.location.href = 'admin/dashboard'; // Redirect to admin dashboard
@@ -190,16 +207,17 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
 document.getElementById('phoneLoginForm').addEventListener('submit', function(event) {
     event.preventDefault();
     const phone = document.getElementById('phone').value;
-    const appVerifier = new firebase.auth.RecaptchaVerifier('phoneLoginForm', {
+
+    const appVerifier = new RecaptchaVerifier('phoneLoginForm', {
         size: 'invisible',
         callback: function(response) {
             // reCAPTCHA solved
         }
-    });
+    }, auth);
 
     window.showLoadingSpinner(false);
 
-    db.auth().signInWithPhoneNumber(phone, appVerifier)
+    signInWithPhoneNumber(auth, phone, appVerifier)
         .then(confirmationResult => {
             // Show modal for code entry
             $('#phoneVerificationModal').modal('show');
@@ -227,12 +245,12 @@ document.getElementById('phoneLoginForm').addEventListener('submit', function(ev
 
 // Google login
 document.getElementById('googleLoginBtn').addEventListener('click', function() {
-    const provider = new db.auth.GoogleAuthProvider();
+    const provider = new GoogleAuthProvider();
+
     // Show loading spinner
     window.showLoadingSpinner(false);
 
-
-    db.auth().signInWithPopup(provider)
+    signInWithPopup(auth, provider)
         .then(() => {
             showSuccess('Logged in successfully!'); // Show success message
             window.location.href = 'admin/dashboard'; // Redirect to admin dashboard
@@ -246,24 +264,27 @@ document.getElementById('googleLoginBtn').addEventListener('click', function() {
         });
 });
 
+
 // Anonymous login
 document.getElementById('anonymousLoginBtn').addEventListener('click', function() {
     // Show loading spinner
     window.showLoadingSpinner(false);
 
 
-    db.auth().signInAnonymously()
-        .then(() => {
-            showSuccess('Logged in successfully!'); // Show success message
-            window.location.href = 'admin/dashboard'; // Redirect to admin dashboard
-        })
-        .catch(error => {
-            showError(error.message);
-        })
-        .finally(() => {
-            // Hide loading spinner
-            window.hideLoadingSpinner();
-        });
+  
+// Handle anonymous sign-in
+auth.signInAnonymously()
+    .then(() => {
+        showSuccess('Logged in successfully!'); // Show success message
+        window.location.href = 'admin/dashboard'; // Redirect to admin dashboard
+    })
+    .catch(error => {
+        showError(error.message);
+    })
+    .finally(() => {
+        // Hide loading spinner
+        window.hideLoadingSpinner();
+    });
 });
 
     </script>
@@ -275,10 +296,7 @@ document.getElementById('anonymousLoginBtn').addEventListener('click', function(
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <script  type="module" src="./js/main.js"></script>
-      
-
-    <script  type="module" src="./js/admin.js"></script>
+  
 
 </body>
 </html>
