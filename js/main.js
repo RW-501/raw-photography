@@ -166,7 +166,8 @@ async function applyLoadingSpinnerColors() {
         lensColor = "#222",
         lensBorderColor = "#666",
         spinnerCircleColor = "#007bff"
-      } = data;
+      } = data || {};  // Handle if data is undefined
+      
 
       // Apply colors to elements
       document.querySelector("#loadingContainer").style.backgroundColor = backgroundColor;
