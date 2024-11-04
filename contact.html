@@ -252,6 +252,108 @@
     signInWithEmailAndPassword,
     where, getDocs, storage, collection, auth, analytics  } from './js/firebaseConfig.js';
 
+// Function to dynamically add/remove the budget input and calendar
+document.addEventListener("DOMContentLoaded", function () {
+    const messageTypeSelect = document.getElementById("messageType");
+    const contactForm = document.getElementById("contactForm");
+
+    // Function to add budget input and calendar
+    function addEventBookingFields() {
+        // Create budget input
+        const budgetGroup = document.createElement("div");
+        budgetGroup.className = "form-group";
+        budgetGroup.id = "budgetGroup";
+        const budgetLabel = document.createElement("label");
+        budgetLabel.setAttribute("for", "budget");
+        budgetLabel.textContent = "Budget:";
+        const budgetInput = document.createElement("input");
+        budgetInput.type = "number";
+        budgetInput.id = "budget";
+        budgetInput.name = "budget";
+        budgetInput.placeholder = "Enter your budget";
+        budgetInput.min = 0;
+        budgetInput.setAttribute("aria-label", "Your budget for the event");
+
+        // Append budget input to form group
+        budgetGroup.appendChild(budgetLabel);
+        budgetGroup.appendChild(budgetInput);
+
+        // Create inline calendar input
+        const calendarGroup = document.createElement("div");
+        calendarGroup.className = "form-group";
+        calendarGroup.id = "calendarGroup";
+        const calendarLabel = document.createElement("label");
+        calendarLabel.setAttribute("for", "eventDate");
+        calendarLabel.textContent = "Select Event Date:";
+        const calendarInput = document.createElement("input");
+        calendarInput.type = "date";
+        calendarInput.id = "eventDate";
+        calendarInput.name = "eventDate";
+        calendarInput.setAttribute("aria-label", "Date of the event");
+
+        // Append calendar to form group
+        calendarGroup.appendChild(calendarLabel);
+        calendarGroup.appendChild(calendarInput);
+
+        // Insert budget and calendar above the subject input
+        const subjectGroup = document.getElementById("subject").closest(".form-group");
+        contactForm.insertBefore(budgetGroup, subjectGroup);
+        contactForm.insertBefore(calendarGroup, subjectGroup);
+    }
+
+    // Function to remove budget input and calendar
+    function removeEventBookingFields() {
+        const budgetGroup = document.getElementById("budgetGroup");
+        const calendarGroup = document.getElementById("calendarGroup");
+        if (budgetGroup) budgetGroup.remove();
+        if (calendarGroup) calendarGroup.remove();
+    }
+
+    // Listen for changes on message type
+    messageTypeSelect.addEventListener("change", function () {
+        if (messageTypeSelect.value === "event") {
+            addEventBookingFields();
+        } else {
+            removeEventBookingFields();
+        }
+    });
+});
+
+document.getElementById("messageType").addEventListener("change", function () {
+    const form = document.getElementById("contactForm");
+    
+    // Check if "Event Booking" is selected
+    if (this.value === "event") {
+        // Add Budget field if not already present
+        if (!document.getElementById("budget")) {
+            const budgetField = document.createElement("div");
+            budgetField.className = "form-group";
+            budgetField.innerHTML = `
+                <label for="budget">Budget:</label>
+                <input type="number" id="budget" name="budget" min="0" step="0.01" aria-label="Estimated budget for the event">
+            `;
+            form.insertBefore(budgetField, document.getElementById("subject").parentNode);
+        }
+
+        // Add Calendar field if not already present
+        if (!document.getElementById("eventDate")) {
+            const calendarField = document.createElement("div");
+            calendarField.className = "form-group";
+            calendarField.innerHTML = `
+                <label for="eventDate">Event Date:</label>
+                <input type="date" id="eventDate" name="eventDate" aria-label="Select the date for your event">
+            `;
+            form.insertBefore(calendarField, document.getElementById("subject").parentNode);
+        }
+    } else {
+        // Remove Budget and Calendar fields if they exist
+        const budgetField = document.getElementById("budget");
+        if (budgetField) budgetField.parentNode.remove();
+
+        const calendarField = document.getElementById("eventDate");
+        if (calendarField) calendarField.parentNode.remove();
+    }
+});
 
 
         // Configuration object for customizing the contact form
@@ -317,18 +419,40 @@ function startViewTimer() {
 
 
 
-document.getElementById("contactForm").addEventListener("submit", async function(event) {
-    event.preventDefault(); // Prevent the default form submission behavior
 
-    window.showLoadingSpinner(false); // Show spinner during processing
+  document.getElementById("contactForm").addEventListener("submit", async function (event) {
+    event.preventDefault();
+    window.showLoadingSpinner(false);
 
-    // Get form values and sanitize them
+    // Retrieve and sanitize input values
     const name = sanitizeInput(document.getElementById('name').value);
     const email = sanitizeInput(document.getElementById('email').value);
     const phone = sanitizeInput(document.getElementById('phone').value);
     const subject = sanitizeInput(document.getElementById('subject').value);
-    const messageType = document.getElementById('messageType').value; // value already predefined in select
+    const messageType = document.getElementById('messageType').value;
     const message = sanitizeInput(document.getElementById('message').value);
+
+    // Additional fields for "Event Booking"
+    let budget = null;
+    let eventDate = null;
+    if (messageType === "event") {
+        budget = sanitizeInput(document.getElementById('budget')?.value);
+        eventDate = sanitizeInput(document.getElementById('eventDate')?.value);
+
+        if (!budget || isNaN(budget) || budget < 0) {
+            document.getElementById("formResponse").textContent = 'Please provide a valid budget.';
+            document.getElementById("formResponse").style.color = 'red';
+            window.hideLoadingSpinner();
+            return;
+        }
+
+        if (!eventDate) {
+            document.getElementById("formResponse").textContent = 'Please select a valid event date.';
+            document.getElementById("formResponse").style.color = 'red';
+            window.hideLoadingSpinner();
+            return;
+        }
+    }
 
     // Input validation
     if (!isSafeInput(name) || !isSafeInput(email) || !isSafeInput(phone) || !isSafeInput(subject) || !isSafeInput(message)) {
@@ -347,50 +471,42 @@ document.getElementById("contactForm").addEventListener("submit", async function
         subject,
         messageType,
         message,
-        externalSource: externalSource,
-        internalSource: internalSource,
-        ipAddress: ipAddress,
-        location: location,
+        budget: messageType === "event" ? budget : null,
+        eventDate: messageType === "event" ? eventDate : null,
+        externalSource,
+        internalSource,
+        ipAddress,
+        location,
         contact_form: "Contact Page",
-        timestamp: new Date()  // Optional: Add timestamp
+        timestamp: new Date(),
     };
 
     try {
-        // Specify the 'messages' collection in the Firestore database
+        // Save to Firestore
         const messagesCollectionRef = collection(db, 'messages');
-        
-        // Add the document to the 'messages' collection
         await addDoc(messagesCollectionRef, formData);
-        // Show success message
+
+        // Success feedback
         window.showToast('Message sent successfully!', 'success');
-        
-        // Clear the form
         document.getElementById("contactForm").reset();
+        document.getElementById("formResponse").innerHTML = "";
 
-        // Clear any previous response messages
-        const formResponse = document.getElementById("formResponse");
-        formResponse.innerHTML = ""; 
-
-        // Show the thank you modal
-        const modal = document.getElementById("thankYouModal");
-        modal.style.display = "block";
+        // Display the thank you modal
+        document.getElementById("thankYouModal").style.display = "block";
     } catch (error) {
         console.error("Error sending message: ", error);
         const formResponse = document.getElementById("formResponse");
         formResponse.textContent = 'There was an error sending your message. Please try again.';
         formResponse.style.color = 'red';
-
     } finally {
-        window.hideLoadingSpinner(); // Ensure the spinner is hidden after processing
+        window.hideLoadingSpinner();
     }
 });
 
-// Close the thank you modal when clicking on the <span> (x) element
-document.getElementById("closeModal").onclick = function() {
-    document.getElementById("thankYouModal").style.display = "none"; // Hide the modal
-}
-
-
+// Close modal
+document.getElementById("closeModal").onclick = function () {
+    document.getElementById("thankYouModal").style.display = "none";
+};
 
 // Close the modal when clicking anywhere outside of it
 window.onclick = function(event) {
