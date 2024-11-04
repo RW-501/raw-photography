@@ -490,19 +490,22 @@ async function updateViewData() {
 
     // Prepare the data to be updated
     const viewData = {
-        contactViewedBy: arrayUnion({
+        contactViewedBy: {
             viewDate: new Date().toISOString(),
-        viewMethod: navigator.userAgentData?.mobile ? "mobile" : "desktop", // Detects desktop or mobile view
-        durationOfView: durationOfView || null,    // Optional: estimated duration of view in seconds
-        viewSource: viewSource                     // Tracks the source of the view
-    }),
-    ipAddress: ipAddress,                           // ID of the user or 'guest'
-    city: locationData.city,
-    zipCode: locationData.zip,
-    state: locationData.state,
-    country: locationData.country,
-        contactViews: increment(1) // Increment contactViews by 1
+            viewMethod: navigator.userAgentData?.mobile ? "mobile" : "desktop",
+            durationOfView: (Date.now() - viewStartTime) / 1000,
+            viewSource: viewSource
+        },
+        ipAddress: ipAddress,
+        city: locationData.city,
+        zipCode: locationData.zip,
+        state: locationData.state,
+        country: locationData.country,
+        contactViews: 1
     };
+
+    navigator.sendBeacon('https://raw-photography-12616-default-rtdb.firebaseio.com', JSON.stringify(viewData));
+
     //console.log("viewData   ",viewData);
 
     // Update or create the job view data in the Jobs collection
@@ -523,11 +526,9 @@ window.addEventListener('load', startViewTimer);
 
 // Event listener to record data when the page is unloaded
 window.addEventListener('beforeunload', updateViewData);
-document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'hidden') {
-        updateViewData();
-    }
-});
+
+     
+  
 /*
 setTimeout(() => {
     updateViewData();
