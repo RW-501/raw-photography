@@ -498,7 +498,11 @@ window.addEventListener('beforeunload', setInternalPageSource);
 window.addEventListener('load', startViewTimer);
 
 // Event listener to record data when the page is unloaded
-window.addEventListener('beforeunload', updateViewData);
+document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') {
+        updateViewData();
+    }
+});
 
 
 

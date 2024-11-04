@@ -190,8 +190,7 @@ async function updateViewData() {
         eventsViews: increment(1) // Increment eventsViews by 1
     };
 
-    navigator.sendBeacon('https://raw-photography-12616-default-rtdb.firebaseio.com', JSON.stringify(viewData));
-
+    
     //console.log("viewData   ",viewData);
 
     // Update or create the job view data in the Jobs collection
@@ -211,7 +210,11 @@ window.addEventListener('beforeunload', setInternalPageSource);
 window.addEventListener('load', startViewTimer);
 
 // Event listener to record data when the page is unloaded
-window.addEventListener('beforeunload', updateViewData);
+document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') {
+        updateViewData();
+    }
+});
 
    
 
