@@ -323,8 +323,8 @@ document.getElementById("messageType").addEventListener("change", function () {
     
         // Function to customize form elements based on the formCustomization object
         function customizeForm() {
-            document.getElementById("headerTitle").innerText = formCustomization.headerTitle; // Set header title
-            document.getElementById("headerSubtitle").innerText = formCustomization.headerSubtitle; // Set header subtitle
+            document.getElementById("header-title").innerText = formCustomization.headerTitle; // Set header title
+            document.getElementById("header-subtitle").innerText = formCustomization.headerSubtitle; // Set header subtitle
             document.getElementById("contactFormTitle").innerText = formCustomization.contactFormTitle; // Set contact form title
             document.querySelector('label[for="name"]').innerText = formCustomization.labels.name; // Set label for name
             document.querySelector('label[for="email"]').innerText = formCustomization.labels.email; // Set label for email
