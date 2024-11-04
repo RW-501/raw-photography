@@ -191,9 +191,6 @@ async function applyLoadingSpinnerColors() {
   }
 }
 
-// Call the function to apply settings
-applyLoadingSpinnerColors();
-  
 
   window.showLoadingSpinner = function(automatic = true) {
 
@@ -357,34 +354,87 @@ async function applySettings() {
           }
       });
 
+  
+    } catch (error) {
+      console.error("Error fetching settings:", error);
+  }
+}
+
+
+
+function loadMenuToggleControls(){
+  const menuToggle = document.getElementById("menu-toggle");
+  const navMenu = document.getElementById("nav-menu");
+  
+  // Toggle the navigation menu
+  menuToggle.addEventListener("click", function () {
+      const isExpanded = menuToggle.getAttribute("aria-expanded") === "true" || false;
+      menuToggle.setAttribute("aria-expanded", !isExpanded);
+      navMenu.setAttribute("aria-hidden", isExpanded);
+      menuToggle.classList.toggle("active");
+      navMenu.classList.toggle("show");
+  });
+  
+  // Close menu when clicking outside
+  document.addEventListener("click", function (e) {
+      if (!menuToggle.contains(e.target) && !navMenu.contains(e.target)) {
+          menuToggle.setAttribute("aria-expanded", "false");
+          navMenu.setAttribute("aria-hidden", "true");
+          menuToggle.classList.remove("active");
+          navMenu.classList.remove("show");
+      }
+  });
+  
+ 
+  
+  // Ensure escape key closes the menu for accessibility
+  document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && navMenu.classList.contains("show")) {
+          menuToggle.setAttribute("aria-expanded", "false");
+          navMenu.setAttribute("aria-hidden", "true");
+          menuToggle.classList.remove("active");
+          navMenu.classList.remove("show");
+      }
+  });
+  
+}
+  
     
 
+      window.checkUrl = (function(keyword) {
 
+        // Get the current URL
+        const currentUrl = window.location.href;
+        console.log("currentUrl   ",currentUrl);
+      
+        // Check if the URL contains 
+        if (currentUrl.includes(keyword)) {
+            return true; // The URL contains either 
+            }
+        return false; // Neither keyword is found
+      });
+      
 
         
       document.addEventListener("DOMContentLoaded", () => {
         if (!window.checkUrl("/admin/")) {
         // Apply fetched or default settings
+        // Call the function to apply settings
+applyLoadingSpinnerColors();
+  
         injectStyles(siteDesignData);
-        updateSocialLinks(socialMediaData);
         updateHeader(headerFooterData);
         updateNavMenu(headerFooterData.navigationItems);
-      updateFooter(headerFooterData);
-
+        updateSocialLinks(socialMediaData);
+applySettings();
+updateFooter(headerFooterData);
+loadMenuToggleControls();
     }else{
       console.log("Admin Mode");
     } 
     });
 
 
-
-  } catch (error) {
-      console.error("Error fetching settings:", error);
-  }
-}
-
-// Call the function to apply all settings when the page loads
-document.addEventListener("DOMContentLoaded", applySettings);
 
 
 
@@ -561,55 +611,6 @@ window.userLocationService = (function() {
       getUserIPAndLocation
   };
 })();
-
-if(document.getElementById("menu-toggle")){
-const menuToggle = document.getElementById("menu-toggle");
-const navMenu = document.getElementById("nav-menu");
-
-// Toggle the navigation menu
-menuToggle.addEventListener("click", function () {
-    const isExpanded = menuToggle.getAttribute("aria-expanded") === "true" || false;
-    menuToggle.setAttribute("aria-expanded", !isExpanded);
-    navMenu.setAttribute("aria-hidden", isExpanded);
-    menuToggle.classList.toggle("active");
-    navMenu.classList.toggle("show");
-});
-
-// Close menu when clicking outside
-document.addEventListener("click", function (e) {
-    if (!menuToggle.contains(e.target) && !navMenu.contains(e.target)) {
-        menuToggle.setAttribute("aria-expanded", "false");
-        navMenu.setAttribute("aria-hidden", "true");
-        menuToggle.classList.remove("active");
-        navMenu.classList.remove("show");
-    }
-});
-
-}
-
-// Ensure escape key closes the menu for accessibility
-document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && navMenu.classList.contains("show")) {
-        menuToggle.setAttribute("aria-expanded", "false");
-        navMenu.setAttribute("aria-hidden", "true");
-        menuToggle.classList.remove("active");
-        navMenu.classList.remove("show");
-    }
-});
-
-window.checkUrl = (function(keyword) {
-
-  // Get the current URL
-  const currentUrl = window.location.href;
-  console.log("currentUrl   ",currentUrl);
-
-  // Check if the URL contains 
-  if (currentUrl.includes(keyword)) {
-      return true; // The URL contains either 
-      }
-  return false; // Neither keyword is found
-});
-
 
 function formatCurrency(value, options = {}) {  
   const { locale = "en-US", currency = "USD", decimals = 0 } = options;
