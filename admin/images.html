@@ -40,7 +40,9 @@
 
 .modal-dialog {
     max-width: 500px;
-    margin: 10% auto;
+    margin: auto;
+    overflow-y: auto;
+    height: 100%;
 }
 #imageCanvas {
     width: 100%; /* Make canvas responsive */
@@ -181,7 +183,7 @@ select, input[type="range"], input[type="number"] {
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Watermark Settings</h5>
-                <button id="closeWatermarkModal" type="button" class="close" aria-label="Close" >
+                <button id="closeWatermarkX" type="button" class="close" aria-label="Close" >
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -429,7 +431,9 @@ select, input[type="range"], input[type="number"] {
     });
 
 
-
+function saveAllImages(){
+    showToast("save all Images 433");
+}
 
 
 
@@ -552,6 +556,13 @@ let watermarkSettings = {
 function addWatermark(ctx, width, height) {
     const { text, font, fontSize, color, opacity, rotation, posX, posY } = watermarkSettings;
 
+    if(text == "Your Watermark"){
+        showToast("Create a Watermark");
+        document.getElementById("watermarkSettingsModal").style.display = "block";
+
+        return;
+    }
+
     ctx.save();
     ctx.font = `${fontSize}px ${font}`;
     ctx.fillStyle = color;
@@ -603,7 +614,7 @@ imagesData.forEach((image, index) => {
                     <strong>Image #${index + 1}</strong>
                 </p>
                 <button class="btn btn-primary btn-sm mt-2" aria-label="View full image of ${fileName}" data-original-url="${originalUrl}">
-                    View Full Image
+                    Edit Image
                 </button>
             </div>
         </div>
@@ -964,14 +975,15 @@ document.getElementById("imageUploadArea").addEventListener("click", triggerFile
 // Add Event Listeners for the form buttons
 document.getElementById("saveImagesBtn").addEventListener("click", saveAllImages);
 document.getElementById("watermarkSettingsBtn").addEventListener("click", openWatermarkModal);
-document.getElementById("openImageEditorBtn").addEventListener("click", openImageEditor);
+//document.getElementById("openImageEditorBtn").addEventListener("click", openImageEditor);
 
 // Event Form Button Listener
 document.getElementById("eventForm").querySelector("button[onclick='saveEvent()']").addEventListener("click", saveEvent);
 
 // Event Listeners for Watermark Modal Buttons
-document.querySelector("#watermarkSettingsModal .modal-footer .btn-primary").addEventListener("click", applyWatermarkSettings);
-document.querySelector("#watermarkSettingsModal .modal-footer .btn-secondary").addEventListener("click", closeWatermarkModal);
+document.getElementById("applyWatermarkSettings").addEventListener("click", applyWatermarkSettings);
+document.getElementById("closeWatermarkModal").addEventListener("click", closeWatermarkModal);
+document.getElementById("closeWatermarkX").addEventListener("click", closeWatermarkModal);
 
 // Event Listener for the Image Editor Close Button
 document.querySelector("#imageEditorModal .modal-header .close").addEventListener("click", closeImageEditor);
