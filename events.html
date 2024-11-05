@@ -8,7 +8,82 @@
  </head>
 <body>
 
+<style>
 
+.loading-indicator {
+    text-align: center;
+    padding: 20px;
+    font-size: 1.2em;
+    color: #007bff; /* Bootstrap primary color */
+}
+
+.no-events-message {
+    text-align: center;
+    padding: 20px;
+    font-size: 1.2em;
+    color: #666;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 20px auto;
+    width: 80%;
+}
+
+.event-item {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 10px 0;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.event-item:hover {
+    transform: translateY(-5px);
+}
+
+.event-image-container {
+    text-align: center;
+}
+
+.event-image-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.event-title {
+    font-size: 1.5em;
+    margin: 10px 0;
+}
+
+.event-date {
+    font-size: 1em;
+    color: #888;
+}
+
+.event-description {
+    margin: 10px 0;
+    font-size: 1em;
+    color: #333;
+}
+
+.link-button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.link-button:hover {
+    background-color: #0056b3;
+}
+
+</style>
 
     <!-- Header -->
     <header id="site-header">
@@ -83,20 +158,52 @@
     signInWithEmailAndPassword,
     where, getDocs, storage, collection, auth, analytics  } from './js/firebaseConfig.js';
 
-async function fetchEvents() {
+    async function fetchEvents() {
     const eventsCollection = collection(db, "events");
     const querySnapshot = await getDocs(eventsCollection);
-    querySnapshot.forEach((doc) => {
-        const eventData = doc.data();
-        const eventItem = document.createElement("div");
-        eventItem.className = "event-item";
-        eventItem.innerHTML = `
-            <img src="${eventData.coverImage}" alt="${eventData.title}" onclick="openModal('${doc.id}')">
-            <h2>${eventData.title}</h2>
+
+    // Clear previous event items and show a loading message
+    const eventGalleryGrid = document.getElementById("eventGalleryGrid");
+    eventGalleryGrid.innerHTML = ''; // Clear existing content
+
+    // Create and show a loading indicator
+    const loadingIndicator = document.createElement("div");
+    loadingIndicator.className = "loading-indicator";
+    loadingIndicator.innerHTML = `<p>Loading events...</p>`;
+    eventGalleryGrid.appendChild(loadingIndicator);
+
+    // Remove loading indicator once data is fetched
+    loadingIndicator.remove();
+
+    // Check if there are any documents in the collection
+    if (querySnapshot.empty) {
+        // Create a div to show a message when there are no events
+        const noEventsDiv = document.createElement("div");
+        noEventsDiv.className = "no-events-message"; // Add a class for styling
+        noEventsDiv.innerHTML = `
+            <p>No events available at the moment. Please check back later!</p>
+            <a href="../events" class="link-button">View Upcoming Events</a>
         `;
-        document.getElementById("eventGalleryGrid").appendChild(eventItem);
-    });
+        eventGalleryGrid.appendChild(noEventsDiv);
+    } else {
+        // Loop through each document in the collection and create event items
+        querySnapshot.forEach((doc) => {
+            const eventData = doc.data();
+            const eventItem = document.createElement("div");
+            eventItem.className = "event-item";
+            eventItem.innerHTML = `
+                <div class="event-image-container">
+                    <img src="${eventData.coverImage}" alt="${eventData.title}" onclick="openModal('${doc.id}')">
+                </div>
+                <h2 class="event-title">${eventData.title}</h2>
+                <p class="event-date">${new Date(eventData.date).toLocaleDateString()}</p>
+                <p class="event-description">${eventData.description || "No description available."}</p>
+            `;
+            eventGalleryGrid.appendChild(eventItem);
+        });
+    }
 }
+
 
 async function openModal(eventId) {
     const eventDoc = doc(db, "events", eventId);
