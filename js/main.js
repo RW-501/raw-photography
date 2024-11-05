@@ -152,18 +152,18 @@ loadingContainer.style.display = 'none';
 async function applyLoadingSpinnerColors(data) {
   
       // Apply colors to elements
-      document.querySelector("#loadingContainer").style.backgroundColor = backgroundColor;
-      document.querySelector(".camera-icon").style.backgroundColor = cameraBodyColor;
-      document.querySelector(".lens").style.backgroundColor = lensColor;
-      document.querySelector(".lens").style.borderColor = lensBorderColor;
-      document.querySelector(".spinner-circle").style.borderTopColor = spinnerCircleColor;
+      document.querySelector("#loadingContainer").style.backgroundColor = data.backgroundColor;
+      document.querySelector(".camera-icon").style.backgroundColor = data.cameraBodyColor;
+      document.querySelector(".lens").style.backgroundColor = data.lensColor;
+      document.querySelector(".lens").style.borderColor = data.lensBorderColor;
+      document.querySelector(".spinner-circle").style.borderTopColor = data.spinnerCircleColor;
 
       // Add a class to handle pseudo-elements in CSS for the shutter and flash colors
       document.querySelector(".camera-icon").classList.add("apply-spinner-colors");
 
       // Define these styles in your CSS to handle pseudo-elements
-      document.documentElement.style.setProperty("--shutter-button-color", shutterButtonColor);
-      document.documentElement.style.setProperty("--flash-color", flashColor);
+      document.documentElement.style.setProperty("--shutter-button-color", data.shutterButtonColor);
+      document.documentElement.style.setProperty("--flash-color", data.flashColor);
 
  
 }
