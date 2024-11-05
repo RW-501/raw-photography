@@ -65,6 +65,10 @@ select, input[type="range"], input[type="number"] {
         .visible {
             display: block; /* Show when needed */
         }
+        .close {
+   max-width: 20%;
+    font-size: 2rem;
+}
 </style>
     <header class="admin-header">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -679,7 +683,7 @@ document.getElementById("closeWatermarkModal").addEventListener("click", () => {
 // Get user settings and apply watermark
 function applyWatermarkSettings() {
     console.log("Working???");
-    
+
     const text = document.getElementById("watermarkText").value || "Your Watermark";
     const font = document.getElementById("watermarkFont").value;
     const fontSize = document.getElementById("watermarkSize").value || 20;
