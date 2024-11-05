@@ -129,12 +129,13 @@
                   <label for="showTime" class="form-check-label">Display Time in Footer</label>
                   <span class="tooltip">Show current time in the footer</span>
                 </div>
-                <button id="saveDesignSettings" class="btn btn-primary" onclick="saveDesignSettings()"></button>Update Colors</button>
+                <button id="saveDesignSettings" class="btn btn-primary" onclick="saveDesignSettings()">Update Design</button>
 </form>
 </div>
-
 </div>
-          <!-- Collapsible Header, Footer, Nav, and Social Media Links -->
+
+
+          <!-- Collapsible Header, Spinner -->
           <div class="collapsible">
             <button class="collapsible-header btn btn-info" aria-expanded="false" aria-controls="header-footer-nav-content">Header, Footer, Nav, and Social Media Links</button>
             <div class="collapsible-content" id="header-footer-nav-content">
@@ -170,7 +171,7 @@
                   <input type="color" id="spinnerCircleColor" name="spinnerCircleColor" required aria-label="Spinner circle color">
                 </div>
       
-                <button id="colorSettingsForm" class="btn btn-primary">Update Colors</button>
+                <button id="colorSettingsForm" class="btn btn-primary">Update Spinner</button>
                 <button type="button" class="btn btn-secondary" id="reset-button">Reset</button>
               </form>
               <div id="colorResponse" class="mt-2"></div>
@@ -214,7 +215,7 @@
                 <textarea id="footerText" placeholder="Footer copyright text" aria-label="Footer copyright text"></textarea>
               </div>
       
-              <button id="updateSettings" class="btn btn-primary" onclick="saveSocialMediaAndFooter()">Save Changes</button> 
+              <button id="updateSettings" class="btn btn-primary" onclick="saveSocialMediaAndFooter()">Update Header & Footer</button> 
             </div>
           </div>
       
