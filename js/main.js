@@ -152,7 +152,7 @@ loadingContainer.style.display = 'none';
 async function applyLoadingSpinnerColors(data) {
   
       // Apply colors to elements
-      document.querySelector("#loadingContainer").style.backgroundColor = data.backgroundColor;
+      document.querySelector("#loadingContainer").style.backgroundColor = data.backgroundColor || "";
       document.querySelector(".camera-icon").style.backgroundColor = data.cameraBodyColor;
       document.querySelector(".lens").style.backgroundColor = data.lensColor;
       document.querySelector(".lens").style.borderColor = data.lensBorderColor;
@@ -332,16 +332,26 @@ async function applySettings() {
       // Loop through fetched documents to assign data
       settingsSnapshots.forEach(docSnapshot => {
           const docData = docSnapshot.data();
-          if (docSnapshot.id === "siteDesign") {
+    // Only proceed if docData is not null or undefined
+    
+      switch (docSnapshot.id) {
+          case "siteDesign":
               siteDesignData = { ...siteDesignData, ...docData };
-          } else if (docSnapshot.id === "social_media") {
+              break;
+          case "social_media":
               socialMediaData = { ...socialMediaData, ...docData };
-          } else if (docSnapshot.id === "header_footer") {
-            headerFooterData = { ...headerFooterData, ...docData };
-        }else if (docSnapshot.id === "loading_spinner") {
-          loadSpinnerData = { ...loadSpinnerData, ...docData };
-        }
- 
+              break;
+          case "header_footer":
+              headerFooterData = { ...headerFooterData, ...docData };
+              break;
+          case "loading_spinner":
+              loadSpinnerData = { ...loadSpinnerData, ...docData };
+              break;
+          default:
+              console.warn(`Unknown document ID: '${docSnapshot.id}'.`);
+              break;
+      
+      }
 
       });
       applyLoadingSpinnerColors(loadSpinnerData) 
