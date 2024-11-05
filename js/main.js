@@ -279,7 +279,7 @@ function updateNavMenu(navItems) {
 // Function to update the footer
 function updateFooter(footerData) {
 const currentYear = new Date().getFullYear();
-const footerElement = document.querySelector("footer-body p");
+const footerElement = document.querySelector(".footer-body p");
 
 if (footerElement) {
     // Construct the footer content

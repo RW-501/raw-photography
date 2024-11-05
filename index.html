@@ -186,47 +186,62 @@
 
 <main>
     
-    <!-- Gallery Section -->
-    <section id="gallery">
-        <h2 id="gallery-title">Gallery</h2>
-        <div id="gallery-grid">
-            <!-- Dynamically loaded images will be inserted here -->
-        </div>
-        <div id="cta-buttons">
-            <button id="book-session-btn" onclick="location.href='contact?book'">Book a Session</button>
-            <button id="view-portfolio-btn" onclick="location.href='events'">View Portfolio</button>
-        </div>
-    </section>
+<!-- Gallery Section -->
+<section id="gallery" class="gallery-section">
+    <h2 id="gallery-title">Gallery</h2>
+    <p class="gallery-description">Explore our collection of stunning images that capture the essence of our work.</p>
+    <div id="gallery-grid" class="gallery-grid">
+        <!-- Dynamically loaded images will be inserted here -->
+    </div>
+    <div id="cta-buttons" class="cta-buttons">
+        <button id="book-session-btn" class="btn btn-primary" onclick="location.href='contact?book'">Book a Session</button>
+        <button id="view-portfolio-btn" class="btn btn-secondary" onclick="location.href='events'">View Portfolio</button>
+    </div>
+</section>
 
-    <!-- Testimonials Section -->
-    <section id="testimonials">
-        <h2 id="testimonials-title">What Our Clients Say</h2>
-        <div id="testimonial-list">
-            <!-- Testimonials will be inserted here -->
-        </div>
-    </section>
+<!-- Testimonials Section -->
+<section id="testimonials" class="testimonials-section">
+    <h2 id="testimonials-title">What Our Clients Say</h2>
+    <p class="testimonials-description">Hear directly from our clients about their experiences with us.</p>
+    <div id="testimonial-list" class="testimonial-list">
+        <!-- Testimonials will be inserted here -->
+    </div>
+    <button id="view-all-testimonials-btn" class="btn btn-secondary" onclick="location.href='testimonials'">View All Testimonials</button>
+</section>
+
 
     <!-- Contact Form Section -->
-    <section id="contact">
-        <h2 id="contact-title">Contact Us</h2>
-        <form id="contactForm">
-            <label for="name">Name</label>
-            <input type="text" id="name" required>
-
-            <label for="email">Email</label>
-            <input type="email" id="email" >
-
-            <label for="phone">Email</label>
-            <input type="tel" id="phone" required>
-
-            <label for="message">Message</label>
-            <textarea id="message" required></textarea>
-
-            <div id="formResponse"></div>
-
-            <button id="send-message-btn" type="submit">Send Message</button>
+    <section id="contact" aria-labelledby="contact-title" class="contact-section">
+        <h2 id="contact-title">Get in Touch</h2>
+        <p class="contact-description">We’d love to hear from you! Please fill out the form below and our team will get back to you as soon as possible.</p>
+        
+        <form id="contactForm" class="contact-form">
+            <div class="form-group">
+                <label for="name">Name <span class="required">*</span></label>
+                <input type="text" id="name" placeholder="Your full name" required aria-required="true">
+            </div>
+    
+            <div class="form-group">
+                <label for="email">Email <span class="required">*</span></label>
+                <input type="email" id="email" placeholder="yourname@example.com" required aria-required="true">
+            </div>
+    
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" placeholder="Optional">
+            </div>
+    
+            <div class="form-group">
+                <label for="message">Message <span class="required">*</span></label>
+                <textarea id="message" rows="5" placeholder="Type your message here..." required aria-required="true"></textarea>
+            </div>
+    
+            <div id="formResponse" class="form-response"></div>
+    
+            <button id="send-message-btn" type="submit" class="btn btn-primary">Send Message</button>
         </form>
     </section>
+    
 
     <!-- Lightbox for images -->
     <div id="lightbox" class="lightbox">
@@ -237,16 +252,28 @@
 
 
 <!-- Footer -->
-<footer id="site-footer">
-    <div class="social-icons">
-        <!-- Social media links dynamically added here -->
+<footer id="site-footer" class="footer">
+    <div class="footer-container">
+        <div class="social-icons">
+            <!-- Social media links dynamically added here -->
+            <a href="https://facebook.com" target="_blank" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://instagram.com" target="_blank" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://twitter.com" target="_blank" class="social-icon" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="https://linkedin.com" target="_blank" class="social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+        <div class="footer-body">
+            <p>&copy; 2024 My Photography Site. All Rights Reserved.</p>
+            <p class="footer-links">
+                <small>
+                    <a href="privacy" class="footer-link">Privacy Policy</a> |
+                    <a href="terms" class="footer-link">Terms of Service</a>
+                </small>
+            </p>
+            <p><a href="admin-login" class="footer-link">Admin Login</a></p>
+        </div>
     </div>
-    <footer-body>
-        <p>&copy; 2024 My Photography Site. All Rights Reserved.</p>
-        <p><small><a href="privacy" style="color: #fff;">Privacy Policy</a> | <a href="terms" style="color: #fff;">Terms of Service</a></small></p>
-        <p><a href="admin-login" style="color: #fff;">Admin Login</a></p>
-    </footer-body>
 </footer>
+
 
 <!-- Font Awesome for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
