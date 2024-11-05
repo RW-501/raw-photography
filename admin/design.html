@@ -403,7 +403,7 @@ function applyDefaultSettings(settings) {
 document.getElementById("colorSettingsForm").addEventListener("submit", async function (event) { 
     event.preventDefault(); // Prevent page reset
 
-    const colorSettings = {
+    let colorSettings = {
         backgroundColor: document.getElementById('backgroundColor').value,
         cameraBodyColor: document.getElementById('cameraBodyColor').value,
         shutterButtonColor: document.getElementById('shutterButtonColor').value,
@@ -417,6 +417,15 @@ document.getElementById("colorSettingsForm").addEventListener("submit", async fu
         // Reference the document in the "settings" collection
         const docRef = doc(db, "settings", "loading_spinner");
         
+         colorSettings = {
+    themeColor: "#ff5733", // Example color settings
+    navFontColor: "#ffffff",
+    navBackgroundColor: "#333333",
+    footerFontColor: "#ffffff",
+    footerBackgroundColor: "#444444",
+    font: "Arial, sans-serif"
+};
+
         // Update the document with color settings
         await setDoc(docRef, colorSettings, { merge: true });
         
@@ -428,6 +437,8 @@ document.getElementById("colorSettingsForm").addEventListener("submit", async fu
     } catch (error) {
         console.error("Error updating color settings:", error);
         showToast("Error updating color settings.","error");
+        console.error("Error updating color settings:", error);
+
     }
 });
 
