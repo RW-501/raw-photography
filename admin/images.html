@@ -457,11 +457,7 @@ select, input[type="range"], input[type="number"] {
                     font-size: 1.2rem;
                   }
                 </style>
-                <div class="modal-header bg-gradient-primary text-white border-bottom-0 py-3 px-4">
-                  <h5 class="modal-title fw-bold">Image Editor</h5>
-  
-                </div>
-                <div class="modal-body p-4 bg-light">
+         
                   <!-- Filter Buttons Section -->
                   <div class="d-flex justify-content-center mb-4">
                     <button id="saveFilters" class="btn btn-primary btn-lg rounded-pill px-4 me-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Save your current filter settings">
@@ -487,7 +483,6 @@ select, input[type="range"], input[type="number"] {
                       </button>
                     </div>
                   </div>
-                </div>
   
                 <div class="modal-footer d-flex justify-content-between px-4 py-3 bg-gradient-secondary">
                   <div class="d-flex gap-3">
@@ -1147,7 +1142,7 @@ document.getElementById("saveImagesBtn").addEventListener("click", saveAllImages
 //document.getElementById("openImageEditorBtn").addEventListener("click", openImageEditor);
 
 // Event Form Button Listener
-document.getElementById("eventForm").querySelector("button[onclick='saveEvent()']").addEventListener("click", saveEvent);
+document.getElementById("saveEvent").addEventListener("click", saveEvent);
 
 // Event Listeners for Watermark Modal Buttons
 document.getElementById("applyWatermarkSettings").addEventListener("click", applyWatermarkSettings);
