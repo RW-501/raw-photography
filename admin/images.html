@@ -241,61 +241,31 @@ select, input[type="range"], input[type="number"] {
                 <div class="container-fluid d-flex">
 
                 <!-- Watermark input fields -->
-   <!-- Watermark Text Input -->
-   <div class="mb-3">
-    <label for="watermarkText" class="form-label">Watermark Text</label>
-    <input type="text" id="watermarkText" class="form-control" placeholder="Enter watermark text">
-</div>
+                <label for="watermarkText">Text</label>
+                <input type="text" id="watermarkText" class="form-control" placeholder="Enter watermark text">
+                <label for="watermarkFont">Font</label>
+                <select id="watermarkFont" class="form-control">
+                    <option value="Arial">Arial</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                    <option value="Courier New">Courier New</option>
+                </select>
+                <label for="watermarkSize">Font Size</label>
+                <input type="number" id="watermarkSize" class="form-control" placeholder="20" value="20">
+                <label for="watermarkColor">Color</label>
+                <input type="color" id="watermarkColor" class="form-control" value="#ffffff">
+                <label for="watermarkOpacity">Opacity</label>
+                <input type="range" id="watermarkOpacity" class="form-control" min="0" max="1" step="0.1" value="0.5">
+               </div>
+               
+               <div class="container-fluid d-flex">
 
-<!-- Font and Font Size Group -->
-<div class="row mb-3">
-    <div class="col-md-6">
-        <label for="watermarkFont" class="form-label">Font</label>
-        <select id="watermarkFont" class="form-select">
-            <option value="Arial">Arial</option>
-            <option value="Times New Roman">Times New Roman</option>
-            <option value="Courier New">Courier New</option>
-        </select>
-    </div>
-    <div class="col-md-6">
-        <label for="watermarkSize" class="form-label">Font Size</label>
-        <input type="number" id="watermarkSize" class="form-control" placeholder="20" value="20">
-    </div>
-</div>
-
-<!-- Color and Opacity Group -->
-<div class="row mb-3 align-items-center">
-    <div class="col-md-6">
-        <label for="watermarkColor" class="form-label">Color</label>
-        <input type="color" id="watermarkColor" class="form-control form-control-color" value="#ffffff" title="Choose your color">
-    </div>
-    <div class="col-md-6">
-        <label for="watermarkOpacity" class="form-label">Opacity</label>
-        <input type="range" id="watermarkOpacity" class="form-range" min="0" max="1" step="0.1" value="0.5">
-    </div>
-</div>
-
-</div>
-
-
-<div class="container-fluid d-flex">
-
-<!-- Rotation and Position Group -->
-<div class="row mb-3">
-    <div class="col-md-4">
-        <label for="watermarkRotation" class="form-label">Rotation (degrees)</label>
-        <input type="number" id="watermarkRotation" class="form-control" placeholder="0" value="0">
-    </div>
-    <div class="col-md-4">
-        <label for="watermarkPositionX" class="form-label">Position X</label>
-        <input type="number" id="watermarkPositionX" class="form-control" placeholder="20" value="20">
-    </div>
-    <div class="col-md-4">
-        <label for="watermarkPositionY" class="form-label">Position Y</label>
-        <input type="number" id="watermarkPositionY" class="form-control" placeholder="20" value="20">
-    </div>
-</div>
-
+                <label for="watermarkRotation">Rotation (degrees)</label>
+                <input type="number" id="watermarkRotation" class="form-control" placeholder="0" value="0">
+                <label for="watermarkPositionX">Position X</label>
+                <input type="number" id="watermarkPositionX" class="form-control" placeholder="20" value="20">
+                <label for="watermarkPositionY">Position Y</label>
+                <input type="number" id="watermarkPositionY" class="form-control" placeholder="20" value="20">
+            </div>
         </div>
 
         <div class="modal-footer">
@@ -327,49 +297,22 @@ select, input[type="range"], input[type="number"] {
           <div class="container-fluid d-flex">
   
             <!-- Logo Upload Section -->
-            <div class="container py-4">
-                <div class="card shadow-lg border-0 mb-4">
-                    <div class="card-body editor-controls">
-                        <h5 class="card-title text-center text-primary mb-4">Logo Settings</h5>
-            
-                        <!-- Upload Logo Section -->
-                        <div class="mb-4">
-                            <label for="uploadLogo" class="form-label fw-semibold text-secondary">Upload Logo</label>
-                            <div class="input-group">
-                                <input type="file" id="uploadLogo" accept="image/*" class="form-control" />
-                                <button class="btn btn-outline-primary" onclick="document.getElementById('uploadLogo').click()">Browse</button>
-                            </div>
-                            <small class="form-text text-muted">Supported formats: JPEG, PNG, SVG.</small>
-                        </div>
-            
-                        <!-- Logo Size Section -->
-                        <div class="mb-3">
-                            <label for="logoSize" class="form-label fw-semibold text-secondary">Logo Size</label>
-                            <input type="range" id="logoSize" min="0.1" max="1" step="0.1" value="0.5" class="form-range" oninput="updateLogoSizeLabel(this.value)">
-                            <div class="d-flex justify-content-between mt-2 text-muted">
-                                <span>Small</span>
-                                <span id="logoSizeLabel">50%</span>
-                                <span>Large</span>
-                            </div>
-                        </div>
-                    </div>
+            <div class="card shadow-sm mb-4">
+              <div class="card-body editor-controls">
+                <label for="uploadLogo" class="form-label fw-semibold">Upload Logo</label>
+                <input type="file" id="uploadLogo" accept="image/*" class="form-control" />
+                <div class="mt-3">
+                  <label for="logoSize" class="form-label fw-semibold">Logo Size</label>
+                  <input type="range" id="logoSize" min="0.1" max="1" step="0.1" value="0.5" class="form-range" />
                 </div>
+              </div>
             </div>
-            
-            <!-- Optional: JavaScript to dynamically display the selected size percentage -->
-            <script>
-            function updateLogoSizeLabel(value) {
-                document.getElementById("logoSizeLabel").textContent = `${Math.round(value * 100)}%`;
-            }
-            </script>
-            
-     
   
             <!-- Filter Options -->
             <div class="card shadow-sm mb-4">
               <div class="card-body">
                 <h5 class="text-secondary fw-bold">Image Filter Adjustments</h5>
-                <label for="filters" class="form-label text-secondary fw-semibold"">Select Filter:</label>
+                <label for="filters" class="form-label">Select Filter:</label>
                 <select id="filters" class="form-select" aria-label="Image filters">
                   <option value="none">None</option>
                   <optgroup label="Color Adjustments">
