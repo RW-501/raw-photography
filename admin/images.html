@@ -980,7 +980,7 @@ function loadImage(image) {
 // Add logo to canvas
 function addLogo(event) {
     event.preventDefault;
-    
+
     const file = event.target.files[0];
     if (file) {
         const reader = new FileReader();
@@ -1232,7 +1232,7 @@ document.querySelectorAll(".slider input[type='range']").forEach(slider => {
 });
 
 // Logo Upload and Size Update
-document.getElementById("uploadLogo").addEventListener("change", addLogo(event));
+document.getElementById("uploadLogo").addEventListener("change", addLogo);
 document.getElementById("logoSize").addEventListener("input", updateLogoSize(event));
 
 // Filter dropdown
