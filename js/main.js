@@ -150,19 +150,7 @@ loadingContainer.style.display = 'none';
 
 // Define and call the function to apply spinner colors
 async function applyLoadingSpinnerColors(data) {
-   
-      // Destructure color settings from the document with default values
-      const {
-        backgroundColor = "rgba(255, 255, 255, 0.8)",
-        cameraBodyColor = "#333",
-        shutterButtonColor = "#007bff",
-        flashColor = "#999",
-        lensColor = "#222",
-        lensBorderColor = "#666",
-        spinnerCircleColor = "#007bff"
-      } = data || {};  // Handle if data is undefined
-      
-
+  
       // Apply colors to elements
       document.querySelector("#loadingContainer").style.backgroundColor = backgroundColor;
       document.querySelector(".camera-icon").style.backgroundColor = cameraBodyColor;
@@ -330,7 +318,16 @@ async function applySettings() {
           ],
           copyrightText: "My Photography Site"
       };
-    
+      let loadSpinnerData = {
+        backgroundColor: "rgba(255, 255, 255, 0.8)",
+        cameraBodyColor:  "#333",
+        shutterButtonColor:  "#007bff",
+        flashColor:  "#999",
+        lensColor:  "#222",
+        lensBorderColor:  "#666",
+        spinnerCircleColor:  "#007bff"
+      } ;
+      
       
       // Loop through fetched documents to assign data
       settingsSnapshots.forEach(docSnapshot => {
