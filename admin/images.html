@@ -1169,6 +1169,15 @@ function saveImage() {
     link.click();
 }
 
+
+
+function triggerFileInput() {
+    document.getElementById("imageInput").click();
+}
+
+// Wait for the document to fully load
+document.addEventListener("DOMContentLoaded", function () {
+
 // Bind undo/redo buttons
 document.getElementById("undoBtn").addEventListener("click", undo);
 document.getElementById("redoBtn").addEventListener("click", redo);
@@ -1185,13 +1194,6 @@ document.getElementById("redoBtn").addEventListener("click", redo);
 
 
 
-function triggerFileInput() {
-    document.getElementById("imageInput").click();
-}
-
-
-// Wait for the document to fully load
-document.addEventListener("DOMContentLoaded", function () {
 
     // Assuming your HTML has an <input> element with id="imageInput"
 document.getElementById("imageInput").addEventListener("change", function() {
