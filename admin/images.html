@@ -182,6 +182,23 @@ select, input[type="range"], input[type="number"] {
     line-height: 30px; /* Center the text vertically */
 }
 
+#watermarkPreviewCanvas {
+    border: 1px solid #ccc;
+    display: block;
+    margin: auto;
+
+}
+
+#imageCanvas {
+    border: 1px solid #ccc;
+    display: block;
+    margin: auto;
+    background-color: #ffffffa2;
+
+}
+
+
+
 </style>
 
 
@@ -221,6 +238,8 @@ select, input[type="range"], input[type="number"] {
                 <!-- Watermark preview canvas -->
                 <canvas id="watermarkPreviewCanvas" width="400" height="200" style="border:1px solid #ccc;"></canvas>
 
+                <div class="container-fluid d-flex">
+
                 <!-- Watermark input fields -->
                 <label for="watermarkText">Text</label>
                 <input type="text" id="watermarkText" class="form-control" placeholder="Enter watermark text">
@@ -236,6 +255,10 @@ select, input[type="range"], input[type="number"] {
                 <input type="color" id="watermarkColor" class="form-control" value="#ffffff">
                 <label for="watermarkOpacity">Opacity</label>
                 <input type="range" id="watermarkOpacity" class="form-control" min="0" max="1" step="0.1" value="0.5">
+               </div>
+               
+               <div class="container-fluid d-flex">
+
                 <label for="watermarkRotation">Rotation (degrees)</label>
                 <input type="number" id="watermarkRotation" class="form-control" placeholder="0" value="0">
                 <label for="watermarkPositionX">Position X</label>
@@ -243,7 +266,9 @@ select, input[type="range"], input[type="number"] {
                 <label for="watermarkPositionY">Position Y</label>
                 <input type="number" id="watermarkPositionY" class="form-control" placeholder="20" value="20">
             </div>
-            <div class="modal-footer">
+        </div>
+
+        <div class="modal-footer">
                 <button id="applyWatermarkSettings" type="button" class="btn btn-primary">Apply</button>
                 <button id="closeWatermarkModal" type="button" class="btn btn-secondary">Close</button>
             </div>
@@ -269,7 +294,7 @@ select, input[type="range"], input[type="number"] {
           <!-- Canvas to display and edit the image -->
           <canvas id="imageCanvas" width="500" height="500"></canvas>
   
-          <div class="container-fluid">
+          <div class="container-fluid d-flex">
   
             <!-- Logo Upload Section -->
             <div class="card shadow-sm mb-4">
@@ -507,28 +532,37 @@ select, input[type="range"], input[type="number"] {
                       </button>
                     </div>
                   </div>
-  
-                <div class="modal-footer d-flex justify-content-between px-4 py-3 bg-gradient-secondary">
-                  <div class="d-flex gap-3">
-                    <button type="button" class="btn btn-outline-light" id="undoBtn" data-bs-toggle="tooltip" data-bs-placement="top" title="Undo the last action">
-                      <i class="fas fa-undo"></i> Undo
-                    </button>
-                    <button type="button" class="btn btn-outline-light" id="redoBtn" data-bs-toggle="tooltip" data-bs-placement="top" title="Redo the last undone action">
-                      <i class="fas fa-redo"></i> Redo
-                    </button>
-                  </div>
-                  <div class="d-flex gap-3">
-                    <button id="saveImage" type="button" class="btn btn-primary btn-lg rounded-pill px-4" data-bs-toggle="tooltip" data-bs-placement="top" title="Save your edited image">
-                      <i class="fas fa-check-circle me-2"></i> Save
-                    </button>
-                    <button id="closeImageEditor" type="button" class="btn btn-outline-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Close the image editor">
-                      <i class="fas fa-times"></i> Close
-                    </button>
-                  </div>
                 </div>
+
+
+
   
-              </div>
+            
           </div>
+<!-- End of Flex-->
+
+
+<div class="modal-footer d-flex justify-content-between px-4 py-3 bg-gradient-secondary">
+    <div class="d-flex gap-3">
+      <button type="button" class="btn btn-outline-light" id="undoBtn" data-bs-toggle="tooltip" data-bs-placement="top" title="Undo the last action">
+        <i class="fas fa-undo"></i> Undo
+      </button>
+      <button type="button" class="btn btn-outline-light" id="redoBtn" data-bs-toggle="tooltip" data-bs-placement="top" title="Redo the last undone action">
+        <i class="fas fa-redo"></i> Redo
+      </button>
+    </div>
+    <div class="d-flex gap-3">
+      <button id="saveImage" type="button" class="btn btn-primary btn-lg rounded-pill px-4" data-bs-toggle="tooltip" data-bs-placement="top" title="Save your edited image">
+        <i class="fas fa-check-circle me-2"></i> Save
+      </button>
+      <button id="closeImageEditor" type="button" class="btn btn-outline-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Close the image editor">
+        <i class="fas fa-times"></i> Close
+      </button>
+    </div>
+  </div>
+
+
+
         </div>
   
       </div>
@@ -624,45 +658,10 @@ function handleFiles(files) {
     });
 }
 
-// Compresses and adds watermark to the image
-async function processImage(dataURL, file, fileSize, fileType, fileName) {
-    try {
- // Create a compressed image with a watermark
- const compressedImage = await createLowerQualityImage(dataURL);
-        
-        const imagesData = [
-    {
-        compressedImage: compressedImage,
-        originalUrl: dataURL,
-        fileType: fileType,
-        fileName: fileName,
-        fileSize: fileSize // in bytes
-    },
-    // Add more image objects as needed
-];
-
-const { text, font, fontSize, color, opacity, rotation, posX, posY } = watermarkSettings;
-
-if(text == "Your Watermark"){
-        showToast("Create a Watermark");
-        document.getElementById("watermarkSettingsModal").style.display = "block";
-
-        return;
-    }
-// Render images
-renderImages(imagesData);
 
 
 
-
-       
-   } catch (error) {
-        console.error("Error processing image:", error);
-        showToast("Image processing failed.", "error");
-    }
-}
-
-// Creates a lower-quality image with a watermark
+// Function to create lower-quality image with watermark
 async function createLowerQualityImage(dataURL) {
     const img = new Image();
     img.src = dataURL;
@@ -676,10 +675,72 @@ async function createLowerQualityImage(dataURL) {
 
     const ctx = canvas.getContext("2d");
     ctx.drawImage(img, 0, 0, width, height);
+
+    // Add watermark to canvas
     addWatermark(ctx, width, height);
 
     return canvas.toDataURL("image/jpeg", 0.7); // Compression quality
 }
+
+// Function to add watermark to an image on canvas
+function addWatermark(ctx, width, height) {
+    const { text, font, fontSize, color, opacity, rotation, posX, posY } = watermarkSettings;
+
+    if (text === "Your Watermark") {
+        showToast("Create a Watermark");
+        document.getElementById("watermarkSettingsModal").style.display = "block";
+        return;
+    }
+
+    ctx.save();
+    ctx.font = `${fontSize}px ${font}`;
+    ctx.fillStyle = color;
+    ctx.globalAlpha = opacity;
+
+    // Position and rotate watermark
+    ctx.translate(posX, posY);
+    ctx.rotate((rotation * Math.PI) / 180);
+    ctx.fillText(text, 0, 0); // Draw the watermark text at specified position
+    ctx.restore();
+}
+
+// Function to process image and apply watermark
+async function processImage(dataURL, file, fileSize, fileType, fileName) {
+    try {
+        // Create a compressed image with a watermark
+        const compressedImage = await createLowerQualityImage(dataURL);
+
+        const imagesData = [
+            {
+                compressedImage: compressedImage,
+                originalUrl: dataURL,
+                fileType: fileType,
+                fileName: fileName,
+                fileSize: fileSize // in bytes
+            },
+            // Add more image objects as needed
+        ];
+
+        // Check if watermark text is set properly
+        const { text } = watermarkSettings;
+        if (text === "Your Watermark") {
+            showToast("Create a Watermark");
+            document.getElementById("watermarkSettingsModal").style.display = "block";
+            return;
+        }
+
+        // Render images
+        renderImages(imagesData);
+
+    } catch (error) {
+        console.error("Error processing image:", error);
+        showToast("Image processing failed.", "error");
+    }
+}
+
+
+
+
 // Show watermark settings modal
 document.getElementById("watermarkSettingsBtn").addEventListener("click", () => {
     document.getElementById("watermarkSettingsModal").style.display = "block";
@@ -854,28 +915,6 @@ let watermarkSettings = {
     posY: 20
 };
 
-// Function to add watermark to canvas context
-function addWatermark(ctx, width, height) {
-    const { text, font, fontSize, color, opacity, rotation, posX, posY } = watermarkSettings;
-
-    if(text == "Your Watermark"){
-        showToast("Create a Watermark");
-        document.getElementById("watermarkSettingsModal").style.display = "block";
-
-        return;
-    }
-
-    ctx.save();
-    ctx.font = `${fontSize}px ${font}`;
-    ctx.fillStyle = color;
-    ctx.globalAlpha = opacity;
-
-    // Apply rotation if any
-    ctx.translate(posX, posY);
-    ctx.rotate((rotation * Math.PI) / 180);
-    ctx.fillText(text, 0, 0); // Position text after translation
-    ctx.restore();
-}
 
 
 
