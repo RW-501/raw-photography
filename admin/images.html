@@ -581,8 +581,7 @@ select, input[type="range"], input[type="number"] {
 
     const imageUploadArea = document.getElementById("imageUploadArea");
     const imageInput = document.getElementById("imageInput");
-    const progressBar = document.getElementById("uploadProgressBar");
-    const progress = document.getElementById("uploadProgress");
+
     const imagePreviewContainer = document.getElementById("imagePreviewContainer");
 
     // Enable drag-and-drop functionality
@@ -910,7 +909,7 @@ async function uploadToFirebase(originalDataURL, compressedDataURL, fileName, fi
 
 // Function to update the progress bar
 function updateProgressBar(progress) { 
-    const progress = document.getElementById("uploadProgress");
+    const progressBar = document.getElementById("uploadProgress");
     progressBar.style.width = `${progress}%`;
     progressBar.textContent = `${Math.round(progress)}%`;
 }
