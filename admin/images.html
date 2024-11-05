@@ -13,6 +13,57 @@
 </head>
 <body>
     
+<!-- CSS for Styling -->
+<style>
+    #imageUploadArea.dragging {
+        border-color: #007bff;
+        background-color: #f8f9fa;
+    }
+    .loading-spinner .spinner-border {
+        margin-top: 2rem;
+    }
+    .progress-bar {
+        transition: width 0.4s ease;
+    }
+
+    /* Basic modal styling */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-dialog {
+    max-width: 500px;
+    margin: 10% auto;
+}
+#imageCanvas {
+    width: 100%; /* Make canvas responsive */
+    height: auto;
+}
+
+.editor-controls {
+    display: flex;
+    flex-direction: column;
+}
+
+select, input[type="range"], input[type="number"] {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .slider {
+            display: none; /* Start hidden */
+            margin-bottom: 20px;
+        }
+        .visible {
+            display: block; /* Show when needed */
+        }
+</style>
     <header class="admin-header">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">Manage Images & Events</a>
@@ -51,62 +102,271 @@
 
 
         <main class="dashboard-content">
-
-    <p class="text-muted">Use this panel to manage images and events. Upload images, set prices, and save details. Please ensure all information is correct before saving.</p>
-
-    <div class="container mt-5">
-        <h1 class="text-center">Manage Images and Events</h1>
-
-        <!-- Event Information Section -->
-        <section class="my-4">
-            <h2>Add Event Details</h2>
-            <form id="eventForm">
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="eventTitle">Event Title</label>
-                        <input type="text" class="form-control" id="eventTitle" placeholder="Event Title" required>
+            <p class="text-muted">Use this panel to manage images and events. Upload images, set prices, and save details. Please ensure all information is correct before saving.</p>
+        
+            <div class="container mt-5">
+                <h1 class="text-center">Manage Images and Events</h1>
+        
+                <!-- Event Information Section -->
+                <section class="my-4">
+                    <h2>Add Event Details</h2>
+                    <form id="eventForm">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="eventTitle">Event Title</label>
+                                <input type="text" class="form-control" id="eventTitle" placeholder="Event Title" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="eventDate">Event Date</label>
+                                <input type="date" class="form-control" id="eventDate" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="eventDescription">Event Description</label>
+                            <textarea class="form-control" id="eventDescription" rows="3" placeholder="Event Description"></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="eventPrice">Base Price (USD)</label>
+                                <input type="number" class="form-control" id="eventPrice" placeholder="Event Price" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="accessCode">Access Code</label>
+                                <input type="text" class="form-control" id="accessCode" placeholder="Enter Access Code">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="eventLocation">Event Location</label>
+                            <input type="text" class="form-control" id="eventLocation" placeholder="Event Location" required>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="saveEvent()">Save Event</button>
+                    </form>
+                </section>
+        
+                <!-- Image Upload Section -->
+                <section class="my-4">
+                    <h2>Upload Images</h2>
+                    <div id="imageUploadArea" class="border border-primary p-4 text-center"  onclick="triggerFileInput()">
+                        <p>Drag and drop images here or click to upload</p>
+                        <input type="file" id="imageInput" multiple accept="image/*" style="display: none;" onchange="handleFiles(this.files)">
                     </div>
-                    <div class="form-group col-md-6">
-                        <label for="eventDate">Event Date</label>
-                        <input type="date" class="form-control" id="eventDate" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="eventDescription">Event Description</label>
-                    <textarea class="form-control" id="eventDescription" rows="3" placeholder="Event Description"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="eventPrice">Event Price (USD)</label>
-                    <input type="number" class="form-control" id="eventPrice" placeholder="Event Price" required>
-                </div>
-                <button type="button" class="btn btn-primary" onclick="saveEvent()">Save Event</button>
-            </form>
-        </section>
 
-        <!-- Image Upload Section -->
-        <section class="my-4">
-            <h2>Upload Images</h2>
-            <div id="imageUploadArea" class="border border-primary p-4 text-center">
-                <p>Drag and drop images here or click to upload</p>
-                <input type="file" id="imageInput" multiple accept="image/*" style="display: none;">
+        <!-- Button to open watermark settings -->
+<button id="watermarkSettingsBtn" class="btn btn-primary">Edit Watermark</button>
+<!-- Button to open the image editor --> 
+<button id="openImageEditorBtn" class="btn btn-primary">Open Image Editor</button>
+                    <!-- Progress Bar -->
+                    <div class="progress mt-3" style="display: none;" id="uploadProgressBar">
+                        <div class="progress-bar" role="progressbar" style="width: 0%;"  id="uploadProgress" role="progressbar"  aria-valuemin="0" aria-valuemax="100">0%</div>
+                    </div>
+        
+                    <div id="imagePreviewContainer" class="row mt-3"></div>
+                    <button type="button" class="btn btn-success mt-3" onclick="saveImages()">Save All Images</button>
+                </section>
+            </div>
+        
+            <!-- Loading Spinner -->
+            <div class="loading-spinner text-center" style="display: none;">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
             </div>
 
-            <div id="imagePreviewContainer" class="row mt-3"></div>
-            <button type="button" class="btn btn-success mt-3" onclick="saveImages()">Save All Images</button>
-        </section>
-    </div>
 
-    <!-- Loading Spinner -->
-    <div class="loading-spinner text-center">
-        <div class="spinner-border" role="status">
-            <span class="sr-only">Loading...</span>
+<!-- Watermark settings modal -->
+<div id="watermarkSettingsModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Watermark Settings</h5>
+                <button type="button" class="close" aria-label="Close" onclick="closeWatermarkModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label for="watermarkText">Text</label>
+                <input type="text" id="watermarkText" class="form-control" placeholder="Enter watermark text">
+
+                <label for="watermarkFont">Font</label>
+                <select id="watermarkFont" class="form-control">
+                    <option value="Arial">Arial</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                    <option value="Courier New">Courier New</option>
+                </select>
+
+                <label for="watermarkSize">Font Size</label>
+                <input type="number" id="watermarkSize" class="form-control" placeholder="20" value="20">
+
+                <label for="watermarkColor">Color</label>
+                <input type="color" id="watermarkColor" class="form-control" value="#ffffff">
+
+                <label for="watermarkOpacity">Opacity</label>
+                <input type="range" id="watermarkOpacity" class="form-control" min="0" max="1" step="0.1" value="0.5">
+
+                <label for="watermarkRotation">Rotation (degrees)</label>
+                <input type="number" id="watermarkRotation" class="form-control" placeholder="0" value="0">
+
+                <label for="watermarkPositionX">Position X</label>
+                <input type="number" id="watermarkPositionX" class="form-control" placeholder="20" value="20">
+
+                <label for="watermarkPositionY">Position Y</label>
+                <input type="number" id="watermarkPositionY" class="form-control" placeholder="20" value="20">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="applyWatermarkSettings()">Apply</button>
+                <button type="button" class="btn btn-secondary" onclick="closeWatermarkModal()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Image Editor Modal -->
+<div id="imageEditorModal" class="modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Image Editor</h5>
+                <button type="button" class="close" onclick="closeImageEditor()">×</button>
+            </div>
+            <div class="modal-body">
+                <!-- Canvas to display and edit the image -->
+                <canvas id="imageCanvas" width="500" height="500"></canvas>
+
+                <!-- Image Editor Controls -->
+                <div class="editor-controls">
+                    <label for="uploadLogo">Upload Logo</label>
+                    <input type="file" id="uploadLogo" accept="image/*" onchange="addLogo(event)">
+
+                    <label for="logoSize">Logo Size</label>
+                    <input type="range" id="logoSize" min="0.1" max="1" step="0.1" value="0.5" onchange="updateLogoSize(event)">
+
+                    <label for="filters">Filter Effects</label>
+                    <h1>Image Filter Adjustments</h1>
+
+    <label for="filters">Select Filter:</label>
+    <select id="filters" onchange="showSlider(event)" aria-label="Image filters">
+        <option value="none">None</option>
+        
+        <optgroup label="Color Adjustments">
+            <option value="grayscale">Grayscale</option>
+            <option value="sepia">Sepia</option>
+            <option value="invert">Invert</option>
+            <option value="brightness">Brightness</option>
+            <option value="contrast">Contrast</option>
+            <option value="saturate">Saturation</option>
+            <option value="hue-rotate">Hue Rotate</option>
+        </optgroup>
+        
+        <optgroup label="Effects">
+            <option value="blur">Blur</option>
+            <option value="opacity">Opacity</option>
+            <option value="drop-shadow">Drop Shadow</option>
+        </optgroup>
+        
+        <optgroup label="Transformations">
+            <option value="scale">Scale</option>
+            <option value="skewX">Skew X</option>
+            <option value="skewY">Skew Y</option>
+        </optgroup>
+    </select>
+
+    <!-- Sliders -->
+    <div id="sliders">
+        <div id="grayscale" class="slider">
+            <label for="grayscaleValue">Grayscale:</label>
+            <input type="range" id="grayscaleValue" min="0" max="100" value="100" oninput="updateValue('grayscale', this.value)">
+            <span id="grayscaleOutput">100%</span>
+        </div>
+        <div id="sepia" class="slider">
+            <label for="sepiaValue">Sepia:</label>
+            <input type="range" id="sepiaValue" min="0" max="100" value="100" oninput="updateValue('sepia', this.value)">
+            <span id="sepiaOutput">100%</span>
+        </div>
+        <div id="invert" class="slider">
+            <label for="invertValue">Invert:</label>
+            <input type="range" id="invertValue" min="0" max="100" value="100" oninput="updateValue('invert', this.value)">
+            <span id="invertOutput">100%</span>
+        </div>
+        <div id="brightness" class="slider">
+            <label for="brightnessValue">Brightness:</label>
+            <input type="range" id="brightnessValue" min="0" max="200" value="100" oninput="updateValue('brightness', this.value)">
+            <span id="brightnessOutput">100%</span>
+        </div>
+        <div id="contrast" class="slider">
+            <label for="contrastValue">Contrast:</label>
+            <input type="range" id="contrastValue" min="0" max="200" value="100" oninput="updateValue('contrast', this.value)">
+            <span id="contrastOutput">100%</span>
+        </div>
+        <div id="saturate" class="slider">
+            <label for="saturateValue">Saturation:</label>
+            <input type="range" id="saturateValue" min="0" max="200" value="100" oninput="updateValue('saturate', this.value)">
+            <span id="saturateOutput">100%</span>
+        </div>
+        <div id="hue-rotate" class="slider">
+            <label for="hueRotateValue">Hue Rotate:</label>
+            <input type="range" id="hueRotateValue" min="0" max="360" value="0" oninput="updateValue('hue-rotate', this.value)">
+            <span id="hueRotateOutput">0°</span>
+        </div>
+        <div id="blur" class="slider">
+            <label for="blurValue">Blur:</label>
+            <input type="range" id="blurValue" min="0" max="20" value="0" oninput="updateValue('blur', this.value)">
+            <span id="blurOutput">0px</span>
+        </div>
+        <div id="opacity" class="slider">
+            <label for="opacityValue">Opacity:</label>
+            <input type="range" id="opacityValue" min="0" max="100" value="100" oninput="updateValue('opacity', this.value)">
+            <span id="opacityOutput">100%</span>
+        </div>
+        <div id="drop-shadow" class="slider">
+            <label for="dropShadowValue">Drop Shadow (px):</label>
+            <input type="number" id="dropShadowValue" min="0" value="5" oninput="updateValue('drop-shadow', this.value)">
+            <span id="dropShadowOutput">5px</span>
+        </div>
+        <div id="scale" class="slider">
+            <label for="scaleValue">Scale:</label>
+            <input type="range" id="scaleValue" min="0.1" max="3" step="0.1" value="1" oninput="updateValue('scale', this.value)">
+            <span id="scaleOutput">100%</span>
+        </div>
+        <div id="skewX" class="slider">
+            <label for="skewXValue">Skew X:</label>
+            <input type="range" id="skewXValue" min="-90" max="90" value="0" oninput="updateValue('skewX', this.value)">
+            <span id="skewXOutput">0°</span>
+        </div>
+        <div id="skewY" class="slider">
+            <label for="skewYValue">Skew Y:</label>
+            <input type="range" id="skewYValue" min="-90" max="90" value="0" oninput="updateValue('skewY', this.value)">
+            <span id="skewYOutput">0°</span>
         </div>
     </div>
 
-    </main>
-    </div>
-    
+    <button onclick="saveFilters()">Save Filters</button>
+    <button onclick="resetFilters()">Reset Filters</button>
 
+                    <label for="crop">Crop</label>
+                    <button class="btn btn-secondary" onclick="cropImage()">Crop</button>
+
+                    <label for="resize">Resize</label>
+                    <button class="btn btn-secondary" onclick="resizeImage()">Resize</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="undoBtn">Undo</button>
+                <button type="button" class="btn btn-secondary" id="redoBtn">Redo</button>
+                <button type="button" class="btn btn-primary" onclick="saveImage()">Save</button>
+                <button type="button" class="btn btn-secondary" onclick="closeImageEditor()">Close</button>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+        </main>
+</div>
+<div id="currentEventID" class="Hidden" style="display: none;"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/caman/4.1.2/caman.full.min.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
@@ -144,19 +404,545 @@
 
         let selectedImages = [];
 
-        document.getElementById('imageUploadArea').addEventListener('click', () => document.getElementById('imageInput').click());
-        document.getElementById('imageInput').addEventListener('change', handleFiles);
+function triggerFileInput() {
+    document.getElementById("imageInput").click();
+}
 
-        function handleFiles(event) {
-            Array.from(event.target.files).forEach(file => {
-                if (file.size <= 2 * 1024 * 1024) { // Check size (2MB max)
-                    previewImage(file);
-                    selectedImages.push(file);
-                } else {
-                    alert("Image is too large. Max 2MB.");
-                }
+    const imageUploadArea = document.getElementById("imageUploadArea");
+    const imageInput = document.getElementById("imageInput");
+    const progressBar = document.getElementById("uploadProgressBar");
+    const progress = document.getElementById("uploadProgress");
+    const imagePreviewContainer = document.getElementById("imagePreviewContainer");
+
+    // Enable drag-and-drop functionality
+    imageUploadArea.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        imageUploadArea.classList.add("dragging");
+    });
+
+    imageUploadArea.addEventListener("dragleave", () => {
+        imageUploadArea.classList.remove("dragging");
+    });
+
+    imageUploadArea.addEventListener("drop", (e) => {
+        e.preventDefault();
+        imageUploadArea.classList.remove("dragging");
+        handleFiles(e.dataTransfer.files);
+    });
+
+
+
+
+
+
+// Main function to handle file uploads
+function handleFiles(files) {
+    Array.from(files).forEach(file => {
+        const fileSize = file.size;
+        const fileType = file.type;
+        const fileName = file.name;
+
+        const reader = new FileReader();
+        reader.onload = e => {
+            processImage(e.target.result, file, fileSize, fileType, fileName);
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+// Compresses and adds watermark to the image
+async function processImage(dataURL, file, fileSize, fileType, fileName) {
+    try {
+ // Create a compressed image with a watermark
+ const compressedImage = await createLowerQualityImage(dataURL);
+        
+        const imagesData = [
+    {
+        compressedImage: compressedImage,
+        originalUrl: dataURL,
+        fileType: fileType,
+        fileName: fileName,
+        fileSize: fileSize, // in bytes
+    },
+    // Add more image objects as needed
+];
+
+// Render images
+renderImages(imagesData);
+
+
+
+
+       
+        // Upload both the original and compressed images
+        await uploadToFirebase(dataURL, compressedImage, file.name, fileSize, fileType);
+    } catch (error) {
+        console.error("Error processing image:", error);
+        showToast("Image processing failed.", "error");
+    }
+}
+
+// Creates a lower-quality image with a watermark
+async function createLowerQualityImage(dataURL) {
+    const img = new Image();
+    img.src = dataURL;
+    await img.decode();
+
+    const canvas = document.createElement("canvas");
+    const width = 800;
+    const height = (img.height / img.width) * width;
+    canvas.width = width;
+    canvas.height = height;
+
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, width, height);
+    addWatermark(ctx, width, height);
+
+    return canvas.toDataURL("image/jpeg", 0.7); // Compression quality
+}
+
+// Show watermark settings modal
+document.getElementById("watermarkSettingsBtn").addEventListener("click", () => {
+    document.getElementById("watermarkSettingsModal").style.display = "block";
+});
+
+// Close watermark settings modal
+function closeWatermarkModal() {
+    document.getElementById("watermarkSettingsModal").style.display = "none";
+}
+
+// Get user settings and apply watermark
+function applyWatermarkSettings() {
+    const text = document.getElementById("watermarkText").value || "Your Watermark";
+    const font = document.getElementById("watermarkFont").value;
+    const fontSize = document.getElementById("watermarkSize").value || 20;
+    const color = document.getElementById("watermarkColor").value;
+    const opacity = document.getElementById("watermarkOpacity").value;
+    const rotation = document.getElementById("watermarkRotation").value || 0;
+    const posX = document.getElementById("watermarkPositionX").value || 20;
+    const posY = document.getElementById("watermarkPositionY").value || 20;
+
+    // Save settings for use in addWatermark
+    watermarkSettings = {
+        text,
+        font,
+        fontSize,
+        color,
+        opacity,
+        rotation,
+        posX,
+        posY
+    };
+
+    closeWatermarkModal();
+    showToast("Watermark settings applied!", "success");
+}
+
+// Default watermark settings
+let watermarkSettings = {
+    text: "Your Watermark",
+    font: "Arial",
+    fontSize: 20,
+    color: "#ffffff",
+    opacity: 0.5,
+    rotation: 0,
+    posX: 20,
+    posY: 20
+};
+
+// Function to add watermark to canvas context
+function addWatermark(ctx, width, height) {
+    const { text, font, fontSize, color, opacity, rotation, posX, posY } = watermarkSettings;
+
+    ctx.save();
+    ctx.font = `${fontSize}px ${font}`;
+    ctx.fillStyle = color;
+    ctx.globalAlpha = opacity;
+
+    // Apply rotation if any
+    ctx.translate(posX, posY);
+    ctx.rotate((rotation * Math.PI) / 180);
+    ctx.fillText(text, 0, 0); // Position text after translation
+    ctx.restore();
+}
+
+
+
+// Renders image previews in a card layout with compressed and original image details
+function renderImages(imagesData) {
+    const imagePreviewContainer = document.getElementById("imagePreviewContainer");
+    
+    // Clear previous content
+    imagePreviewContainer.innerHTML = "";
+
+    // Loop through the images data to create cards
+   // Assuming imagesData is an array of image objects
+const imageGalleryContainer = document.getElementById("imageGallery"); // Ensure you have this container in your HTML
+
+// Create a header for the image count
+const imageCountHeader = document.createElement("h5");
+imageCountHeader.innerText = `Total Images: ${imagesData.length}`;
+imageCountHeader.classList.add("mb-3", "text-left");
+
+// Add the image count header to the gallery container
+imageGalleryContainer.appendChild(imageCountHeader);
+
+// Iterate through the images and create cards
+imagesData.forEach((image, index) => {
+    const { compressedImage, originalUrl, fileType, fileName, fileSize } = image;
+
+    const imgDiv = document.createElement("div");
+    imgDiv.classList.add("col-md-4", "mt-3");
+
+    imgDiv.innerHTML = `
+        <div class="card mb-3" aria-label="Image card for ${fileName}">
+            <img src="${compressedImage}" class="card-img-top img-thumbnail" alt="Compressed version of ${fileName}" loading="lazy">
+            <div class="card-body">
+                <h6 class="card-title">${fileName}</h6>
+                <p class="card-text">
+                    Type: ${fileType} <br>
+                    Size: ${(fileSize / 1024).toFixed(2)} KB <br>
+                    <strong>Image #${index + 1}</strong>
+                </p>
+                <button class="btn btn-primary btn-sm mt-2" aria-label="View full image of ${fileName}" data-original-url="${originalUrl}">
+                    View Full Image
+                </button>
+            </div>
+        </div>
+    `;
+
+    imgDiv.appendChild(imgDiv); // Append the card to the gallery container
+
+
+
+        // Append the image card to the container
+        imagePreviewContainer.appendChild(imgDiv);
+
+        // Add an event listener to view the full image on button click
+        imgDiv.querySelector("button").addEventListener("click", (event) => {
+            openImageEditor(event.target.getAttribute("data-original-url"));
+        });
+    });
+}
+
+// Uploads both the original and compressed images to Firebase with metadata
+async function uploadToFirebase(originalDataURL, compressedDataURL, fileName, fileSize, fileType) {
+    try {
+        // Convert data URLs to Blobs
+        const originalBlob = await (await fetch(originalDataURL)).blob();
+        const compressedBlob = await (await fetch(compressedDataURL)).blob();
+
+        // Set Firebase storage references for original and compressed images
+        const storageRefOriginal = firebase.storage().ref(`images/originals/${fileName}`);
+        const storageRefCompressed = firebase.storage().ref(`images/compressed/${fileName}`);
+
+        // Upload original image
+        const uploadTaskOriginal = storageRefOriginal.put(originalBlob);
+        uploadTaskOriginal.on("state_changed", 
+            (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 50; // Show 0-50% for original
+                updateProgressBar(progress);
+            },
+            (error) => {
+                console.error("Upload failed:", error);
+                showToast("Original image upload failed.", "error");
+            },
+            async () => {
+                const originalURL = await uploadTaskOriginal.snapshot.ref.getDownloadURL();
+                
+                // Upload compressed image after original is uploaded
+                const uploadTaskCompressed = storageRefCompressed.put(compressedBlob);
+                uploadTaskCompressed.on("state_changed", 
+                    (snapshot) => {
+                        const progress = 50 + (snapshot.bytesTransferred / snapshot.totalBytes) * 50; // Show 50-100% for compressed
+                        updateProgressBar(progress);
+                    },
+                    (error) => {
+                        console.error("Upload failed:", error);
+                        showToast("Compressed image upload failed.", "error");
+                    },
+                    async () => {
+                        const compressedURL = await uploadTaskCompressed.snapshot.ref.getDownloadURL();
+                        await saveImageDetails(fileName, originalURL, compressedURL, fileSize, fileType);
+                        showToast("Images uploaded successfully!", "success");
+                    }
+                );
+            }
+        );
+    } catch (error) {
+        console.error("Error uploading to Firebase:", error);
+        showToast("Error uploading images. Please try again.", "error");
+    }
+}
+
+// Updates progress bar during upload
+function updateProgressBar(progress) {
+    progressBar.style.width = `${progress}%`;
+    progressBar.textContent = `${Math.round(progress)}%`;
+}
+
+// Saves image details, including metadata, to Firebase Firestore
+async function saveImageDetails(fileName, originalUrl, compressedUrl, fileSize, fileType) {
+    const title = document.getElementById("eventTitle").value;
+    const price = parseFloat(document.getElementById("eventPrice").value);
+    const eventId = document.getElementById("currentEventID").innerText;
+
+    if (!eventId && title && !isNaN(price)) {
+        try {
+            await db.collection("images").add({
+                fileName,
+                title,
+                price,
+                originalUrl,
+                compressedUrl,
+                fileSize,
+                fileType,  status: "active", isPublic: true,
             });
+            showToast("Image details saved successfully!", "success");
+        } catch (error) {
+            console.error("Error saving image details:", error);
+            showToast("Error saving image details. Please try again.", "error");
         }
+    } else {
+        showToast("Please provide a valid Event ID, title and price.", "warning");
+    }
+}
+
+
+let canvas, ctx, img, logoImg, logoScale = 0.5;  
+let filterEffect = "none";
+let history = []; // Stack for undo/redo functionality
+let redoStack = [];
+
+// Initialize canvas and context when the image editor is opened
+document.getElementById("openImageEditorBtn").addEventListener("click", () => {
+    openImageEditor();
+    loadImage(); // Load the main image for editing
+});
+
+function openImageEditor(image) {
+    document.getElementById("imageEditorModal").style.display = "block";
+    canvas = document.getElementById("imageCanvas");
+    ctx = canvas.getContext("2d");
+
+    loadImage(image);
+}
+
+function closeImageEditor() {
+    document.getElementById("imageEditorModal").style.display = "none";
+}
+
+// Load and draw the original image onto the canvas
+function loadImage(image) {
+    img = new Image();
+    img.src = image; // Replace with dynamic image source
+    img.onload = () => {
+        saveToHistory(); // Save the initial state
+        redrawCanvas(); // Redraw canvas with loaded image
+    };
+}
+
+// Add logo to canvas
+function addLogo(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            logoImg = new Image();
+            logoImg.src = e.target.result;
+            logoImg.onload = () => {
+                drawLogo(); // Draw logo once it's loaded
+                saveToHistory(); // Save the state after adding a logo
+            };
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+function drawLogo() {
+    if (logoImg) {
+        const logoWidth = logoImg.width * logoScale;
+        const logoHeight = logoImg.height * logoScale;
+        ctx.drawImage(logoImg, canvas.width - logoWidth - 10, canvas.height - logoHeight - 10, logoWidth, logoHeight);
+    }
+}
+
+// Update logo size and redraw canvas
+function updateLogoSize(event) {
+    logoScale = event.target.value;
+    redrawCanvas();
+}
+
+
+function showSlider(event) {
+            const sliders = document.querySelectorAll('.slider');
+            sliders.forEach(slider => {
+                slider.classList.remove('visible');
+            });
+
+            const selectedFilter = event.target.value;
+            if (selectedFilter !== 'none') {
+                document.getElementById(selectedFilter).classList.add('visible');
+            }
+        }
+
+        function updateValue(filter, value) {
+            const outputId = filter + 'Output';
+            const unit = (filter === 'blur' || filter === 'drop-shadow') ? 'px' : (filter === 'hue-rotate') ? '°' : (filter === 'scale') ? '' : '%';
+            document.getElementById(outputId).textContent = value + unit;
+
+            // Apply the filter to the image in real-time
+            applyFilter(filter, value, unit);
+        }
+
+        function applyFilter(filter, value, unit) {
+            const image = document.getElementById('targetImage');
+            let currentFilters = image.style.filter ? image.style.filter.split(' ') : [];
+
+            // Update filter value or add new one
+            const filterValue = `${filter}(${value}${unit})`;
+            const filterIndex = currentFilters.findIndex(f => f.startsWith(filter));
+            if (filterIndex >= 0) {
+                currentFilters[filterIndex] = filterValue; // Update existing filter
+            } else {
+                currentFilters.push(filterValue); // Add new filter
+            }
+            image.style.filter = currentFilters.join(' '); // Apply filters to the image
+        
+        
+    redrawCanvas();
+        }
+
+        function saveFilters() {
+            const image = document.getElementById('targetImage');
+            localStorage.setItem('imageFilters', image.style.filter);
+            alert('Filters saved!');
+        }
+
+        function resetFilters() {
+            const sliders = document.querySelectorAll('.slider');
+            sliders.forEach(slider => {
+                slider.classList.remove('visible');
+            });
+
+            document.getElementById('filters').value = 'none'; // Reset filter selection
+            const image = document.getElementById('targetImage');
+            image.style.filter = ''; // Clear all filters
+            alert('Filters reset to default!');
+        }
+
+        // Load saved filters from localStorage on page load
+        window.onload = () => {
+            const savedFilters = localStorage.getItem('imageFilters');
+            if (savedFilters) {
+                document.getElementById('targetImage').style.filter = savedFilters;
+                alert('Loaded saved filters!');
+            }
+        };
+
+
+
+// Save the current canvas state for undo functionality
+function saveToHistory() {
+    history.push(canvas.toDataURL());
+    redoStack = []; // Clear redo stack on new action
+}
+
+// Undo functionality
+function undo() {
+    if (history.length > 0) {
+        const lastState = history.pop();
+        redoStack.push(canvas.toDataURL());
+        const img = new Image();
+        img.src = lastState;
+        img.onload = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            drawLogo(); // Redraw logo
+        };
+    }
+}
+
+// Redo functionality
+function redo() {
+    if (redoStack.length > 0) {
+        const redoState = redoStack.pop();
+        history.push(canvas.toDataURL());
+        const img = new Image();
+        img.src = redoState;
+        img.onload = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            drawLogo(); // Redraw logo
+        };
+    }
+}
+
+// Redraw the canvas with the current image and logo
+function redrawCanvas() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.filter = filterEffect; // Apply filter
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    drawLogo(); // Draw logo on top
+    ctx.filter = "none"; // Reset filter
+    saveToHistory(); // Save the state after redraw
+}
+
+// Dynamic cropping functionality
+function cropImage() {
+    const cropWidth = parseInt(prompt("Enter crop width:", "200")); // User-defined crop width
+    const cropHeight = parseInt(prompt("Enter crop height:", "200")); // User-defined crop height
+    const cropStartX = parseInt(prompt("Enter crop start X position:", "0")); // User-defined start X
+    const cropStartY = parseInt(prompt("Enter crop start Y position:", "0")); // User-defined start Y
+
+    const croppedData = ctx.getImageData(cropStartX, cropStartY, cropWidth, cropHeight);
+
+    // Set canvas to cropped dimensions
+    canvas.width = cropWidth;
+    canvas.height = cropHeight;
+    ctx.putImageData(croppedData, 0, 0);
+    drawLogo(); // Redraw logo on cropped image if needed
+    saveToHistory(); // Save state after cropping
+}
+
+// Resize the image
+function resizeImage() {
+    const scaleFactor = 0.5; // Example scale factor
+    const newWidth = canvas.width * scaleFactor;
+    const newHeight = canvas.height * scaleFactor;
+
+    const resizedCanvas = document.createElement("canvas");
+    const resizedCtx = resizedCanvas.getContext("2d");
+
+    resizedCanvas.width = newWidth;
+    resizedCanvas.height = newHeight;
+
+    resizedCtx.drawImage(canvas, 0, 0, newWidth, newHeight);
+
+    canvas.width = newWidth;
+    canvas.height = newHeight;
+    ctx.drawImage(resizedCanvas, 0, 0);
+    saveToHistory(); // Save state after resizing
+}
+
+// Save edited image
+function saveImage() {
+    const editedImage = canvas.toDataURL("image/png");
+    const link = document.createElement("a");
+    link.href = editedImage;
+    link.download = "edited-image.png";
+    link.click();
+}
+
+// Bind undo/redo buttons
+document.getElementById("undoBtn").addEventListener("click", undo);
+document.getElementById("redoBtn").addEventListener("click", redo);
+
+
+
+
+
+
         function displayImages(pageNumber = 1, itemsPerPage = 12) {
     // Fetch and display a specific page of images
     const startIndex = (pageNumber - 1) * itemsPerPage;
@@ -165,37 +951,7 @@
     renderImages(paginatedImages);
 }
 
-function renderImages(images) {
-    document.getElementById('imagePreviewContainer').innerHTML = images.map(img => `
-        <div class="col-md-4">
-            <div class="card mb-3">
-                <img src="${img.url}" class="card-img-top" alt="${img.title}">
-                <div class="card-body">
-                    <p>${img.title}</p>
-                    <p>$${img.price}</p>
-                </div>
-            </div>
-        </div>`).join('');
-}
-
-        function previewImage(file) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                const imgPreview = `
-                    <div class="col-md-4">
-                        <div class="card mb-3">
-                            <img src="${reader.result}" class="card-img-top" alt="Preview">
-                            <div class="card-body">
-                                <input type="text" class="form-control" placeholder="Image Title" required>
-                                <input type="number" class="form-control mt-2" placeholder="Image Price (USD)" required>
-                            </div>
-                        </div>
-                    </div>`;
-                document.getElementById('imagePreviewContainer').insertAdjacentHTML('beforeend', imgPreview);
-            };
-            reader.readAsDataURL(file);
-        }
-
+      
         function filterImages() {
     const query = document.getElementById('searchInput').value.toLowerCase();
     const filteredImages = selectedImages.filter(img =>
@@ -204,39 +960,6 @@ function renderImages(images) {
     renderImages(filteredImages);
 }
 
-        async function saveImages() {
-    document.querySelector('.loading-spinner').style.display = 'block';
-    try {
-        for (const image of selectedImages) {
-            const title = image.querySelector('.form-control').value;
-            const price = parseFloat(image.querySelector('.form-control.mt-2').value);
-            
-            if (title && price) {
-                const product = await stripe.products.create({
-                    name: title,
-                    description: "Photo purchase",
-                });
-
-                await stripe.prices.create({
-                    unit_amount: price * 100,
-                    currency: "usd",
-                    product: product.id,
-                });
-
-                await db.collection('images').add({
-                    title,
-                    price,
-                    imageUrl: "URL-to-the-image", // Update this once uploaded
-                });
-            }
-        }
-        showToast("Images saved successfully!", "success");
-    } catch (error) {
-        console.error("Error saving images:", error);
-        showToast("An error occurred while saving images. Please try again.", "error");
-    }
-    document.querySelector('.loading-spinner').style.display = 'none';
-}
 
 
 
@@ -246,22 +969,32 @@ function saveEvent() {
             const date = document.getElementById('eventDate').value;
             const description = document.getElementById('eventDescription').value;
             const price = parseFloat(document.getElementById('eventPrice').value);
+            const location = document.getElementById("eventLocation").value;
+            const accessCode = document.getElementById("accessCode").value;
+            const eventIdArea = document.getElementById("currentEventID");
 
             if (title && date && description && !isNaN(price)) {
-                db.collection('events').add({
-                    title,
-                    date,
-                    description,
-                    price,
-                }).then(() => {
-                    alert("Event saved successfully!");
-                }).catch(error => {
-                    console.error("Error saving event:", error);
-                    alert("An error occurred while saving the event. Please try again.");
-                });
-            } else {
-                alert("Please fill in all fields.");
-            }
+    db.collection('events').add({
+        title,
+        date,
+        description,
+        status: "active",
+        isPublic: true,
+        price,
+        accessCode,
+        location,
+    }).then((docRef) => { // Use docRef to get the ID
+        eventIdArea.innerText = docRef.id; // Retrieve the document ID
+
+        showToast("Event saved successfully!");
+    }).catch(error => {
+        console.error("Error saving event:", error);
+        showToast("An error occurred while saving the event. Please try again.");
+    });
+} else {
+    showToast("Please fill in all fields.");
+}
+
         }
     </script>
   
