@@ -663,7 +663,10 @@ function handleFileS(files) {
     });
 }
 
-
+let canvas, ctx, img, logoImg, logoScale = 0.5;  
+let filterEffect = "none";
+let history = []; // Stack for undo/redo functionality
+let redoStack = [];
 
 const previewCanvas = document.getElementById("watermarkPreviewCanvas");
 const previewCtx = previewCanvas.getContext("2d");
@@ -1106,10 +1109,7 @@ async function saveImageDetails(fileName, originalUrl, compressedUrl, fileSize, 
 }
 
 
-let canvas, ctx, img, logoImg, logoScale = 0.5;  
-let filterEffect = "none";
-let history = []; // Stack for undo/redo functionality
-let redoStack = [];
+
 
 // Initialize canvas and context when the image editor is opened
 document.getElementById("openImageEditorBtn").addEventListener("click", () => {
