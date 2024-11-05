@@ -524,7 +524,7 @@ async function loadSocialMediaAndFooter() {
         navMenu.appendChild(li);
       });
 
-      document.getElementById("footerText").value = h_f_Data.copyrightText || "";
+      document.getElementById("footerText").value = h_f_Data?.copyrightText ?? "";
     }
   } catch (error) {
     showToast("Failed to load social media and footer settings.", "error");
