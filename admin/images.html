@@ -940,6 +940,7 @@ function triggerFileInputx() {
 }
 
 
+document.getElementById("imageInput").addEventListener("onchange", handleFiles(this.files));
 
 document.getElementById("imageUploadArea").addEventListener("click", triggerFileInputx);
 
