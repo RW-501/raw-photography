@@ -63,7 +63,8 @@ div, main, label, input, textarea, button, img, image, .btn, div {
     margin-bottom: 0;
     line-height: 1.5;
     width: 40%;
-    color: #bba9a9 !important;
+    color: #ffffff !important;
+    font-weight: 600;
 }
 .modal-body {
     background: linear-gradient(45deg, #009cfa63, #ffffff);
