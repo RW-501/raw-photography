@@ -327,16 +327,43 @@ select, input[type="range"], input[type="number"] {
           <div class="container-fluid d-flex">
   
             <!-- Logo Upload Section -->
-            <div class="card shadow-sm mb-4">
-              <div class="card-body editor-controls">
-                <label for="uploadLogo" class="form-label fw-semibold">Upload Logo</label>
-                <input type="file" id="uploadLogo" accept="image/*" class="form-control" />
-                <div class="mt-3">
-                  <label for="logoSize" class="form-label fw-semibold">Logo Size</label>
-                  <input type="range" id="logoSize" min="0.1" max="1" step="0.1" value="0.5" class="form-range" />
+            <div class="container py-4">
+                <div class="card shadow-lg border-0 mb-4">
+                    <div class="card-body editor-controls">
+                        <h5 class="card-title text-center text-primary mb-4">Logo Settings</h5>
+            
+                        <!-- Upload Logo Section -->
+                        <div class="mb-4">
+                            <label for="uploadLogo" class="form-label fw-semibold text-secondary">Upload Logo</label>
+                            <div class="input-group">
+                                <input type="file" id="uploadLogo" accept="image/*" class="form-control" />
+                                <button class="btn btn-outline-primary" onclick="document.getElementById('uploadLogo').click()">Browse</button>
+                            </div>
+                            <small class="form-text text-muted">Supported formats: JPEG, PNG, SVG.</small>
+                        </div>
+            
+                        <!-- Logo Size Section -->
+                        <div class="mb-3">
+                            <label for="logoSize" class="form-label fw-semibold text-secondary">Logo Size</label>
+                            <input type="range" id="logoSize" min="0.1" max="1" step="0.1" value="0.5" class="form-range" oninput="updateLogoSizeLabel(this.value)">
+                            <div class="d-flex justify-content-between mt-2 text-muted">
+                                <span>Small</span>
+                                <span id="logoSizeLabel">50%</span>
+                                <span>Large</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
+            
+            <!-- Optional: JavaScript to dynamically display the selected size percentage -->
+            <script>
+            function updateLogoSizeLabel(value) {
+                document.getElementById("logoSizeLabel").textContent = `${Math.round(value * 100)}%`;
+            }
+            </script>
+            
+     
   
             <!-- Filter Options -->
             <div class="card shadow-sm mb-4">
