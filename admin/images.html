@@ -720,6 +720,86 @@ function handleFiles(files) {
 
 
 
+// Function to create lower-quality image with watermark
+async function createLowerQualityImage(dataURL) {
+    const img = new Image();
+    img.src = dataURL;
+    await img.decode();
+
+    const canvas = document.createElement("canvas");
+    const width = 800;
+    const height = (img.height / img.width) * width;
+    canvas.width = width;
+    canvas.height = height;
+
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, width, height);
+
+    // Add watermark to canvas
+    addWatermark(ctx, width, height);
+
+    return canvas.toDataURL("image/jpeg", 0.7); // Compression quality
+}
+
+// Function to add watermark to an image on canvas
+function addWatermark(ctx, width, height) {
+    const { text, font, fontSize, color, opacity, rotation, posX, posY } = watermarkSettings;
+
+    if (text === "Your Watermark") {
+        showToast("Create a Watermark");
+        document.getElementById("watermarkSettingsModal").style.display = "block";
+        return;
+    }
+
+    ctx.save();
+    ctx.font = `${fontSize}px ${font}`;
+    ctx.fillStyle = color;
+    ctx.globalAlpha = opacity;
+
+    // Position and rotate watermark
+    ctx.translate(posX, posY);
+    ctx.rotate((rotation * Math.PI) / 180);
+    ctx.fillText(text, 0, 0); // Draw the watermark text at specified position
+    ctx.restore();
+}
+
+// Function to process image and apply watermark
+async function processImage(dataURL, file, fileSize, fileType, fileName) {
+    try {
+        // Create a compressed image with a watermark
+        const compressedImage = await createLowerQualityImage(dataURL);
+
+        const imagesData = [
+            {
+                compressedImage: compressedImage,
+                originalUrl: dataURL,
+                fileType: fileType,
+                fileName: fileName,
+                fileSize: fileSize // in bytes
+            },
+            // Add more image objects as needed
+        ];
+
+        // Check if watermark text is set properly
+        const { text } = watermarkSettings;
+        if (text === "Your Watermark") {
+            showToast("Create a Watermark");
+            document.getElementById("watermarkSettingsModal").style.display = "block";
+            return;
+        }
+
+        // Render images
+        renderImages(imagesData);
+
+    } catch (error) {
+        console.error("Error processing image:", error);
+        showToast("Image processing failed.", "error");
+    }
+}
+
+
+
+
 // Show watermark settings modal
 document.getElementById("watermarkSettingsBtn").addEventListener("click", () => {
     document.getElementById("watermarkSettingsModal").style.display = "block";
@@ -836,88 +916,6 @@ previewCanvas.addEventListener("touchstart", startDrag);
 previewCanvas.addEventListener("touchmove", drag);
 previewCanvas.addEventListener("touchend", stopDrag);
 previewCanvas.addEventListener("touchcancel", stopDrag);
-
-
-
-
-// Function to create lower-quality image with watermark
-async function createLowerQualityImage(dataURL) {
-    const img = new Image();
-    img.src = dataURL;
-    await img.decode();
-
-    const canvas = document.createElement("canvas");
-    const width = 800;
-    const height = (img.height / img.width) * width;
-    canvas.width = width;
-    canvas.height = height;
-
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(img, 0, 0, width, height);
-
-    // Add watermark to canvas
-    addWatermark(ctx, width, height);
-
-    return canvas.toDataURL("image/jpeg", 0.7); // Compression quality
-}
-
-// Function to add watermark to an image on canvas
-function addWatermark(ctx, width, height) {
-    const { text, font, fontSize, color, opacity, rotation, posX, posY } = watermarkSettings;
-
-    if (text === "Your Watermark") {
-        showToast("Create a Watermark");
-        document.getElementById("watermarkSettingsModal").style.display = "block";
-        return;
-    }
-
-    ctx.save();
-    ctx.font = `${fontSize}px ${font}`;
-    ctx.fillStyle = color;
-    ctx.globalAlpha = opacity;
-
-    // Position and rotate watermark
-    ctx.translate(posX, posY);
-    ctx.rotate((rotation * Math.PI) / 180);
-    ctx.fillText(text, 0, 0); // Draw the watermark text at specified position
-    ctx.restore();
-}
-
-// Function to process image and apply watermark
-async function processImage(dataURL, file, fileSize, fileType, fileName) {
-    try {
-        // Create a compressed image with a watermark
-        const compressedImage = await createLowerQualityImage(dataURL);
-
-        const imagesData = [
-            {
-                compressedImage: compressedImage,
-                originalUrl: dataURL,
-                fileType: fileType,
-                fileName: fileName,
-                fileSize: fileSize // in bytes
-            },
-            // Add more image objects as needed
-        ];
-
-        // Check if watermark text is set properly
-        const { text } = watermarkSettings;
-        if (text === "Your Watermark") {
-            showToast("Create a Watermark");
-            document.getElementById("watermarkSettingsModal").style.display = "block";
-            return;
-        }
-
-        // Render images
-        renderImages(imagesData);
-
-    } catch (error) {
-        console.error("Error processing image:", error);
-        showToast("Image processing failed.", "error");
-    }
-}
-
-
 
 
 // Close watermark settings modal
@@ -1408,7 +1406,6 @@ document.getElementById("redoBtn").addEventListener("click", redo);
 
 
 document.getElementById("saveFilters").addEventListener("click", saveFilters);
-document.getElementById("cropImage").addEventListener("click", cropImage);
 document.getElementById("resizeImage").addEventListener("click", resizeImage);
 
 document.getElementById("saveImage").addEventListener("click", saveImage);
