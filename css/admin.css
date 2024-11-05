@@ -53,6 +53,22 @@ div, main, label, input, textarea, button, img, image, .btn, div {
     background: linear-gradient(45deg, #286d3b, #1ec054);
 
 }
+
+.btn-danger {
+    background: linear-gradient(45deg, #c82333, #dc3545);
+
+}
+
+.modal-title {
+    margin-bottom: 0;
+    line-height: 1.5;
+    width: 40%;
+    color: #bba9a9 !important;
+}
+.modal-body {
+    background: linear-gradient(45deg, #009cfa63, #ffffff);
+
+}
         /* Footer Styles */
         #site-footer {
             text-align: center;
