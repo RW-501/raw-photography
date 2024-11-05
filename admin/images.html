@@ -241,31 +241,61 @@ select, input[type="range"], input[type="number"] {
                 <div class="container-fluid d-flex">
 
                 <!-- Watermark input fields -->
-                <label for="watermarkText">Text</label>
-                <input type="text" id="watermarkText" class="form-control" placeholder="Enter watermark text">
-                <label for="watermarkFont">Font</label>
-                <select id="watermarkFont" class="form-control">
-                    <option value="Arial">Arial</option>
-                    <option value="Times New Roman">Times New Roman</option>
-                    <option value="Courier New">Courier New</option>
-                </select>
-                <label for="watermarkSize">Font Size</label>
-                <input type="number" id="watermarkSize" class="form-control" placeholder="20" value="20">
-                <label for="watermarkColor">Color</label>
-                <input type="color" id="watermarkColor" class="form-control" value="#ffffff">
-                <label for="watermarkOpacity">Opacity</label>
-                <input type="range" id="watermarkOpacity" class="form-control" min="0" max="1" step="0.1" value="0.5">
-               </div>
-               
-               <div class="container-fluid d-flex">
+   <!-- Watermark Text Input -->
+   <div class="mb-3">
+    <label for="watermarkText" class="form-label">Watermark Text</label>
+    <input type="text" id="watermarkText" class="form-control" placeholder="Enter watermark text">
+</div>
 
-                <label for="watermarkRotation">Rotation (degrees)</label>
-                <input type="number" id="watermarkRotation" class="form-control" placeholder="0" value="0">
-                <label for="watermarkPositionX">Position X</label>
-                <input type="number" id="watermarkPositionX" class="form-control" placeholder="20" value="20">
-                <label for="watermarkPositionY">Position Y</label>
-                <input type="number" id="watermarkPositionY" class="form-control" placeholder="20" value="20">
-            </div>
+<!-- Font and Font Size Group -->
+<div class="row mb-3">
+    <div class="col-md-6">
+        <label for="watermarkFont" class="form-label">Font</label>
+        <select id="watermarkFont" class="form-select">
+            <option value="Arial">Arial</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Courier New">Courier New</option>
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label for="watermarkSize" class="form-label">Font Size</label>
+        <input type="number" id="watermarkSize" class="form-control" placeholder="20" value="20">
+    </div>
+</div>
+
+<!-- Color and Opacity Group -->
+<div class="row mb-3 align-items-center">
+    <div class="col-md-6">
+        <label for="watermarkColor" class="form-label">Color</label>
+        <input type="color" id="watermarkColor" class="form-control form-control-color" value="#ffffff" title="Choose your color">
+    </div>
+    <div class="col-md-6">
+        <label for="watermarkOpacity" class="form-label">Opacity</label>
+        <input type="range" id="watermarkOpacity" class="form-range" min="0" max="1" step="0.1" value="0.5">
+    </div>
+</div>
+
+</div>
+
+
+<div class="container-fluid d-flex">
+
+<!-- Rotation and Position Group -->
+<div class="row mb-3">
+    <div class="col-md-4">
+        <label for="watermarkRotation" class="form-label">Rotation (degrees)</label>
+        <input type="number" id="watermarkRotation" class="form-control" placeholder="0" value="0">
+    </div>
+    <div class="col-md-4">
+        <label for="watermarkPositionX" class="form-label">Position X</label>
+        <input type="number" id="watermarkPositionX" class="form-control" placeholder="20" value="20">
+    </div>
+    <div class="col-md-4">
+        <label for="watermarkPositionY" class="form-label">Position Y</label>
+        <input type="number" id="watermarkPositionY" class="form-control" placeholder="20" value="20">
+    </div>
+</div>
+
         </div>
 
         <div class="modal-footer">
