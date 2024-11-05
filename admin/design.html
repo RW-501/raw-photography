@@ -421,7 +421,7 @@ async function updateSpinner(){
         lensBorderColor: document.getElementById('lensBorderColor').value,
         spinnerCircleColor: document.getElementById('spinnerCircleColor').value
     };
-
+    
     try {
         // Reference the document in the "settings" collection
         const docRef = doc(db, "settings", "loading_spinner");
