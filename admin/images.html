@@ -624,8 +624,43 @@ function handleFiles(files) {
     });
 }
 
+// Compresses and adds watermark to the image
+async function processImage(dataURL, file, fileSize, fileType, fileName) {
+    try {
+ // Create a compressed image with a watermark
+ const compressedImage = await createLowerQualityImage(dataURL);
+        
+        const imagesData = [
+    {
+        compressedImage: compressedImage,
+        originalUrl: dataURL,
+        fileType: fileType,
+        fileName: fileName,
+        fileSize: fileSize // in bytes
+    },
+    // Add more image objects as needed
+];
+
+const { text, font, fontSize, color, opacity, rotation, posX, posY } = watermarkSettings;
+
+if(text == "Your Watermark"){
+        showToast("Create a Watermark");
+        document.getElementById("watermarkSettingsModal").style.display = "block";
+
+        return;
+    }
+// Render images
+renderImages(imagesData);
 
 
+
+
+       
+   } catch (error) {
+        console.error("Error processing image:", error);
+        showToast("Image processing failed.", "error");
+    }
+}
 
 // Function to create lower-quality image with watermark
 async function createLowerQualityImage(dataURL) {
