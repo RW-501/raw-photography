@@ -681,6 +681,12 @@ document.getElementById("watermarkSettingsBtn").addEventListener("click", () => 
 const previewCanvas = document.getElementById("watermarkPreviewCanvas");
 const previewCtx = previewCanvas.getContext("2d");
 
+// Variables for tracking drag status
+let isDragging = false;
+let offsetX, offsetY;
+let watermarkPosX = 20; // Default position X
+let watermarkPosY = 20; // Default position Y
+
 // Function to update watermark preview in real-time
 function updateWatermarkPreview() {
     // Clear previous preview
@@ -693,8 +699,6 @@ function updateWatermarkPreview() {
     const color = document.getElementById("watermarkColor").value;
     const opacity = document.getElementById("watermarkOpacity").value;
     const rotation = document.getElementById("watermarkRotation").value || 0;
-    const posX = document.getElementById("watermarkPositionX").value || 20;
-    const posY = document.getElementById("watermarkPositionY").value || 20;
 
     previewCtx.save();
     previewCtx.font = `${fontSize}px ${font}`;
@@ -702,7 +706,7 @@ function updateWatermarkPreview() {
     previewCtx.globalAlpha = opacity;
 
     // Apply rotation and position
-    previewCtx.translate(posX, posY);
+    previewCtx.translate(watermarkPosX, watermarkPosY);
     previewCtx.rotate((rotation * Math.PI) / 180);
     previewCtx.fillText(text, 0, 0); // Draw watermark text
     previewCtx.restore();
@@ -715,11 +719,54 @@ document.getElementById("watermarkSize").addEventListener("input", updateWaterma
 document.getElementById("watermarkColor").addEventListener("input", updateWatermarkPreview);
 document.getElementById("watermarkOpacity").addEventListener("input", updateWatermarkPreview);
 document.getElementById("watermarkRotation").addEventListener("input", updateWatermarkPreview);
-document.getElementById("watermarkPositionX").addEventListener("input", updateWatermarkPreview);
-document.getElementById("watermarkPositionY").addEventListener("input", updateWatermarkPreview);
 
 // Initialize preview on load
 updateWatermarkPreview();
+
+// Handle drag events
+previewCanvas.addEventListener("mousedown", (e) => {
+    const mouseX = e.offsetX;
+    const mouseY = e.offsetY;
+
+    // Check if the click is within the watermark area
+    const fontSize = parseInt(document.getElementById("watermarkSize").value) || 20;
+    previewCtx.font = `${fontSize}px ${document.getElementById("watermarkFont").value}`;
+    const text = document.getElementById("watermarkText").value || "Your Watermark";
+    const textWidth = previewCtx.measureText(text).width;
+
+    if (
+        mouseX >= watermarkPosX &&
+        mouseX <= watermarkPosX + textWidth &&
+        mouseY >= watermarkPosY - fontSize &&
+        mouseY <= watermarkPosY
+    ) {
+        isDragging = true;
+        offsetX = mouseX - watermarkPosX;
+        offsetY = mouseY - watermarkPosY;
+    }
+});
+
+previewCanvas.addEventListener("mousemove", (e) => {
+    if (isDragging) {
+        watermarkPosX = e.offsetX - offsetX;
+        watermarkPosY = e.offsetY - offsetY;
+
+        // Update the input fields for X and Y
+        document.getElementById("watermarkPositionX").value = Math.round(watermarkPosX);
+        document.getElementById("watermarkPositionY").value = Math.round(watermarkPosY);
+
+        // Update preview
+        updateWatermarkPreview();
+    }
+});
+
+previewCanvas.addEventListener("mouseup", () => {
+    isDragging = false;
+});
+
+previewCanvas.addEventListener("mouseleave", () => {
+    isDragging = false;
+});
 
 // Close watermark settings modal
 function closeWatermarkModal(){
