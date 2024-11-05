@@ -935,12 +935,13 @@ document.getElementById("undoBtn").addEventListener("click", undo);
 document.getElementById("redoBtn").addEventListener("click", redo);
 
 
-function triggerFileInput() {
+function triggerFileInputx() {
     document.getElementById("imageInput").click();
 }
 
 
 
+document.getElementById("imageUploadArea").addEventListener("click", triggerFileInputx);
 
 
 
