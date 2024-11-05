@@ -182,23 +182,6 @@ select, input[type="range"], input[type="number"] {
     line-height: 30px; /* Center the text vertically */
 }
 
-#watermarkPreviewCanvas {
-    border: 1px solid #ccc;
-    display: block;
-    margin: auto;
-
-}
-
-#imageCanvas {
-    border: 1px solid #ccc;
-    display: block;
-    margin: auto;
-    background-color: #ccc;
-
-}
-
-
-
 </style>
 
 
@@ -238,8 +221,6 @@ select, input[type="range"], input[type="number"] {
                 <!-- Watermark preview canvas -->
                 <canvas id="watermarkPreviewCanvas" width="400" height="200" style="border:1px solid #ccc;"></canvas>
 
-                <div class="container-fluid d-flex">
-
                 <!-- Watermark input fields -->
                 <label for="watermarkText">Text</label>
                 <input type="text" id="watermarkText" class="form-control" placeholder="Enter watermark text">
@@ -262,9 +243,7 @@ select, input[type="range"], input[type="number"] {
                 <label for="watermarkPositionY">Position Y</label>
                 <input type="number" id="watermarkPositionY" class="form-control" placeholder="20" value="20">
             </div>
-        </div>
-
-        <div class="modal-footer">
+            <div class="modal-footer">
                 <button id="applyWatermarkSettings" type="button" class="btn btn-primary">Apply</button>
                 <button id="closeWatermarkModal" type="button" class="btn btn-secondary">Close</button>
             </div>
@@ -290,7 +269,7 @@ select, input[type="range"], input[type="number"] {
           <!-- Canvas to display and edit the image -->
           <canvas id="imageCanvas" width="500" height="500"></canvas>
   
-          <div class="container-fluid d-flex">
+          <div class="container-fluid">
   
             <!-- Logo Upload Section -->
             <div class="card shadow-sm mb-4">
@@ -528,37 +507,28 @@ select, input[type="range"], input[type="number"] {
                       </button>
                     </div>
                   </div>
-                </div>
-
-
-
   
-            
+                <div class="modal-footer d-flex justify-content-between px-4 py-3 bg-gradient-secondary">
+                  <div class="d-flex gap-3">
+                    <button type="button" class="btn btn-outline-light" id="undoBtn" data-bs-toggle="tooltip" data-bs-placement="top" title="Undo the last action">
+                      <i class="fas fa-undo"></i> Undo
+                    </button>
+                    <button type="button" class="btn btn-outline-light" id="redoBtn" data-bs-toggle="tooltip" data-bs-placement="top" title="Redo the last undone action">
+                      <i class="fas fa-redo"></i> Redo
+                    </button>
+                  </div>
+                  <div class="d-flex gap-3">
+                    <button id="saveImage" type="button" class="btn btn-primary btn-lg rounded-pill px-4" data-bs-toggle="tooltip" data-bs-placement="top" title="Save your edited image">
+                      <i class="fas fa-check-circle me-2"></i> Save
+                    </button>
+                    <button id="closeImageEditor" type="button" class="btn btn-outline-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Close the image editor">
+                      <i class="fas fa-times"></i> Close
+                    </button>
+                  </div>
+                </div>
+  
+              </div>
           </div>
-<!-- End of Flex-->
-
-
-<div class="modal-footer d-flex justify-content-between px-4 py-3 bg-gradient-secondary">
-    <div class="d-flex gap-3">
-      <button type="button" class="btn btn-outline-light" id="undoBtn" data-bs-toggle="tooltip" data-bs-placement="top" title="Undo the last action">
-        <i class="fas fa-undo"></i> Undo
-      </button>
-      <button type="button" class="btn btn-outline-light" id="redoBtn" data-bs-toggle="tooltip" data-bs-placement="top" title="Redo the last undone action">
-        <i class="fas fa-redo"></i> Redo
-      </button>
-    </div>
-    <div class="d-flex gap-3">
-      <button id="saveImage" type="button" class="btn btn-primary btn-lg rounded-pill px-4" data-bs-toggle="tooltip" data-bs-placement="top" title="Save your edited image">
-        <i class="fas fa-check-circle me-2"></i> Save
-      </button>
-      <button id="closeImageEditor" type="button" class="btn btn-outline-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Close the image editor">
-        <i class="fas fa-times"></i> Close
-      </button>
-    </div>
-  </div>
-
-
-
         </div>
   
       </div>
@@ -911,6 +881,28 @@ let watermarkSettings = {
     posY: 20
 };
 
+// Function to add watermark to canvas context
+function addWatermark(ctx, width, height) {
+    const { text, font, fontSize, color, opacity, rotation, posX, posY } = watermarkSettings;
+
+    if(text == "Your Watermark"){
+        showToast("Create a Watermark");
+        document.getElementById("watermarkSettingsModal").style.display = "block";
+
+        return;
+    }
+
+    ctx.save();
+    ctx.font = `${fontSize}px ${font}`;
+    ctx.fillStyle = color;
+    ctx.globalAlpha = opacity;
+
+    // Apply rotation if any
+    ctx.translate(posX, posY);
+    ctx.rotate((rotation * Math.PI) / 180);
+    ctx.fillText(text, 0, 0); // Position text after translation
+    ctx.restore();
+}
 
 
 
