@@ -171,7 +171,7 @@
                   <input type="color" id="spinnerCircleColor" name="spinnerCircleColor" required aria-label="Spinner circle color">
                 </div>
       
-                <button id="colorSettingsForm" class="btn btn-primary">Update Spinner</button>
+                <button id="spinnerColorForm" class="btn btn-primary"  onclick="updateSpinner()">Update Spinner</button>
                 <button type="button" class="btn btn-secondary" id="reset-button">Reset</button>
               </form>
               <div id="colorResponse" class="mt-2"></div>
@@ -411,9 +411,7 @@ function applyDefaultSettings(settings) {
 
 // Event Listener for Color Settings Form Submission
 
-document.getElementById("colorSettingsForm").addEventListener("click", async function (event) {
-  event.preventDefault(); // Prevent page reset
-
+async function updateSpinner(){
     let colorSettings = {
         backgroundColor: document.getElementById('backgroundColor').value,
         cameraBodyColor: document.getElementById('cameraBodyColor').value,
@@ -452,7 +450,7 @@ document.getElementById("colorSettingsForm").addEventListener("click", async fun
         alert("Error updating color settings:", error);
 
     }
-});
+};
 
 // Call to apply initial colors on page load
 window.onload = applyLoadingSpinnerColors;
