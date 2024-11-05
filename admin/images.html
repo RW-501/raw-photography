@@ -695,6 +695,18 @@ async function createLowerQualityImage(dataURL) {
     return canvas.toDataURL("image/jpeg", 0.7); // Compression quality
 }
 
+// Default watermark settings
+let watermarkSettings = {
+    text: "Your Watermark",
+    font: "Arial",
+    fontSize: 20,
+    color: "#ffffff",
+    opacity: 0.5,
+    rotation: 0,
+    posX: 20,
+    posY: 20
+};
+
 // Function to add watermark to an image on canvas
 function addWatermark(ctx, width, height) {
     const { text, font, fontSize, color, opacity, rotation, posX, posY } = watermarkSettings;
@@ -907,18 +919,6 @@ function applyWatermarkSettings() {
     
     showToast("Watermark settings applied!", "success");
 }
-
-// Default watermark settings
-let watermarkSettings = {
-    text: "Your Watermark",
-    font: "Arial",
-    fontSize: 20,
-    color: "#ffffff",
-    opacity: 0.5,
-    rotation: 0,
-    posX: 20,
-    posY: 20
-};
 
 
 
