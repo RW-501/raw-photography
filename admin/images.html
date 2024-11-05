@@ -221,6 +221,8 @@ select, input[type="range"], input[type="number"] {
                 <!-- Watermark preview canvas -->
                 <canvas id="watermarkPreviewCanvas" width="400" height="200" style="border:1px solid #ccc;"></canvas>
 
+                <div class="container-fluid d-flex">
+
                 <!-- Watermark input fields -->
                 <label for="watermarkText">Text</label>
                 <input type="text" id="watermarkText" class="form-control" placeholder="Enter watermark text">
@@ -243,7 +245,9 @@ select, input[type="range"], input[type="number"] {
                 <label for="watermarkPositionY">Position Y</label>
                 <input type="number" id="watermarkPositionY" class="form-control" placeholder="20" value="20">
             </div>
-            <div class="modal-footer">
+        </div>
+
+        <div class="modal-footer">
                 <button id="applyWatermarkSettings" type="button" class="btn btn-primary">Apply</button>
                 <button id="closeWatermarkModal" type="button" class="btn btn-secondary">Close</button>
             </div>
