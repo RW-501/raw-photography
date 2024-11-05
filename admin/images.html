@@ -213,36 +213,33 @@ select, input[type="range"], input[type="number"] {
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Watermark Settings</h5>
-                <button id="closeWatermarkX" type="button" class="close" aria-label="Close" >
+                <button id="closeWatermarkX" type="button" class="close" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
+                <!-- Watermark preview canvas -->
+                <canvas id="watermarkPreviewCanvas" width="400" height="200" style="border:1px solid #ccc;"></canvas>
+
+                <!-- Watermark input fields -->
                 <label for="watermarkText">Text</label>
                 <input type="text" id="watermarkText" class="form-control" placeholder="Enter watermark text">
-
                 <label for="watermarkFont">Font</label>
                 <select id="watermarkFont" class="form-control">
                     <option value="Arial">Arial</option>
                     <option value="Times New Roman">Times New Roman</option>
                     <option value="Courier New">Courier New</option>
                 </select>
-
                 <label for="watermarkSize">Font Size</label>
                 <input type="number" id="watermarkSize" class="form-control" placeholder="20" value="20">
-
                 <label for="watermarkColor">Color</label>
                 <input type="color" id="watermarkColor" class="form-control" value="#ffffff">
-
                 <label for="watermarkOpacity">Opacity</label>
                 <input type="range" id="watermarkOpacity" class="form-control" min="0" max="1" step="0.1" value="0.5">
-
                 <label for="watermarkRotation">Rotation (degrees)</label>
                 <input type="number" id="watermarkRotation" class="form-control" placeholder="0" value="0">
-
                 <label for="watermarkPositionX">Position X</label>
                 <input type="number" id="watermarkPositionX" class="form-control" placeholder="20" value="20">
-
                 <label for="watermarkPositionY">Position Y</label>
                 <input type="number" id="watermarkPositionY" class="form-control" placeholder="20" value="20">
             </div>
@@ -253,6 +250,7 @@ select, input[type="range"], input[type="number"] {
         </div>
     </div>
 </div>
+
 
 
 
@@ -679,6 +677,49 @@ document.getElementById("watermarkSettingsBtn").addEventListener("click", () => 
     document.getElementById("watermarkSettingsModal").style.display = "block";
 });
 
+// Reference to the preview canvas and its context
+const previewCanvas = document.getElementById("watermarkPreviewCanvas");
+const previewCtx = previewCanvas.getContext("2d");
+
+// Function to update watermark preview in real-time
+function updateWatermarkPreview() {
+    // Clear previous preview
+    previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
+
+    // Set watermark settings
+    const text = document.getElementById("watermarkText").value || "Your Watermark";
+    const font = document.getElementById("watermarkFont").value;
+    const fontSize = document.getElementById("watermarkSize").value || 20;
+    const color = document.getElementById("watermarkColor").value;
+    const opacity = document.getElementById("watermarkOpacity").value;
+    const rotation = document.getElementById("watermarkRotation").value || 0;
+    const posX = document.getElementById("watermarkPositionX").value || 20;
+    const posY = document.getElementById("watermarkPositionY").value || 20;
+
+    previewCtx.save();
+    previewCtx.font = `${fontSize}px ${font}`;
+    previewCtx.fillStyle = color;
+    previewCtx.globalAlpha = opacity;
+
+    // Apply rotation and position
+    previewCtx.translate(posX, posY);
+    previewCtx.rotate((rotation * Math.PI) / 180);
+    previewCtx.fillText(text, 0, 0); // Draw watermark text
+    previewCtx.restore();
+}
+
+// Event listeners for real-time update of watermark settings
+document.getElementById("watermarkText").addEventListener("input", updateWatermarkPreview);
+document.getElementById("watermarkFont").addEventListener("change", updateWatermarkPreview);
+document.getElementById("watermarkSize").addEventListener("input", updateWatermarkPreview);
+document.getElementById("watermarkColor").addEventListener("input", updateWatermarkPreview);
+document.getElementById("watermarkOpacity").addEventListener("input", updateWatermarkPreview);
+document.getElementById("watermarkRotation").addEventListener("input", updateWatermarkPreview);
+document.getElementById("watermarkPositionX").addEventListener("input", updateWatermarkPreview);
+document.getElementById("watermarkPositionY").addEventListener("input", updateWatermarkPreview);
+
+// Initialize preview on load
+updateWatermarkPreview();
 
 // Close watermark settings modal
 function closeWatermarkModal(){
@@ -720,7 +761,7 @@ function applyWatermarkSettings() {
         posY
     };
 
-    closeWatermarkModal();
+    
     showToast("Watermark settings applied!", "success");
 }
 
@@ -1225,8 +1266,6 @@ document.getElementById("imageUploadArea").addEventListener("click", function() 
     document.getElementById("imageInput").click();
 });
 
-// Image Input Change Listener
-document.getElementById("imageInput").addEventListener("change", handleFiles);
 
 // Add individual Event Listeners for the sliders in the Image Editor
 document.querySelectorAll(".slider input[type='range']").forEach(slider => {
