@@ -139,16 +139,16 @@ select, input[type="range"], input[type="number"] {
                             <label for="eventLocation">Event Location</label>
                             <input type="text" class="form-control" id="eventLocation" placeholder="Event Location" required>
                         </div>
-                        <button type="button" class="btn btn-primary" onclick="saveEvent()">Save Event</button>
+                        <button id="saveEvent" type="button" class="btn btn-primary" >Save Event</button>
                     </form>
                 </section>
         
                 <!-- Image Upload Section -->
                 <section class="my-4">
                     <h2>Upload Images</h2>
-                    <div id="imageUploadArea" class="border border-primary p-4 text-center"  onclick="triggerFileInput()">
+                    <div id="imageUploadArea" class="border border-primary p-4 text-center" >
                         <p>Drag and drop images here or click to upload</p>
-                        <input type="file" id="imageInput" multiple accept="image/*" style="display: none;" onchange="handleFiles(this.files)">
+                        <input type="file" id="imageInput" multiple accept="image/*" style="display: none;" >
                     </div>
 
         <!-- Button to open watermark settings -->
@@ -159,9 +159,10 @@ select, input[type="range"], input[type="number"] {
                     <div class="progress mt-3" style="display: none;" id="uploadProgressBar">
                         <div class="progress-bar" role="progressbar" style="width: 0%;"  id="uploadProgress" role="progressbar"  aria-valuemin="0" aria-valuemax="100">0%</div>
                     </div>
-        
+                    <!-- imagePreviewContainer -->
+
                     <div id="imagePreviewContainer" class="row mt-3"></div>
-                    <button type="button" class="btn btn-success mt-3" onclick="saveImages()">Save All Images</button>
+                    <button id="saveImagesBtn" type="button" class="btn btn-success mt-3" >Save All Images</button>
                 </section>
             </div>
         
@@ -179,7 +180,7 @@ select, input[type="range"], input[type="number"] {
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Watermark Settings</h5>
-                <button type="button" class="close" aria-label="Close" onclick="closeWatermarkModal()">
+                <button id="closeWatermarkModal" type="button" class="close" aria-label="Close" >
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -213,8 +214,8 @@ select, input[type="range"], input[type="number"] {
                 <input type="number" id="watermarkPositionY" class="form-control" placeholder="20" value="20">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="applyWatermarkSettings()">Apply</button>
-                <button type="button" class="btn btn-secondary" onclick="closeWatermarkModal()">Close</button>
+                <button id="applyWatermarkSettings" type="button" class="btn btn-primary">Apply</button>
+                <button id="closeWatermarkModal" type="button" class="btn btn-secondary">Close</button>
             </div>
         </div>
     </div>
@@ -228,7 +229,7 @@ select, input[type="range"], input[type="number"] {
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Image Editor</h5>
-                <button type="button" class="close" onclick="closeImageEditor()">×</button>
+                <button id="closeImageEditor" type="button" class="close" >×</button>
             </div>
             <div class="modal-body">
                 <!-- Canvas to display and edit the image -->
@@ -237,16 +238,16 @@ select, input[type="range"], input[type="number"] {
                 <!-- Image Editor Controls -->
                 <div class="editor-controls">
                     <label for="uploadLogo">Upload Logo</label>
-                    <input type="file" id="uploadLogo" accept="image/*" onchange="addLogo(event)">
+                    <input  type="file" id="uploadLogo" accept="image/*" >
 
                     <label for="logoSize">Logo Size</label>
-                    <input type="range" id="logoSize" min="0.1" max="1" step="0.1" value="0.5" onchange="updateLogoSize(event)">
+                    <input  type="range" id="logoSize" min="0.1" max="1" step="0.1" value="0.5" >
 
                     <label for="filters">Filter Effects</label>
                     <h1>Image Filter Adjustments</h1>
 
     <label for="filters">Select Filter:</label>
-    <select id="filters" onchange="showSlider(event)" aria-label="Image filters">
+    <select id="filters"  aria-label="Image filters">
         <option value="none">None</option>
         
         <optgroup label="Color Adjustments">
@@ -276,86 +277,86 @@ select, input[type="range"], input[type="number"] {
     <div id="sliders">
         <div id="grayscale" class="slider">
             <label for="grayscaleValue">Grayscale:</label>
-            <input type="range" id="grayscaleValue" min="0" max="100" value="100" oninput="updateValue('grayscale', this.value)">
+            <input type="range" id="grayscaleValue" min="0" max="100" value="100">
             <span id="grayscaleOutput">100%</span>
         </div>
         <div id="sepia" class="slider">
             <label for="sepiaValue">Sepia:</label>
-            <input type="range" id="sepiaValue" min="0" max="100" value="100" oninput="updateValue('sepia', this.value)">
+            <input type="range" id="sepiaValue" min="0" max="100" value="100">
             <span id="sepiaOutput">100%</span>
         </div>
         <div id="invert" class="slider">
             <label for="invertValue">Invert:</label>
-            <input type="range" id="invertValue" min="0" max="100" value="100" oninput="updateValue('invert', this.value)">
+            <input type="range" id="invertValue" min="0" max="100" value="100">
             <span id="invertOutput">100%</span>
         </div>
         <div id="brightness" class="slider">
             <label for="brightnessValue">Brightness:</label>
-            <input type="range" id="brightnessValue" min="0" max="200" value="100" oninput="updateValue('brightness', this.value)">
+            <input type="range" id="brightnessValue" min="0" max="200" value="100" >
             <span id="brightnessOutput">100%</span>
         </div>
         <div id="contrast" class="slider">
             <label for="contrastValue">Contrast:</label>
-            <input type="range" id="contrastValue" min="0" max="200" value="100" oninput="updateValue('contrast', this.value)">
+            <input type="range" id="contrastValue" min="0" max="200" value="100">
             <span id="contrastOutput">100%</span>
         </div>
         <div id="saturate" class="slider">
             <label for="saturateValue">Saturation:</label>
-            <input type="range" id="saturateValue" min="0" max="200" value="100" oninput="updateValue('saturate', this.value)">
+            <input type="range" id="saturateValue" min="0" max="200" value="100">
             <span id="saturateOutput">100%</span>
         </div>
         <div id="hue-rotate" class="slider">
             <label for="hueRotateValue">Hue Rotate:</label>
-            <input type="range" id="hueRotateValue" min="0" max="360" value="0" oninput="updateValue('hue-rotate', this.value)">
+            <input type="range" id="hueRotateValue" min="0" max="360" value="0">
             <span id="hueRotateOutput">0°</span>
         </div>
         <div id="blur" class="slider">
             <label for="blurValue">Blur:</label>
-            <input type="range" id="blurValue" min="0" max="20" value="0" oninput="updateValue('blur', this.value)">
+            <input type="range" id="blurValue" min="0" max="20" value="0">
             <span id="blurOutput">0px</span>
         </div>
         <div id="opacity" class="slider">
             <label for="opacityValue">Opacity:</label>
-            <input type="range" id="opacityValue" min="0" max="100" value="100" oninput="updateValue('opacity', this.value)">
+            <input type="range" id="opacityValue" min="0" max="100" value="100" >
             <span id="opacityOutput">100%</span>
         </div>
         <div id="drop-shadow" class="slider">
             <label for="dropShadowValue">Drop Shadow (px):</label>
-            <input type="number" id="dropShadowValue" min="0" value="5" oninput="updateValue('drop-shadow', this.value)">
+            <input type="number" id="dropShadowValue" min="0" value="5">
             <span id="dropShadowOutput">5px</span>
         </div>
         <div id="scale" class="slider">
             <label for="scaleValue">Scale:</label>
-            <input type="range" id="scaleValue" min="0.1" max="3" step="0.1" value="1" oninput="updateValue('scale', this.value)">
+            <input type="range" id="scaleValue" min="0.1" max="3" step="0.1" value="1">
             <span id="scaleOutput">100%</span>
         </div>
         <div id="skewX" class="slider">
             <label for="skewXValue">Skew X:</label>
-            <input type="range" id="skewXValue" min="-90" max="90" value="0" oninput="updateValue('skewX', this.value)">
+            <input type="range" id="skewXValue" min="-90" max="90" value="0" >
             <span id="skewXOutput">0°</span>
         </div>
         <div id="skewY" class="slider">
             <label for="skewYValue">Skew Y:</label>
-            <input type="range" id="skewYValue" min="-90" max="90" value="0" oninput="updateValue('skewY', this.value)">
+            <input type="range" id="skewYValue" min="-90" max="90" value="0">
             <span id="skewYOutput">0°</span>
         </div>
     </div>
 
-    <button onclick="saveFilters()">Save Filters</button>
-    <button onclick="resetFilters()">Reset Filters</button>
+    <button id="saveFilters" >Save Filters</button>
+    <button id="resetFilters" >Reset Filters</button>
 
                     <label for="crop">Crop</label>
-                    <button class="btn btn-secondary" onclick="cropImage()">Crop</button>
+                    <button id="cropImage" class="btn btn-secondary" >Crop</button>
 
                     <label for="resize">Resize</label>
-                    <button class="btn btn-secondary" onclick="resizeImage()">Resize</button>
+                    <button id="resizeImage" class="btn btn-secondary" >Resize</button>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" id="undoBtn">Undo</button>
                 <button type="button" class="btn btn-secondary" id="redoBtn">Redo</button>
-                <button type="button" class="btn btn-primary" onclick="saveImage()">Save</button>
-                <button type="button" class="btn btn-secondary" onclick="closeImageEditor()">Close</button>
+                <button id="saveImage" type="button" class="btn btn-primary" >Save</button>
+                <button id="closeImageEditor" type="button" class="btn btn-secondary" >Close</button>
             </div>
             
         </div>
@@ -935,17 +936,67 @@ document.getElementById("undoBtn").addEventListener("click", undo);
 document.getElementById("redoBtn").addEventListener("click", redo);
 
 
-function triggerFileInputx() {
+document.getElementById("saveFilters").addEventListener("click", saveFilters);
+document.getElementById("resizeImage").addEventListener("click", resizeImage);
+
+document.getElementById("saveImage").addEventListener("click", saveImage);
+document.getElementById("closeImageEditor").addEventListener("click", closeImageEditor);
+
+document.getElementById("redoBtn").addEventListener("click", redo);
+
+
+
+function triggerFileInput() {
     document.getElementById("imageInput").click();
 }
 
 
-// Assuming your HTML has an <input> element with id="imageInput"
+// Wait for the document to fully load
+document.addEventListener("DOMContentLoaded", function () {
+
+    // Assuming your HTML has an <input> element with id="imageInput"
 document.getElementById("imageInput").addEventListener("change", function() {
     handleFiles(this.files);
 });
-document.getElementById("imageUploadArea").addEventListener("click", triggerFileInputx);
+document.getElementById("imageUploadArea").addEventListener("click", triggerFileInput);
 
+// Add Event Listeners for the form buttons
+document.getElementById("saveImagesBtn").addEventListener("click", saveAllImages);
+document.getElementById("watermarkSettingsBtn").addEventListener("click", openWatermarkModal);
+document.getElementById("openImageEditorBtn").addEventListener("click", openImageEditor);
+
+// Event Form Button Listener
+document.getElementById("eventForm").querySelector("button[onclick='saveEvent()']").addEventListener("click", saveEvent);
+
+// Event Listeners for Watermark Modal Buttons
+document.querySelector("#watermarkSettingsModal .modal-footer .btn-primary").addEventListener("click", applyWatermarkSettings);
+document.querySelector("#watermarkSettingsModal .modal-footer .btn-secondary").addEventListener("click", closeWatermarkModal);
+
+// Event Listener for the Image Editor Close Button
+document.querySelector("#imageEditorModal .modal-header .close").addEventListener("click", closeImageEditor);
+
+// Image Upload Click Listener (to trigger file input)
+document.getElementById("imageUploadArea").addEventListener("click", function() {
+    document.getElementById("imageInput").click();
+});
+
+// Image Input Change Listener
+document.getElementById("imageInput").addEventListener("change", handleFiles);
+
+// Add individual Event Listeners for the sliders in the Image Editor
+document.querySelectorAll(".slider input[type='range']").forEach(slider => {
+    slider.addEventListener("input", function() {
+        updateValue(slider.id.replace("Value", ""), slider.value);
+    });
+});
+
+// Logo Upload and Size Update
+document.getElementById("uploadLogo").addEventListener("change", addLogo(event));
+document.getElementById("logoSize").addEventListener("input", updateLogoSize(event));
+
+// Filter dropdown
+document.getElementById("filters").addEventListener("change", showSlider(event));
+});
 
 
 function saveEvent() {
