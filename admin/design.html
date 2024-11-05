@@ -129,7 +129,10 @@
                   <label for="showTime" class="form-check-label">Display Time in Footer</label>
                   <span class="tooltip">Show current time in the footer</span>
                 </div>
-      
+                <button id="saveDesignSettings" class="btn btn-primary" onclick="saveDesignSettings()"></button>Update Colors</button>
+</form>
+
+<form>
                 <!-- Loading Spinner Design Section -->
                 <h2>Loading Spinner Design</h2>
                 <div class="form-group">
@@ -205,7 +208,7 @@
                 <textarea id="footerText" placeholder="Footer copyright text" aria-label="Footer copyright text"></textarea>
               </div>
       
-              <button id="updateSettings" class="btn btn-primary" onclick="updateSettings()">Save Changes</button>
+              <button id="updateSettings" class="btn btn-primary" onclick="saveSocialMediaAndFooter()">Save Changes</button> 
             </div>
           </div>
       
@@ -434,7 +437,7 @@ document.getElementById("colorSettingsForm").addEventListener("click", async fun
         alert("Color settings updated successfully!","success");
         
         // Call this function to apply the updated colors, if defined
-     //   applyLoadingSpinnerColors(); 
+        applyLoadingSpinnerColors(); 
 
     } catch (error) {
         console.error("Error updating color settings:", error);
@@ -471,7 +474,7 @@ async function loadStyles() {
       const styles = docSnap.data();
 
       // Apply styles to elements on the page
-   //   applyStyles(styles);
+      applyStyles(styles);
       
       // Populate style settings in the form
      // Safely set values for theme settings with null checks
