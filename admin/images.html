@@ -378,7 +378,7 @@ select, input[type="range"], input[type="number"] {
     <p><small>Privacy Policy | Terms of Service</small></p>
 </footer>
 
-
+</body>
     <!-- Include your firebaseConfig.js as a module -->
     <script defer type="module">
         import {  db, doc,getDoc, query, updateDoc,
@@ -403,10 +403,6 @@ select, input[type="range"], input[type="number"] {
 });
 
         let selectedImages = [];
-
-function triggerFileInput() {
-    document.getElementById("imageInput").click();
-}
 
     const imageUploadArea = document.getElementById("imageUploadArea");
     const imageInput = document.getElementById("imageInput");
@@ -940,25 +936,10 @@ document.getElementById("redoBtn").addEventListener("click", redo);
 
 
 
-
-
-
-        function displayImages(pageNumber = 1, itemsPerPage = 12) {
-    // Fetch and display a specific page of images
-    const startIndex = (pageNumber - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const paginatedImages = selectedImages.slice(startIndex, endIndex);
-    renderImages(paginatedImages);
+function triggerFileInput() {
+    document.getElementById("imageInput").click();
 }
 
-      
-        function filterImages() {
-    const query = document.getElementById('searchInput').value.toLowerCase();
-    const filteredImages = selectedImages.filter(img =>
-        img.title.toLowerCase().includes(query) || img.price.toString().includes(query)
-    );
-    renderImages(filteredImages);
-}
 
 
 
@@ -1001,5 +982,5 @@ function saveEvent() {
   <script  type="module" src="../js/main.js"></script>
   <script  type="module" src="../js/admin.js"></script>
 
-</body>
+
 </html>
