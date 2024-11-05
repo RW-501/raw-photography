@@ -159,52 +159,63 @@
     where, getDocs, storage, collection, auth, analytics  } from './js/firebaseConfig.js';
 
     async function fetchEvents() {
-    const eventsCollection = collection(db, "events");
-    const querySnapshot = await getDocs(eventsCollection);
+    try {
+        // Ensure db is defined and is a valid Firestore instance
+        if (!db) {
+            throw new Error("Firestore db is not initialized.");
+        }
 
-    // Clear previous event items and show a loading message
-    const eventGalleryGrid = document.getElementById("eventGalleryGrid");
-    eventGalleryGrid.innerHTML = ''; // Clear existing content
+        const eventsCollection = collection(db, "events");
+        const querySnapshot = await getDocs(eventsCollection);
 
-    // Create and show a loading indicator
-    const loadingIndicator = document.createElement("div");
-    loadingIndicator.className = "loading-indicator";
-    loadingIndicator.innerHTML = `<p>Loading events...</p>`;
-    eventGalleryGrid.appendChild(loadingIndicator);
+        // Clear previous event items and show a loading message
+        const eventGalleryGrid = document.getElementById("eventGalleryGrid");
+        eventGalleryGrid.innerHTML = ''; // Clear existing content
 
-    // Remove loading indicator once data is fetched
-    loadingIndicator.remove();
+        // Create and show a loading indicator
+        const loadingIndicator = document.createElement("div");
+        loadingIndicator.className = "loading-indicator";
+        loadingIndicator.innerHTML = `<p>Loading events...</p>`;
+        eventGalleryGrid.appendChild(loadingIndicator);
 
-    // Check if there are any documents in the collection
-
-        // Loop through each document in the collection and create event items
-        querySnapshot.forEach((doc) => {
-            const eventData = doc.data();
-            if (!eventData || eventData == null ) {
-        // Create a div to show a message when there are no events
-        const noEventsDiv = document.createElement("div");
-        noEventsDiv.className = "no-events-message"; // Add a class for styling
-        noEventsDiv.innerHTML = `
-            <p>No events available at the moment. Please check back later!</p>
-            <a href="../events" class="link-button">View Upcoming Events</a>
-        `;
-        eventGalleryGrid.appendChild(noEventsDiv);
-    } else {
-            const eventItem = document.createElement("div");
-            eventItem.className = "event-item";
-            eventItem.innerHTML = `
-                <div class="event-image-container">
-                    <img src="${eventData.coverImage}" alt="${eventData.title}" onclick="openModal('${doc.id}')">
-                </div>
-                <h2 class="event-title">${eventData.title}</h2>
-                <p class="event-date">${new Date(eventData.date).toLocaleDateString()}</p>
-                <p class="event-description">${eventData.description || "No description available."}</p>
+        // Check if there are any documents in the collection
+        if (querySnapshot.empty) {
+            // Create a div to show a message when there are no events
+            const noEventsDiv = document.createElement("div");
+            noEventsDiv.className = "no-events-message"; // Add a class for styling
+            noEventsDiv.innerHTML = `
+                <p>No events available at the moment. Please check back later!</p>
+                <a href="../events" class="link-button">View Upcoming Events</a>
             `;
-            eventGalleryGrid.appendChild(eventItem);
-    }
-        });
-    }
+            eventGalleryGrid.appendChild(noEventsDiv);
+        } else {
+            // Loop through each document in the collection and create event items
+            querySnapshot.forEach((doc) => {
+                const eventData = doc.data();
+                const eventItem = document.createElement("div");
+                eventItem.className = "event-item";
+                eventItem.innerHTML = `
+                    <div class="event-image-container">
+                        <img src="${eventData.coverImage}" alt="${eventData.title}" onclick="openModal('${doc.id}')">
+                    </div>
+                    <h2 class="event-title">${eventData.title}</h2>
+                    <p class="event-date">${new Date(eventData.date).toLocaleDateString()}</p>
+                    <p class="event-description">${eventData.description || "No description available."}</p>
+                `;
+                eventGalleryGrid.appendChild(eventItem);
+            });
+        }
 
+        // Remove loading indicator once data is fetched
+        loadingIndicator.remove();
+
+    } catch (error) {
+        console.error("Error fetching events:", error);
+        // Optionally handle errors in the UI
+        const eventGalleryGrid = document.getElementById("eventGalleryGrid");
+        eventGalleryGrid.innerHTML = `<p>Error loading events. Please try again later.</p>`;
+    }
+}
 
 
 async function openModal(eventId) {
