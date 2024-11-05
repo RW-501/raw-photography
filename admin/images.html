@@ -867,7 +867,7 @@ async function saveImageDetails(fileName, originalUrl, compressedUrl, fileSize, 
                 price,
                 originalUrl,
                 compressedUrl,
-                fileSize,
+                fileSize, eventID: eventId,
                 fileType,  status: "active", isPublic: true,
             });
             showToast("Image details saved successfully!", "success");
