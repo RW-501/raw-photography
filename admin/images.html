@@ -940,8 +940,10 @@ function triggerFileInputx() {
 }
 
 
-document.getElementById("imageInput").addEventListener("onchange", handleFiles(this.files));
-
+// Assuming your HTML has an <input> element with id="imageInput"
+document.getElementById("imageInput").addEventListener("change", function() {
+    handleFiles(this.files);
+});
 document.getElementById("imageUploadArea").addEventListener("click", triggerFileInputx);
 
 
