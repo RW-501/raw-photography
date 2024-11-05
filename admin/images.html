@@ -618,6 +618,7 @@ select, input[type="range"], input[type="number"] {
 
     const imageUploadArea = document.getElementById("imageUploadArea");
     const imageInput = document.getElementById("imageInput");
+    let canvas = document.createElement("canvas");
 
     const imagePreviewContainer = document.getElementById("imagePreviewContainer");
 
@@ -663,7 +664,7 @@ function handleFileS(files) {
     });
 }
 
-let canvas, ctx, img, logoImg, logoScale = 0.5;  
+let  ctx, img, logoImg, logoScale = 0.5;  
 let filterEffect = "none";
 let history = []; // Stack for undo/redo functionality
 let redoStack = [];
@@ -683,13 +684,13 @@ async function createLowerQualityImage(dataURL) {
     img.src = dataURL;
     await img.decode();
 
-    const canvas = document.createElement("canvas");
+     canvas = document.createElement("canvas");
     const width = 800;
     const height = (img.height / img.width) * width;
     canvas.width = width;
     canvas.height = height;
 
-    const ctx = canvas.getContext("2d");
+     ctx = canvas.getContext("2d");
     ctx.drawImage(img, 0, 0, width, height);
 
     // Add watermark to canvas
