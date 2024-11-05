@@ -430,6 +430,7 @@ document.getElementById("colorSettingsForm").addEventListener("submit", async fu
         await setDoc(docRef, colorSettings, { merge: true });
         
         showToast("Color settings updated successfully!","success");
+        alert("Color settings updated successfully!","success");
         
         // Call this function to apply the updated colors, if defined
         applyLoadingSpinnerColors(); 
@@ -437,7 +438,7 @@ document.getElementById("colorSettingsForm").addEventListener("submit", async fu
     } catch (error) {
         console.error("Error updating color settings:", error);
         showToast("Error updating color settings.","error");
-        console.error("Error updating color settings:", error);
+        alert("Error updating color settings:", error);
 
     }
 });
