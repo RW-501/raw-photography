@@ -607,8 +607,9 @@ window.onload = function() {
 // Handle form submission to update settings
 document
   .getElementById("update_home_page")
-  .addEventListener( async function (event) {
-    event.preventDefault();
+  .addEventListener("click", async function (event) {
+      // Prevent the default action if necessary
+      event.preventDefault(); // Only if this is a button in a form
 
     const galleryTitle = document.getElementById("galleryTitle").value;
     const testimonialsTitle = document.getElementById("testimonialsTitle")
