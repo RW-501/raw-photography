@@ -341,15 +341,15 @@ async function applySettings() {
         }else if (docSnapshot.id === "loading_spinner") {
           loadSpinnerData = { ...loadSpinnerData, ...docData };
         }
-        applyLoadingSpinnerColors(loadSpinnerData) 
-          injectStyles(siteDesignData);
-       updateHeader(headerFooterData);
-        updateNavMenu(headerFooterData.navigationItems);
-        updateSocialLinks(socialMediaData);
-        updateFooter(headerFooterData);
+ 
 
       });
-
+      applyLoadingSpinnerColors(loadSpinnerData) 
+      injectStyles(siteDesignData);
+   updateHeader(headerFooterData);
+    updateNavMenu(headerFooterData.navigationItems);
+    updateSocialLinks(socialMediaData);
+    updateFooter(headerFooterData);
   
     } catch (error) {
       console.error("Error fetching settings:", error);
