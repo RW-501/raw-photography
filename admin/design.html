@@ -473,13 +473,14 @@ async function loadStyles() {
       applyStyles(styles);
       
       // Populate style settings in the form
-      document.getElementById("themeColor").value = styles.themeColor || '';
-      document.getElementById("navFontColor").value = styles.navFontColor || '';
-      document.getElementById("navBackgroundColor").value = styles.navBackgroundColor || '';
-      document.getElementById("footerFontColor").value = styles.footerFontColor || '';
-      document.getElementById("footerBackgroundColor").value = styles.footerBackgroundColor || '';
-      document.getElementById("fontSelect").value = styles.font || '';
-    } else {
+     // Safely set values for theme settings with null checks
+document.getElementById("themeColor").value = styles?.themeColor ?? '';
+document.getElementById("navFontColor").value = styles?.navFontColor ?? '';
+document.getElementById("navBackgroundColor").value = styles?.navBackgroundColor ?? '';
+document.getElementById("footerFontColor").value = styles?.footerFontColor ?? '';
+document.getElementById("footerBackgroundColor").value = styles?.footerBackgroundColor ?? '';
+document.getElementById("fontSelect").value = styles?.font ?? '';
+} else {
       showToast("No style settings found.", "error");
     }
   } catch (error) {

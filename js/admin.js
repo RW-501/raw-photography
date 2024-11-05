@@ -88,6 +88,7 @@ if(document.getElementById('logoutBtn')){
         document.getElementById('logoutBtn').addEventListener('click', logout);
 }
 
+if(loginForm){
 loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
@@ -108,7 +109,7 @@ loginForm.addEventListener('submit', (e) => {
         });
 });
 
-
+}
 // Function to set user preferences in local storage
 function setUserPreferences(preferences) {
     localStorage.setItem('userPreferences', JSON.stringify(preferences));
