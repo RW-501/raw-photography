@@ -644,7 +644,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 // Main function to handle file uploads
-function handleFiles(files) {
+function handleFileS(files) {
     Array.from(files).forEach(file => {
         const fileSize = file.size;
         const fileType = file.type;
@@ -660,6 +660,14 @@ function handleFiles(files) {
 
 
 
+const previewCanvas = document.getElementById("watermarkPreviewCanvas");
+const previewCtx = previewCanvas.getContext("2d");
+
+// Variables for tracking drag status
+let isDragging = false;
+let offsetX, offsetY;
+let watermarkPosX = 20; // Default position X
+let watermarkPosY = 20; // Default position Y
 
 // Function to create lower-quality image with watermark
 async function createLowerQualityImage(dataURL) {
@@ -746,14 +754,6 @@ document.getElementById("watermarkSettingsBtn").addEventListener("click", () => 
     document.getElementById("watermarkSettingsModal").style.display = "block";
 });
 
-const previewCanvas = document.getElementById("watermarkPreviewCanvas");
-const previewCtx = previewCanvas.getContext("2d");
-
-// Variables for tracking drag status
-let isDragging = false;
-let offsetX, offsetY;
-let watermarkPosX = 20; // Default position X
-let watermarkPosY = 20; // Default position Y
 
 // Function to update watermark preview in real-time
 function updateWatermarkPreview() {
@@ -1361,7 +1361,7 @@ document.getElementById("redoBtn").addEventListener("click", redo);
 
     // Assuming your HTML has an <input> element with id="imageInput"
 document.getElementById("imageInput").addEventListener("change", function() {
-    handleFiles(this.files);
+    handleFileS(this.files);
 });
 document.getElementById("imageUploadArea").addEventListener("click", triggerFileInput);
 
