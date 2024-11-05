@@ -176,7 +176,11 @@
     loadingIndicator.remove();
 
     // Check if there are any documents in the collection
-    if (querySnapshot.empty || querySnapshot == null ) {
+
+        // Loop through each document in the collection and create event items
+        querySnapshot.forEach((doc) => {
+            const eventData = doc.data();
+            if (!eventData || eventData == null ) {
         // Create a div to show a message when there are no events
         const noEventsDiv = document.createElement("div");
         noEventsDiv.className = "no-events-message"; // Add a class for styling
@@ -186,9 +190,6 @@
         `;
         eventGalleryGrid.appendChild(noEventsDiv);
     } else {
-        // Loop through each document in the collection and create event items
-        querySnapshot.forEach((doc) => {
-            const eventData = doc.data();
             const eventItem = document.createElement("div");
             eventItem.className = "event-item";
             eventItem.innerHTML = `
@@ -200,9 +201,10 @@
                 <p class="event-description">${eventData.description || "No description available."}</p>
             `;
             eventGalleryGrid.appendChild(eventItem);
+    }
         });
     }
-}
+
 
 
 async function openModal(eventId) {
