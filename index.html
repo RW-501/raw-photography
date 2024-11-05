@@ -287,11 +287,19 @@
 
         // Check if there are images to display
         if (snapshot.empty) {
-            const noImagesMessage = document.createElement("p");
-            noImagesMessage.innerText = "No images available in the gallery.";
-            galleryGrid.appendChild(noImagesMessage);
-            return;
-        }
+    const noImagesMessage = document.createElement("p");
+    noImagesMessage.className = "no-images-message"; // Add a class for styling
+    noImagesMessage.innerText = "No images available in the gallery.";
+    
+    // Optional: Center the message within the gallery grid
+    noImagesMessage.style.textAlign = "center";
+    noImagesMessage.style.fontStyle = "italic";
+    noImagesMessage.style.color = "#888"; // Subtle color to differentiate
+
+    galleryGrid.appendChild(noImagesMessage);
+    return;
+}
+
 
         // Use DocumentFragment to improve performance
         const fragment = document.createDocumentFragment();
@@ -334,17 +342,23 @@ async function loadHomePage() {
 
       // Update testimonials section
       document.getElementById("testimonials-title").innerText =
-        data.testimonialsTitle || "Testimonials";
+        data.testimonialsTitle || "What Our Clients Say";
 
       const testimonialList = document.getElementById("testimonial-list");
       testimonialList.innerHTML = ""; // Clear existing testimonials
+      if(data.testimonials){
       data.testimonials.forEach((testimonial) => {
         const div = document.createElement("div");
         div.className = "testimonial-item";
         div.innerText = testimonial; // Add testimonial text
         testimonialList.appendChild(div);
       });
-
+    }else{
+        const noTestimonialsDiv = document.createElement("div");
+    noTestimonialsDiv.className = "testimonial-item no-testimonial";
+    noTestimonialsDiv.innerText = "No testimonials available at the moment.";
+    testimonialList.appendChild(noTestimonialsDiv);
+    }
       // Update contact section
       document.getElementById("contact-title").innerText =
         data.contactTitle || "Contact Us";
