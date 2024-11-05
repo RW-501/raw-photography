@@ -175,6 +175,44 @@
     color: #007bff;
 }
 
+#private-photos-access {
+    padding: 2em;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+}
+
+#private-photos-access h2 {
+    margin-bottom: 1em;
+}
+
+#access-code {
+    padding: 0.5em;
+    width: 60%;
+    max-width: 300px;
+    margin-right: 0.5em;
+}
+
+button {
+    padding: 0.5em 1em;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.message {
+    margin-top: 1em;
+    font-size: 1em;
+}
+
 section {
 margin: 2rem auto;
 }
@@ -244,6 +282,8 @@ margin: 2rem auto;
     </div>
 </section>
 
+
+
 <!-- Testimonials Section -->
 <section id="testimonials" class="testimonials-section">
     <h2 id="testimonials-title">What Our Clients Say</h2>
@@ -254,6 +294,16 @@ margin: 2rem auto;
     <button id="view-all-testimonials-btn" class="btn btn-secondary" onclick="location.href='testimonials'">View All Testimonials</button>
 </section>
 
+<!-- Private Photos Access Section -->
+<section id="private-photos-access">
+    <h2>Access Your Private Photos</h2>
+    <form id="access-code-form" onsubmit="return handleAccessCode(event);">
+        <label for="access-code">Enter Access Code:</label>
+        <input type="text" id="access-code" required placeholder="Enter your code here">
+        <button type="submit">View Photos</button>
+    </form>
+    <div id="access-message" class="message"></div>
+</section>
 
     <!-- Contact Form Section -->
     <section id="contact" aria-labelledby="contact-title" class="contact-section">
@@ -449,6 +499,37 @@ async function loadHomePage() {
         await loadHomePage();
         await loadGallery();
     }
+
+    
+// Sample function to handle the access code
+// Function to handle access code validation
+async function handleAccessCode(event) { 
+    event.preventDefault(); // Prevent the default form submission
+
+    const accessCodeInput = document.getElementById('access-code');
+    const accessMessageDiv = document.getElementById('access-message');
+    const accessCode = accessCodeInput.value.trim();
+
+    try {
+        // Check the events collection for the access code
+        const snapshot = await db.collection('events').where('accessCode', '==', accessCode).get();
+
+        if (!snapshot.empty) {
+            // If the access code is valid, redirect to the private photos page
+            window.location.href = `../events/p=${encodeURIComponent(accessCode)}`;
+        } else {
+            // If the access code is invalid, show a toast notification
+            showToast("Invalid access code. Please try again.", "error");
+        }
+    } catch (error) {
+        // Handle errors during the Firestore query
+        console.error("Error checking access code:", error);
+        showToast("An error occurred while checking the access code. Please try again.", "error");
+    }
+
+    // Clear the input field after submission
+    accessCodeInput.value = '';
+}
 
     
 
