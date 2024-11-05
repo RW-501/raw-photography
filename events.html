@@ -176,7 +176,7 @@
     loadingIndicator.remove();
 
     // Check if there are any documents in the collection
-    if (querySnapshot.empty) {
+    if (querySnapshot.empty || querySnapshot == null ) {
         // Create a div to show a message when there are no events
         const noEventsDiv = document.createElement("div");
         noEventsDiv.className = "no-events-message"; // Add a class for styling
