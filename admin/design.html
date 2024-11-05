@@ -512,17 +512,28 @@ async function loadSocialMediaAndFooter() {
 
     if (headerFooterSnap.exists()) {
       const h_f_Data = headerFooterSnap.data();
-      document.getElementById("header-title").innerText = h_f_Data.headerTitle || "Default Title";
-      document.getElementById("header-subtitle").innerText = h_f_Data.headerSubtitle || "Default Subtitle";
+      document.getElementById("header-title").innerText = h_f_Data?.headerTitle ?? "Default Title";
+document.getElementById("header-subtitle").innerText = h_f_Data?.headerSubtitle ?? "Default Subtitle";
 
       // Update navigation menu
       const navMenu = document.getElementById("navigation-menu");
       navMenu.innerHTML = ''; // Clear existing menu
-      h_f_Data.navigationItems.forEach(item => {
-        const li = document.createElement("li");
-        li.innerText = item;
-        navMenu.appendChild(li);
-      });
+   // Check if h_f_Data and navigationItems are defined and is an array
+if (h_f_Data && Array.isArray(h_f_Data.navigationItems)) {
+    h_f_Data.navigationItems.forEach(item => {
+        // Ensure that item is a valid string
+        if (typeof item === 'string' && item.trim() !== '') {
+            const li = document.createElement("li");
+            li.innerText = item;
+            navMenu.appendChild(li);
+        } else {
+            console.warn(`Invalid navigation item: '${item}'`);
+        }
+    });
+} else {
+    console.warn('Navigation items are not available.');
+}
+
 
       document.getElementById("footerText").value = h_f_Data?.copyrightText ?? "";
     }
