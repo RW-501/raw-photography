@@ -8,7 +8,7 @@
     width: 100%;
 }
 
-div, main, label, input, textarea, button, img, image{
+div, main, label, input, textarea, button, img, image, .btn, div {
     box-sizing: border-box;
     user-select: none;
     -webkit-user-select: none;
@@ -63,11 +63,10 @@ main {
         #site-footer {
             text-align: center;
             padding: 20px;
-            background-color: #333;
             color: #fff;
             width: 100%;
-          /*  margin-top: 5rem;*/
-        }
+            background: linear-gradient(45deg, #3f51b5, #1a237e);
+                }
 
 #site-footer small {
     display: block;
@@ -95,8 +94,7 @@ main {
 }
 
    
-
-        
+   
     /* Basic header styling */
     #site-header {
         text-align: center;

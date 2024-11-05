@@ -30,15 +30,37 @@ body {
     }
 }
 
+div, main, label, input, textarea, button, img, image, .btn, div {
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+}
 
+.close:hover {
+    color: #f20e0e;
+    text-decoration: none;
+    background-color: none;
+}
+.btn-primary {
+    background: linear-gradient(45deg,  #1a237e, #3f51b5);
+
+}
+.btn-secondary {
+    background: linear-gradient(45deg, #6c757d, #212529);
+
+}
+.btn-success {
+    background: linear-gradient(45deg, #286d3b, #1ec054);
+
+}
         /* Footer Styles */
         #site-footer {
             text-align: center;
             padding: 20px;
-            background-color: #333;
             color: #fff;
             width: 100%;
             margin-top: 2rem;
+            background: linear-gradient(45deg, #3f51b5, #1a237e);
         }
 
 #site-footer small {
@@ -113,9 +135,7 @@ button {
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #218838;
-}
+
 
 .error-message {
     color: red;
