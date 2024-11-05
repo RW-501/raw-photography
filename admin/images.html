@@ -161,15 +161,41 @@ select, input[type="range"], input[type="number"] {
 <button id="watermarkSettingsBtn" class="btn btn-primary">Edit Watermark</button>
 <!-- Button to open the image editor --> 
 <button id="openImageEditorBtn" class="btn btn-primary">Open Image Editor</button>
-                    <!-- Progress Bar -->
-                    <div class="progress mt-3" style="display: none;" id="uploadProgressBar">
-                        <div class="progress-bar" role="progressbar" style="width: 0%;"  id="uploadProgress" role="progressbar"  aria-valuemin="0" aria-valuemax="100">0%</div>
+                    
+<style>
+
+    /* Progress Bar Styles */
+.progress {
+    height: 30px; /* Adjust height */
+    border-radius: 5px; /* Rounded corners */
+    background: linear-gradient(45deg, #1a237e, #3f51b5); /* Light background */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    overflow: hidden; /* Prevents overflow */
+}
+
+.progress-bar {
+    background-color: #007bff; /* Primary color for progress */
+    transition: width 0.4s ease; /* Smooth transition effect */
+    color: white; /* Text color inside the progress bar */
+    font-weight: bold; /* Make text bold */
+    text-align: center; /* Center the text */
+    line-height: 30px; /* Center the text vertically */
+}
+
+</style>
+
+
+<!-- Progress Bar -->
+                    <div class="progress mt-3" id="uploadProgressBar" style="display: none;">
+                        <div class="progress-bar" id="uploadProgress" role="progressbar" style="width: 0%;" aria-valuemin="0" aria-valuemax="100">0%</div>
                     </div>
+                    
                     <!-- imagePreviewContainer -->
 
                     <div id="imageGallery" class="row mt-3"></div>
                     <div id="imagePreviewContainer" class="row mt-3"></div>
-                    <button id="saveImagesBtn" type="button" class="btn btn-success mt-3" >Save All Images</button>
+                    <button id="saveImagesBtn" type="button" class="btn btn-success mt-3" >Save Images</button>
+                    <button id="saveAllImagesBtn" type="button" class="btn btn-success mt-1" >Save All Images</button>
                 </section>
             </div>
         
@@ -576,9 +602,7 @@ select, input[type="range"], input[type="number"] {
     });
 
 
-function saveAllImages(){
-    showToast("save all Images 472");
-}
+    
 
 document.addEventListener("DOMContentLoaded", function () {
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
@@ -627,9 +651,7 @@ renderImages(imagesData);
 
 
        
-        // Upload both the original and compressed images
-        await uploadToFirebase(dataURL, compressedImage, file.name, fileSize, fileType);
-    } catch (error) {
+   } catch (error) {
         console.error("Error processing image:", error);
         showToast("Image processing failed.", "error");
     }
@@ -740,52 +762,49 @@ function addWatermark(ctx, width, height) {
 
 
 
-// Renders image previews in a card layout with compressed and original image details
-function renderImages(imagesData) {
+
+// Function to render images
+async function renderImages(imagesData) {
     const imagePreviewContainer = document.getElementById("imagePreviewContainer");
-    
+
     // Clear previous content
     imagePreviewContainer.innerHTML = "";
 
-    // Loop through the images data to create cards
-   // Assuming imagesData is an array of image objects
-const imageGalleryContainer = document.getElementById("imageGallery"); // Ensure you have this container in your HTML
+    // Assuming imagesData is an array of image objects
+    const imageGalleryContainer = document.getElementById("imageGallery");
 
-// Create a header for the image count
-const imageCountHeader = document.createElement("h5");
-imageCountHeader.innerText = `Total Images: ${imagesData.length}`;
-imageCountHeader.classList.add("mb-3", "text-left");
+    // Create a header for the image count
+    const imageCountHeader = document.createElement("h5");
+    imageCountHeader.innerText = `Total Images: ${imagesData.length}`;
+    imageCountHeader.classList.add("mb-3", "text-left");
 
-// Add the image count header to the gallery container
-imageGalleryContainer.appendChild(imageCountHeader);
+    // Clear and add the image count header to the gallery container
+    imageGalleryContainer.innerHTML = "";
+    imageGalleryContainer.appendChild(imageCountHeader);
 
-// Iterate through the images and create cards
-imagesData.forEach((image, index) => {
-    const { compressedImage, originalUrl, fileType, fileName, fileSize } = image;
+    imagesData.forEach((image, index) => {
+        const { compressedImage, originalUrl, fileType, fileName, fileSize } = image;
 
-    const imgDiv = document.createElement("div");
-    imgDiv.classList.add("col-md-4", "mt-3");
+        const imgDiv = document.createElement("div");
+        imgDiv.classList.add("col-md-4", "mt-3");
 
-    imgDiv.innerHTML = `
-        <div class="card mb-3" aria-label="Image card for ${fileName}">
-            <img src="${compressedImage}" class="card-img-top img-thumbnail" alt="Compressed version of ${fileName}" loading="lazy">
-            <div class="card-body">
-                <h6 class="card-title">${fileName}</h6>
-                <p class="card-text">
-                    Type: ${fileType} <br>
-                    Size: ${(fileSize / 1024).toFixed(2)} KB <br>
-                    <strong>Image #${index + 1}</strong>
-                </p>
-                <button class="btn btn-primary btn-sm mt-2" aria-label="View full image of ${fileName}" data-original-url="${originalUrl}">
-                    Edit Image
-                </button>
+        imgDiv.innerHTML = `
+            <div class="card mb-3" aria-label="Image card for ${fileName}" data-set-ref="${index}">
+                <img src="${compressedImage}" class="card-img-top img-thumbnail" alt="Compressed version of ${fileName}" loading="lazy">
+                <div class="card-body">
+                    <input type="checkbox" class="select-checkbox" data-set-ref="${index}" aria-label="Select image ${fileName}">
+                    <h6 class="card-title">${fileName}</h6>
+                    <p class="card-text">
+                        Type: ${fileType} <br>
+                        Size: ${(fileSize / 1024).toFixed(2)} KB <br>
+                        <strong>Image #${index + 1}</strong>
+                    </p>
+                    <button class="btn btn-primary btn-sm mt-2" aria-label="View full image of ${fileName}" data-original-url="${originalUrl}">
+                        Edit Image
+                    </button>
+                </div>
             </div>
-        </div>
-    `;
-
-    imgDiv.appendChild(imgDiv); // Append the card to the gallery container
-
-
+        `;
 
         // Append the image card to the container
         imagePreviewContainer.appendChild(imgDiv);
@@ -796,6 +815,48 @@ imagesData.forEach((image, index) => {
         });
     });
 }
+
+// Event listener for "Save Selected Images" button with progress tracking
+document.getElementById("saveAllImagesBtn").addEventListener("click", async () => {
+    const selectedImages = [];
+
+    // Find checked checkboxes and gather corresponding images
+    document.querySelectorAll(".select-checkbox:checked").forEach(checkbox => {
+        const refIndex = checkbox.dataset.setRef;
+        const selectedImage = imagesData[refIndex];
+        selectedImages.push(selectedImage);
+    });
+
+    console.log("Images selected for saving:", selectedImages);
+
+    // Loop through selectedImages and upload to Firebase with progress tracking
+    for (let i = 0; i < selectedImages.length; i++) {
+        const { originalUrl, compressedImage, fileName, fileSize, fileType } = selectedImages[i];
+        await uploadToFirebase(originalUrl, compressedImage, fileName, fileSize, fileType);
+
+        // Update progress bar
+        const progress = ((i + 1) / selectedImages.length) * 100;
+        updateProgressBar(progress);
+    }
+    console.log("Selected images saved successfully.");
+});
+
+// Event listener for "Save All Images" button with progress tracking
+document.getElementById("saveImagesBtn").addEventListener("click", async () => {
+    console.log("Saving all images:", imagesData);
+
+    // Loop through all imagesData and upload to Firebase with progress tracking
+    for (let i = 0; i < imagesData.length; i++) {
+        const { originalUrl, compressedImage, fileName, fileSize, fileType } = imagesData[i];
+        await uploadToFirebase(originalUrl, compressedImage, fileName, fileSize, fileType);
+
+        // Update progress bar
+        const progress = ((i + 1) / imagesData.length) * 100;
+        updateProgressBar(progress);
+    }
+    console.log("All images saved successfully.");
+});
+
 
 // Uploads both the original and compressed images to Firebase with metadata
 async function uploadToFirebase(originalDataURL, compressedDataURL, fileName, fileSize, fileType) {
@@ -847,11 +908,14 @@ async function uploadToFirebase(originalDataURL, compressedDataURL, fileName, fi
     }
 }
 
-// Updates progress bar during upload
-function updateProgressBar(progress) {
+// Function to update the progress bar
+function updateProgressBar(progress) { 
+    const progress = document.getElementById("uploadProgress");
     progressBar.style.width = `${progress}%`;
     progressBar.textContent = `${Math.round(progress)}%`;
 }
+
+
 
 // Saves image details, including metadata, to Firebase Firestore
 async function saveImageDetails(fileName, originalUrl, compressedUrl, fileSize, fileType) {
@@ -1136,8 +1200,7 @@ document.getElementById("imageInput").addEventListener("change", function() {
 });
 document.getElementById("imageUploadArea").addEventListener("click", triggerFileInput);
 
-// Add Event Listeners for the form buttons
-document.getElementById("saveImagesBtn").addEventListener("click", saveAllImages);
+
 
 //document.getElementById("openImageEditorBtn").addEventListener("click", openImageEditor);
 
