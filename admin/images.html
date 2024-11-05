@@ -53,9 +53,11 @@
     display: flex;
     flex-direction: column;
 }
-
+input[type="range"], input[type="number"] {
+        
+            max-width: 50px;
+        }
 select, input[type="range"], input[type="number"] {
-            width: 100%;
             margin-bottom: 10px;
         }
         .slider {
@@ -251,6 +253,7 @@ select, input[type="range"], input[type="number"] {
                 </select>
                 <label for="watermarkSize">Font Size</label>
                 <input type="number" id="watermarkSize" class="form-control" placeholder="20" value="20">
+             
                 <label for="watermarkColor">Color</label>
                 <input type="color" id="watermarkColor" class="form-control" value="#ffffff">
                 <label for="watermarkOpacity">Opacity</label>
