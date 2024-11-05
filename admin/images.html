@@ -366,7 +366,7 @@ select, input[type="range"], input[type="number"] {
      
   
             <!-- Filter Options -->
-            <div class="card shadow-lg border-0 mb-4">
+            <div class="card shadow-sm mb-4">
               <div class="card-body">
                 <h5 class="text-secondary fw-bold">Image Filter Adjustments</h5>
                 <label for="filters" class="form-label text-secondary fw-semibold"">Select Filter:</label>
@@ -396,11 +396,11 @@ select, input[type="range"], input[type="number"] {
             </div>
   
             <!-- Sliders for Adjusting Filters -->
-            <div class="card shadow-lg border-0 mb-4">
+            <div class="card shadow-sm mb-4">
               <div class="card-body">
-                <h5 class="orm-label text-secondary fw-semibold">Adjust Filter Intensity</h5>
+                <h5 class="text-secondary fw-bold">Adjust Filter Intensity</h5>
                 <div id="sliders" class="d-grid gap-3">
-                  <!-- Infdividual filter sliders -->
+                  <!-- Individual filter sliders -->
 
 
 
@@ -563,25 +563,7 @@ select, input[type="range"], input[type="number"] {
                     font-size: 1.2rem;
                   }
                 </style>
-                       <!-- Image Editing Options -->
-                       <div class="d-flex justify-content-around align-items-center my-4">
-                        <div class="d-flex flex-column align-items-center">
-                          <label for="crop" class="fw-semibold mb-2 text-secondary">Crop</label>
-                          <button id="cropImage" class="btn btn-outline-secondary rounded-circle p-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Crop the image to your selected dimensions">
-                            <i class="fas fa-crop-alt"></i>
-                          </button>
-                        </div>
-                        <div class="d-flex flex-column align-items-center">
-                          <label for="resize" class="fw-semibold mb-2 text-secondary">Resize</label>
-                          <button id="resizeImage" class="btn btn-outline-secondary rounded-circle p-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Resize the image dimensions">
-                            <i class="fas fa-expand-arrows-alt"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-      
-        
-
+         
                   <!-- Filter Buttons Section -->
                   <div class="d-flex justify-content-center mb-4">
                     <button id="saveFilters" class="btn btn-primary btn-lg rounded-pill px-4 me-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Save your current filter settings">
@@ -592,6 +574,22 @@ select, input[type="range"], input[type="number"] {
                     </button>
                   </div>
   
+                  <!-- Image Editing Options -->
+                  <div class="d-flex justify-content-around align-items-center my-4">
+                    <div class="d-flex flex-column align-items-center">
+                      <label for="crop" class="fw-semibold mb-2 text-secondary">Crop</label>
+                      <button id="cropImage" class="btn btn-outline-secondary rounded-circle p-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Crop the image to your selected dimensions">
+                        <i class="fas fa-crop-alt"></i>
+                      </button>
+                    </div>
+                    <div class="d-flex flex-column align-items-center">
+                      <label for="resize" class="fw-semibold mb-2 text-secondary">Resize</label>
+                      <button id="resizeImage" class="btn btn-outline-secondary rounded-circle p-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Resize the image dimensions">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
 
 
 
