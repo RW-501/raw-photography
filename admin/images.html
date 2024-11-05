@@ -678,6 +678,8 @@ document.getElementById("closeWatermarkModal").addEventListener("click", () => {
 
 // Get user settings and apply watermark
 function applyWatermarkSettings() {
+    console.log("Working???");
+    
     const text = document.getElementById("watermarkText").value || "Your Watermark";
     const font = document.getElementById("watermarkFont").value;
     const fontSize = document.getElementById("watermarkSize").value || 20;
