@@ -509,9 +509,19 @@ document.getElementById("watermarkSettingsBtn").addEventListener("click", () => 
 
 
 // Close watermark settings modal
-function closeWatermarkModal() {
+function closeWatermarkModal(){
     document.getElementById("watermarkSettingsModal").style.display = "none";
+
 }
+
+document.getElementById("closeWatermarkX").addEventListener("click", () => {
+    closeWatermarkModal();
+});
+
+document.getElementById("closeWatermarkModal").addEventListener("click", () => {
+    closeWatermarkModal();
+});
+
 
 // Get user settings and apply watermark
 function applyWatermarkSettings() {
@@ -974,7 +984,7 @@ document.getElementById("imageUploadArea").addEventListener("click", triggerFile
 
 // Add Event Listeners for the form buttons
 document.getElementById("saveImagesBtn").addEventListener("click", saveAllImages);
-document.getElementById("watermarkSettingsBtn").addEventListener("click", openWatermarkModal);
+
 //document.getElementById("openImageEditorBtn").addEventListener("click", openImageEditor);
 
 // Event Form Button Listener
@@ -982,8 +992,6 @@ document.getElementById("eventForm").querySelector("button[onclick='saveEvent()'
 
 // Event Listeners for Watermark Modal Buttons
 document.getElementById("applyWatermarkSettings").addEventListener("click", applyWatermarkSettings);
-document.getElementById("closeWatermarkModal").addEventListener("click", closeWatermarkModal);
-document.getElementById("closeWatermarkX").addEventListener("click", closeWatermarkModal);
 
 // Event Listener for the Image Editor Close Button
 document.querySelector("#imageEditorModal .modal-header .close").addEventListener("click", closeImageEditor);
