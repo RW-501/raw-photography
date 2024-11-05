@@ -149,14 +149,8 @@ document.body.appendChild(loadingContainer);
 loadingContainer.style.display = 'none';
 
 // Define and call the function to apply spinner colors
-async function applyLoadingSpinnerColors() {
-  try {
-    const docRef = doc(db, "settings", "loading_spinner"); // Reference to Firestore document
-    const docSnap = await getDoc(docRef); // Get document snapshot
-
-    if (docSnap.exists()) {
-      const data = docSnap.data(); // Retrieve data from the document
-
+async function applyLoadingSpinnerColors(data) {
+   
       // Destructure color settings from the document with default values
       const {
         backgroundColor = "rgba(255, 255, 255, 0.8)",
@@ -183,12 +177,7 @@ async function applyLoadingSpinnerColors() {
       document.documentElement.style.setProperty("--shutter-button-color", shutterButtonColor);
       document.documentElement.style.setProperty("--flash-color", flashColor);
 
-    } else {
-      console.error("No color settings found in 'loading_spinner' document.");
-    }
-  } catch (error) {
-    console.error("Error applying loading spinner colors:", error);
-  }
+ 
 }
 
 
@@ -341,7 +330,8 @@ async function applySettings() {
           ],
           copyrightText: "My Photography Site"
       };
-
+    
+      
       // Loop through fetched documents to assign data
       settingsSnapshots.forEach(docSnapshot => {
           const docData = docSnapshot.data();
@@ -350,12 +340,15 @@ async function applySettings() {
           } else if (docSnapshot.id === "social_media") {
               socialMediaData = { ...socialMediaData, ...docData };
           } else if (docSnapshot.id === "header_footer") {
-              headerFooterData = { ...headerFooterData, ...docData };
-          }
-
+            headerFooterData = { ...headerFooterData, ...docData };
+        }else if (docSnapshot.id === "loading_spinner") {
+          loadSpinnerData = { ...loadSpinnerData, ...docData };
+        }
+        applyLoadingSpinnerColors(loadSpinnerData) 
           injectStyles(siteDesignData);
        updateHeader(headerFooterData);
         updateNavMenu(headerFooterData.navigationItems);
+        updateSocialLinks(socialMediaData);
         updateFooter(headerFooterData);
 
       });
@@ -427,9 +420,6 @@ function loadMenuToggleControls(){
         // Apply fetched or default settings
         // Call the function to apply settings
 applyLoadingSpinnerColors();
-  
-
-        updateSocialLinks(socialMediaData);
 applySettings();
 loadMenuToggleControls();
 console.log("User View");
