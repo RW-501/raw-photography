@@ -719,6 +719,42 @@ function handleFiles(files) {
 
 
 
+// Function to process image and apply watermark
+async function processImage(dataURL, file, fileSize, fileType, fileName) {
+    try {
+        // Create a compressed image with a watermark
+        const compressedImage = await createLowerQualityImage(dataURL);
+
+        const imagesData = [
+            {
+                compressedImage: compressedImage,
+                originalUrl: dataURL,
+                fileType: fileType,
+                fileName: fileName,
+                fileSize: fileSize // in bytes
+            },
+            // Add more image objects as needed
+        ];
+
+        // Check if watermark text is set properly
+        const { text } = watermarkSettings;
+        if (text === "Your Watermark") {
+            showToast("Create a Watermark");
+            document.getElementById("watermarkSettingsModal").style.display = "block";
+            return;
+        }
+
+        // Render images
+        renderImages(imagesData);
+
+    } catch (error) {
+        console.error("Error processing image:", error);
+        showToast("Image processing failed.", "error");
+    }
+}
+
+
+
 
 // Show watermark settings modal
 document.getElementById("watermarkSettingsBtn").addEventListener("click", () => {
@@ -882,42 +918,6 @@ function addWatermark(ctx, width, height) {
     ctx.fillText(text, 0, 0); // Draw the watermark text at specified position
     ctx.restore();
 }
-
-// Function to process image and apply watermark
-async function processImage(dataURL, file, fileSize, fileType, fileName) {
-    try {
-        // Create a compressed image with a watermark
-        const compressedImage = await createLowerQualityImage(dataURL);
-
-        const imagesData = [
-            {
-                compressedImage: compressedImage,
-                originalUrl: dataURL,
-                fileType: fileType,
-                fileName: fileName,
-                fileSize: fileSize // in bytes
-            },
-            // Add more image objects as needed
-        ];
-
-        // Check if watermark text is set properly
-        const { text } = watermarkSettings;
-        if (text === "Your Watermark") {
-            showToast("Create a Watermark");
-            document.getElementById("watermarkSettingsModal").style.display = "block";
-            return;
-        }
-
-        // Render images
-        renderImages(imagesData);
-
-    } catch (error) {
-        console.error("Error processing image:", error);
-        showToast("Image processing failed.", "error");
-    }
-}
-
-
 
 
 // Close watermark settings modal
