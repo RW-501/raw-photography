@@ -496,11 +496,11 @@ async function createLowerQualityImage(dataURL) {
 
     return canvas.toDataURL("image/jpeg", 0.7); // Compression quality
 }
-
 // Show watermark settings modal
 document.getElementById("watermarkSettingsBtn").addEventListener("click", () => {
     document.getElementById("watermarkSettingsModal").style.display = "block";
 });
+
 
 // Close watermark settings modal
 function closeWatermarkModal() {
@@ -934,13 +934,14 @@ function saveImage() {
 document.getElementById("undoBtn").addEventListener("click", undo);
 document.getElementById("redoBtn").addEventListener("click", redo);
 
+window.onload = () => {
 
 
 function triggerFileInput() {
     document.getElementById("imageInput").click();
 }
 
-
+};
 
 
 
