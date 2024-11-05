@@ -1006,12 +1006,16 @@ function drawLogo() {
 
 // Update logo size and redraw canvas
 function updateLogoSize(event) {
+    event.preventDefault;
+
     logoScale = event.target.value;
     redrawCanvas();
 }
 
 
 function showSlider(event) {
+    event.preventDefault;
+
             const sliders = document.querySelectorAll('.slider');
             sliders.forEach(slider => {
                 slider.classList.remove('visible');
@@ -1233,10 +1237,10 @@ document.querySelectorAll(".slider input[type='range']").forEach(slider => {
 
 // Logo Upload and Size Update
 document.getElementById("uploadLogo").addEventListener("change", addLogo);
-document.getElementById("logoSize").addEventListener("input", updateLogoSize());
+document.getElementById("logoSize").addEventListener("input", updateLogoSize(event));
 
 // Filter dropdown
-document.getElementById("filters").addEventListener("change", showSlider());
+document.getElementById("filters").addEventListener("change", showSlider(event));
 });
 
 
