@@ -150,65 +150,49 @@ loadingContainer.style.display = 'none';
 
 // Define and call the function to apply spinner colors
 async function applyLoadingSpinnerColors(data) {
-  
-      // Apply colors to elements
-// Set the background color of the loading container, checking for null or undefined values
-const loadingContainer = document.querySelector("#loadingContainer");
-if (data.backgroundColor !== null && data.backgroundColor !== undefined) {
-    loadingContainer.style.backgroundColor = data.backgroundColor;
+  // Check if data is defined
+  if (!data) {
+      console.error("Data is undefined or null, cannot apply loading spinner colors.");
+      return; // Exit the function if data is not valid
+  }
+
+  // Utility function to set style properties with a fallback
+  const setStyle = (element, property, value) => {
+      if (value) {
+          element.style[property] = value;
+      }
+  };
+
+  // Select DOM elements
+  const loadingContainer = document.querySelector("#loadingContainer");
+  const cameraIcon = document.querySelector(".camera-icon");
+  const lens = document.querySelector(".lens");
+  const spinnerCircle = document.querySelector(".spinner-circle");
+
+  // Apply styles using the utility function
+  setStyle(loadingContainer, 'backgroundColor', data.backgroundColor);
+  setStyle(cameraIcon, 'backgroundColor', data.cameraBodyColor);
+  setStyle(lens, 'backgroundColor', data.lensColor);
+  setStyle(lens, 'borderColor', data.lensBorderColor);
+  setStyle(spinnerCircle, 'borderTopColor', data.spinnerCircleColor);
+
+  // Add class to camera icon if it exists
+  if (cameraIcon) {
+      cameraIcon.classList.add("apply-spinner-colors");
+  }
+
+  // Set CSS variables with fallbacks
+  const setCssVariable = (variable, value, defaultColor) => {
+      const finalValue = value || defaultColor;
+      document.documentElement.style.setProperty(variable, finalValue);
+      if (!value) {
+          console.warn(`${variable} is null or undefined, using default: ${defaultColor}`);
+      }
+  };
+
+  setCssVariable("--shutter-button-color", data.shutterButtonColor, "#defaultShutterColor"); // Replace with actual default
+  setCssVariable("--flash-color", data.flashColor, "#defaultFlashColor"); // Replace with actual default
 }
-
-// Set camera icon color, checking for null or undefined values
-let cameraIcon = document.querySelector(".camera-icon");
-if (data.cameraBodyColor !== null && data.cameraBodyColor !== undefined) {
-    cameraIcon.style.backgroundColor = data.cameraBodyColor;
-}
-
-// Set lens background color, checking for null or undefined values
-const lens = document.querySelector(".lens");
-if (data.lensColor !== null && data.lensColor !== undefined) {
-    lens.style.backgroundColor = data.lensColor;
-}
-
-// Set lens border color, checking for null or undefined values
-if (data.lensBorderColor !== null && data.lensBorderColor !== undefined) {
-    lens.style.borderColor = data.lensBorderColor;
-}
-
-// Set spinner circle border top color, checking for null or undefined values
-const spinnerCircle = document.querySelector(".spinner-circle");
-if (data.spinnerCircleColor !== null && data.spinnerCircleColor !== undefined) {
-    spinnerCircle.style.borderTopColor = data.spinnerCircleColor;
-}
-
-// Add a class to handle pseudo-elements in CSS for the shutter and flash colors
- cameraIcon = document.querySelector(".camera-icon");
-
-// Check if the camera icon exists before adding a class
-if (cameraIcon) {
-    cameraIcon.classList.add("apply-spinner-colors");
-}
-
-// Set the CSS variables only if the data values are not null or undefined
-if (data.shutterButtonColor !== null && data.shutterButtonColor !== undefined) {
-    document.documentElement.style.setProperty("--shutter-button-color", data.shutterButtonColor);
-} else {
-    console.warn("Shutter button color is null or undefined, using default.");
-    // Optionally, you can set a default color
-    document.documentElement.style.setProperty("--shutter-button-color", "#defaultColor"); // Replace #defaultColor with your actual default color
-}
-
-if (data.flashColor !== null && data.flashColor !== undefined) {
-    document.documentElement.style.setProperty("--flash-color", data.flashColor);
-} else {
-    console.warn("Flash color is null or undefined, using default.");
-    // Optionally, you can set a default color
-    document.documentElement.style.setProperty("--flash-color", "#defaultColor"); // Replace #defaultColor with your actual default color
-}
-
- 
-}
-
 
   window.showLoadingSpinner = function(automatic = true) {
 
