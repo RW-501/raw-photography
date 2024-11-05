@@ -161,7 +161,7 @@
                   <input type="color" id="spinnerCircleColor" name="spinnerCircleColor" required aria-label="Spinner circle color">
                 </div>
       
-                <button id="colorSettingsForm" type="submit" class="btn btn-primary">Update Colors</button>
+                <button id="colorSettingsForm" class="btn btn-primary">Update Colors</button>
                 <button type="button" class="btn btn-secondary" id="reset-button">Reset</button>
               </form>
               <div id="colorResponse" class="mt-2"></div>
@@ -205,7 +205,7 @@
                 <textarea id="footerText" placeholder="Footer copyright text" aria-label="Footer copyright text"></textarea>
               </div>
       
-              <button class="btn btn-primary" onclick="updateSettings()">Save Changes</button>
+              <button id="updateSettings" class="btn btn-primary" onclick="updateSettings()">Save Changes</button>
             </div>
           </div>
       
@@ -255,7 +255,7 @@
                   <label for="contactTitle">Contact Title:</label>
                   <input type="text" id="contactTitle" required aria-label="Contact title">
                 </div>
-                <button id="update_home_page" type="submit" class="btn btn-primary">Update Home Page</button>
+                <button id="update_home_page"  class="btn btn-primary">Update Home Page</button>
               </form>
             </div>
           </div>
@@ -281,7 +281,7 @@
                 <label for="siteKeywords">Site Keywords (comma-separated):</label>
                 <input type="text" id="siteKeywords" required aria-label="Site keywords">
               </div>
-              <button class="btn btn-primary" onclick="updateSiteSettings()">Save Settings</button>
+              <button id="updateSiteSettings" class="btn btn-primary" onclick="updateSiteSettings()">Save Settings</button>
             </div>
           </div>
  
