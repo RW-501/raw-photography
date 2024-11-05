@@ -400,8 +400,8 @@ function applyDefaultSettings(settings) {
 
 // Event Listener for Color Settings Form Submission
 
-document.getElementById("colorSettingsForm").addEventListener( async function (event) { 
-    event.preventDefault(); // Prevent page reset
+document.getElementById("colorSettingsForm").addEventListener("submit", async function (event) {
+  event.preventDefault(); // Prevent page reset
 
     let colorSettings = {
         backgroundColor: document.getElementById('backgroundColor').value,
