@@ -631,8 +631,8 @@ select, input[type="range"], input[type="number"] {
     console.log(previewCanvas);
 
     if (!previewCtx) {
-        console.error("Canvas context is not available");
-        return;  // Prevent further operations if the context is not available
+         previewCanvas = document.getElementById("watermarkPreviewCanvas");
+         previewCtx = previewCanvas.getContext("2d");
     }
 
     // Your canvas drawing code here
