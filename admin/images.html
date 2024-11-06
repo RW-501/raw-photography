@@ -287,7 +287,7 @@ select, input[type="range"], input[type="number"] {
 
                 <div class="container-fluid">
                 <label class="custom-checkbox-container">
-                    <span class="custom-checkbox-label">Enable Multiple Watermarks</span>
+                    <span class="custom-checkbox-label">Multiple Watermarks</span>
                 </label>
                     <input type="checkbox" id="multipleWaterMark" class="custom-checkbox">
                  </div>
@@ -297,18 +297,18 @@ select, input[type="range"], input[type="number"] {
     <label class="custom-checkbox-container">
         <span class="custom-checkbox-label">Underline</span>
     </label>
-        <input type="checkbox" id="toggleUnderline" class="custom-checkbox">
+        <input type="checkbox" id="watermarkUnderline" class="custom-checkbox">
 </div>
 <div class="container-fluid">
     <label class="custom-checkbox-container">
         <span class="custom-checkbox-label">Bold</span>
     </label> 
-        <input type="checkbox" id="toggleBold" class="custom-checkbox">
+        <input type="checkbox" id="watermarkBold" class="custom-checkbox">
      </div>
 
                 <div class="container-fluid">
                 <label for="watermarkColor">Color</label>
-                <input type="color" id="watermarkColor" class="form-control" value="#000">
+                <input type="color" id="watermarkColor" class="form-control" value="#000000">
             </div>
             <div class="container-fluid">
                 <label for="watermarkOpacity">Opacity</label>
@@ -317,8 +317,8 @@ select, input[type="range"], input[type="number"] {
 
             <div class="container-fluid">
             <!-- Add Stroke Width Dropdown -->
-<label for="strokeWidth">Stroke Width:</label>
-<select id="strokeWidth">
+<label for="watermarkStroke">Stroke Width:</label>
+<select id="watermarkStroke">
     <option value="1">Thin</option>
     <option value="2">Medium</option>
     <option value="3">Bold</option>
@@ -326,7 +326,7 @@ select, input[type="range"], input[type="number"] {
 </div>
 
         </div>
-               
+
                <div class="container-fluid d-flex">
                 <div class="container-fluid">
 
@@ -370,11 +370,12 @@ select, input[type="range"], input[type="number"] {
     -webkit-appearance: none;
     width: 100%;
     height: 6px;
-    background: linear-gradient(90deg, #0d6efd 0%, #0d6efd 50%, #ddd 50%);
+    background: linear-gradient(90deg, #0d6efd 0%, #0d6efd 50%, #ddd 50%); /* Default colors */
     border-radius: 5px;
     outline: none;
     transition: background 0.3s ease;
-  }
+}
+
 
   .custom-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -859,8 +860,8 @@ async function createLowerQualityImage(dataURL) {
 let watermarkSettings = {
     text: "Your Watermark",
     font: "Arial",
-    fontSize: 20,
-    color: "#000",
+    fontSize: 240,
+    color: "#000000",
     opacity: 0.5,
     rotation: 0,
     posX: 160,
@@ -1016,12 +1017,12 @@ function updateWatermarkPreview() {
     const font = document.getElementById("watermarkFont").value || "Arial Black";
   //  const fontSize = parseInt(document.getElementById("watermarkSize").value, 10) || 240;
     const fontSize = document.getElementById("watermarkSize").value || 240;
-    const color = document.getElementById("watermarkColor").value || "#000";
+    const color = document.getElementById("watermarkColor").value || "#000000";
     const opacity = Math.min(Math.max(parseFloat(document.getElementById("watermarkOpacity").value) || 0.5, 0), 1);
     const rotation = parseInt(document.getElementById("watermarkRotation").value, 10) || 0;
     const isBold = document.getElementById("watermarkBold").checked || false;
     const isUnderline = document.getElementById("watermarkUnderline").checked || false;
-    const stroke = document.getElementById("watermarkStroke").checked || false;
+    const stroke = document.getElementById("watermarkStroke").value || 2;
 
     const width = previewCanvas.width;
     const height = previewCanvas.height;
@@ -1093,9 +1094,9 @@ document.getElementById("watermarkPositionY").addEventListener("input", updateWa
 document.getElementById("watermarkPositionX").addEventListener("input", updateWatermarkPreview);
 document.getElementById("multipleWaterMark").addEventListener("change", updateWatermarkPreview);
 
-document.getElementById("strokeWidth").addEventListener("change", updateWatermarkPreview);
-document.getElementById("toggleBold").addEventListener("click", updateWatermarkPreview);
-document.getElementById("toggleUnderline").addEventListener("click", updateWatermarkPreview);
+document.getElementById("watermarkStroke").addEventListener("change", updateWatermarkPreview);
+document.getElementById("watermarkBold").addEventListener("click", updateWatermarkPreview);
+document.getElementById("watermarkUnderline").addEventListener("click", updateWatermarkPreview);
 
 
 
