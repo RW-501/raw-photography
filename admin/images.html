@@ -669,8 +669,15 @@ let filterEffect = "none";
 let history = []; // Stack for undo/redo functionality
 let redoStack = [];
 
+// Ensure previewCanvas and previewCtx are properly initialized
 const previewCanvas = document.getElementById("watermarkPreviewCanvas");
-const previewCtx = previewCanvas.getContext("2d");
+const previewCtx = previewCanvas ? previewCanvas.getContext("2d") : null;
+
+if (!previewCtx) {
+    console.error("Canvas context is not available");
+    return;  // Prevent further operations if the context is not available
+}
+
 
 // Variables for tracking drag status
 let isDragging = false;
@@ -775,9 +782,10 @@ document.getElementById("watermarkSettingsBtn").addEventListener("click", () => 
     document.getElementById("watermarkSettingsModal").style.display = "block";
 });
 
-
 // Function to update watermark preview in real-time
 function updateWatermarkPreview() {
+    if (!previewCtx) return;  // Avoid calling if the context is not available
+
     // Clear previous preview
     previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
 
@@ -809,8 +817,6 @@ document.getElementById("watermarkColor").addEventListener("input", updateWaterm
 document.getElementById("watermarkOpacity").addEventListener("input", updateWatermarkPreview);
 document.getElementById("watermarkRotation").addEventListener("input", updateWatermarkPreview);
 
-// Initialize preview on load
-updateWatermarkPreview();
 
 // Helper function to get coordinates from touch or mouse event
 function getEventPos(event) {
@@ -826,7 +832,7 @@ function getEventPos(event) {
 // Start dragging on mousedown or touchstart
 function startDrag(e) {
     const { x, y } = getEventPos(e);
-    console.log("Working???    ",x, y);
+    console.log("x y startDrag Working???    ",x, y);
 
     // Calculate offset based on current watermark position
     const fontSize = parseInt(document.getElementById("watermarkSize").value) || 20;
@@ -854,6 +860,8 @@ function drag(e) {
         watermarkPosX = x - offsetX;
         watermarkPosY = y - offsetY;
 
+        console.log("x y drag Working???    ",x, y);
+
         // Update the input fields for X and Y
         document.getElementById("watermarkPositionX").value = Math.round(watermarkPosX);
         document.getElementById("watermarkPositionY").value = Math.round(watermarkPosY);
@@ -862,6 +870,7 @@ function drag(e) {
         updateWatermarkPreview();
     }
 }
+
 
 // Stop dragging on mouseup or touchend
 function stopDrag() {
@@ -1349,6 +1358,8 @@ function saveImage() {
 
 // Wait for the document to fully load
 document.addEventListener("DOMContentLoaded", function () {
+// Initialize preview on load
+updateWatermarkPreview();
 
 // Bind undo/redo buttons
 document.getElementById("undoBtn").addEventListener("click", undo);
