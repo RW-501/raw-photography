@@ -623,6 +623,22 @@ select, input[type="range"], input[type="number"] {
     }
 });
 */
+
+
+
+    const previewCanvas = document.getElementById("watermarkPreviewCanvas");
+    const previewCtx = previewCanvas ? previewCanvas.getContext("2d") : null;
+    console.log(previewCanvas);
+
+    if (!previewCtx) {
+        console.error("Canvas context is not available");
+        return;  // Prevent further operations if the context is not available
+    }
+
+    // Your canvas drawing code here
+;
+
+
         let selectedImages = [];
 
     const imageUploadArea = document.getElementById("imageUploadArea");
@@ -678,20 +694,6 @@ let  ctx, img, logoImg, logoScale = 0.5;
 let filterEffect = "none";
 let history = []; // Stack for undo/redo functionality
 let redoStack = [];
-
-// Ensure previewCanvas and previewCtx are properly initialized
-window.addEventListener('DOMContentLoaded', () => {
-    const previewCanvas = document.getElementById("watermarkPreviewCanvas");
-    const previewCtx = previewCanvas ? previewCanvas.getContext("2d") : null;
-    console.log(previewCanvas);
-
-    if (!previewCtx) {
-        console.error("Canvas context is not available");
-        return;  // Prevent further operations if the context is not available
-    }
-
-    // Your canvas drawing code here
-});
 
 
 
