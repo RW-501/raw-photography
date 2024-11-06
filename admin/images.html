@@ -949,31 +949,35 @@ async function renderImages(imagesData) {
     imageGalleryContainer.appendChild(imageCountHeader);
 
     imagesData.forEach((image, index) => {
-        const { compressedImage, originalUrl, fileType, fileName, fileSize } = image;
+    const { compressedImage, originalUrl, fileType, fileName, fileSize } = image;
 
-        const imgDiv = document.createElement("div");
-        imgDiv.classList.add("col-md-4", "mt-3");
+    // Create a new div element for each image card
+    const imgDiv = document.createElement("div");
+    imgDiv.classList.add("col-md-4", "mt-3");
 
-        imgDiv.innerHTML = `
-            <div class="card mb-3" aria-label="Image card for ${fileName}" data-set-ref="${index}">
-                <img src="${compressedImage}" class="card-img-top img-thumbnail" alt="Compressed version of ${fileName}" loading="lazy">
-                <div class="card-body">
-                    <input type="checkbox" class="select-checkbox" data-set-ref="${index}" aria-label="Select image ${fileName}">
-                    <h6 class="card-title">${fileName}</h6>
-                    <p class="card-text">
-                        Type: ${fileType} <br>
-                        Size: ${(fileSize / 1024).toFixed(2)} KB <br>
-                        <strong>Image #${index + 1}</strong>
-                    </p>
-                    <button class="btn btn-primary btn-sm mt-2" aria-label="View full image of ${fileName}" data-original-url="${originalUrl}">
-                        Edit Image
-                    </button>
-                </div>
+    // Set the inner HTML with the image details
+    imgDiv.innerHTML = `
+        <div class="card mb-3" aria-label="Image card for ${fileName}" data-set-ref="${index}">
+            <img src="${compressedImage}" class="card-img-top img-thumbnail" alt="Compressed version of ${fileName}" loading="lazy">
+            <div class="card-body">
+                <input type="checkbox" class="select-checkbox" data-set-ref="${index}" aria-label="Select image ${fileName}">
+                <h6 class="card-title">${fileName}</h6>
+                <p class="card-text">
+                    Type: ${fileType} <br>
+                    Size: ${(fileSize / 1024).toFixed(2)} KB <br>
+                    <strong>Image #${index + 1}</strong>
+                </p>
+                <button class="btn btn-primary btn-sm mt-2" aria-label="View full image of ${fileName}" data-original-url="${originalUrl}">
+                    Edit Image
+                </button>
             </div>
-        `;
+        </div>
+    `;
 
-        // Append the image card to the container
-        imagePreviewContainer.appendChild(imgDiv);
+    // Append the new image card div to the container without replacing it
+    imagePreviewContainer.appendChild(imgDiv);
+
+
 
         // Add an event listener to view the full image on button click
         imgDiv.querySelector("button").addEventListener("click", (event) => {
