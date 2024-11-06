@@ -745,6 +745,15 @@ function addWatermark(ctx, width, height) {
     ctx.fillStyle = color;
     ctx.globalAlpha = opacity;
 
+
+
+    // Calculate position to center the watermark if required
+    const textWidth = ctx.measureText(text).width;
+    const textX = posX >= 0 ? posX : (width - textWidth) / 2;
+    const textY = posY >= 0 ? posY : height / 2;
+
+
+
     // Position and rotate watermark
     ctx.translate(posX, posY);
     ctx.rotate((rotation * Math.PI) / 180);
@@ -753,8 +762,16 @@ function addWatermark(ctx, width, height) {
 }
 
 // Function to process image and apply watermark
+// Function to process image and apply watermark
 async function processImage(dataURL, file, fileSize, fileType, fileName) {
     try {
+        // Check if watermark text is set properly before processing
+        if (watermarkSettings.text === "Your Watermark") {
+            showToast("Create a Watermark");
+            document.getElementById("watermarkSettingsModal").style.display = "block";
+            return;
+        }
+
         // Create a compressed image with a watermark
         const compressedImage = await createLowerQualityImage(dataURL);
 
@@ -766,16 +783,7 @@ async function processImage(dataURL, file, fileSize, fileType, fileName) {
                 fileName: fileName,
                 fileSize: fileSize // in bytes
             },
-            // Add more image objects as needed
         ];
-
-        // Check if watermark text is set properly
-        const { text } = watermarkSettings;
-        if (text === "Your Watermark") {
-            showToast("Create a Watermark");
-            document.getElementById("watermarkSettingsModal").style.display = "block";
-            return;
-        }
 
         // Render images
         renderImages(imagesData);
@@ -785,8 +793,6 @@ async function processImage(dataURL, file, fileSize, fileType, fileName) {
         showToast("Image processing failed.", "error");
     }
 }
-
-
 
 
 // Show watermark settings modal
