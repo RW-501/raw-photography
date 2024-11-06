@@ -1158,6 +1158,7 @@ function openImageEditor(image, compressedImage) {
     document.getElementById("imageEditorModal").style.display = "block";
     canvas = document.getElementById("imageCanvas");
     ctx = canvas.getContext("2d");
+    console.log("Working???   openImageEditor");
 
     loadImage(image, compressedImage);
 }
@@ -1169,7 +1170,7 @@ function closeImageEditor() {
 // Load and draw the original image onto the canvas
 function loadImage(image, compressedImage) {
     img = new Image();
-    img.src = compressedImage; // Replace with dynamic image source
+    img.src = image; // Replace with dynamic image source
     img.onload = () => {
         saveToHistory(); // Save the initial state
         redrawCanvas(); // Redraw canvas with loaded image
