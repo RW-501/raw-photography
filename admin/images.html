@@ -53,12 +53,19 @@
     display: flex;
     flex-direction: column;
 }
-#watermarkSettingsModal input[type="range"], input[type="number"],
-#imageEditorModal input[type="range"], input[type="number"]
-{
-        
-            max-width: 75px;
-        }
+/* Styles specifically for input elements of type range and number inside watermarkSettingsModal */
+#watermarkSettingsModal input[type="range"], 
+#watermarkSettingsModal input[type="number"], 
+
+/* Styles specifically for input elements of type range and number inside imageEditorModal */
+#imageEditorModal input[type="range"], 
+#imageEditorModal input[type="number"] {
+    max-width: 75px;      /* Limits the maximum width of the input */
+    min-width: 50px;      /* Prevents the input from shrinking smaller than 50px */
+    width: 100%;          /* Makes the input take up the full width of its container */
+    box-sizing: border-box; /* Includes padding and border in the width calculation */
+}
+
 select, input[type="range"], input[type="number"] {
             margin-bottom: 10px;
         }
@@ -1470,6 +1477,50 @@ function saveEvent() {
 }
 
         }
+
+
+// Function to save input values to localStorage
+function saveWatermarkSettings() {
+    const rangeInputs = document.querySelectorAll("#watermarkSettingsModal input[type='range'], #watermarkSettingsModal input[type='number']");
+    const watermarkSettings = {};
+
+    rangeInputs.forEach(input => {
+        watermarkSettings[input.name] = input.value; // Save each input's value using its name as the key
+    });
+
+    localStorage.setItem("watermarkSettings", JSON.stringify(watermarkSettings)); // Store the object as a JSON string
+}
+
+// Function to load saved input values from localStorage
+function loadWatermarkSettings() {
+    const savedSettings = localStorage.getItem("watermarkSettings");
+
+    if (savedSettings) {
+        const watermarkSettings = JSON.parse(savedSettings); // Parse the JSON string back into an object
+
+        Object.keys(watermarkSettings).forEach(key => {
+            const input = document.querySelector(`#watermarkSettingsModal input[name="${key}"]`);
+            if (input) {
+                input.value = watermarkSettings[key]; // Set the value of the input
+            }
+        });
+    }
+}
+
+// Add event listeners to inputs inside watermarkSettingsModal
+document.querySelectorAll("#watermarkSettingsModal input[type='range'], #watermarkSettingsModal input[type='number']").forEach(input => {
+    input.addEventListener("input", saveWatermarkSettings); // Save on input change
+});
+
+// Load settings when the modal is shown
+document.querySelector("#watermarkSettingsModal").addEventListener("shown.bs.modal", loadWatermarkSettings);
+
+// Optionally, you could also load the settings when the page is loaded
+document.addEventListener("DOMContentLoaded", loadWatermarkSettings);
+
+
+
+
     </script>
   
   <script  type="module" src="../js/main.js"></script>
