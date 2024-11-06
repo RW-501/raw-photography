@@ -248,8 +248,20 @@ select, input[type="range"], input[type="number"] {
                 </button>
             </div>
             <div class="modal-body">
+                <div class="container-fluid d-flex">
                 <!-- Watermark preview canvas -->
                 <canvas id="watermarkPreviewCanvas" width="400" height="200" style="border:1px solid #ccc;"></canvas>
+                <div>
+                    <input  class="ml-1 custom-slider"
+                        type="range" 
+                        id="watermarkScale" 
+                        min="0.1" 
+                        max="5" 
+                        step="0.1" 
+                        value="1" 
+                        style="writing-mode: bt-lr; transform: rotate(180deg);" >
+                </div>
+                </div>
 
                 <div class="container-fluid d-flex">
                     <div class="container-fluid">
@@ -370,7 +382,6 @@ select, input[type="range"], input[type="number"] {
     appearance: none; /* Standard property for broader compatibility */
     width: 100%;
     height: 6px;
-    background: linear-gradient(90deg, #0d6efd 0%, #0d6efd 50%, #ddd 50%); /* Default colors */
     border-radius: 5px;
     outline: none;
     transition: background 0.3s ease;
@@ -1023,6 +1034,8 @@ function updateWatermarkPreview() {
     const isBold = document.getElementById("watermarkBold").checked || false;
     const isUnderline = document.getElementById("watermarkUnderline").checked || false;
     const stroke = document.getElementById("watermarkStroke").value || 2;
+    // Get the scale value from the vertical slider
+    const scale = parseFloat(document.getElementById("watermarkScale").value) || 1;
 
     const width = previewCanvas.width;
     const height = previewCanvas.height;
@@ -1097,6 +1110,8 @@ document.getElementById("multipleWaterMark").addEventListener("change", updateWa
 document.getElementById("watermarkStroke").addEventListener("change", updateWatermarkPreview);
 document.getElementById("watermarkBold").addEventListener("click", updateWatermarkPreview);
 document.getElementById("watermarkUnderline").addEventListener("click", updateWatermarkPreview);
+
+document.getElementById("watermarkScale").addEventListener("change", updateWatermarkPreview);
 
 
 
