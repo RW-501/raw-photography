@@ -1327,9 +1327,15 @@ function redo() {
 }
 
 // Redraw the canvas with the current image and logo
-function redrawCanvas() {
+function redrawCanvas(img) {
+    // Check if img is defined
+    if (!img) {
+        console.error("Image element is not defined.");
+        return;
+    }
+
     // Create a new canvas and get its context
-    const canvas = document.createElement("canvas"); // local to the function
+    const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
 
     if (!ctx) {
@@ -1337,23 +1343,23 @@ function redrawCanvas() {
         return;
     }
 
-    // Set the canvas size if needed
+    // Set the canvas size based on the image dimensions
     canvas.width = img.width;
     canvas.height = img.height;
 
     // Clear the canvas and apply the filter and image
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.filter = filterEffect; // Apply filter
+    ctx.filter = filterEffect || "none"; // Apply filter if defined
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
     // Draw logo on top, if necessary
-    drawLogo();
+    drawLogo(ctx, canvas);  // Assuming `drawLogo` takes ctx as a parameter
 
     // Reset the filter after drawing
     ctx.filter = "none";
 
     // Save the current state after redraw
-    saveToHistory();
+    saveToHistory(canvas); // Assuming `saveToHistory` takes canvas as a parameter
 }
 
 
