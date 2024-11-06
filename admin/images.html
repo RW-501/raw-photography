@@ -658,6 +658,7 @@ function handleFiles(files) {
 
         const reader = new FileReader();
         reader.onload = e => {
+            e.preventDefault;
             processImage(e.target.result, file, fileSize, fileType, fileName);
         };
         reader.readAsDataURL(file);
