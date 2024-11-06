@@ -650,7 +650,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 // Main function to handle file uploads
-function handleFileS(files) {
+function handleFiles(files) {
     Array.from(files).forEach(file => {
         const fileSize = file.size;
         const fileType = file.type;
@@ -826,6 +826,7 @@ function getEventPos(event) {
 // Start dragging on mousedown or touchstart
 function startDrag(e) {
     const { x, y } = getEventPos(e);
+    console.log("Working???    ",x, y);
 
     // Calculate offset based on current watermark position
     const fontSize = parseInt(document.getElementById("watermarkSize").value) || 20;
@@ -1115,7 +1116,6 @@ async function saveImageDetails(fileName, originalUrl, compressedUrl, fileSize, 
 // Initialize canvas and context when the image editor is opened
 document.getElementById("openImageEditorBtn").addEventListener("click", () => {
     openImageEditor();
-    loadImage(); // Load the main image for editing
 });
 
 function openImageEditor(image) {
@@ -1340,9 +1340,6 @@ function saveImage() {
 
 
 
-function triggerFileInput() {
-    document.getElementById("imageInput").click();
-}
 
 // Wait for the document to fully load
 document.addEventListener("DOMContentLoaded", function () {
@@ -1365,11 +1362,17 @@ document.getElementById("redoBtn").addEventListener("click", redo);
 
 
 
+
+// Image Upload Click Listener (to trigger file input)
+document.getElementById("imageUploadArea").addEventListener("click", function() {
+    document.getElementById("imageInput").click();
+});
+
+
     // Assuming your HTML has an <input> element with id="imageInput"
 document.getElementById("imageInput").addEventListener("change", function() {
-    handleFileS(this.files);
+    handleFiles(this.files);
 });
-document.getElementById("imageUploadArea").addEventListener("click", triggerFileInput);
 
 
 
@@ -1384,10 +1387,6 @@ document.getElementById("applyWatermarkSettings").addEventListener("click", appl
 // Event Listener for the Image Editor Close Button
 document.querySelector("#imageEditorModal .modal-header .close").addEventListener("click", closeImageEditor);
 
-// Image Upload Click Listener (to trigger file input)
-document.getElementById("imageUploadArea").addEventListener("click", function() {
-    document.getElementById("imageInput").click();
-});
 
 
 // Add individual Event Listeners for the sliders in the Image Editor
