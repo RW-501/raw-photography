@@ -898,6 +898,8 @@ function addWatermark(ctx, width, height) {
     ctx.font = `${fontStyle} ${fontSize}px ${font}`;
     ctx.fillStyle = color;
     ctx.globalAlpha = opacity;
+    ctx.textBaseline = "middle";
+    ctx.textAlign = "center";
 
     // Apply shadow if defined
     if (shadow) {
@@ -919,17 +921,20 @@ function addWatermark(ctx, width, height) {
 
     // Check if multiple watermarks are needed
     if (document.getElementById('multipleWaterMark').checked) {
-        const gap = textWidth * 1.5;
+        const gap = Math.max(textWidth, fontSize) * 1.2;  // Adjust multiplier for spacing
 
-        for (let x = 0; x < width; x += gap) {
-            for (let y = 0; y < height; y += gap) {
-                ctx.save();
-                ctx.translate(x, y);
-                ctx.rotate((rotation * Math.PI) / 180);
+// Loop to fill canvas with watermarks
+for (let x = 0; x < width + gap; x += gap) {
+    for (let y = 0; y < height + gap; y += gap) {
 
-                if (stroke) ctx.strokeText(text, 0, 0);
-                ctx.fillText(text, 0, 0);
-                ctx.restore();
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate((rotation * Math.PI) / 180);
+
+        if (stroke) ctx.strokeText(text, 0, 0);
+        ctx.fillText(text, 0, 0);
+
+        ctx.restore();
             }
         }
     } else {
@@ -1051,6 +1056,32 @@ document.getElementById("watermarkRotation").addEventListener("input", updateWat
 document.getElementById("watermarkPositionY").addEventListener("input", updateWatermarkPreview);
 document.getElementById("watermarkPositionX").addEventListener("input", updateWatermarkPreview);
 document.getElementById("multipleWaterMark").addEventListener("change", updateWatermarkPreview);
+
+document.getElementById("strokeWidth").addEventListener("change", updateWatermarkPreview);
+document.getElementById("toggleBold").addEventListener("click", updateWatermarkPreview);
+document.getElementById("toggleUnderline").addEventListener("click", updateWatermarkPreview);
+
+
+
+
+
+
+
+
+// Helper function to get coordinates from touch or mouse event
+function getEventPos(event) {
+    if (event.touches) {
+        // For touch event
+        return { x: event.touches[0].clientX, y: event.touches[0].clientY };
+    } else {
+        // For mouse event
+        return { x: event.clientX, y: event.clientY };
+    }
+}
+
+
+
+
 
 
 // Start dragging on mousedown or touchstart
