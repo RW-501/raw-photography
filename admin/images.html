@@ -1549,12 +1549,63 @@ document.querySelector("#imageEditorModal .modal-header .close").addEventListene
 
 
 
-// Add individual Event Listeners for the sliders in the Image Editor
 document.querySelectorAll(".slider input[type='range']").forEach(slider => {
     slider.addEventListener("input", function() {
-        updateValue(slider.id.replace("Value", ""), slider.value);
+        const sliderValueId = slider.id;
+        const outputId = `${sliderValueId.replace("Value", "Output")}`;
+        const outputElement = document.getElementById(outputId);
+
+        // Update output display
+        outputElement.textContent = `${slider.value}${sliderValueId.includes("scale") ? '%' : sliderValueId.includes("rotate") || sliderValueId.includes("skew") ? '°' : sliderValueId.includes("blur") ? 'px' : '%'}`;
+        
+        // Call updateValue to apply the actual filter if needed
+        updateValue(sliderValueId.replace("Value", ""), slider.value);
     });
 });
+
+// Additional function to handle filter application (modify as needed)
+function updateValue(filterType, value) {
+    const targetImage = document.getElementById("targetImage"); // Adjust ID to match your image element
+    
+    // Initialize filter styles array
+    let filters = [];
+
+    // Apply filters based on filter type
+    if (filterType === "grayscale") {
+        filters.push(`grayscale(${value}%)`);
+    } else if (filterType === "sepia") {
+        filters.push(`sepia(${value}%)`);
+    } else if (filterType === "invert") {
+        filters.push(`invert(${value}%)`);
+    } else if (filterType === "brightness") {
+        filters.push(`brightness(${value}%)`);
+    } else if (filterType === "contrast") {
+        filters.push(`contrast(${value}%)`);
+    } else if (filterType === "saturate") {
+        filters.push(`saturate(${value}%)`);
+    } else if (filterType === "hue-rotate") {
+        filters.push(`hue-rotate(${value}deg)`);
+    } else if (filterType === "blur") {
+        filters.push(`blur(${value}px)`);
+    } else if (filterType === "opacity") {
+        filters.push(`opacity(${value}%)`);
+    } else if (filterType === "drop-shadow") {
+        filters.push(`drop-shadow(0px 0px ${value}px rgba(0, 0, 0, 0.5))`);
+    }
+
+    // Apply transform styles based on filter type
+    if (filterType === "scale") {
+        targetImage.style.transform = `scale(${value})`;
+    } else if (filterType === "skewX") {
+        targetImage.style.transform = `skewX(${value}deg)`;
+    } else if (filterType === "skewY") {
+        targetImage.style.transform = `skewY(${value}deg)`;
+    }
+
+    // Combine all filters and apply them to the image
+    targetImage.style.filter = filters.join(" ");
+}
+
 
 // Logo Upload and Size Update
 document.getElementById("uploadLogo").addEventListener("change", addLogo);
