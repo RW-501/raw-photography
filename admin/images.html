@@ -658,7 +658,7 @@ function handleFiles(files) {
 
         const reader = new FileReader();
         reader.onload = e => {
-            e.preventDefault;
+            e.preventDefault();
             processImage(e.target.result, file, fileSize, fileType, fileName);
         };
         reader.readAsDataURL(file);
@@ -1394,7 +1394,8 @@ document.getElementById("imageUploadArea").addEventListener("click", function() 
 
 
     // Assuming your HTML has an <input> element with id="imageInput"
-document.getElementById("imageInput").addEventListener("change", function() {
+document.getElementById("imageInput").addEventListener("change", function(e) {
+    e.preventDefault();
     handleFiles(this.files);
 });
 
