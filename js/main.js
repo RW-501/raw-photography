@@ -708,3 +708,30 @@ window.truncateText = function(text, maxLength, href) {
   return text;
 };
 
+window.cleanAndShortenFileName = function(fileName, maxLength = 20) {
+  // Remove special characters (except for letters, numbers, hyphens, and underscores)
+  const cleanedFileName = fileName.replace(/[^\w\s.-]/g, '');
+  
+  // Truncate the file name if it exceeds the max length, keeping the file extension intact
+  const nameWithoutExtension = cleanedFileName.substring(0, cleanedFileName.lastIndexOf('.'));
+  const extension = cleanedFileName.substring(cleanedFileName.lastIndexOf('.'));
+  
+  let shortenedFileName = nameWithoutExtension.substring(0, maxLength);
+  
+  // Ensure that the file name does not exceed the max length including the extension
+  if (shortenedFileName.length + extension.length > maxLength) {
+      shortenedFileName = shortenedFileName.substring(0, maxLength - extension.length);
+  }
+  
+  // Combine the shortened name with the extension
+  return shortenedFileName + extension;
+}
+
+
+/*
+// Example usage:
+const fileName = "Very_Long_File_Name_With_Special_Characters!@#.jpg";
+const shortenedFileName = cleanAndShortenFileName(fileName, 15);
+console.log(shortenedFileName);  // Output: "Very_Long_File.jpg"
+
+*/

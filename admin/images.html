@@ -208,7 +208,9 @@ select, input[type="range"], input[type="number"] {
 
 }
 
-
+#uploadLogo {
+    display: none;
+}
 
 </style>
 
@@ -250,35 +252,69 @@ select, input[type="range"], input[type="number"] {
                 <canvas id="watermarkPreviewCanvas" width="400" height="200" style="border:1px solid #ccc;"></canvas>
 
                 <div class="container-fluid d-flex">
+                    <div class="container-fluid">
 
                 <!-- Watermark input fields -->
                 <label for="watermarkText">Text</label>
                 <input type="text" id="watermarkText" class="form-control" placeholder="Enter watermark text">
+               
+            </div>
+            <div class="container-fluid">
                 <label for="watermarkFont">Font</label>
                 <select id="watermarkFont" class="form-control">
                     <option value="Arial">Arial</option>
                     <option value="Times New Roman">Times New Roman</option>
                     <option value="Courier New">Courier New</option>
+                    <option value="Verdana">Verdana</option>
+                    <option value="Georgia">Georgia</option>
+                    <option value="Tahoma">Tahoma</option>
+                    <option value="Trebuchet MS">Trebuchet MS</option>
+                    <option value="Comic Sans MS">Comic Sans MS</option>
+                    <option value="Lucida Console">Lucida Console</option>
+                    <option value="Impact">Impact</option>
+                    <option value="Palatino">Palatino</option>
+                    <option value="Arial Black">Arial Black</option>
+                    <option value="Consolas">Consolas</option>
                 </select>
+            </div>
+            <div class="container-fluid">
                 <label for="watermarkSize">Font Size</label>
                 <input type="number" id="watermarkSize" class="form-control" placeholder="20" value="20">
             </div>
+        </div>
                
             <div class="container-fluid d-flex">
+
+                <label class="custom-checkbox-container">
+                    <input type="checkbox" id="multipleWaterMark" class="custom-checkbox">
+                    <span class="custom-checkbox-label">Enable Multiple Watermarks</span>
+                </label>
+                
+
+                <div class="container-fluid">
                 <label for="watermarkColor">Color</label>
                 <input type="color" id="watermarkColor" class="form-control" value="#ffffff">
+            </div>
+            <div class="container-fluid">
                 <label for="watermarkOpacity">Opacity</label>
-                <input type="range" id="watermarkOpacity" class="form-control" min="0" max="1" step="0.1" value="0.5">
-               </div>
+                <input type="range" id="watermarkOpacity" class="form-control custom-slider" min="0" max="1" step="0.1" value="0.5">
+            </div>
+        </div>
                
                <div class="container-fluid d-flex">
+                <div class="container-fluid">
 
                 <label for="watermarkRotation">Rotation (degrees)</label>
                 <input type="number" id="watermarkRotation" class="form-control" placeholder="0" value="0">
+            </div>
+            <div class="container-fluid">
                 <label for="watermarkPositionX">Position X</label>
                 <input type="number" id="watermarkPositionX" class="form-control" placeholder="20" value="20">
+            </div>
+            <div class="container-fluid">
                 <label for="watermarkPositionY">Position Y</label>
                 <input type="number" id="watermarkPositionY" class="form-control" placeholder="20" value="20">
+            </div>
             </div>
         </div>
 
@@ -382,7 +418,6 @@ select, input[type="range"], input[type="number"] {
                     </div>
                   </div>
                 </div>
-              </div>
               
   
 <script>
@@ -403,7 +438,6 @@ select, input[type="range"], input[type="number"] {
     }
   </script>
             <!-- Filter Options -->
-            <div class="card shadow-sm mb-4">
               <div class="card-body">
                 <h5 class="text-secondary fw-bold">Image Filter Adjustments</h5>
                 <label for="filters" class="form-label">Select Filter:</label>
@@ -430,10 +464,8 @@ select, input[type="range"], input[type="number"] {
                   </optgroup>
                 </select>
               </div>
-            </div>
   
             <!-- Sliders for Adjusting Filters -->
-            <div class="card shadow-sm mb-4">
               <div class="card-body">
                 <h5 class="text-secondary fw-bold">Adjust Filter Intensity</h5>
                 <div id="sliders" class="d-grid gap-3">
@@ -798,21 +830,32 @@ async function createLowerQualityImage(dataURL) {
     return canvas.toDataURL("image/jpeg", 0.7); // Compression quality
 }
 
-// Default watermark settings
 let watermarkSettings = {
     text: "Your Watermark",
     font: "Arial",
     fontSize: 20,
-    color: "#ffffff",
+    color: "#000",
     opacity: 0.5,
     rotation: 0,
     posX: 20,
-    posY: 20
+    posY: 20,
+    isBold: true,  // Option for bold text
+    isUnderline: false, // Option for underlined text
+    shadow: {
+        offsetX: 2,
+        offsetY: 2,
+        blur: 5,
+        color: "rgba(0, 0, 0, 0.5)"
+    },
+    stroke: {
+        width: 2,
+        color: "#fff"
+    }
 };
 
 // Function to add watermark to an image on canvas
 function addWatermark(ctx, width, height) {
-    const { text, font, fontSize, color, opacity, rotation, posX, posY } = watermarkSettings;
+    const { text, font, fontSize, color, opacity, rotation, posX, posY, isBold, isUnderline, shadow, stroke } = watermarkSettings;
 
     if (text === "Your Watermark") {
         showToast("Create a Watermark");
@@ -821,25 +864,87 @@ function addWatermark(ctx, width, height) {
     }
 
     ctx.save();
-    ctx.font = `${fontSize}px ${font}`;
+
+    // Apply bold style if isBold is true
+    const fontStyle = isBold ? "bold" : "normal";
+    ctx.font = `${fontStyle} ${fontSize}px ${font}`;
     ctx.fillStyle = color;
     ctx.globalAlpha = opacity;
 
+    // Apply shadow effect if defined
+    if (shadow) {
+        ctx.shadowOffsetX = shadow.offsetX;
+        ctx.shadowOffsetY = shadow.offsetY;
+        ctx.shadowBlur = shadow.blur;
+        ctx.shadowColor = shadow.color;
+    }
 
+    // Apply stroke effect if defined
+    if (stroke) {
+        ctx.lineWidth = stroke.width;
+        ctx.strokeStyle = stroke.color;
+        ctx.lineJoin = "round";  // Ensures rounded corners for strokes
+    }
 
-    // Calculate position to center the watermark if required
+    // Calculate text width and height
     const textWidth = ctx.measureText(text).width;
-    const textX = posX >= 0 ? posX : (width - textWidth) / 2;
-    const textY = posY >= 0 ? posY : height / 2;
+    const textHeight = fontSize;
 
+    let multiple = document.getElementById('multipleWaterMark').checked;
 
+    if(multiple){
 
-    // Position and rotate watermark
-    ctx.translate(posX, posY);
-    ctx.rotate((rotation * Math.PI) / 180);
-    ctx.fillText(text, 0, 0); // Draw the watermark text at specified position
+    // Loop to add watermarks from top-left to bottom-right
+    const diagonalCount = Math.floor(width / textWidth);  // Estimate the number of watermarks
+    const gap = textWidth * 1.5;  // Set the gap between watermarks
+
+    for (let i = 0; i < diagonalCount; i++) {
+        // Calculate the position for each watermark
+        const textX = i * gap;
+        const textY = i * gap;
+
+        // Apply rotation (make sure it rotates around the center)
+        ctx.translate(textX, textY); // Move origin to watermark position
+        ctx.rotate((rotation * Math.PI) / 180); // Rotate by the specified angle
+        ctx.translate(-textX, -textY); // Move the origin back to the top-left corner
+
+    }
+}else{
+    // Calculate the center of the image
+    const centerX = width / 2;
+    const centerY = height / 2;
+
+    // Adjust position to center the watermark
+    let textX = centerX - textWidth / 2;
+    let textY = centerY + textHeight / 2;  // Adjust Y position to center vertically
+
+    // Apply rotation (make sure it rotates around the center)
+    ctx.translate(centerX, centerY); // Move origin to center of the canvas
+    ctx.rotate((rotation * Math.PI) / 180); // Rotate by the specified angle
+    ctx.translate(-centerX, -centerY); // Move the origin back to the top-left corner
+}
+
+    // Draw the text with stroke and fill
+    if (stroke) {
+        ctx.strokeText(text, textX, textY);  // Draw text outline
+    }
+    ctx.fillText(text, textX, textY);  // Draw the watermark text
+
+    // Optional: Underline effect
+    if (isUnderline) {
+        const underlineHeight = 2;  // Thickness of the underline
+        ctx.beginPath();
+        ctx.moveTo(textX, textY + 2);  // Start the line below the text
+        ctx.lineTo(textX + textWidth, textY + 2);  // End the line
+        ctx.lineWidth = underlineHeight;
+        ctx.strokeStyle = color;  // Underline with same color
+        ctx.stroke();
+    }
+
     ctx.restore();
 }
+
+
 
 // Function to process image and apply watermark
 // Function to process image and apply watermark
@@ -1155,13 +1260,20 @@ document.getElementById("saveImagesBtn").addEventListener("click", async () => {
 // Uploads both the original and compressed images to Firebase with metadata
 async function uploadToFirebase(originalDataURL, compressedDataURL, fileName, fileSize, fileType) {
     try {
+        const eventId = document.getElementById("currentEventID").innerText;
+if(!eventId){
+    showToast("Error saving images. Create Event First.", "error");
+return;
+
+}
         // Convert data URLs to Blobs
         const originalBlob = await (await fetch(originalDataURL)).blob();
         const compressedBlob = await (await fetch(compressedDataURL)).blob();
+        const shortenedFileName = cleanAndShortenFileName(fileName, 15);
 
         // Set Firebase storage references for original and compressed images
-        const storageRefOriginal = firebase.storage().ref(`images/originals/${fileName}`);
-        const storageRefCompressed = firebase.storage().ref(`images/compressed/${fileName}`);
+        const storageRefOriginal = firebase.storage().ref(`images/${eventId}/${shortenedFileName}`);
+        const storageRefCompressed = firebase.storage().ref(`images/${eventId}/${shortenedFileName}`);
 
         // Upload original image
         const uploadTaskOriginal = storageRefOriginal.put(originalBlob);
@@ -1687,7 +1799,7 @@ document.querySelectorAll("#watermarkSettingsModal input[type='range'], #waterma
 document.querySelector("#watermarkSettingsModal").addEventListener("shown.bs.modal", loadWatermarkSettings);
 
 // Optionally, you could also load the settings when the page is loaded
-document.addEventListener("DOMContentLoaded", loadWatermarkSettings);
+//document.addEventListener("DOMContentLoaded", loadWatermarkSettings);
 
 
 
