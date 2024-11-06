@@ -1157,7 +1157,7 @@ function applyWatermarkSettings() {
 
 
 
-let picCount = 0;
+let picCount = 1;
 
 // Function to render images
 async function renderImages(imagesData) {
@@ -1190,12 +1190,12 @@ async function renderImages(imagesData) {
         <div class="card mb-3" aria-label="Image card for ${fileName}" data-set-ref="${picCount}">
             <img src="${compressedImage}" class="card-img-top img-thumbnail" alt="Compressed version of ${fileName}" loading="lazy">
             <div class="card-body">
-                <input type="checkbox" class="select-checkbox" data-set-ref="${index}" aria-label="Select image ${fileName}">
+                <input type="checkbox" class="select-checkbox" data-set-ref="${picCount}" aria-label="Select image ${fileName}">
                 <h6 class="card-title">${truncateText(fileName, 20)}</h6>
                 <p class="card-text">
                     Type: ${fileType} <br>
                     Size: ${(fileSize / 1024).toFixed(2)} KB <br>
-                    <strong>Image #${index = + 1}</strong>
+                    <strong>Image #${picCount}</strong>
                 </p>
                 <button class="btn btn-primary btn-sm mt-2" aria-label="View full image of ${fileName}" data-original-url="${originalUrl}">
                     Edit Image
