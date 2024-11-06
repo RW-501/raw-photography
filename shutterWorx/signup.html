@@ -106,77 +106,23 @@
    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"></script>
 
 
-    <script>
-        // Membership plans data
-        const membershipPlans = {
-            basic: {
-                name: "Basic Membership",
-                price: "$29/month",
-                yearlyPrice: "$290/year",
-                features: [
-                    "Standard features",
-                    "Standard watermark for photos",
-                    "Customizable Pages (Home, Events, Portfolio, Contact)",
-                    "SEO features to optimize visibility",
-                    "Sell photos online (Powered by Stripe)",
-                    "Transaction logs for tracking sales",
-                    "Access code for private events",
-                    "5 events allowed per month",
-                    "20 images per event",
-                    "Limited customer support"
-                ]
-            },
-            pro: {
-                name: "Pro Membership",
-                price: "$49/month",
-                yearlyPrice: "$490/year",
-                features: [
-                    "All Basic Membership features",
-                    "Customizable watermark for photos",
-                    "Built-in photo editor for quick edits",
-                    "QR code generator for easy event sharing",
-                    "Help Bot for instant support",
-                    "20 events allowed per month",
-                    "50 images per event",
-                    "Priority customer support",
-                    "Exclusive content and features"
-                ]
-            },
-            elite: {
-                name: "Elite Membership",
-                price: "$99/month",
-                yearlyPrice: "$990/year",
-                features: [
-                    "All Basic & Pro Membership features",
-                    "Add unlimited additional pages to your site",
-                    "Advanced event management tools",
-                    "Social media plugins for easy sharing",
-                    "Premium analytics for in-depth performance insights",
-                    "Add multiple users to your account",
-                    "Custom domain setup (coming soon)",
-                    "Unlimited events and unlimited photo uploads",
-                    "24/7 customer support",
-                    "Personalized coaching sessions for growth"
-                ]
-            }
-        };
-
-        // Display membership details based on URL
-        function loadMembershipDetails() {
-            const url = window.location.href;
-            const membershipType = url.split('-')[1] || 'basic';
-            const plan = membershipPlans[membershipType];
-
-            document.getElementById('membership-header').innerText = plan.name;
-            document.getElementById('membership-price').innerText = `Monthly: ${plan.price}`;
-            document.getElementById('membership-yearly-price').innerText = `Yearly: ${plan.yearlyPrice}`;
-            const featuresList = document.getElementById('features-list');
-            featuresList.innerHTML = plan.features.map(feature => `<li>${feature}</li>`).join('');
-        }
-
-        // Load membership plan details on page load
-        document.addEventListener('DOMContentLoaded', loadMembershipDetails);
-    </script>
+   <script>
+   
+   </script>
+   
+   <!-- HTML Structure for displaying membership details and Stripe card element -->
+   <div id="membership-header"></div>
+   <div id="membership-price"></div>
+   <div id="membership-yearly-price"></div>
+   
+   <ul id="features-list"></ul>
+   
+   <form id="payment-form">
+       <div id="card-element"></div>
+       <div id="card-errors" role="alert"></div>
+       <button type="submit">Subscribe Now</button>
+   </form>
+   
 
 
 
@@ -256,7 +202,117 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 
+// Membership plans data
+const membershipPlans = {
+       basic: {
+           name: "Basic Membership",
+           price: "$29/month",
+           yearlyPrice: "$290/year",
+           features: [
+               "Standard features",
+               "Standard watermark for photos",
+               "Customizable Pages (Home, Events, Portfolio, Contact)",
+               "SEO features to optimize visibility",
+               "Sell photos online (Powered by Stripe)",
+               "Transaction logs for tracking sales",
+               "Access code for private events",
+               "5 events allowed per month",
+               "20 images per event",
+               "Limited customer support"
+           ],
+           stripePriceId: 'price_basic_id'  // Replace with actual Stripe price ID
+       },
+       pro: {
+           name: "Pro Membership",
+           price: "$49/month",
+           yearlyPrice: "$490/year",
+           features: [
+               "All Basic Membership features",
+               "Customizable watermark for photos",
+               "Built-in photo editor for quick edits",
+               "QR code generator for easy event sharing",
+               "Help Bot for instant support",
+               "20 events allowed per month",
+               "50 images per event",
+               "Priority customer support",
+               "Exclusive content and features"
+           ],
+           stripePriceId: 'price_pro_id'  // Replace with actual Stripe price ID
+       },
+       elite: {
+           name: "Elite Membership",
+           price: "$99/month",
+           yearlyPrice: "$990/year",
+           features: [
+               "All Basic & Pro Membership features",
+               "Add unlimited additional pages to your site",
+               "Advanced event management tools",
+               "Social media plugins for easy sharing",
+               "Premium analytics for in-depth performance insights",
+               "Add multiple users to your account",
+               "Custom domain setup (coming soon)",
+               "Unlimited events and unlimited photo uploads",
+               "24/7 customer support",
+               "Personalized coaching sessions for growth"
+           ],
+           stripePriceId: 'price_elite_id'  // Replace with actual Stripe price ID
+       }
+   };
+   
+   // Initialize Stripe and Stripe Elements
+   const stripe = Stripe("YOUR_PUBLIC_STRIPE_KEY"); // Replace with your actual Stripe public key
+   const elements = stripe.elements();
+   const cardElement = elements.create('card');
+   
+   // Display membership details based on URL
+   function loadMembershipDetails() {
+       const url = window.location.href;
+       const membershipType = url.split('-')[1] || 'basic'; // Assuming the plan type is in the URL
+       const plan = membershipPlans[membershipType];
+   
+       // Populate the membership details
+       document.getElementById('membership-header').innerText = plan.name;
+       document.getElementById('membership-price').innerText = `Monthly: ${plan.price}`;
+       document.getElementById('membership-yearly-price').innerText = `Yearly: ${plan.yearlyPrice}`;
+       const featuresList = document.getElementById('features-list');
+       featuresList.innerHTML = plan.features.map(feature => `<li>${feature}</li>`).join('');
+       
+       // Mount the Stripe card element for payment
+       cardElement.mount('#card-element');
+       
+       // Handle form submission to create payment
+       const form = document.getElementById('payment-form');
+       form.addEventListener('submit', async (event) => {
+           event.preventDefault();
+           
+           // Create a Stripe payment method
+           const { token, error } = await stripe.createToken(cardElement);
+           
+           if (error) {
+               // Display error message
+               document.getElementById('card-errors').textContent = error.message;
+           } else {
 
+               // Example of sending the token to the backend for processing
+               try {
+                  // Send token to your backend to process the payment
+               
+                  handleAuth(uid, loginMethod, membershipType, token.id, membershipExpire, plan.stripePriceId);
+            // Save email to localStorage
+            localStorage.setItem('admin-Email', userData.email);
+            localStorage.setItem('loggedIn', true);
+
+   
+               } catch (error) {
+                   console.error('Error processing payment:', error);
+                   alert('There was an error processing your payment. Please try again.');
+               }
+           }
+       });
+   }
+   
+   // Initialize the page
+   loadMembershipDetails();
 
 
 
@@ -273,7 +329,7 @@ function updateUserCollection(uid, data) {
 }
 
 // Authentication handler
-function handleAuth(uid,loginMethod,membershipPlan, paid, token, membershipExpire) {
+function handleAuth(uid,loginMethod,membershipType, token, membershipExpire, stripePriceId) {
     window.showLoadingSpinner(false);
 
     authMethod()
@@ -288,9 +344,10 @@ function handleAuth(uid,loginMethod,membershipPlan, paid, token, membershipExpir
                 createdAt: new Date(),
                 loginDevice: navigator.userAgentData?.mobile ? "mobile" : "desktop",
                 loginMethod: loginMethod,
-                membershipPlan: membershipPlan,
+                membershipType: membershipType,
                 membershipExpire: membershipExpire,
-                paymentStatus: paid,
+                paymentStatus: "paid",
+                priceId: stripePriceId,
                 status: "active",
                 stripeToken: token,
                 authMethod: authMethod,
@@ -314,19 +371,6 @@ function handleAuth(uid,loginMethod,membershipPlan, paid, token, membershipExpir
 
 
 
-
-
-// Initialize Firebase and Stripe
-const stripe = Stripe("YOUR_PUBLIC_STRIPE_KEY");
-const elements = stripe.elements();
-const cardElement = elements.create('card');
-cardElement.mount('#card-element');
-
-// Show loading spinner utility
-function showLoadingSpinner(show) {
-    const spinner = document.getElementById('loading-spinner');
-    spinner.style.display = show ? 'block' : 'none';
-}
 
 // Handle Google Sign-Up/Login
 document.getElementById('googleSignupBtn').addEventListener('click', async function () {
@@ -442,57 +486,6 @@ form.addEventListener('submit', async (event) => {
         }
     }
 });
-
-// Backend API call to check if the email exists
-async function checkIfAccountExists(email) {
-    try {
-        const response = await fetch('/check-account', {
-            method: 'POST',
-            body: JSON.stringify({ email: email }),
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
-        const result = await response.json();
-        return result.exists;  // Assuming response has an 'exists' field
-    } catch (err) {
-        console.error('Error checking account:', err);
-        return false;
-    }
-}
-
-// Backend call to check payment status
-async function checkPaymentStatus(uid, signupType) {
-    try {
-        const response = await fetch('/check-payment-status', {
-            method: 'POST',
-            body: JSON.stringify({ uid, signupType }),
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
-        const result = await response.json();
-        if (result.paid) {
-
-  
-            // Make sure authMethod and loginMethod are correctly passed
-            handleAuth(uid, loginMethod, result.plan , result.paid, token, membershipExpire);
-            // Save email to localStorage
-            localStorage.setItem('admin-Email', userData.email);
-            localStorage.setItem('loggedIn', true);
-
-            // Return the user's plan information
-            return true;  // Example response { paid: true, plan: 'premium' }
-        } else {
-            return null;
-        }
-      
-    } catch (err) {
-        console.error('Error checking payment status:', err);
-        return false;
-    }
-}
-
 
 
 
