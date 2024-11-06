@@ -285,11 +285,26 @@ select, input[type="range"], input[type="number"] {
                
             <div class="container-fluid d-flex">
 
+                <div class="container-fluid">
                 <label class="custom-checkbox-container">
-                    <input type="checkbox" id="multipleWaterMark" class="custom-checkbox">
                     <span class="custom-checkbox-label">Enable Multiple Watermarks</span>
                 </label>
-                
+                    <input type="checkbox" id="multipleWaterMark" class="custom-checkbox">
+                 </div>
+
+          <!-- Bold and Underline Toggle Buttons -->
+<div class="container-fluid">
+    <label class="custom-checkbox-container">
+        <span class="custom-checkbox-label">Underline</span>
+    </label>
+        <input type="checkbox" id="toggleUnderline" class="custom-checkbox">
+</div>
+<div class="container-fluid">
+    <label class="custom-checkbox-container">
+        <span class="custom-checkbox-label">Bold</span>
+    </label> 
+        <input type="checkbox" id="toggleBold" class="custom-checkbox">
+     </div>
 
                 <div class="container-fluid">
                 <label for="watermarkColor">Color</label>
@@ -300,6 +315,7 @@ select, input[type="range"], input[type="number"] {
                 <input type="range" id="watermarkOpacity" class="form-control custom-slider" min="0" max="1" step="0.1" value="0.5">
             </div>
 
+            <div class="container-fluid">
             <!-- Add Stroke Width Dropdown -->
 <label for="strokeWidth">Stroke Width:</label>
 <select id="strokeWidth">
@@ -307,10 +323,7 @@ select, input[type="range"], input[type="number"] {
     <option value="2">Medium</option>
     <option value="3">Bold</option>
 </select>
-
-<!-- Bold and Underline Toggle Buttons -->
-<button id="toggleBold">Bold</button>
-<button id="toggleUnderline">Underline</button>
+</div>
 
         </div>
                
@@ -958,6 +971,9 @@ for (let x = 0; x < width + gap; x += gap) {
     }
 
     ctx.restore();
+
+    updateWatermarkPreview();
+
 }
 
 
@@ -986,7 +1002,7 @@ async function processImage(dataURL, file, fileSize, fileType, fileName) {
                 fileSize: fileSize // in bytes
             },
         ];
-
+        
         // Render images
         renderImages(imagesData);
 
@@ -1005,7 +1021,7 @@ document.getElementById("watermarkSettingsBtn").addEventListener("click", () => 
 
 function updateWatermarkPreview() { 
     if (!previewCtx) return;
-console.log("change???????");
+
     // Clear previous preview
     previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
 
@@ -1014,37 +1030,70 @@ console.log("change???????");
     const font = document.getElementById("watermarkFont").value || "Arial Black";
     const fontSize = parseInt(document.getElementById("watermarkSize").value, 10) || 240;
     const color = document.getElementById("watermarkColor").value || "#000";
-    const opacity = Math.min(Math.max(parseFloat(document.getElementById("watermarkOpacity").value) || 0.5, 0), 1); // Bound opacity [0, 1]
+    const opacity = Math.min(Math.max(parseFloat(document.getElementById("watermarkOpacity").value) || 0.5, 0), 1);
     const rotation = parseInt(document.getElementById("watermarkRotation").value, 10) || 0;
-    const watermarkPosY = parseInt(document.getElementById("watermarkPositionY").value, 10) || 95;
-    const watermarkPosX = parseInt(document.getElementById("watermarkPositionX").value, 10) || 160;
+    const isBold = document.getElementById("watermarkBold").checked || false;
+    const isUnderline = document.getElementById("watermarkUnderline").checked || false;
+    const stroke = document.getElementById("watermarkStroke").checked || false;
 
-    // Calculate text dimensions and scaling factor
-    previewCtx.font = `${fontSize}px ${font}`;
-    const textWidth = previewCtx.measureText(text).width;
-    const textArea = textWidth * fontSize;
-    const canvasArea = previewCanvas.width * previewCanvas.height;
+    const width = previewCanvas.width;
+    const height = previewCanvas.height;
 
-    // Set a cap for scale factor to avoid over-scaling
-    const scaleFactor = Math.min(1, Math.sqrt(canvasArea / textArea) * 0.1);
-
-    previewCtx.save(); // Save state before transformations and styles
-
-    // Apply font, color, and opacity
-    previewCtx.fillStyle = color;
+    previewCtx.save();
     previewCtx.globalAlpha = opacity;
+    previewCtx.font = `${isBold ? "bold" : "normal"} ${fontSize}px ${font}`;
+    previewCtx.fillStyle = color;
+    previewCtx.textBaseline = "middle";
+    previewCtx.textAlign = "center";
 
-    // Scale canvas, apply rotation, and set position
-    previewCtx.scale(scaleFactor, scaleFactor);
-    previewCtx.translate(watermarkPosX / scaleFactor, watermarkPosY / scaleFactor);
-    previewCtx.rotate((rotation * Math.PI) / 180);
+    const textWidth = previewCtx.measureText(text).width;
+    const gap = Math.max(textWidth, fontSize) * 1.2;  // Adjust multiplier for spacing
 
-    // Draw the watermark text
-    previewCtx.fillText(text, 0, 0);
+    // Check if multiple watermarks are needed
+    if (document.getElementById('multipleWaterMark').checked) {
+        for (let x = 0; x < width + gap; x += gap) {
+            for (let y = 0; y < height + gap; y += gap) {
+                previewCtx.save();
+                previewCtx.translate(x, y);
+                previewCtx.rotate((rotation * Math.PI) / 180);
 
-    previewCtx.restore(); // Restore state to remove transformations and styles
+                if (stroke) {
+                    previewCtx.lineWidth = 2;
+                    previewCtx.strokeStyle = color;
+                    previewCtx.strokeText(text, 0, 0);
+                }
+                previewCtx.fillText(text, 0, 0);
+
+                previewCtx.restore();
+            }
+        }
+    } else {
+        // Draw a single centered watermark
+        const centerX = width / 2;
+        const centerY = height / 2;
+        previewCtx.translate(centerX, centerY);
+        previewCtx.rotate((rotation * Math.PI) / 180);
+
+        if (stroke) {
+            previewCtx.lineWidth = 2;
+            previewCtx.strokeStyle = color;
+            previewCtx.strokeText(text, 0, 0);
+        }
+        previewCtx.fillText(text, 0, 0);
+    }
+
+    // Underline Effect
+    if (isUnderline) {
+        previewCtx.beginPath();
+        previewCtx.moveTo(centerX - textWidth / 2, centerY + fontSize / 2 + 5);
+        previewCtx.lineTo(centerX + textWidth / 2, centerY + fontSize / 2 + 5);
+        previewCtx.lineWidth = 2;
+        previewCtx.strokeStyle = color;
+        previewCtx.stroke();
+    }
+
+    previewCtx.restore();
 }
-
 
 // Add real-time listeners for all options
 document.getElementById("watermarkText").addEventListener("input", updateWatermarkPreview);
