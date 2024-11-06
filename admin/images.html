@@ -292,7 +292,54 @@ select, input[type="range"], input[type="number"] {
 
 
 
+<style>
 
+  .btn-outline-primary {
+    transition: 0.3s ease;
+  }
+  
+  .btn-outline-primary:hover {
+    background-color: #0d6efd;
+    color: #fff;
+    transform: translateY(-2px);
+  }
+
+  .custom-slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(90deg, #0d6efd 0%, #0d6efd 50%, #ddd 50%);
+    border-radius: 5px;
+    outline: none;
+    transition: background 0.3s ease;
+  }
+
+  .custom-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #0d6efd;
+    cursor: pointer;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
+  }
+
+  .custom-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #0d6efd;
+    cursor: pointer;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
+  }
+
+  #logoImage {
+    max-width: 200px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+</style>
 <!-- Image Editor Modal -->
 <div id="imageEditorModal" class="modal">
     <div class="modal-dialog modal-lg">
@@ -311,17 +358,50 @@ select, input[type="range"], input[type="number"] {
           <div class="container-fluid d-flex">
   
             <!-- Logo Upload Section -->
-            <div class="card shadow-sm mb-4">
-              <div class="card-body editor-controls">
-                <label for="uploadLogo" class="form-label fw-semibold">Upload Logo</label>
-                <input type="file" id="uploadLogo" accept="image/*" class="form-control" />
-                <div class="mt-3">
-                  <label for="logoSize" class="form-label fw-semibold">Logo Size</label>
-                  <input type="range" id="logoSize" min="0.1" max="1" step="0.1" value="0.5" class="form-range" />
+            <div class="card shadow-lg p-4 mb-5 border-0">
+                <div class="card-body text-center">
+                  <!-- Logo Upload Section -->
+                  <label for="uploadLogo" class="form-label fw-bold fs-5">Upload Logo</label>
+                  <div class="d-flex justify-content-center mt-3">
+                    <input type="file" id="uploadLogo" accept="image/*" class="form-control-file visually-hidden" onchange="previewLogo(this)" />
+                    <label for="uploadLogo" class="btn btn-outline-primary px-4 py-2 shadow-sm rounded-pill">
+                      <i class="bi bi-upload me-2"></i>Choose Logo
+                    </label>
+                  </div>
+                  <!-- Logo Preview -->
+                  <div id="logoPreview" class="mt-4">
+                    <img id="logoImage" src="#" alt="Logo Preview" class="img-fluid rounded shadow-sm d-none" />
+                  </div>
+                  <!-- Logo Size Slider -->
+                  <div class="mt-5">
+                    <label for="logoSize" class="form-label fw-bold fs-5">Adjust Logo Size</label>
+                    <div class="d-flex align-items-center">
+                      <span class="small me-2">Small</span>
+                      <input type="range" id="logoSize" min="0.1" max="1" step="0.1" value="0.5" class="form-range custom-slider mx-2" />
+                      <span class="small ms-2">Large</span>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+              
   
+<script>
+    // Show the uploaded logo preview
+    function previewLogo(input) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      
+      reader.onload = function (e) {
+        const logoImage = document.getElementById('logoImage');
+        logoImage.src = e.target.result;
+        logoImage.classList.remove('d-none');
+      };
+      
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    }
+  </script>
             <!-- Filter Options -->
             <div class="card shadow-sm mb-4">
               <div class="card-body">
