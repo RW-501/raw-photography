@@ -123,14 +123,20 @@
        <button type="submit">Subscribe Now</button>
    </form>
    
+<!-- Modal Structure for Success Message -->
+<div id="success-message" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h3>Thank you for subscribing! Your payment was successful.</h3>
+        <button onclick="window.location.href = '/admin/dashboard';">Proceed to Dashboard</button>
+    </div>
+</div>
 
-
-
-<!-- Font Awesome for icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<script  type="module" src="./js/firebaseConfig.js"></script>
 
 <script  type="module" src="./js/main.js"></script>
-<script  type="module" src="./js/firebaseConfig.js"></script>
+      
+
+<script  type="module" src="./js/admin.js"></script>
 
 
 <!-- Include your firebaseConfig.js as a module -->
@@ -263,7 +269,7 @@ const membershipPlans = {
    const stripe = Stripe("YOUR_PUBLIC_STRIPE_KEY"); // Replace with your actual Stripe public key
    const elements = stripe.elements();
    const cardElement = elements.create('card');
-   
+
    // Display membership details based on URL
    function loadMembershipDetails() {
        const url = window.location.href;
@@ -361,7 +367,13 @@ function handleAuth(uid,loginMethod,membershipType, token, membershipExpire, str
 
             updateUserCollection(user.uid, userData);
             showToast("Logged in successfully!", "success");
-            window.location.href = '/admin/dashboard';
+
+            
+            // After successful payment, display the modal and then redirect after 5 seconds
+setTimeout(function() {
+    window.location.href = '/admin/dashboard';
+}, 5000);  // 5000 milliseconds = 5 seconds
+
         })
         .catch(error => showToast(error.message, "error",5000))
         .finally(() => window.hideLoadingSpinner());
@@ -489,6 +501,30 @@ form.addEventListener('submit', async (event) => {
 
 
 
+const paymentForm = document.getElementById("payment-form");
+
+paymentForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const { token, error } = await stripe.createToken(cardElement);
+    if (error) {
+        document.getElementById("card-errors").textContent = error.message;
+    } else {
+        fetch("/process-payment", {
+            method: "POST",
+            body: JSON.stringify({ token: token.id }),
+            headers: { "Content-Type": "application/json" },
+        }).then(response => response.json())
+          .then(data => {
+              if (data.success) {
+                  // Show success message modal
+                  document.getElementById("success-message").style.display = "block";
+              } else {
+                  document.getElementById("card-errors").textContent = "Payment failed!";
+              }
+          });
+    }
+});
 
 
 
