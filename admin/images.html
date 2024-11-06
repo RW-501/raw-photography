@@ -981,7 +981,7 @@ async function renderImages(imagesData) {
 
         // Add an event listener to view the full image on button click
         imgDiv.querySelector("button").addEventListener("click", (event) => {
-            openImageEditor(event.target.getAttribute("data-original-url"));
+            openImageEditor(event.target.getAttribute("data-original-url"),compressedImage);
         });
     });
 }
@@ -1122,12 +1122,12 @@ document.getElementById("openImageEditorBtn").addEventListener("click", () => {
     openImageEditor();
 });
 
-function openImageEditor(image) {
+function openImageEditor(image, compressedImage) {
     document.getElementById("imageEditorModal").style.display = "block";
     canvas = document.getElementById("imageCanvas");
     ctx = canvas.getContext("2d");
 
-    loadImage(image);
+    loadImage(image, compressedImage);
 }
 
 function closeImageEditor() {
@@ -1135,13 +1135,14 @@ function closeImageEditor() {
 }
 
 // Load and draw the original image onto the canvas
-function loadImage(image) {
+function loadImage(image, compressedImage) {
     img = new Image();
-    img.src = image; // Replace with dynamic image source
+    img.src = compressedImage; // Replace with dynamic image source
     img.onload = () => {
         saveToHistory(); // Save the initial state
         redrawCanvas(); // Redraw canvas with loaded image
     };
+    console.log("image type... ",img);
 }
 
 // Add logo to canvas
