@@ -693,9 +693,18 @@ window.restrictKeys = function(event) {
 
 
 
-window.truncateText = (function(text, maxLength, href) {
-  return text.length > maxLength 
-      ? text.substring(0, maxLength) + `... <a href="${href}">See More</a>` 
-      : text;
-});
+window.truncateText = function(text, maxLength, href) {
+  // Check if the text length exceeds maxLength
+  if (text.length > maxLength) {
+      // If href is provided, add the "See More" link
+      if (href) {
+          return text.substring(0, maxLength) + `... <a href="${href}">See More</a>`;
+      } else {
+          // If no href is provided, just add ellipsis
+          return text.substring(0, maxLength) + "...";
+      }
+  }
+  // If text length does not exceed maxLength, return text as is
+  return text;
+};
 

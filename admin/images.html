@@ -966,7 +966,7 @@ async function renderImages(imagesData) {
     const imagePreviewContainer = document.getElementById("imagePreviewContainer");
 
     // Clear previous content
-    imagePreviewContainer.innerHTML = "";
+   // imagePreviewContainer.innerHTML = "";
 
     // Assuming imagesData is an array of image objects
     const imageGalleryContainer = document.getElementById("imageGallery");
@@ -977,7 +977,7 @@ async function renderImages(imagesData) {
     imageCountHeader.classList.add("mb-3", "text-left");
 
     // Clear and add the image count header to the gallery container
-    imageGalleryContainer.innerHTML = "";
+    //imageGalleryContainer.innerHTML = "";
     imageGalleryContainer.appendChild(imageCountHeader);
 
     imagesData.forEach((image, index) => {
@@ -993,7 +993,7 @@ async function renderImages(imagesData) {
             <img src="${compressedImage}" class="card-img-top img-thumbnail" alt="Compressed version of ${fileName}" loading="lazy">
             <div class="card-body">
                 <input type="checkbox" class="select-checkbox" data-set-ref="${index}" aria-label="Select image ${fileName}">
-                <h6 class="card-title">${fileName}</h6>
+                <h6 class="card-title">${truncateText(fileName, 20)}</h6>
                 <p class="card-text">
                     Type: ${fileType} <br>
                     Size: ${(fileSize / 1024).toFixed(2)} KB <br>
@@ -1170,7 +1170,7 @@ function closeImageEditor() {
 // Load and draw the original image onto the canvas
 function loadImage(image, compressedImage) {
     img = new Image();
-    img.src = image; // Replace with dynamic image source
+    img.src = compressedImage; // Replace with dynamic image source
     img.onload = () => {
         saveToHistory(); // Save the initial state
         redrawCanvas(); // Redraw canvas with loaded image
