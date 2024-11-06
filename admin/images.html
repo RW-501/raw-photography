@@ -1645,7 +1645,7 @@ function redo() {
 function redrawCanvas(img) {
     // Check if img is defined
     if (!img) {
-        console.error("Image element is not defined.");
+        console.log("Image element is not defined. redrawCanvas");
         return;
     }
 
@@ -1654,7 +1654,7 @@ function redrawCanvas(img) {
     const ctx = canvas.getContext("2d");
 
     if (!ctx) {
-        console.error("Canvas context is not available.");
+        console.log("Canvas context is not available. redrawCanvas");
         return;
     }
 
@@ -1758,8 +1758,7 @@ document.getElementById("imageUploadArea").addEventListener("click", function() 
 
 
     // Assuming your HTML has an <input> element with id="imageInput"
-document.getElementById("imageInput").addEventListener("change", function(e) {
-    e.preventDefault();
+document.getElementById("imageInput").addEventListener("change", function() {
     handleFiles(this.files);
 });
 
