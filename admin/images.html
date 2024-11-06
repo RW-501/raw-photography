@@ -797,6 +797,9 @@ function updateWatermarkPreview() {
     const opacity = document.getElementById("watermarkOpacity").value;
     const rotation = document.getElementById("watermarkRotation").value || 0;
 
+   const watermarkPosY = document.getElementById("watermarkPositionY").value || 20;
+   const watermarkPosX = document.getElementById("watermarkPositionX").value || 20;
+
     previewCtx.save();
     previewCtx.font = `${fontSize}px ${font}`;
     previewCtx.fillStyle = color;
@@ -816,6 +819,9 @@ document.getElementById("watermarkSize").addEventListener("input", updateWaterma
 document.getElementById("watermarkColor").addEventListener("input", updateWatermarkPreview);
 document.getElementById("watermarkOpacity").addEventListener("input", updateWatermarkPreview);
 document.getElementById("watermarkRotation").addEventListener("input", updateWatermarkPreview);
+
+document.getElementById("watermarkPositionY").addEventListener("input", updateWatermarkPreview);
+document.getElementById("watermarkPositionX").addEventListener("input", updateWatermarkPreview);
 
 
 // Helper function to get coordinates from touch or mouse event
