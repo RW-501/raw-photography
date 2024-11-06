@@ -864,17 +864,22 @@ function startDrag(e) {
     const text = document.getElementById("watermarkText").value || "Your Watermark";
     const textWidth = previewCtx.measureText(text).width;
 
-    isDragging = true;
+    const watermarkPosY = document.getElementById("watermarkPositionY").value || 20;
+   const watermarkPosX = document.getElementById("watermarkPositionX").value || 20;
+
 
     if (
         x >= watermarkPosX &&
         x <= watermarkPosX + textWidth &&
         y >= watermarkPosY - fontSize &&
         y <= watermarkPosY
-    ) {
+        ) {
+        isDragging = true; // Only start dragging if within bounds
         offsetX = x - watermarkPosX;
         offsetY = y - watermarkPosY;
         e.preventDefault(); // Prevents scrolling on touch
+    } else {
+        isDragging = false; // Ensure dragging is false if not within bounds
     }
 }
 
