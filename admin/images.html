@@ -1155,6 +1155,19 @@ function applyWatermarkSettings() {
     showToast("Watermark settings applied!", "success");
 }
 
+// Function to remove .card div with a specific data-set-ref value
+function removeCardByRef(picCount) {
+    // Select all .card elements
+    const cards = document.querySelectorAll('.card');
+
+    // Loop through the cards to find the one with the matching data-set-ref attribute
+    cards.forEach(card => {
+        if (card.getAttribute('data-set-ref') === picCount.toString()) {
+            // Remove the card if the data-set-ref matches picCount
+            card.remove();
+        }
+    });
+}
 
 
 let picCount = 1;
@@ -1217,7 +1230,7 @@ async function renderImages(imagesData) {
             openImageEditor(event.target.getAttribute("data-original-url"));
         });
         imgDiv.querySelector("Edit-Water-Mark").addEventListener("click", (event) => {
-            openImageEditor(event.target.getAttribute("data-original-url"));
+            removeCardByRef(event.target.getAttribute(`data-set-ref=${picCount}`));
         });
     });
 }
