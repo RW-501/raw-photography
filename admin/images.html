@@ -852,7 +852,8 @@ let watermarkSettings = {
         color: "#fff"
     }
 };
-
+let textX = 0;
+let textY = 0;
 // Function to add watermark to an image on canvas
 function addWatermark(ctx, width, height) {
     const { text, font, fontSize, color, opacity, rotation, posX, posY, isBold, isUnderline, shadow, stroke } = watermarkSettings;
@@ -900,8 +901,8 @@ function addWatermark(ctx, width, height) {
 
     for (let i = 0; i < diagonalCount; i++) {
         // Calculate the position for each watermark
-        const textX = i * gap;
-        const textY = i * gap;
+         textX = i * gap;
+         textY = i * gap;
 
         // Apply rotation (make sure it rotates around the center)
         ctx.translate(textX, textY); // Move origin to watermark position
@@ -915,8 +916,8 @@ function addWatermark(ctx, width, height) {
     const centerY = height / 2;
 
     // Adjust position to center the watermark
-    let textX = centerX - textWidth / 2;
-    let textY = centerY + textHeight / 2;  // Adjust Y position to center vertically
+     textX = centerX - textWidth / 2;
+     textY = centerY + textHeight / 2;  // Adjust Y position to center vertically
 
     // Apply rotation (make sure it rotates around the center)
     ctx.translate(centerX, centerY); // Move origin to center of the canvas
