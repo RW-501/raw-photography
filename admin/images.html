@@ -1001,8 +1001,8 @@ function updateWatermarkPreview() {
     const opacity = document.getElementById("watermarkOpacity").value;
     const rotation = document.getElementById("watermarkRotation").value || 0;
 
-   const watermarkPosY = document.getElementById("watermarkPositionY").value || 20;
-   const watermarkPosX = document.getElementById("watermarkPositionX").value || 20;
+   const watermarkPosY = document.getElementById("watermarkPositionY").value || 95;
+   const watermarkPosX = document.getElementById("watermarkPositionX").value || 160;
 
     previewCtx.save();
     previewCtx.font = `${fontSize}px ${font}`;
@@ -1197,8 +1197,11 @@ async function renderImages(imagesData) {
                     Size: ${(fileSize / 1024).toFixed(2)} KB <br>
                     <strong>Image #${picCount}</strong>
                 </p>
-                <button class="btn btn-primary btn-sm mt-2" aria-label="View full image of ${fileName}" data-original-url="${originalUrl}">
+                <button class="btn btn-primary Edit-Image btn-sm mt-2" aria-label="View full image of ${fileName}" data-original-url="${originalUrl}">
                     Edit Image
+                </button>                
+                <button class="btn btn-primary Edit-Water-Mark btn-sm mt-2" aria-label="View full image of ${fileName}" data-original-url="${originalUrl}">
+                    Edit Water Mark
                 </button>
             </div>
         </div>
@@ -1210,8 +1213,11 @@ async function renderImages(imagesData) {
 
 
         // Add an event listener to view the full image on button click
-        imgDiv.querySelector("button").addEventListener("click", (event) => {
-            openImageEditor(event.target.getAttribute("data-original-url"),compressedImage);
+        imgDiv.querySelector("Edit-Image").addEventListener("click", (event) => {
+            openImageEditor(event.target.getAttribute("data-original-url"));
+        });
+        imgDiv.querySelector("Edit-Water-Mark").addEventListener("click", (event) => {
+            openImageEditor(event.target.getAttribute("data-original-url"));
         });
     });
 }
