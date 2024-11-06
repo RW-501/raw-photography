@@ -1156,7 +1156,7 @@ function applyWatermarkSettings() {
 
 
 
-
+let picCount = 0;
 
 // Function to render images
 async function renderImages(imagesData) {
@@ -1170,11 +1170,11 @@ async function renderImages(imagesData) {
 
     // Create a header for the image count
     const imageCountHeader = document.createElement("h5");
-    imageCountHeader.innerText = `Total Images: ${imagesData.length}`;
+    imageCountHeader.innerText = `Total Images: ${picCount = + 1}`;
     imageCountHeader.classList.add("mb-3", "text-left");
 
     // Clear and add the image count header to the gallery container
-    //imageGalleryContainer.innerHTML = "";
+    imageGalleryContainer.innerHTML = "";
     imageGalleryContainer.appendChild(imageCountHeader);
 
     imagesData.forEach((image, index) => {
@@ -1186,7 +1186,7 @@ async function renderImages(imagesData) {
 
     // Set the inner HTML with the image details
     imgDiv.innerHTML = `
-        <div class="card mb-3" aria-label="Image card for ${fileName}" data-set-ref="${index}">
+        <div class="card mb-3" aria-label="Image card for ${fileName}" data-set-ref="${picCount}">
             <img src="${compressedImage}" class="card-img-top img-thumbnail" alt="Compressed version of ${fileName}" loading="lazy">
             <div class="card-body">
                 <input type="checkbox" class="select-checkbox" data-set-ref="${index}" aria-label="Select image ${fileName}">
@@ -1194,7 +1194,7 @@ async function renderImages(imagesData) {
                 <p class="card-text">
                     Type: ${fileType} <br>
                     Size: ${(fileSize / 1024).toFixed(2)} KB <br>
-                    <strong>Image #${index + 1}</strong>
+                    <strong>Image #${index = + 1}</strong>
                 </p>
                 <button class="btn btn-primary btn-sm mt-2" aria-label="View full image of ${fileName}" data-original-url="${originalUrl}">
                     Edit Image
