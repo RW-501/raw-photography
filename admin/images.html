@@ -1182,12 +1182,12 @@ function closeImageEditor() {
 // Load and draw the original image onto the canvas
 function loadImage(image, compressedImage) {
     img = new Image();
-    img.src = compressedImage; // Replace with dynamic image source
+    img.src = image; // Replace with dynamic image source
     img.onload = () => {
         saveToHistory(); // Save the initial state
         redrawCanvas(); // Redraw canvas with loaded image
     };
-    console.log("image type... ",img);
+   // console.log("image type... ",img);
 }
 
 // Add logo to canvas
