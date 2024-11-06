@@ -594,7 +594,7 @@ select, input[type="range"], input[type="number"] {
 
 </body>
     <!-- Include your firebaseConfig.js as a module -->
-    <script defer type="module">
+    <script type="module" defer>
         import {  db, doc,getDoc, query, updateDoc,
     setDoc,     signInWithPopup,
     GoogleAuthProvider,
@@ -673,13 +673,19 @@ let history = []; // Stack for undo/redo functionality
 let redoStack = [];
 
 // Ensure previewCanvas and previewCtx are properly initialized
-const previewCanvas = document.getElementById("watermarkPreviewCanvas");
-const previewCtx = previewCanvas ? previewCanvas.getContext("2d") : null;
+window.addEventListener('DOMContentLoaded', () => {
+    const previewCanvas = document.getElementById("watermarkPreviewCanvas");
+    const previewCtx = previewCanvas ? previewCanvas.getContext("2d") : null;
+    console.log(previewCanvas);
 
-if (!previewCtx) {
-    console.error("Canvas context is not available");
-    return;  // Prevent further operations if the context is not available
-}
+    if (!previewCtx) {
+        console.error("Canvas context is not available");
+        return;  // Prevent further operations if the context is not available
+    }
+
+    // Your canvas drawing code here
+});
+
 
 
 // Variables for tracking drag status
