@@ -692,7 +692,8 @@ let redoStack = [];
 
 // Variables for tracking drag status
 let isDragging = false;
-let offsetX, offsetY;
+let offsetX = 0;
+let offsetY = 0;
 let watermarkPosX = 20; // Default position X
 let watermarkPosY = 20; // Default position Y
 
@@ -873,11 +874,12 @@ function startDrag(e) {
 // Dragging logic for mousemove and touchmove
 function drag(e) {
     if (isDragging) {
+        e.preventDefault(); // Prevents scrolling on touch devices during drag
         const { x, y } = getEventPos(e);
         watermarkPosX = x - offsetX;
         watermarkPosY = y - offsetY;
 
-        console.log("x y drag Working???    ",x, y);
+        console.log("x y drag Working???    ", x, y);
 
         // Update the input fields for X and Y
         document.getElementById("watermarkPositionX").value = Math.round(watermarkPosX);
@@ -889,10 +891,12 @@ function drag(e) {
 }
 
 
+
 // Stop dragging on mouseup or touchend
 function stopDrag() {
     isDragging = false;
 }
+if (previewCanvas) {
 
 // Mouse events
 previewCanvas.addEventListener("mousedown", startDrag);
@@ -900,12 +904,14 @@ previewCanvas.addEventListener("mousemove", drag);
 previewCanvas.addEventListener("mouseup", stopDrag);
 previewCanvas.addEventListener("mouseleave", stopDrag);
 
-// Touch events
-previewCanvas.addEventListener("touchstart", startDrag);
-previewCanvas.addEventListener("touchmove", drag);
-previewCanvas.addEventListener("touchend", stopDrag);
-previewCanvas.addEventListener("touchcancel", stopDrag);
-
+// Touch events with passive: false
+previewCanvas.addEventListener("touchstart", startDrag, { passive: false });
+previewCanvas.addEventListener("touchmove", drag, { passive: false });
+previewCanvas.addEventListener("touchend", stopDrag, { passive: false });
+previewCanvas.addEventListener("touchcancel", stopDrag, { passive: false });
+} else {
+    console.error("Preview canvas is not available.");
+}
 
 // Close watermark settings modal
 function closeWatermarkModal(){
