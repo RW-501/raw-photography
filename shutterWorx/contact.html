@@ -4,12 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/main.css">
-    <title>Contact Us - RAW Photography</title>
+    <title>Contact Us - ShutterWorxs</title>
     <style>
-
-
-
-
         /* Styling for the contact section */
         .contact-section {
             background: #fff; /* White background */
@@ -86,7 +82,6 @@
             transform: scale(1.02); /* Slightly larger on hover */
         }
 
-
         /* Loading spinner styles */
         .spinner {
             display: none; /* Hidden by default */
@@ -156,10 +151,9 @@
 </head>
 <body>
 
-
     <!-- Header -->
     <header id="site-header">
-        <h1 id="header-title">Welcome to My Photography Site</h1>
+        <h1 id="header-title">Welcome to ShutterWorxs</h1>
         <p id="header-subtitle">Capturing Moments, One Click at a Time</p>
     
         <!-- Toggle Button for Collapsible Navigation -->
@@ -171,14 +165,13 @@
     
         <nav id="nav-menu" aria-hidden="true">
             <ul>
-                <li><a href="index">Home</a></li>
-                <li><a href="events">Events</a></li>
-                <li><a href="portfolio">Portfolio</a></li>
-                <li><a href="contact">Contact</a></li>
+                <li><a href="./ShutterWorx">Home</a></li>
+                <li><a href="shutterWorx/join">Join Now</a></li>
+                <li><a href="shutterWorx/FAQ">FAQ</a></li>
+                <li><a href="shutterWorx/contact">Contact</a></li>
             </ul>
         </nav>
     </header>
-    
     
 <main>
     <!-- Main Contact Section -->
@@ -191,7 +184,7 @@
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="text" id="name" name="name" maxlength="50">
+                <input type="email" id="email" name="email" required aria-required="true" aria-label="Your email address">
             </div>
             <div class="form-group">
                 <label for="phone">Phone Number:</label>
@@ -206,10 +199,12 @@
                 <label for="messageType">Message Type:</label>
                 <select id="messageType" name="messageType" aria-label="Type of your message">
                     <option value="general">General Inquiry</option>
-                    <option value="purchase">Photo Purchase Inquiry</option>
-                    <option value="event">Event Booking</option>
-                    <option value="feedback">Feedback</option>
+                    <option value="website-bugs">Website Bugs</option>
+                    <option value="sign-up">Sign-Up Questions</option>
+                    <option value="business">Business Inquiries</option>
+                     <option value="feedback">Feedback</option>
                 </select>
+                
             </div>
             <div class="form-group">
                 <label for="message">Message:</label>
@@ -220,8 +215,18 @@
         <div id="formResponse"></div>
     </section>
 
-  
 
+        <!-- Footer -->
+        <footer id="site-footer">
+            <div class="social-icons">
+                <!-- Social media links dynamically added here -->
+            </div>
+            <footer-body>
+                <p>&copy; 2024 <a href="./shutterWorx/" style="color: #fff;">ShutterWorx</a>/ TechNoob All Rights Reserved.</p>
+                <p><small><a href="privacy" style="color: #fff;">Privacy Policy</a> | <a href="terms" style="color: #fff;">Terms of Service</a></small></p>
+            </footer-body>
+        </footer>
+    
     <!-- Thank You Modal -->
     <div id="thankYouModal" class="modal">
         <div class="modal-content">
@@ -232,30 +237,6 @@
     </div>
 </main>
 
-
-    
-<!-- Footer -->
-<footer id="site-footer" class="footer">
-    <div class="footer-container">
-        <div class="social-icons">
-            <!-- Social media links dynamically added here -->
-            <a href="https://facebook.com" target="_blank" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://instagram.com" target="_blank" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="https://twitter.com" target="_blank" class="social-icon" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-            <a href="https://linkedin.com" target="_blank" class="social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-        </div>
-        <div class="footer-body">
-            <p>&copy; 2024 My Photography Site. All Rights Reserved.</p>
-            <p class="footer-links">
-                <small>
-                    <a href="privacy" class="footer-link">Privacy Policy</a> |
-                    <a href="terms" class="footer-link">Terms of Service</a>
-                </small>
-            </p>
-            <p><a href="admin-login" class="footer-link">Admin Login</a></p>
-        </div>
-    </div>
-</footer>
 
 <!-- Font Awesome for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -280,77 +261,9 @@
     
 
 
-document.getElementById("messageType").addEventListener("change", function () {
-    const form = document.getElementById("contactForm");
-    
-    // Check if "Event Booking" is selected
-    if (this.value === "event") {
-        // Add Budget field if not already present
-        if (!document.getElementById("budget")) {
-            const budgetField = document.createElement("div");
-            budgetField.className = "form-group";
-            budgetField.innerHTML = `
-                <label for="budget">Budget:</label>
-<input type="text" id="budget" name="budget" aria-label="Estimated budget for the event" placeholder="$500" onkeydown="restrictKeys(event)" oninput="updateCurrency(this)">
-            `;
-            form.insertBefore(budgetField, document.getElementById("subject").parentNode);
-        }
-
-        // Add Calendar field if not already present
-        if (!document.getElementById("eventDate")) {
-            const calendarField = document.createElement("div");
-            calendarField.className = "form-group";
-            calendarField.innerHTML = `
-                <label for="eventDate">Event Date:</label>
-                <input type="date" id="eventDate" name="eventDate" aria-label="Select the date for your event" >
-            `;
-            form.insertBefore(calendarField, document.getElementById("subject").parentNode);
-        }
-    } else {
-        // Remove Budget and Calendar fields if they exist
-        const budgetField = document.getElementById("budget");
-        if (budgetField) budgetField.parentNode.remove();
-
-        const calendarField = document.getElementById("eventDate");
-        if (calendarField) calendarField.parentNode.remove();
-    }
-});
 
 
-        // Configuration object for customizing the contact form
-        const formCustomization = {
-            headerTitle: "RAW Photography", // Main title displayed in the header
-            headerSubtitle: "Capturing Moments, One Click at a Time", // Subtitle displayed below the main title
-            contactFormTitle: "Contact Us", // Title of the contact form
-            labels: {
-                name: "Full Name:", // Label for the name input field
-                email: "Email Address:", // Label for the email input field
-                phone: "Contact Number:", // Label for the phone input field
-                subject: "Message Subject:", // Label for the subject input field
-                messageType: "Select Message Type:", // Label for the message type dropdown
-                message: "Your Message:" // Label for the message textarea
-            },
-            buttonLabel: "Submit Inquiry" // Text displayed on the submit button
-        };
-    
-        // Function to customize form elements based on the formCustomization object
-        function customizeForm() {
-            document.getElementById("header-title").innerText = formCustomization.headerTitle; // Set header title
-            document.getElementById("header-subtitle").innerText = formCustomization.headerSubtitle; // Set header subtitle
-            document.getElementById("contactFormTitle").innerText = formCustomization.contactFormTitle; // Set contact form title
-            document.querySelector('label[for="name"]').innerText = formCustomization.labels.name; // Set label for name
-            document.querySelector('label[for="email"]').innerText = formCustomization.labels.email; // Set label for email
-            document.querySelector('label[for="phone"]').innerText = formCustomization.labels.phone; // Set label for phone
-            document.querySelector('label[for="subject"]').innerText = formCustomization.labels.subject; // Set label for subject
-            document.querySelector('label[for="messageType"]').innerText = formCustomization.labels.messageType; // Set label for message type
-            document.querySelector('label[for="message"]').innerText = formCustomization.labels.message; // Set label for message
-            document.querySelector('.btn').innerText = formCustomization.buttonLabel; // Set button label
-        }
-    
-        // Initialize form customization when the page loads
-        window.onload = customizeForm;
-
-
+ 
 
         
 document.addEventListener("DOMContentLoaded", () => {
@@ -430,27 +343,8 @@ document.getElementById("submitButton").innerHTML = "Sending..."; // Show loadin
     const messageType = document.getElementById('messageType').value;
     const message = sanitizeInput(document.getElementById('message').value);
 
-    // Additional fields for "Event Booking"
-    let budget = null;
-    let eventDate = null;
-    if (messageType === "event") {
-        budget = sanitizeInput(document.getElementById('budget')?.value);
-        eventDate = sanitizeInput(document.getElementById('eventDate')?.value);
+ 
 
-        if (!budget || isNaN(budget) || budget < 0) {
-            document.getElementById("formResponse").textContent = 'Please provide a valid budget.';
-            document.getElementById("formResponse").style.color = 'red';
-            window.hideLoadingSpinner();
-            return;
-        }
-
-        if (!eventDate) {
-            document.getElementById("formResponse").textContent = 'Please select a valid event date.';
-            document.getElementById("formResponse").style.color = 'red';
-            window.hideLoadingSpinner();
-            return;
-        }
-    }
 
     // Input validation
     if (!isSafeInput(name) || !isSafeInput(email) || !isSafeInput(phone) || !isSafeInput(subject) || !isSafeInput(message)) {
@@ -469,8 +363,6 @@ document.getElementById("submitButton").innerHTML = "Sending..."; // Show loadin
         subject,
         messageType,
         message,
-        budget: messageType === "event" ? budget : null,
-        eventDate: messageType === "event" ? eventDate : null,
         externalSource,
         internalSource,
         ipAddress: ipAddress,                       // ID of the user or 'guest'
@@ -484,7 +376,7 @@ document.getElementById("submitButton").innerHTML = "Sending..."; // Show loadin
 
     try {
         // Save to Firestore
-        const messagesCollectionRef = collection(db, 'messages');
+        const messagesCollectionRef = collection(db, 'Contact_ShutterWorx');
         await addDoc(messagesCollectionRef, formData);
 
         // Success feedback
@@ -555,7 +447,7 @@ window.onclick = function(event) {
     console.log("viewData   ",viewData);
 
     // Update or create the job view data in the Jobs collection
-    setDoc(doc(db, 'guest', ipAddress), viewData, { merge: true });
+    setDoc(doc(db, 'guest-ShutterWorx', ipAddress), viewData, { merge: true });
       //  console.log("Job view data updated successfully.");
  
 }
@@ -584,6 +476,6 @@ setTimeout(() => {
 
 </script>
 
-
 </body>
 </html>
+
