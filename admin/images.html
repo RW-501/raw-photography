@@ -299,6 +299,19 @@ select, input[type="range"], input[type="number"] {
                 <label for="watermarkOpacity">Opacity</label>
                 <input type="range" id="watermarkOpacity" class="form-control custom-slider" min="0" max="1" step="0.1" value="0.5">
             </div>
+
+            <!-- Add Stroke Width Dropdown -->
+<label for="strokeWidth">Stroke Width:</label>
+<select id="strokeWidth">
+    <option value="1">Thin</option>
+    <option value="2">Medium</option>
+    <option value="3">Bold</option>
+</select>
+
+<!-- Bold and Underline Toggle Buttons -->
+<button id="toggleBold">Bold</button>
+<button id="toggleUnderline">Underline</button>
+
         </div>
                
                <div class="container-fluid d-flex">
@@ -854,9 +867,25 @@ let watermarkSettings = {
 };
 let textX = 0;
 let textY = 0;
+// Update watermark settings with new elements
+document.getElementById("strokeWidth").addEventListener("change", (e) => {
+    watermarkSettings.stroke.width = parseInt(e.target.value);
+    updateWatermarkPreview();
+});
+
+document.getElementById("toggleBold").addEventListener("click", () => {
+    watermarkSettings.isBold = !watermarkSettings.isBold;
+    updateWatermarkPreview();
+});
+
+document.getElementById("toggleUnderline").addEventListener("click", () => {
+    watermarkSettings.isUnderline = !watermarkSettings.isUnderline;
+    updateWatermarkPreview();
+});
+
 // Function to add watermark to an image on canvas
 function addWatermark(ctx, width, height) {
-    const { text, font, fontSize, color, opacity, rotation, posX, posY, isBold, isUnderline, shadow, stroke } = watermarkSettings;
+    const { text, font, fontSize, color, opacity, rotation, isBold, isUnderline, shadow, stroke } = watermarkSettings;
 
     if (text === "Your Watermark") {
         showToast("Create a Watermark");
@@ -865,14 +894,12 @@ function addWatermark(ctx, width, height) {
     }
 
     ctx.save();
-
-    // Apply bold style if isBold is true
     const fontStyle = isBold ? "bold" : "normal";
     ctx.font = `${fontStyle} ${fontSize}px ${font}`;
     ctx.fillStyle = color;
     ctx.globalAlpha = opacity;
 
-    // Apply shadow effect if defined
+    // Apply shadow if defined
     if (shadow) {
         ctx.shadowOffsetX = shadow.offsetX;
         ctx.shadowOffsetY = shadow.offsetY;
@@ -880,70 +907,54 @@ function addWatermark(ctx, width, height) {
         ctx.shadowColor = shadow.color;
     }
 
-    // Apply stroke effect if defined
+    // Apply stroke settings
     if (stroke) {
         ctx.lineWidth = stroke.width;
         ctx.strokeStyle = stroke.color;
-        ctx.lineJoin = "round";  // Ensures rounded corners for strokes
+        ctx.lineJoin = "round";
     }
 
-    // Calculate text width and height
     const textWidth = ctx.measureText(text).width;
     const textHeight = fontSize;
 
-    let multiple = document.getElementById('multipleWaterMark').checked;
+    // Check if multiple watermarks are needed
+    if (document.getElementById('multipleWaterMark').checked) {
+        const gap = textWidth * 1.5;
 
-    if(multiple){
+        for (let x = 0; x < width; x += gap) {
+            for (let y = 0; y < height; y += gap) {
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate((rotation * Math.PI) / 180);
 
-    // Loop to add watermarks from top-left to bottom-right
-    const diagonalCount = Math.floor(width / textWidth);  // Estimate the number of watermarks
-    const gap = textWidth * 1.5;  // Set the gap between watermarks
+                if (stroke) ctx.strokeText(text, 0, 0);
+                ctx.fillText(text, 0, 0);
+                ctx.restore();
+            }
+        }
+    } else {
+        const centerX = width / 2;
+        const centerY = height / 2;
+        ctx.translate(centerX, centerY);
+        ctx.rotate((rotation * Math.PI) / 180);
 
-    for (let i = 0; i < diagonalCount; i++) {
-        // Calculate the position for each watermark
-         textX = i * gap;
-         textY = i * gap;
-
-        // Apply rotation (make sure it rotates around the center)
-        ctx.translate(textX, textY); // Move origin to watermark position
-        ctx.rotate((rotation * Math.PI) / 180); // Rotate by the specified angle
-        ctx.translate(-textX, -textY); // Move the origin back to the top-left corner
-
+        if (stroke) ctx.strokeText(text, -textWidth / 2, textHeight / 2);
+        ctx.fillText(text, -textWidth / 2, textHeight / 2);
     }
-}else{
-    // Calculate the center of the image
-    const centerX = width / 2;
-    const centerY = height / 2;
 
-    // Adjust position to center the watermark
-     textX = centerX - textWidth / 2;
-     textY = centerY + textHeight / 2;  // Adjust Y position to center vertically
-
-    // Apply rotation (make sure it rotates around the center)
-    ctx.translate(centerX, centerY); // Move origin to center of the canvas
-    ctx.rotate((rotation * Math.PI) / 180); // Rotate by the specified angle
-    ctx.translate(-centerX, -centerY); // Move the origin back to the top-left corner
-}
-
-    // Draw the text with stroke and fill
-    if (stroke) {
-        ctx.strokeText(text, textX, textY);  // Draw text outline
-    }
-    ctx.fillText(text, textX, textY);  // Draw the watermark text
-
-    // Optional: Underline effect
+    // Underline Effect
     if (isUnderline) {
-        const underlineHeight = 2;  // Thickness of the underline
         ctx.beginPath();
-        ctx.moveTo(textX, textY + 2);  // Start the line below the text
-        ctx.lineTo(textX + textWidth, textY + 2);  // End the line
-        ctx.lineWidth = underlineHeight;
-        ctx.strokeStyle = color;  // Underline with same color
+        ctx.moveTo(textX, textY + 2);
+        ctx.lineTo(textX + textWidth, textY + 2);
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = color;
         ctx.stroke();
     }
 
     ctx.restore();
 }
+
 
 
 
@@ -986,58 +997,62 @@ document.getElementById("watermarkSettingsBtn").addEventListener("click", () => 
     document.getElementById("watermarkSettingsModal").style.display = "block";
 });
 
-// Function to update watermark preview in real-time
-function updateWatermarkPreview() {
-    if (!previewCtx) return;  // Avoid calling if the context is not available
+
+function updateWatermarkPreview() { 
+    if (!previewCtx) return;
 
     // Clear previous preview
     previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
 
-    // Set watermark settings
+    // Fetch and validate watermark settings
     const text = document.getElementById("watermarkText").value || "Your Watermark";
-    const font = document.getElementById("watermarkFont").value;
-    const fontSize = document.getElementById("watermarkSize").value || 20;
-    const color = document.getElementById("watermarkColor").value;
-    const opacity = document.getElementById("watermarkOpacity").value;
-    const rotation = document.getElementById("watermarkRotation").value || 0;
+    const font = document.getElementById("watermarkFont").value || "Arial Black";
+    const fontSize = parseInt(document.getElementById("watermarkSize").value, 10) || 50;
+    const color = document.getElementById("watermarkColor").value || "#000";
+    const opacity = Math.min(Math.max(parseFloat(document.getElementById("watermarkOpacity").value) || 0.5, 0), 1); // Bound opacity [0, 1]
+    const rotation = parseInt(document.getElementById("watermarkRotation").value, 10) || 0;
+    const watermarkPosY = parseInt(document.getElementById("watermarkPositionY").value, 10) || 95;
+    const watermarkPosX = parseInt(document.getElementById("watermarkPositionX").value, 10) || 160;
 
-   const watermarkPosY = document.getElementById("watermarkPositionY").value || 95;
-   const watermarkPosX = document.getElementById("watermarkPositionX").value || 160;
+    // Calculate text dimensions and scaling factor
+    previewCtx.font = `${fontSize}px ${font}`;
+    const textWidth = previewCtx.measureText(text).width;
+    const textArea = textWidth * fontSize;
+    const canvasArea = previewCanvas.width * previewCanvas.height;
 
-    previewCtx.save();
+    // Set a cap for scale factor to avoid over-scaling
+    const scaleFactor = Math.min(1, Math.sqrt(canvasArea / textArea) * 0.1);
+
+    previewCtx.save(); // Save state before transformations and styles
+
+    // Apply font, color, and opacity
     previewCtx.font = `${fontSize}px ${font}`;
     previewCtx.fillStyle = color;
     previewCtx.globalAlpha = opacity;
 
-    // Apply rotation and position
-    previewCtx.translate(watermarkPosX, watermarkPosY);
+    // Scale canvas, apply rotation, and set position
+    previewCtx.scale(scaleFactor, scaleFactor);
+    previewCtx.translate(watermarkPosX / scaleFactor, watermarkPosY / scaleFactor);
     previewCtx.rotate((rotation * Math.PI) / 180);
-    previewCtx.fillText(text, 0, 0); // Draw watermark text
-    previewCtx.restore();
+
+    // Draw the watermark text
+    previewCtx.fillText(text, 0, 0);
+
+    previewCtx.restore(); // Restore state to remove transformations and styles
 }
 
-// Event listeners for real-time update of watermark settings
+
+// Add real-time listeners for all options
 document.getElementById("watermarkText").addEventListener("input", updateWatermarkPreview);
 document.getElementById("watermarkFont").addEventListener("change", updateWatermarkPreview);
 document.getElementById("watermarkSize").addEventListener("input", updateWatermarkPreview);
 document.getElementById("watermarkColor").addEventListener("input", updateWatermarkPreview);
 document.getElementById("watermarkOpacity").addEventListener("input", updateWatermarkPreview);
 document.getElementById("watermarkRotation").addEventListener("input", updateWatermarkPreview);
-
 document.getElementById("watermarkPositionY").addEventListener("input", updateWatermarkPreview);
 document.getElementById("watermarkPositionX").addEventListener("input", updateWatermarkPreview);
+document.getElementById("multipleWaterMark").addEventListener("change", updateWatermarkPreview);
 
-
-// Helper function to get coordinates from touch or mouse event
-function getEventPos(event) {
-    if (event.touches) {
-        // For touch event
-        return { x: event.touches[0].clientX, y: event.touches[0].clientY };
-    } else {
-        // For mouse event
-        return { x: event.clientX, y: event.clientY };
-    }
-}
 
 // Start dragging on mousedown or touchstart
 function startDrag(e) {
@@ -1045,19 +1060,19 @@ function startDrag(e) {
     console.log("x y startDrag Working???    ",x, y);
 
     // Calculate offset based on current watermark position
-    const fontSize = parseInt(document.getElementById("watermarkSize").value) || 20;
+    const fontSize = parseInt(document.getElementById("watermarkSize").value) || 50;
     previewCtx.font = `${fontSize}px ${document.getElementById("watermarkFont").value}`;
     const text = document.getElementById("watermarkText").value || "Your Watermark";
     const textWidth = previewCtx.measureText(text).width;
 
-    const watermarkPosY = document.getElementById("watermarkPositionY").value || 95;
-   const watermarkPosX = document.getElementById("watermarkPositionX").value || 160;
+    const watermarkPosY = parseInt(document.getElementById("watermarkPositionY").value, 10) || 95;
+    const watermarkPosX = parseInt(document.getElementById("watermarkPositionX").value, 10) || 160;
 
 
     if (
         x >= watermarkPosX &&
-        x <= watermarkPosX + textWidth &&
-        y >= watermarkPosY - fontSize &&
+        x <= watermarkPosX + textWidth * 10 &&
+        y >= watermarkPosY - fontSize * 10 &&
         y <= watermarkPosY
         ) {
         isDragging = true; // Only start dragging if within bounds
@@ -1114,7 +1129,7 @@ previewCanvas.addEventListener("touchcancel", stopDrag, { passive: false });
 // Close watermark settings modal
 function closeWatermarkModal(){
     document.getElementById("watermarkSettingsModal").style.display = "none";
-    applyWatermarkSettings();
+    saveWatermarkSettings();
 }
 
 document.getElementById("closeWatermarkX").addEventListener("click", () => {
@@ -1132,7 +1147,7 @@ function applyWatermarkSettings() {
 
     const text = document.getElementById("watermarkText").value || "Your Watermark";
     const font = document.getElementById("watermarkFont").value;
-    const fontSize = document.getElementById("watermarkSize").value || 20;
+    const fontSize = document.getElementById("watermarkSize").value || 50;
     const color = document.getElementById("watermarkColor").value;
     const opacity = document.getElementById("watermarkOpacity").value;
     const rotation = document.getElementById("watermarkRotation").value || 0;
@@ -1151,7 +1166,7 @@ function applyWatermarkSettings() {
         posY
     };
 
-    
+    closeWatermarkModal();
     showToast("Watermark settings applied!", "success");
 }
 
@@ -1816,10 +1831,10 @@ document.querySelectorAll("#watermarkSettingsModal input[type='range'], #waterma
 });
 
 // Load settings when the modal is shown
-document.querySelector("#watermarkSettingsModal").addEventListener("shown.bs.modal", loadWatermarkSettings);
+//document.querySelector("#watermarkSettingsModal").addEventListener("shown.bs.modal", loadWatermarkSettings);
 
 // Optionally, you could also load the settings when the page is loaded
-//document.addEventListener("DOMContentLoaded", loadWatermarkSettings);
+document.addEventListener("DOMContentLoaded", loadWatermarkSettings);
 
 
 
