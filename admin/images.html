@@ -627,16 +627,9 @@ select, input[type="range"], input[type="number"] {
 
 
     const previewCanvas = document.getElementById("watermarkPreviewCanvas");
-    const previewCtx = previewCanvas ? previewCanvas.getContext("2d") : null;
+    const previewCtx = previewCanvas.getContext("2d");
+
     console.log(previewCanvas);
-
-    if (!previewCtx) {
-         previewCanvas = document.getElementById("watermarkPreviewCanvas");
-         previewCtx = previewCanvas.getContext("2d");
-    }
-
-    // Your canvas drawing code here
-;
 
 
         let selectedImages = [];
@@ -1322,14 +1315,34 @@ function redo() {
 
 // Redraw the canvas with the current image and logo
 function redrawCanvas() {
-    canvas = document.createElement("canvas");
+    // Create a new canvas and get its context
+    const canvas = document.createElement("canvas"); // local to the function
+    const ctx = canvas.getContext("2d");
+
+    if (!ctx) {
+        console.error("Canvas context is not available.");
+        return;
+    }
+
+    // Set the canvas size if needed
+    canvas.width = img.width;
+    canvas.height = img.height;
+
+    // Clear the canvas and apply the filter and image
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.filter = filterEffect; // Apply filter
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-    drawLogo(); // Draw logo on top
-    ctx.filter = "none"; // Reset filter
-    saveToHistory(); // Save the state after redraw
+
+    // Draw logo on top, if necessary
+    drawLogo();
+
+    // Reset the filter after drawing
+    ctx.filter = "none";
+
+    // Save the current state after redraw
+    saveToHistory();
 }
+
 
 // Dynamic cropping functionality
 function cropImage() {
