@@ -864,13 +864,14 @@ function startDrag(e) {
     const text = document.getElementById("watermarkText").value || "Your Watermark";
     const textWidth = previewCtx.measureText(text).width;
 
+    isDragging = true;
+
     if (
         x >= watermarkPosX &&
         x <= watermarkPosX + textWidth &&
         y >= watermarkPosY - fontSize &&
         y <= watermarkPosY
     ) {
-        isDragging = true;
         offsetX = x - watermarkPosX;
         offsetY = y - watermarkPosY;
         e.preventDefault(); // Prevents scrolling on touch
