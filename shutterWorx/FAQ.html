@@ -329,7 +329,7 @@ function displayFaqs(faqData, limit = displayedFaqs) {
          plus.innerHTML = `<span class="faq-icon">+</span>`;
 
   
-        let question = document.createElement("h3");
+         const question = document.createElement("h3");
         question.innerHTML = faq.question;
         question.setAttribute("aria-expanded", "false");
         question.setAttribute("aria-controls", `question-${faqCount}`);
@@ -337,7 +337,7 @@ function displayFaqs(faqData, limit = displayedFaqs) {
 
       
         const faqItemOuter = document.createElement("div");
-       faqItemOuter.innerHTML = question += plus;
+       faqItemOuter.innerHTML = question , plus;
 
 
        faqItemOuter.addEventListener("click", () => {
