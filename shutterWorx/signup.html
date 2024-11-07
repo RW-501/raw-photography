@@ -94,7 +94,7 @@
             <!-- Social media links dynamically added here -->
         </div>
         <footer-body>
-            <p>&copy; 2024 <a href="./shutterWorx/" style="color: #fff;">ShutterWorx</a>/ TechNoob All Rights Reserved.</p>
+            <p>&copy; 2024 <a href="../shutterWorx/" style="color: #fff;">ShutterWorx</a>/ TechNoob All Rights Reserved.</p>
             <p><small><a href="privacy" style="color: #fff;">Privacy Policy</a> | <a href="terms" style="color: #fff;">Terms of Service</a></small></p>
         </footer-body>
     </footer>
@@ -127,20 +127,20 @@
 <div id="success-message" class="modal" style="display: none;">
     <div class="modal-content">
         <h3>Thank you for subscribing! Your payment was successful.</h3>
-        <button onclick="window.location.href = '/admin/dashboard';">Proceed to Dashboard</button>
+        <button onclick="window.location.href = '../admin/dashboard';">Proceed to Dashboard</button>
     </div>
 </div>
 
-<script  type="module" src="./js/firebaseConfig.js"></script>
+<script  type="module" src="../js/firebaseConfig.js"></script>
 
-<script  type="module" src="./js/main.js"></script>
+<script  type="module" src="../js/main.js"></script>
       
 
-<script  type="module" src="./js/admin.js"></script>
+<script  type="module" src="../js/admin.js"></script>
 
 
 <!-- Include your firebaseConfig.js as a module -->
-<script  type="module" src="./js/firebaseConfig.js"></script>
+<script  type="module" src="../js/firebaseConfig.js"></script>
     <script type="module">
         import { 
             db, 
@@ -165,7 +165,7 @@
             collection, 
             auth, 
             analytics 
-        } from './js/firebaseConfig.js';
+        } from '../js/firebaseConfig.js';
 
 
         let viewStartTime;
@@ -266,7 +266,7 @@ const membershipPlans = {
    };
    
    // Initialize Stripe and Stripe Elements
-   const stripe = Stripe("YOUR_PUBLIC_STRIPE_KEY"); // Replace with your actual Stripe public key
+   const stripe = Stripe("pk_live_51QIGyxB3LWqJVTh8iPTm4FV35i2RaReTfxHpObRosLQvcY5c4s1OnycqCMey0E6sktd7h0dyk2ONdHEieWdv04OD00F70ieHkc"); // Replace with your actual Stripe public key
    const elements = stripe.elements();
    const cardElement = elements.create('card');
 
