@@ -218,10 +218,21 @@ main {
         }
     }
     .join-button {
-        animation: heroGradientAnimation 20s ease-in-out infinite;
-        transition: background 0.3s ease;
+        animation: btnGradientAnimation 20s ease-in-out infinite;
+        transition: background cubic-bezier(0.6, -0.28, 0.735, 0.045) ease;
 
     }
+
+    @keyframes btnGradientAnimation {
+        0%, 100% {
+            background: linear-gradient(90deg, #2f22df, #5a4aecfc);
+        }
+        50% {
+            background: linear-gradient(90deg, #1146cb, #2575fc);
+        }
+    }
+
+
 .join-button:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 16px rgb(41 9 244 / 8%);
