@@ -326,12 +326,11 @@ answer.classList.add("faq-answer", "fade-in");
 
 // Create the icon element
 const plus = document.createElement("span");
-plus.classList.add("faq-icon");
-plus.innerHTML = "+"; // Start with plus
+plus.textContent =  `<span class="faq-icon">+</span>`;  // Change the icon text
 
 // Create the question element
 const question = document.createElement("h3");
-question.innerHTML = faq.question;
+question.textContent = faq.question;
 question.setAttribute("aria-expanded", "false");
 question.classList.add("faq-question");
 
@@ -339,6 +338,7 @@ question.classList.add("faq-question");
 const faqItemOuter = document.createElement("span");
 faqItemOuter.appendChild(question);
 faqItemOuter.appendChild(plus); // Append the icon to the same span
+faqItemOuter.style.display = isExpanded ? "block" : "none"; // Toggle visibility
 
 faqItem.classList.add("faq-item", "fade-in");
 
@@ -356,7 +356,7 @@ faqItemOuter.addEventListener("click", () => {
     answer.style.display = isExpanded ? "block" : "none"; // Toggle visibility
 
     // Toggle the icon between plus and minus
-    plus.innerHTML = isExpanded ? "-" : "+";
+    icon.innerHTML = isExpanded ? `<span class="faq-icon">-</span>` : `<span class="faq-icon">+</span>`;  // Change the icon text
 });
 
 // Append elements to the FAQ item
