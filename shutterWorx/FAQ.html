@@ -306,7 +306,10 @@ document.getElementById("faq-search").addEventListener("input", function () {
             const question = item.querySelector("h3");
             const answer = item.querySelector("p");
             question.innerHTML = highlightText(item.querySelector("h3").textContent, query);  // Highlight in question
-                answer.innerHTML = highlightText(item.querySelector("p").textContent, query);  // Highlight in answer
+                answer.innerHTML = highlightText(item.querySelector("p").textContent, query); 
+                const isExpanded = faqItem.classList.toggle("active");
+                question.innerHTML = + isExpanded ? `<span class="faq-icon">-</span>` : `<span class="faq-icon">+</span>`;  // Change the icon text
+                // Highlight in answer
             });
     }
 });
