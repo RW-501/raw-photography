@@ -311,11 +311,17 @@ function displayFaqs(faqData, limit = displayedFaqs) {
         answer.id = `answer-${faqCount}`;
         answer.setAttribute("aria-hidden", "true");
         answer.style.display = "none";  // Start hidden
+        answer.setAttribute("aria-controls", `answer-${faqCount}`);
+        answer.classList.add( "faq-answer"); 
+        answer.classList.add( "fade-in");
 
         const question = document.createElement("h3");
         question.innerHTML = faq.question + `<span class="faq-icon">+</span>`;
         question.setAttribute("aria-expanded", "false");
-        question.setAttribute("aria-controls", `answer-${faqCount}`);
+        question.setAttribute("aria-controls", `question-${faqCount}`);
+        question.classList.add( "faq-question"); 
+
+
 
         question.addEventListener("click", () => {
     const isLoaded = answer.getAttribute("data-loaded") === "true";
@@ -380,13 +386,15 @@ document.getElementById("faq-search").addEventListener("input", function () {
 
     faqItems.forEach((faq, index) => {
     const question = faq.querySelector(".faq-question");
+    console.log("1 faq    ",faq);
+
     const answer = faq.querySelector(".faq-answer");
 
-        console.log("faq    ",faq);
+        console.log("2 faq    ",faq);
         console.log("question    ",question);
   
 
-return;
+
         if (question.includes(searchQuery) || answer.includes(searchQuery)) {
             hasResults = true;
             const faqItem = document.createElement("div");
