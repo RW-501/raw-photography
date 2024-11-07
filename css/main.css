@@ -219,7 +219,7 @@ main {
     }
 
 
-    hero {
+    .hero {
         animation: heroGradientAnimation 12s ease-in-out infinite;
         margin: 2rem 0;
         text-align: center;
