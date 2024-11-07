@@ -241,366 +241,134 @@ const faqSnapshot = await getDocs(faqsRef);
 const faqs = faqSnapshot.docs.map(doc => doc.data());
 displayFaqs(faqs);
 */
+document.addEventListener("DOMContentLoaded", function () {
+    const faqsPerPage = 10;
+    const topicsContainer = document.getElementById("topics-container");
+    const faqItemsContainer = document.getElementById("faq-items");
+    const topicFilter = document.getElementById("faq-topic-filter");
+    let displayedFaqs = faqsPerPage;
+    let faqs = [];
+    let filteredFaqs = [];
 
-
-    document.addEventListener("DOMContentLoaded", function () {
-
-
-        const faqsPerPage = 10; // Initial number of FAQs to display
-
-const topicsContainer = document.getElementById("topics-container");
-        let faqItemsContainer = document.getElementById("faq-items");
-
-        const topicFilter = document.getElementById("faq-topic-filter");
-      // let  faqItemsContainer = document.getElementById("faq-items-container");
-
-let displayedFaqs = faqsPerPage;
-
-let faqs = []; 
-let  filteredFaqs = [];
-
-    // Fetch FAQ data from the JSON file
+    // Fetch FAQ data from JSON file
     fetch('faqs.json')
         .then(response => response.json())
         .then(FAQs => {
-            faqs = FAQs
+            faqs = FAQs;
             displayFaqs(faqs);
 
-            // Filter FAQs when a topic is selected
+            // Filter FAQs by topic
             topicFilter.addEventListener("change", (e) => {
                 const selectedTopic = e.target.value;
-                 filteredFaqs = selectedTopic ? faqs.filter(faq => faq.topic === selectedTopic) : faqs;
+                filteredFaqs = selectedTopic ? faqs.filter(faq => faq.topic === selectedTopic) : faqs;
                 displayFaqs(filteredFaqs);
-                console.log("filteredFaqs topicFilter   ",filteredFaqs);
             });
-
         })
         .catch(error => {
-    console.error("Error fetching FAQ data:", error);
-    faqItemsContainer.innerHTML = "<p>Sorry, we're unable to load the FAQs at the moment.</p>";
-});
+            console.error("Error fetching FAQ data:", error);
+            faqItemsContainer.innerHTML = "<p>Sorry, we're unable to load the FAQs at the moment.</p>";
+        });
 
+    // Load more button setup
+    const loadMoreBtn = document.createElement("button");
+    loadMoreBtn.textContent = "Load More";
+    loadMoreBtn.className = "load-more";
+    loadMoreBtn.style.display = "none";
+    faqItemsContainer.after(loadMoreBtn);
 
-const loadMoreBtn = document.createElement("button");
-loadMoreBtn.textContent = "Load More";
-loadMoreBtn.className = "load-more";
-loadMoreBtn.style.display = "none";
-faqItemsContainer.after(loadMoreBtn);
+    loadMoreBtn.addEventListener("click", () => {
+        displayedFaqs += faqsPerPage;
+        displayFaqs(filteredFaqs.length ? filteredFaqs : faqs, displayedFaqs);
+    });
 
-   // Load more FAQs when the button is clicked
-   loadMoreBtn.addEventListener("click", () => {
-displayedFaqs += faqsPerPage;
-displayFaqs(faqs, displayedFaqs);
+    // Function to display FAQs with a limit
+    function displayFaqs(faqData, limit = displayedFaqs) {
+        faqItemsContainer.innerHTML = ""; // Clear existing FAQs
 
-});
+        // Ensure faqData is an array
+        if (!Array.isArray(faqData)) return;
 
-
-        // Function to display FAQs with optional limit
-// Function to display FAQs with optional limit
-function displayFaqs(faqData, limit = displayedFaqs) {
-    faqItemsContainer.innerHTML = ""; // Clear current FAQs
-    if (Array.isArray(faqData)) {
-       // console.log("faqData is an array");
-    }else{
-        console.log("NO Arrays");
-      //  faqData = faqs;
-
-        return;
-    }
-
-    // Display FAQs based on limit
-    let faqCount = 0;
-    faqData.slice(0, limit).forEach(faq => {
-        const faqItem = document.createElement("div");
-        faqItem.className = "faq-item";
-        faqCount += 1;
-
-// Create the answer element
-const answer = document.createElement("p");
-answer.textContent = faq.answer;
-answer.setAttribute("data-loaded", "false");
-answer.id = `answer-${faqCount}`;
-answer.setAttribute("aria-hidden", "true");
-answer.style.display = "none"; // Start hidden
-answer.classList.add("faq-answer", "fade-in");
-
-// Create the icon element
-const plus = document.createElement("span");
-plus.textContent =  `<span class="faq-icon">+</span>`;  // Change the icon text
-
-// Create the question element
-const question = document.createElement("h3");
-question.textContent = faq.question;
-question.setAttribute("aria-expanded", "false");
-question.classList.add("faq-question");
-
-// Wrap question and icon together in `faqItemOuter`
-const faqItemOuter = document.createElement("span");
-faqItemOuter.appendChild(question);
-faqItemOuter.appendChild(plus); // Append the icon to the same span
-faqItemOuter.style.display = "block";
-
-faqItem.classList.add("faq-item", "fade-in");
-
-// Event listener to expand/collapse answer on click
-faqItemOuter.addEventListener("click", () => {
-    const isLoaded = answer.getAttribute("data-loaded") === "true";
-    if (!isLoaded) {
-        answer.textContent = faq.answer; // Load answer content only once
-        answer.setAttribute("data-loaded", "true");
-    }
-
-    const isExpanded = faqItem.classList.toggle("active");
-    question.setAttribute("aria-expanded", isExpanded.toString());
-    answer.setAttribute("aria-hidden", (!isExpanded).toString());
-    answer.style.display = isExpanded ? "block" : "none"; // Toggle visibility
-
-    // Toggle the icon between plus and minus
-    icon.innerHTML = isExpanded ? `<span class="faq-icon">-</span>` : `<span class="faq-icon">+</span>`;  // Change the icon text
-});
-
-// Append elements to the FAQ item
-faqItem.appendChild(faqItemOuter);
-faqItem.appendChild(answer);
-faqItemsContainer.appendChild(faqItem);
-
-// Apply fade-in animation after rendering
-setTimeout(() => {
-    faqItem.classList.remove("fade-in");
-}, 1000);
-
-});
-
-    loadMoreBtn.style.display = faqs.length > displayedFaqs ? "block" : "none";
-    
-    
-    if (Array.isArray(faqData)) {
-     //   console.log("faqData    ",faqData);
-
-    displayRandomFaqs(faqData)
-    }
-
-    // Show or hide the Load More button
-   // loadMoreBtn.style.display = faqData.length > limit ? "block" : "none";
-}
-
-
-
-
-document.getElementById("faq-search").addEventListener("input", function () {
-    const searchQuery = this.value.toLowerCase();
-    let hasResults = false;
-    const searchRegex = new RegExp(searchQuery, "gi");
-
-    /*
-    const searchRegex = new RegExp(searchQuery, "gi");
-    const faqItems = document.querySelectorAll(".faq-item");
-
-    faqItemsContainer.innerHTML = ""; // Clear the container before displaying results
-
-    faqItems.forEach((faq) => {
-        //const question = faq.querySelector(".faq-question")?.innerText || '';
-        //const answer = faq.querySelector(".faq-answer")?.innerText || '';
-
-
-        console.log("searchQuery    ",searchQuery);
-
-        const question = faq.querySelector(".faq-question");
-        const answer = faq.querySelector(".faq-answer");
-        console.log("question    ",question);
-        console.log("answer    ",answer);
-
-
-       // if (question.toLowerCase().includes(searchQuery) || answer.toLowerCase().includes(searchQuery)) {
-            hasResults = true;
-
+        // Display limited number of FAQs
+        faqData.slice(0, limit).forEach((faq, index) => {
             const faqItem = document.createElement("div");
             faqItem.className = "faq-item";
 
-            // Highlight matched text
-            const highlightedQuestion = question.replace(searchRegex, match => `<span class="highlight">${match}</span>`);
-            const questionElement = document.createElement("h3");
-            questionElement.innerHTML = highlightedQuestion + `<span class="faq-icon">+</span>`;
-            questionElement.setAttribute("aria-expanded", "false");
-            questionElement.setAttribute("role", "button");
+            // Question element with toggle icon
+            const question = document.createElement("h3");
+            question.textContent = faq.question;
+            question.setAttribute("aria-expanded", "false");
+            question.classList.add("faq-question");
 
-            const answerElement = document.createElement("p");
-            answerElement.innerHTML = answer.replace(searchRegex, match => `<span class="highlight">${match}</span>`);
-            answerElement.style.display = "none";
-*/
+            const icon = document.createElement("span");
+            icon.className = "faq-icon";
+            icon.innerHTML = "+";
 
-const faqItems = document.querySelectorAll(".faq-item");
+            const faqItemOuter = document.createElement("span");
+            faqItemOuter.appendChild(question);
+            faqItemOuter.appendChild(icon);
+            faqItemOuter.style.display = "block";
 
-faqItems.forEach(faqItem => {
-    const question = faqItem.querySelector(".faq-question");
-    const answer = faqItem.querySelector(".faq-answer");
-    const isExpanded = faqItem.classList.toggle("active");
-    console.log("question    ",question.textContent);
-    console.log("questioninnerContext    ",question.textContent);
-    console.log("question before   ",question);
+            // Answer element
+            const answer = document.createElement("p");
+            answer.textContent = faq.answer;
+            answer.classList.add("faq-answer", "fade-in");
+            answer.setAttribute("aria-hidden", "true");
+            answer.style.display = "none";
 
-    question.innerHTML = question.innerHTML  = isExpanded ? `<span class="faq-icon">-</span>` : `<span class="faq-icon">+</span>`;  // Change the icon text
-    console.log("question after    ",question);
-
-    const highlightedQuestion = question.replace(searchRegex, match => `<span class="highlight">${match}</span>`);
-
-    // Apply the highlighting to both question and answer
-   question.innerHTML = highlightedQuestion(question.innerHTML, searchQuery);
-    answer.innerHTML = highlightedQuestion(answer.innerHTML, searchQuery);
-
-    question.addEventListener("click", () => {
-        const isExpanded = faqItem.classList.toggle("active");
-        const icon = faqItem.querySelector(".faq-icon");
-
-        icon.innerHTML = isExpanded ? `<span class="faq-icon">-</span>` : `<span class="faq-icon">+</span>`;  // Change the icon text
-        answer.style.display = isExpanded ? "block" : "none"; // Show or hide answer
-
-    });
-});
-
-            console.log("questionElement    ",questionElement);
-            console.log("answerElement    ",answerElement);
-
-
-
-
-            faqItem.appendChild(questionElement);
-            faqItem.appendChild(answerElement);
-            faqItemsContainer.appendChild(faqItem);
-/*
-            // Toggle answer visibility
-            questionElement.addEventListener("click", () => {
-                const isExpanded = questionElement.getAttribute("aria-expanded") === "true";
-                answerElement.classList.toggle("expanded", !isExpanded);
-                questionElement.setAttribute("aria-expanded", !isExpanded);
-            });
-        //}
-    });
-*/
-    // Show or hide the 'No Results' message based on search results
-    document.getElementById("no-results").style.display = hasResults ? "none" : "block";
-    document.querySelector("load-more").style.display = hasResults ? "none" : "block";
-});
-
-    
-/*
-
-
-
-  // Toggle expansion state and update icon
-    const isExpanded = item.classList.toggle("active");
-    questionEl.innerHTML += isExpanded ? `<span class="faq-icon">-</span>` : `<span class="faq-icon">+</span>`;
-    faqItem.classList.add( "fade-in"); // Initially hidden for transition
-
-    faqItem.appendChild(question);
-                faqItem.appendChild(answer);
-
-                faqItemsContainer.appendChild(faqItem);
-                faqItem.classList.remove( "fade-in"); // Initially hidden for transition
-
-                setTimeout(() => {
-        }, 300);
-
-
-
-    filteredFaqs.forEach(faq => {
-                const faqItem = document.createElement("div");
-                faqItem.className = "faq-item mb-3 p-3 border rounded";
-
-                const question = document.createElement("h3");
-                question.innerHTML = highlightText(faq.question, query); // Highlight in question
-               
+            // Toggle FAQ visibility
+            faqItemOuter.addEventListener("click", () => {
                 const isExpanded = faqItem.classList.toggle("active");
-                question.innerHTML += isExpanded ? `<span class="faq-icon">-</span>` : `<span class="faq-icon">+</span>`;  // Change the icon text
-           
-                const answer = document.createElement("p");
-                answer.innerHTML = highlightText(faq.answer, query); // Highlight in answer
-
-                faqItem.appendChild(question);
-                faqItem.appendChild(answer);
-
-                faqItemsContainer.appendChild(faqItem);
+                question.setAttribute("aria-expanded", isExpanded.toString());
+                answer.setAttribute("aria-hidden", (!isExpanded).toString());
+                answer.style.display = isExpanded ? "block" : "none";
+                icon.innerHTML = isExpanded ? "-" : "+";
             });
-*/
 
+            // Append elements to the container
+            faqItem.appendChild(faqItemOuter);
+            faqItem.appendChild(answer);
+            faqItemsContainer.appendChild(faqItem);
 
-let randomFaqS = [];
-
-// Function to display random FAQs (10 random questions)
-function displayRandomFaqs(faqs) {
-    randomFaqS = []; // Clear any previously stored FAQs in randomFaqS
-    const maxFaqsToDisplay = 10;
-
-    // Randomly select up to 10 unique FAQs
-    while (randomFaqS.length < maxFaqsToDisplay && randomFaqS.length < faqs.length) {
-        const randomIndex = Math.floor(Math.random() * faqs.length);
-        const selectedFaq = faqs[randomIndex];
-
-        // Ensure the selected FAQ is unique
-        if (!randomFaqS.includes(selectedFaq)) {
-            randomFaqS.push(selectedFaq);
-           // console.log("Selected random FAQ: ", selectedFaq);
-        }
-    }
-
-    const ran_faqItemsContainer = document.getElementById("ran-faq-items-container");
-    ran_faqItemsContainer.innerHTML = ''; // Clear existing content
-    //console.log("Final list of random FAQs:", randomFaqS);
-
-    // Display each selected FAQ in the container
-    randomFaqS.forEach(faq => {
-       // console.log("Displaying FAQ:", faq);
-
-        const faqItem = document.createElement("div");
-        faqItem.classList.add("faq-item");
-
-        const question = document.createElement("li");
-        question.textContent = faq.question;
-        faqItem.appendChild(question);
-        ran_faqItemsContainer.appendChild(faqItem);
-
-        // Add a click listener to each question to initiate a search
-        question.addEventListener("click", function () {
-            const faqSearch = document.getElementById("faq-search");
-            faqSearch.value = faq.question;
-            faqSearch.dispatchEvent(new Event("input"));
+            // Fade-in animation
+            setTimeout(() => {
+                faqItem.classList.remove("fade-in");
+            }, 1000);
         });
-    });
-}
 
-
-
-function scrollToFaq() {
-    document.getElementById("faq-items").scrollIntoView({ behavior: 'smooth' });
-}
-
-//const topics = ["Account", "General", "Subscription", "Support"]; // This can be dynamic
-if (Array.isArray(faqs)) {
-
-            // Create a set of unique topics
-    const topics = [...new Set(faqs.map(faq => faq.topic))];
-    
-    // Populate topics dynamically
-topics.forEach(topic => {
-    const topicElement = document.createElement("div");
-    topicElement.classList.add("topic");
-    topicElement.textContent = topic;
-    topicElement.addEventListener("click", () => {
-        const filteredFaqs = faqs.filter(faq => faq.topic === topic);
-        displayFaqs(filteredFaqs);
-    });
-    topicsContainer.appendChild(topicElement);
-});
-
-}
-    // Filter by topic
-    function filterByTopic(topic) {
-         filteredFaqs = faqs.filter(faq => faq.topic === topic);
-        displayFaqs(filteredFaqs);
+        loadMoreBtn.style.display = faqData.length > limit ? "block" : "none";
     }
 
-    // Initial display of all FAQs
-    displayFaqs(faqs);
+    // FAQ Search functionality
+    document.getElementById("faq-search").addEventListener("input", function () {
+        const searchQuery = this.value.toLowerCase();
+        let hasResults = false;
+        const searchRegex = new RegExp(searchQuery, "gi");
+
+        const faqItems = document.querySelectorAll(".faq-item");
+
+        faqItems.forEach(faqItem => {
+            const question = faqItem.querySelector(".faq-question");
+            const answer = faqItem.querySelector(".faq-answer");
+            const questionText = question.textContent.toLowerCase();
+            const answerText = answer.textContent.toLowerCase();
+
+            // Check if search term exists in question or answer
+            if (searchRegex.test(questionText) || searchRegex.test(answerText)) {
+                hasResults = true;
+                faqItem.style.display = "block";
+                
+                // Highlight the matched text
+                question.innerHTML = question.textContent.replace(searchRegex, match => `<span class="highlight">${match}</span>`);
+                answer.innerHTML = answer.textContent.replace(searchRegex, match => `<span class="highlight">${match}</span>`);
+            } else {
+                faqItem.style.display = "none";
+            }
+        });
+
+        // Show or hide 'No Results' message
+        document.getElementById("no-results").style.display = hasResults ? "none" : "block";
+        loadMoreBtn.style.display = hasResults ? "none" : "block";
+    });
 });
 
 /*
