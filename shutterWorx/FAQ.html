@@ -399,7 +399,7 @@ document.getElementById("faq-search").addEventListener("input", function () {
 function displayRandomFaqs(randomFaqs) {
     console.log("randomFaqs ???   ",randomFaqs);
     while (randomFaqs.length < 5) {
-        const randomIndex = Math.floor(Math.random() * faqs.length);
+        const randomIndex = Math.floor(Math.random() * randomFaqs.length);
         if (!randomFaqs.includes(faqs[randomIndex])) {
             randomFaqs.push(faqs[randomIndex]);
         }
