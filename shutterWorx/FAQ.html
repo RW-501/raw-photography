@@ -291,7 +291,7 @@ function displayFaqs(faqData, limit = displayedFaqs) {
     displayRandomFaqs(faqData)
     console.log("faqData    ",faqData);
     }
-    
+
     // Display FAQs based on limit
     let faqCount = 0;
     faqData.slice(0, limit).forEach(faq => {
@@ -404,7 +404,7 @@ document.getElementById("faq-search").addEventListener("input", function () {
     });
 
     // Show or hide the 'No Results' message based on search results
-    document.getElementById("no-results-box").style.display = hasResults ? "none" : "block";
+    document.getElementById("no-results").style.display = hasResults ? "none" : "block";
 });
 
     
