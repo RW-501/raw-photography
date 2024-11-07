@@ -227,6 +227,7 @@ function displayFaqs(faqData, limit = displayedFaqs) {
     faqItemsContainer.innerHTML = ""; // Clear current FAQs
     if (!Array.isArray(faqData)) {
         faqData = faqs;
+        console.log("not an array");
     }
     // Display FAQs based on limit
     faqData.slice(0, limit).forEach(faq => {
