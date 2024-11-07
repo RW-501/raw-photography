@@ -249,7 +249,6 @@ let faqs = []; let  filteredFaqs;
                 const selectedTopic = e.target.value;
                  filteredFaqs = selectedTopic ? faqs.filter(faq => faq.topic === selectedTopic) : faqs;
                 displayFaqs(filteredFaqs);
-                displayRandomFaqs(filteredFaqs);
 
             });
 
@@ -348,11 +347,12 @@ document.getElementById("faq-search").addEventListener("input", function () {
      filteredFaqs = faqs.filter(faq => 
      faq.question.toLowerCase().includes(query) || faq.answer.toLowerCase().includes(query));
     displayFaqs(filteredFaqs);
+    displayRandomFaqs(filteredFaqs);
 
     }
 
 
-   // faqItemsContainer = document.getElementById("faq-items-container");
+   
 
 
     // Highlight matching text
@@ -364,15 +364,15 @@ document.getElementById("faq-search").addEventListener("input", function () {
 
         
     if (filteredFaqs.length === 0) {
-        faqItemsContainer.innerHTML = ''; // Clear current FAQ items
         noResultsBox.style.display = 'block'; // Show no results message
+        faqItemsContainer.innerHTML = ''; // Clear current FAQ items
 
     } else {
         noResultsBox.style.display = 'none'; // Hide no results message
         faqItemsContainer.innerHTML = ''; // Clear current FAQ items
 
-       
-        const faqItems = faqItemsContainer.querySelectorAll(".faq-item");
+      //  faqItemsContainer = document.getElementById("faq-items-container");
+        const faqItems = document.querySelectorAll(".faq-item");
         faqItems.forEach(item => {
     // Get the actual elements instead of their innerHTML content
     const questionEl = item.querySelector("h3");
