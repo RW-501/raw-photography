@@ -55,7 +55,9 @@
     padding: 10px;
 }
 
-
+.hide {
+        opacity: 0;
+    }
         
         /* Highlighted Text */
         .highlight { background-color: yellow; font-weight: bold; }
@@ -226,9 +228,10 @@ displayFaqs(faqs);
         const faqsPerPage = 10; // Initial number of FAQs to display
 
 const topicsContainer = document.getElementById("topics-container");
-        let faqItemsContainer = document.getElementById("faq-items");
+        //let faqItemsContainer = document.getElementById("faq-items");
 
         const topicFilter = document.getElementById("faq-topic-filter");
+       let  faqItemsContainer = document.getElementById("faq-items-container");
 
 let displayedFaqs = faqsPerPage;
 
@@ -346,13 +349,17 @@ document.getElementById("faq-search").addEventListener("input", function () {
     displayFaqs(filteredFaqs);
 
     }
+
+
+    faqItemsContainer = document.getElementById("faq-items-container");
+
+
     // Highlight matching text
     if (query) {
 
         
         const noResultsBox = document.getElementById("no-results");
         const ran_faqItemsContainer = document.getElementById("ran-faq-items-container");
-         faqItemsContainer = document.getElementById("faq-items-container");
 
         
     if (filteredFaqs.length === 0) {
@@ -365,7 +372,7 @@ document.getElementById("faq-search").addEventListener("input", function () {
 
        
         const faqItems = faqItemsContainer.querySelectorAll(".faq-item");
-faqItems.forEach(item => {
+        faqItems.forEach(item => {
     // Get the actual elements instead of their innerHTML content
     const questionEl = item.querySelector("h3");
     const answerEl = item.querySelector("p");
@@ -377,6 +384,16 @@ faqItems.forEach(item => {
     // Toggle expansion state and update icon
     const isExpanded = item.classList.toggle("active");
     questionEl.innerHTML += isExpanded ? `<span class="faq-icon">-</span>` : `<span class="faq-icon">+</span>`;
+    faqItem.classList.add("show "); // Trigger the show class after appending
+
+    faqItem.appendChild(question);
+                faqItem.appendChild(answer);
+
+                faqItemsContainer.appendChild(faqItem);
+
+                setTimeout(() => {
+            faqItem.classList.remove("show");
+        }, 300);
 });
   
     
