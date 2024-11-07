@@ -31,62 +31,154 @@
 </header>
 
     <!-- Header -->
-    <hero class="header text-center py-5" style="background-color: #007bff; color: white;">
+    <div class="hero header text-center py-5" >
         <h1>Join ShutterWorx Membership</h1>
         <p>Choose the perfect plan to grow your photography business.</p>
-    </hero>
-<main>
-    <!-- Membership Information -->
-    <section class="container my-5">
-        <div class="membership-card text-center shadow p-4 rounded">
-            <h3 id="membership-header" class="pricing-header"></h3>
-            <p id="membership-price" class="membership-price"></p>
-            <p id="membership-yearly-price" class="membership-price"></p>
-            <ul id="features-list" class="list-unstyled features-list mb-4"></ul>
-        </div>
-    </section>
-
-    <!-- Login Information -->
-    <section class="container my-5">
-        <h3>Sign-Up or Log In</h3>
-        <form id="signup-form" action="/process-signup" method="POST">
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" name="email" required>
+    </div>
+    <main>
+        <!-- Membership Information Section -->
+        <section class="container my-5">
+            <div class="membership-card text-center shadow-lg p-5 rounded">
+                <h2 id="membership-header" class="pricing-header display-4 font-weight-bold text-primary mb-3"></h2>
+                <p id="membership-price" class="membership-price lead text-muted mb-1"></p>
+                <p id="membership-yearly-price" class="membership-price font-italic text-muted mb-4"></p>
+                <ul id="features-list" class="list-unstyled features-list mb-4">
+                    <!-- Features will be dynamically added here -->
+                </ul>
+                <button class="btn btn-outline-primary btn-lg mt-3">Choose Plan</button>
             </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required>
-            </div>
-
-            <!-- Stripe Payment Info -->
-            <div class="form-group">
-                <label for="card-element">Payment Information</label>
-                <div id="card-element" class="form-control">
-                    <!-- Stripe Card Element will go here -->
+        </section>
+    
+        <!-- Signup and Login Section -->
+        <section class="container my-5">
+            <h2 class="text-center mb-4">Sign Up or Log In</h2>
+            
+            <!-- Signup Form -->
+            <form id="signup-form" action="/process-signup" method="POST" class="bg-light p-4 shadow-sm rounded">
+                <div class="form-group">
+                    <label for="email" class="font-weight-bold">Email Address</label>
+                    <input type="email" class="form-control form-control-lg" id="email" name="email" placeholder="Enter your email" required>
                 </div>
-                <div id="card-errors" role="alert"></div>
+    
+                <div class="form-group">
+                    <label for="password" class="font-weight-bold">Password</label>
+                    <input type="password" class="form-control form-control-lg" id="password" name="password" placeholder="Create a password" required>
+                </div>
+    
+                <!-- Stripe Payment Info -->
+                <div class="form-group mt-4">
+                    <label for="card-element" class="font-weight-bold">Payment Information</label>
+                    <div id="card-element" class="form-control p-2 border rounded shadow-sm" style="min-height: 45px;">
+                        <!-- Stripe Card Element will be displayed here -->
+                    </div>
+                    <small id="card-errors" class="text-danger mt-2" role="alert"></small>
+                </div>
+    
+                <!-- Join Button -->
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Join Now</button>
+                </div>
+            </form>
+    
+            <!-- Alternative Signup Options -->
+            <div class="alternative-signup mt-5">
+                <h3 class="text-center">Or sign up with</h3>
+                <div class="d-flex justify-content-around mt-4">
+                    
+                    <!-- Google Sign-Up Button -->
+                    <button id="googleSignupBtn" class="btn btn-danger btn-lg">
+                        <i class="fab fa-google mr-2"></i> Google
+                    </button>
+    
+                    <!-- Phone Sign-Up -->
+                    <button id="phoneSignupBtn" class="btn btn-info btn-lg">
+                        <i class="fas fa-phone mr-2"></i> Phone
+                    </button>
+                </div>
+    
+                <!-- Phone Input for Phone Signup -->
+                <div class="form-group text-center mt-4">
+                    <label for="phone" class="font-weight-bold">Phone Number</label>
+                    <input type="tel" class="form-control form-control-lg" id="phone" name="phone" placeholder="+1 234 567 8901">
+                </div>
             </div>
-
-            <button type="submit" class="btn btn-primary btn-lg">Join Now</button>
-        </form>
-
-        <!-- Google Sign-Up Button -->
-        <button id="googleSignupBtn" class="btn btn-danger btn-lg mt-4">
-            <i class="fab fa-google"></i> Sign Up with Google
-        </button>
-
-        <!-- Phone Sign-Up -->
-        <div class="form-group mt-4">
-            <label for="phone">Phone Number</label>
-            <input type="tel" class="form-control" id="phone" name="phone" placeholder="+1 234 567 8901" required>
-        </div>
-        <button id="phoneSignupBtn" class="btn btn-info btn-lg mt-4">
-            <i class="fas fa-phone"></i> Sign Up with Phone
-        </button>
-    </section>
-</main>
-
+        </section>
+    </main>
+    
+    <!-- Additional Styling (Inline or in a separate CSS file) -->
+    <style>
+        /* General styling */
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+    
+        /* Membership card styling */
+        .membership-card {
+            background: #f9f9f9;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+    
+        .membership-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+    
+        /* Form styling */
+        #signup-form {
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+    
+        .form-group label {
+            color: #555;
+        }
+    
+        .form-control-lg {
+            border-radius: 5px;
+            padding: 0.75rem;
+        }
+    
+        /* Button styling */
+        .btn-primary {
+            background: #007bff;
+            border: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+    
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+    
+        .btn-outline-primary {
+            border: 2px solid #007bff;
+            color: #007bff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+    
+        .btn-outline-primary:hover {
+            background: #007bff;
+            color: #fff;
+        }
+    
+        .btn-danger, .btn-info {
+            font-weight: bold;
+            padding: 0.75rem 1.25rem;
+        }
+    
+        /* Alternative signup styling */
+        .alternative-signup h3 {
+            color: #333;
+        }
+    </style>
+    
 
     <!-- Footer -->
     <footer id="site-footer">
@@ -110,18 +202,8 @@
    
    </script>
    
-   <!-- HTML Structure for displaying membership details and Stripe card element -->
-   <div id="membership-header"></div>
-   <div id="membership-price"></div>
-   <div id="membership-yearly-price"></div>
-   
-   <ul id="features-list"></ul>
-   
-   <form id="payment-form">
-       <div id="card-element"></div>
-       <div id="card-errors" role="alert"></div>
-       <button type="submit">Subscribe Now</button>
-   </form>
+
+
    
 <!-- Modal Structure for Success Message -->
 <div id="success-message" class="modal" style="display: none;">
@@ -273,7 +355,7 @@ const membershipPlans = {
    // Display membership details based on URL
    function loadMembershipDetails() {
        const url = window.location.href;
-       const membershipType = url.split('-')[1] || 'basic'; // Assuming the plan type is in the URL
+       const membershipType = url.split('?-')[1] || 'basic'; // Assuming the plan type is in the URL
        const plan = membershipPlans[membershipType];
    
        // Populate the membership details
