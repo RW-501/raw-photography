@@ -236,7 +236,8 @@ let faqs = []; let  filteredFaqs;
         .then(FAQs => {
             faqs = FAQs
             displayFaqs(faqs);
-        
+            displayRandomFaqs(faqs);
+
             // Filter FAQs when a topic is selected
             topicFilter.addEventListener("change", (e) => {
                 const selectedTopic = e.target.value;
@@ -337,7 +338,6 @@ document.getElementById("faq-search").addEventListener("input", function () {
      filteredFaqs = faqs.filter(faq => 
      faq.question.toLowerCase().includes(query) || faq.answer.toLowerCase().includes(query));
     displayFaqs(filteredFaqs);
-    displayRandomFaqs(faqs);
 
     }
     // Highlight matching text
@@ -405,15 +405,12 @@ function displayRandomFaqs(randomFaqs) {
             randomFaqs.push(faqs[randomIndex]);
         }
     }
-    console.log("randomFaqs ??? 5   ",randomFaqs);
 
     const ran_faqItemsContainer = document.getElementById("ran-faq-items-container");
     ran_faqItemsContainer.innerHTML = ''; // Clear existing content
 
 
     randomFaqs.forEach(faq => {
-        console.log("faq ???   ",faq);
-        console.log("faq.question ???   ",faq.question);
 
         const faqItem = document.createElement("div");
         faqItem.classList.add("faq-item");
@@ -433,13 +430,7 @@ function displayRandomFaqs(randomFaqs) {
 
 
 
-// Initialize the random FAQs on page load
-document.addEventListener("DOMContentLoaded", function() {
-  // Check if faqs is an array
-  console.log("load??????????  ");
-
-    displayRandomFaqs(faqs);
-});
+    
 }
 
 
