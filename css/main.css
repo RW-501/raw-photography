@@ -223,7 +223,6 @@ main {
         animation: heroGradientAnimation 12s ease-in-out infinite;
         margin: 2rem 0;
         text-align: center;
-        transform: rotate(-45deg) translateY(-8px);
 
     }
 
