@@ -272,9 +272,9 @@ main {
         overflow: hidden;
     }
     .hero:hover {
-        transform: translateY(-10px);
+        transform: translateY(-5px);
         box-shadow: 0 8px 16px 6px #1b1e2129;
-        transition-delay: .5s ease;
+        transition-delay: 2s ;
     }
 
     @keyframes heroGradientAnimation {
