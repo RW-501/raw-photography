@@ -88,6 +88,10 @@
     justify-content: center;
 }
 #ran-faq-items-container > .faq-item {
+
+
+}
+#ran-faq-items-container > .faq-item li {
     padding: .5rem;
     /* text-indent: 1rem; */
     border: rgba(50, 0, 252, 0.697) solid;  
@@ -433,6 +437,8 @@ const answer = faq.querySelector(".faq-answer")?.innerText || '';
             questionElement.addEventListener("click", () => {
                 const isExpanded = questionElement.getAttribute("aria-expanded") === "true";
                 answerElement.style.display = isExpanded ? "none" : "block";
+                answerElement.style.height = isExpanded ? "0" : "3rem";
+                
                 questionElement.setAttribute("aria-expanded", !isExpanded);
             });
         }
