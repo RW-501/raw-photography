@@ -221,7 +221,7 @@ displayFaqs(faqs);
 const faqsPerPage = 10; // Initial number of FAQs to display
 
 const topicsContainer = document.getElementById("topics-container");
-        const faqItemsContainer = document.getElementById("faq-items");
+        let faqItemsContainer = document.getElementById("faq-items");
 
 const topicFilter = document.getElementById("faq-topic-filter");
 
@@ -348,7 +348,7 @@ document.getElementById("faq-search").addEventListener("input", function () {
         
         const noResultsBox = document.getElementById("no-results");
         const ran_faqItemsContainer = document.getElementById("ran-faq-items-container");
-        faqItemsContainer = document.getElementById("faq-items-container");
+         faqItemsContainer = document.getElementById("faq-items-container");
 
         
     if (filteredFaqs.length === 0) {
