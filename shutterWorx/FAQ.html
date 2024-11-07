@@ -389,14 +389,19 @@ document.getElementById("faq-search").addEventListener("input", function () {
     faqItemsContainer.innerHTML = ""; // Clear the container before displaying results
 
     faqItems.forEach((faq) => {
-        const question = faq.querySelector(".faq-question")?.innerText || '';
-        const answer = faq.querySelector(".faq-answer")?.innerText || '';
+        //const question = faq.querySelector(".faq-question")?.innerText || '';
+        //const answer = faq.querySelector(".faq-answer")?.innerText || '';
+
+
+        console.log("searchQuery    ",searchQuery);
+
+        const question = faq.querySelector(".faq-question");
+        const answer = faq.querySelector(".faq-answer");
         console.log("question    ",question);
         console.log("answer    ",answer);
 
 
-
-        if (question.toLowerCase().includes(searchQuery) || answer.toLowerCase().includes(searchQuery)) {
+       // if (question.toLowerCase().includes(searchQuery) || answer.toLowerCase().includes(searchQuery)) {
             hasResults = true;
 
             const faqItem = document.createElement("div");
@@ -429,7 +434,7 @@ document.getElementById("faq-search").addEventListener("input", function () {
                 answerElement.classList.toggle("expanded", !isExpanded);
                 questionElement.setAttribute("aria-expanded", !isExpanded);
             });
-        }
+        //}
     });
 
     // Show or hide the 'No Results' message based on search results
