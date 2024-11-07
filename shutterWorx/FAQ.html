@@ -225,7 +225,9 @@ let faqs = []; let  filteredFaqs;
 // Function to display FAQs with optional limit
 function displayFaqs(faqData, limit = displayedFaqs) {
     faqItemsContainer.innerHTML = ""; // Clear current FAQs
-
+    if (!Array.isArray(faqData)) {
+        faqData = faqs;
+    }
     // Display FAQs based on limit
     faqData.slice(0, limit).forEach(faq => {
         const faqItem = document.createElement("div");
