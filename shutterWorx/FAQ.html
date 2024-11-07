@@ -202,7 +202,8 @@ let faqs = []; let  filteredFaqs;
     // Fetch FAQ data from the JSON file
     fetch('faqs.json')
         .then(response => response.json())
-        .then(faqs => {
+        .then(FAQs => {
+            faqs = FAQs
             displayFaqs(faqs);
         
             // Filter FAQs when a topic is selected
@@ -311,7 +312,7 @@ document.getElementById("faq-search").addEventListener("input", function () {
 });
 
 
-console.log(faqs); // Check if faqs is an array
+console.log("faq ???   ",faqs); // Check if faqs is an array
 
 
 function scrollToFaq() {
