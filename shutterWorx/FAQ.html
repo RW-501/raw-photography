@@ -402,20 +402,21 @@ faqItems.forEach(item => {
     
     });
 
-    
+    let randomFaqS = [];
 // Function to display random FAQs (5 random questions)
 function displayRandomFaqs(randomFaqs) {
     while (randomFaqs.length < 10) {
         const randomIndex = Math.floor(Math.random() * randomFaqs.length);
         if (!randomFaqs.includes(faqs[randomIndex])) {
-            randomFaqs.push(faqs[randomIndex]);
+            randomFaqS.push(faqs[randomIndex]);
         }
    
+}
     const ran_faqItemsContainer = document.getElementById("ran-faq-items-container");
     ran_faqItemsContainer.innerHTML = ''; // Clear existing content
 
 
-    randomFaqs.forEach(faq => {
+    randomFaqS.forEach(faq => {
 
         const faqItem = document.createElement("div");
         faqItem.classList.add("faq-item");
@@ -438,7 +439,6 @@ function displayRandomFaqs(randomFaqs) {
 
 
 
-}
 
 }
 
