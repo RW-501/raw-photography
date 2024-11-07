@@ -196,7 +196,7 @@ const topicFilter = document.getElementById("faq-topic-filter");
 
 let displayedFaqs = faqsPerPage;
 
-let faqs; let  filteredFaqs;
+let faqs = []; let  filteredFaqs;
 
     document.addEventListener("DOMContentLoaded", function () {
     // Fetch FAQ data from the JSON file
@@ -255,7 +255,7 @@ function displayFaqs(faqData, limit = displayedFaqs) {
     answer.style.display = isExpanded ? "block" : "none"; // Toggle visibility
     // Toggle the icon between plus and minus
     const icon = faqItem.querySelector('.faq-icon');
-    icon.textContent = isExpanded ? '−' : '+';  // Change the icon text
+    icon.textContent = isExpanded ? '`<span class="faq-icon">-</span>`' : '`<span class="faq-icon">+</span>`';  // Change the icon text
 });
 
 
@@ -308,6 +308,7 @@ document.getElementById("faq-search").addEventListener("input", function () {
 });
 
 
+console.log(faqs); // Check if faqs is an array
 
 
 function scrollToFaq() {
@@ -315,6 +316,7 @@ function scrollToFaq() {
 }
 
 //const topics = ["Account", "General", "Subscription", "Support"]; // This can be dynamic
+if (Array.isArray(faqs)) {
 
             // Create a set of unique topics
     const topics = [...new Set(faqs.map(faq => faq.topic))];
@@ -331,6 +333,7 @@ topics.forEach(topic => {
     topicsContainer.appendChild(topicElement);
 });
 
+}
     // Filter by topic
     function filterByTopic(topic) {
          filteredFaqs = faqs.filter(faq => faq.topic === topic);
