@@ -456,7 +456,7 @@ function displayRandomFaqs(randomFaqs) {
         console.log("randomFaqs.length    ",randomFaqs.length);
 
         const randomIndex = Math.floor(Math.random() * randomFaqs.length);
-        if (!randomFaqs.includes(faqs[randomIndex])) {
+        if (randomFaqs.includes(faqs[randomIndex])) {
             randomFaqS.push(faqs[randomIndex]);
 
             console.log("faqs[randomIndex]    ",faqs[randomIndex]);
