@@ -50,7 +50,7 @@
     
         <!-- Signup and Login Section -->
         <section class="container my-5">
-            <h2 class="text-center mb-4">Sign Up or Log In</h2>
+            <h2 class="text-center mb-4">Sign Up</h2>
             
             <!-- Signup Form -->
             <form id="signup-form" action="/process-signup" method="POST" class="bg-light p-4 shadow-sm rounded">
@@ -345,9 +345,15 @@ const membershipPlans = {
            stripePriceId: 'price_elite_id'  // Replace with actual Stripe price ID
        }
    };
-   
+
+
+   let liveStripe = "pk_live_51QIGyxB3LWqJVTh8iPTm4FV35i2RaReTfxHpObRosLQvcY5c4s1OnycqCMey0E6sktd7h0dyk2ONdHEieWdv04OD00F70ieHkc";
+   let testStripe = "pk_test_51QIGyxB3LWqJVTh8nbiDwiD2JrGCwSldtBWKqsqdRg17i6mMpwHcDqEESTQ3HYAD4hgZSw84lT7fM26CNIzPhHIY00sogGSjFo";
    // Initialize Stripe and Stripe Elements
-   const stripe = Stripe("pk_live_51QIGyxB3LWqJVTh8iPTm4FV35i2RaReTfxHpObRosLQvcY5c4s1OnycqCMey0E6sktd7h0dyk2ONdHEieWdv04OD00F70ieHkc"); // Replace with your actual Stripe public key
+   if(testStripe){
+    console.log("TEST MODE");
+   }
+   const stripe = Stripe(testStripe); // Replace with your actual Stripe public key
    const elements = stripe.elements();
    const cardElement = elements.create('card');
 
