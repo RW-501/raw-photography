@@ -326,18 +326,18 @@ function displayFaqs(faqData, limit = displayedFaqs) {
         answer.classList.add( "fade-in");
 
   const plus = document.createElement("div");
-         plus.textContent = `<span class="faq-icon">+</span>`;
+         plus.innerHTML = `<span class="faq-icon">+</span>`;
 
   
          const question = document.createElement("h3");
-        question.textContent = faq.question;
+        question.innerHTML = faq.question;
         question.setAttribute("aria-expanded", "false");
         question.setAttribute("aria-controls", `question-${faqCount}`);
         question.classList.add( "faq-question"); 
 
       
         const faqItemOuter = document.createElement("span");
-       faqItemOuter.innerHTML = question , plus;
+       faqItemOuter.innerHTML = question +''+ plus;
 
 
        faqItemOuter.addEventListener("click", () => {
