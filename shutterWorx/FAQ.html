@@ -390,9 +390,9 @@ document.getElementById("faq-search").addEventListener("input", function () {
     //console.log("filteredFaqs main search    ",filteredFaqs);
 
     faqItems.forEach((faq, index) => {
-    const question = faq.querySelector(".faq-question").outerHTML;
+    const question = faq.querySelector(".faq-question");
 
-    const answer = faq.querySelector(".faq-answer").outerHTML;
+    const answer = faq.querySelector(".faq-answer");
     console.log(" faq    ",faq);
 
         console.log("question    ",question);
