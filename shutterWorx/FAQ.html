@@ -353,7 +353,6 @@ document.getElementById("faq-search").addEventListener("input", function () {
                 answer.innerHTML = highlightText(item.querySelector("p").textContent, query); 
                 const isExpanded = item.classList.toggle("active");
                // question.innerHTML += isExpanded ? `<span class="faq-icon">-</span>` : `<span class="faq-icon">+</span>`;  // Change the icon text
-                // Highlight in answer
             });
     
         }    }
@@ -371,7 +370,27 @@ function displayRandomFaqs() {
         }
     }
 
+    const faqItemsContainer = document.getElementById("faq-items-container");
+    faqItemsContainer.innerHTML = ''; // Clear existing content
+
+    randomFaqs.forEach(faq => {
+        const faqItem = document.createElement("div");
+        faqItem.classList.add("faq-item");
+        
+        const question = document.createElement("h3");
+        question.textContent = faq.question;
+
+        faqItem.appendChild(question);
+        faqItemsContainer.appendChild(faqItem);
+
+        // Add a click listener to search for the clicked question
+        question.addEventListener("click", function () {
+            document.getElementById("faq-search").value = faq.question;
+            searchFaqs(faq.question);
+        });
+    });
 }
+
 console.log("faq ???   ",faqs); // Check if faqs is an array
 
 // Initialize the random FAQs on page load
