@@ -448,7 +448,7 @@ function loadMenuToggleControls(){
 
         
       document.addEventListener("DOMContentLoaded", () => {
-        if (!window.checkUrl("/admin/")) {
+        if (!window.checkUrl("/admin/") || !window.checkUrl("/shutterWorx/")) {
         // Apply fetched or default settings
         // Call the function to apply settings
 applyLoadingSpinnerColors();
@@ -457,8 +457,13 @@ loadMenuToggleControls();
 console.log("User View");
 
     }else{
-      console.log("Admin View");
+      console.log("Admin/ Member View");
     } 
+    
+
+
+
+
     });
 
 
