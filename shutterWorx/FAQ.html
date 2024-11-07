@@ -315,59 +315,61 @@ function displayFaqs(faqData, limit = displayedFaqs) {
         faqItem.className = "faq-item";
         faqCount += 1;
 
-        const answer = document.createElement("p");
-        answer.textContent = faq.answer;
-        answer.setAttribute("data-loaded", "false");
-        answer.id = `answer-${faqCount}`;
-        answer.setAttribute("aria-hidden", "true");
-        answer.style.display = "none";  // Start hidden
-        answer.setAttribute("aria-controls", `answer-${faqCount}`);
-        answer.classList.add( "faq-answer"); 
-        answer.classList.add( "fade-in");
+// Create the answer element
+const answer = document.createElement("p");
+answer.textContent = faq.answer;
+answer.setAttribute("data-loaded", "false");
+answer.id = `answer-${faqCount}`;
+answer.setAttribute("aria-hidden", "true");
+answer.style.display = "none"; // Start hidden
+answer.classList.add("faq-answer", "fade-in");
 
-  const plus = document.createElement("div");
-         plus.innerHTML = `<span class="faq-icon">+</span>`;
+// Create the icon element
+const plus = document.createElement("span");
+plus.classList.add("faq-icon");
+plus.innerHTML = "+"; // Start with plus
 
-  
-         const question = document.createElement("h3");
-        question.innerHTML = faq.question;
-        question.setAttribute("aria-expanded", "false");
-        question.setAttribute("aria-controls", `question-${faqCount}`);
-        question.classList.add( "faq-question"); 
+// Create the question element
+const question = document.createElement("h3");
+question.innerHTML = faq.question;
+question.setAttribute("aria-expanded", "false");
+question.classList.add("faq-question");
 
-      
-        const faqItemOuter = document.createElement("span");
-       faqItemOuter.textContent = question +''+ plus;
+// Wrap question and icon together in `faqItemOuter`
+const faqItemOuter = document.createElement("span");
+faqItemOuter.appendChild(question);
+faqItemOuter.appendChild(plus); // Append the icon to the same span
 
+faqItem.classList.add("faq-item", "fade-in");
 
-       faqItemOuter.addEventListener("click", () => {
+// Event listener to expand/collapse answer on click
+faqItemOuter.addEventListener("click", () => {
     const isLoaded = answer.getAttribute("data-loaded") === "true";
     if (!isLoaded) {
-        answer.textContent = faq.answer;
+        answer.textContent = faq.answer; // Load answer content only once
         answer.setAttribute("data-loaded", "true");
     }
+
     const isExpanded = faqItem.classList.toggle("active");
     question.setAttribute("aria-expanded", isExpanded.toString());
-    document.getElementById(`answer-${faqCount}`).setAttribute("aria-hidden", (!isExpanded).toString());
+    answer.setAttribute("aria-hidden", (!isExpanded).toString());
     answer.style.display = isExpanded ? "block" : "none"; // Toggle visibility
-    // Toggle the icon between plus and minus
-    const icon = faqItem.querySelector('.faq-icon');
-    icon.innerHTML = isExpanded ? `<span class="faq-icon">-</span>` : `<span class="faq-icon">+</span>`;  // Change the icon text
 
+    // Toggle the icon between plus and minus
+    plus.innerHTML = isExpanded ? "-" : "+";
+});
+
+// Append elements to the FAQ item
+faqItem.appendChild(faqItemOuter);
+faqItem.appendChild(answer);
+faqItemsContainer.appendChild(faqItem);
+
+// Apply fade-in animation after rendering
+setTimeout(() => {
+    faqItem.classList.remove("fade-in");
+}, 1000);
 
 });
-faqItem.classList.add( "fade-in"); // Initially hidden for transition
-
-
-faqItem.appendChild(faqItemOuter);
-//faqItem.appendChild(question);
-faqItem.appendChild(answer);
-        faqItemsContainer.appendChild(faqItem);
-        setTimeout(() => {
-        faqItem.classList.remove("fade-in");
-     //   faqItem.classList.add("fade-in");
-    }, 1000);
-    });
 
     loadMoreBtn.style.display = faqs.length > displayedFaqs ? "block" : "none";
     
