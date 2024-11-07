@@ -398,7 +398,6 @@ document.getElementById("faq-search").addEventListener("input", function () {
     
 // Function to display random FAQs (5 random questions)
 function displayRandomFaqs(randomFaqs) {
-    console.log("randomFaqs ???   ",randomFaqs);
     while (randomFaqs.length < 5) {
         const randomIndex = Math.floor(Math.random() * randomFaqs.length);
         if (!randomFaqs.includes(faqs[randomIndex])) {
