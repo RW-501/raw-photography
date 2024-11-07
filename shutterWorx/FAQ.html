@@ -279,7 +279,7 @@ displayFaqs(faqs, displayedFaqs);
 function displayFaqs(faqData, limit = displayedFaqs) {
     faqItemsContainer.innerHTML = ""; // Clear current FAQs
     if (Array.isArray(faqData)) {
-        console.log("faqData is an array");
+       // console.log("faqData is an array");
     }else{
         console.log("NO Arrays");
       //  faqData = faqs;
@@ -331,14 +331,14 @@ faqItem.classList.add( "fade-in"); // Initially hidden for transition
         setTimeout(() => {
         faqItem.classList.remove("fade-in");
      //   faqItem.classList.add("fade-in");
-    }, 500);
+    }, 1000);
     });
 
     loadMoreBtn.style.display = faqs.length > displayedFaqs ? "block" : "none";
     
     
     if (Array.isArray(faqData)) {
-        console.log("faqData    ",faqData);
+     //   console.log("faqData    ",faqData);
 
     displayRandomFaqs(faqData)
     }
@@ -367,7 +367,7 @@ document.getElementById("faq-search").addEventListener("input", function () {
     faqItemsContainer.innerHTML = ""; // Clear the container before displaying results
     console.log("filteredFaqs main search    ",filteredFaqs);
 
-    faqItems.forEach((faq, index) => {
+    filteredFaqs.forEach((faq, index) => {
         const question = faq.question.toLowerCase();
         const answer = faq.answer.toLowerCase();
 
@@ -466,17 +466,17 @@ function displayRandomFaqs(faqs) {
         // Ensure the selected FAQ is unique
         if (!randomFaqS.includes(selectedFaq)) {
             randomFaqS.push(selectedFaq);
-            console.log("Selected FAQ:", selectedFaq);
+           // console.log("Selected random FAQ: ", selectedFaq);
         }
     }
 
     const ran_faqItemsContainer = document.getElementById("ran-faq-items-container");
     ran_faqItemsContainer.innerHTML = ''; // Clear existing content
-    console.log("Final list of random FAQs:", randomFaqS);
+    //console.log("Final list of random FAQs:", randomFaqS);
 
     // Display each selected FAQ in the container
     randomFaqS.forEach(faq => {
-        console.log("Displaying FAQ:", faq);
+       // console.log("Displaying FAQ:", faq);
 
         const faqItem = document.createElement("div");
         faqItem.classList.add("faq-item");
