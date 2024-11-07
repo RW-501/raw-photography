@@ -321,10 +321,13 @@ function displayFaqs(faqData, limit = displayedFaqs) {
         answer.classList.add( "fade-in");
 
         const question = document.createElement("h3");
-        question.innerHTML = faq.question + `<span class="faq-icon">+</span>`;
+        question.innerHTML = faq.question;
         question.setAttribute("aria-expanded", "false");
         question.setAttribute("aria-controls", `question-${faqCount}`);
         question.classList.add( "faq-question"); 
+
+        const plus = document.createElement("div");
+         plus = `<span class="faq-icon">+</span>`;
 
 
 
@@ -347,8 +350,9 @@ function displayFaqs(faqData, limit = displayedFaqs) {
 faqItem.classList.add( "fade-in"); // Initially hidden for transition
 
 
-        faqItem.appendChild(question);
-        faqItem.appendChild(answer);
+faqItem.appendChild(plus);
+faqItem.appendChild(question);
+faqItem.appendChild(answer);
         faqItemsContainer.appendChild(faqItem);
         setTimeout(() => {
         faqItem.classList.remove("fade-in");
