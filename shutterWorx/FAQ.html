@@ -355,8 +355,8 @@ faqItems.forEach(faqItem => {
     const question = faqItem.querySelector(".faq-question");
     const answer = faqItem.querySelector(".faq-answer");
 
-    question.innerHTML = question.innerText + `<span class="faq-icon">+</span>`; // Add the icon
-  
+    question.innerHTML = question.innerHTML  = isExpanded ? `<span class="faq-icon">-</span>` : `<span class="faq-icon">+</span>`;  // Change the icon text
+
     // Apply the highlighting to both question and answer
    question.innerHTML = highlightText(question.innerHTML, query);
     answer.innerHTML = highlightText(answer.innerHTML, query);
@@ -365,8 +365,9 @@ faqItems.forEach(faqItem => {
         const isExpanded = faqItem.classList.toggle("active");
         const icon = faqItem.querySelector(".faq-icon");
 
-        icon.textContent = isExpanded ? "−" : "+";  // Toggle icon text
+        icon.innerHTML = isExpanded ? `<span class="faq-icon">-</span>` : `<span class="faq-icon">+</span>`;  // Change the icon text
         answer.style.display = isExpanded ? "block" : "none"; // Show or hide answer
+
     });
 });
 
