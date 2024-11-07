@@ -385,7 +385,7 @@ document.getElementById("faq-search").addEventListener("input", function () {
     let hasResults = false;
     const searchRegex = new RegExp(searchQuery, "gi");
     const faqItems = document.querySelectorAll(".faq-item");
-    const faqItemsContainer = document.getElementById("faq-items-container"); // Ensure this is the correct container ID
+
     faqItemsContainer.innerHTML = ""; // Clear the container before displaying results
 
     faqItems.forEach((faq) => {
