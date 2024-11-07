@@ -100,11 +100,24 @@ main {
 .fade-in {
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
+    animation: fade 2s ease forwards;
+
 }
 .fade-in.show {
     opacity: 1;
+
 }
-   
+
+/* Keyframes for fading background color */
+@keyframes fade {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
    
     /* Basic header styling */
     #site-header {
