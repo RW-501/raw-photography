@@ -218,18 +218,22 @@ const faqSnapshot = await getDocs(faqsRef);
 const faqs = faqSnapshot.docs.map(doc => doc.data());
 displayFaqs(faqs);
 */
-const faqsPerPage = 10; // Initial number of FAQs to display
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+
+        const faqsPerPage = 10; // Initial number of FAQs to display
 
 const topicsContainer = document.getElementById("topics-container");
         let faqItemsContainer = document.getElementById("faq-items");
 
-const topicFilter = document.getElementById("faq-topic-filter");
+        const topicFilter = document.getElementById("faq-topic-filter");
 
 let displayedFaqs = faqsPerPage;
 
 let faqs = []; let  filteredFaqs;
 
-    document.addEventListener("DOMContentLoaded", function () {
     // Fetch FAQ data from the JSON file
     fetch('faqs.json')
         .then(response => response.json())
