@@ -443,11 +443,12 @@ document.getElementById("faq-search").addEventListener("input", function () {
 // Function to display random FAQs (5 random questions)
 function displayRandomFaqs(randomFaqs) {
     while (randomFaqs.length < 10) {
+        console.log("randomFaqs.length    ",randomFaqs.length);
+
         const randomIndex = Math.floor(Math.random() * randomFaqs.length);
         if (!randomFaqs.includes(faqs[randomIndex])) {
             randomFaqS.push(faqs[randomIndex]);
 
-            console.log("randomFaqs.length    ",randomFaqs.length);
             console.log("faqs[randomIndex]    ",faqs[randomIndex]);
             console.log("randomFaqS    ",randomFaqS);
         }
