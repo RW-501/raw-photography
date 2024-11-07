@@ -286,11 +286,6 @@ function displayFaqs(faqData, limit = displayedFaqs) {
 
         return;
     }
-    if (Array.isArray(faqData)) {
-
-    displayRandomFaqs(faqData)
-    console.log("faqData    ",faqData);
-    }
 
     // Display FAQs based on limit
     let faqCount = 0;
@@ -340,6 +335,13 @@ faqItem.classList.add( "fade-in"); // Initially hidden for transition
     });
 
     loadMoreBtn.style.display = faqs.length > displayedFaqs ? "block" : "none";
+    
+    
+    if (Array.isArray(faqData)) {
+        console.log("faqData    ",faqData);
+
+    displayRandomFaqs(faqData)
+    }
 
     // Show or hide the Load More button
    // loadMoreBtn.style.display = faqData.length > limit ? "block" : "none";
@@ -449,50 +451,48 @@ document.getElementById("faq-search").addEventListener("input", function () {
 */
 
 
-    let randomFaqS = [];
-// Function to display random FAQs (5 random questions)
-function displayRandomFaqs(randomFaqs) {
-    while (randomFaqS.length < 10) {
-        console.log("randomFaqs.length    ",randomFaqs.length);
+let randomFaqS = [];
 
-        const randomIndex = Math.floor(Math.random() * randomFaqs.length);
-        if (!randomFaqs.includes(faqs[randomIndex])) {
-            randomFaqS.push(faqs[randomIndex]);
+// Function to display random FAQs (10 random questions)
+function displayRandomFaqs(faqs) {
+    randomFaqS = []; // Clear any previously stored FAQs in randomFaqS
+    const maxFaqsToDisplay = 10;
 
-            console.log("faqs[randomIndex]    ",faqs[randomIndex]);
-            console.log("randomFaqS    ",randomFaqS);
+    // Randomly select up to 10 unique FAQs
+    while (randomFaqS.length < maxFaqsToDisplay && randomFaqS.length < faqs.length) {
+        const randomIndex = Math.floor(Math.random() * faqs.length);
+        const selectedFaq = faqs[randomIndex];
+
+        // Ensure the selected FAQ is unique
+        if (!randomFaqS.includes(selectedFaq)) {
+            randomFaqS.push(selectedFaq);
+            console.log("Selected FAQ:", selectedFaq);
         }
-   
-}
+    }
+
     const ran_faqItemsContainer = document.getElementById("ran-faq-items-container");
     ran_faqItemsContainer.innerHTML = ''; // Clear existing content
-console.log("randomFaqS outside    ",randomFaqS);
+    console.log("Final list of random FAQs:", randomFaqS);
 
+    // Display each selected FAQ in the container
     randomFaqS.forEach(faq => {
-        console.log("randomFaqS faq    ",faq);
+        console.log("Displaying FAQ:", faq);
 
         const faqItem = document.createElement("div");
         faqItem.classList.add("faq-item");
-        
-        const question = document.createElement("div");
-        question.innerHTML = `<li>`+faq.question+`</li>`;
 
+        const question = document.createElement("li");
+        question.textContent = faq.question;
         faqItem.appendChild(question);
         ran_faqItemsContainer.appendChild(faqItem);
 
-        // Add a click listener to search for the clicked question
+        // Add a click listener to each question to initiate a search
         question.addEventListener("click", function () {
             const faqSearch = document.getElementById("faq-search");
-
             faqSearch.value = faq.question;
-            faqSearch.dispatchEvent(new Event("input"));  // or "change" if it applies
-
+            faqSearch.dispatchEvent(new Event("input"));
         });
     });
-
-
-
-
 }
 
 
