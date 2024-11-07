@@ -384,6 +384,8 @@ faqItem.appendChild(answer);
 document.getElementById("faq-search").addEventListener("input", function () {
     const searchQuery = this.value.toLowerCase();
     let hasResults = false;
+
+    /*
     const searchRegex = new RegExp(searchQuery, "gi");
     const faqItems = document.querySelectorAll(".faq-item");
 
@@ -418,6 +420,29 @@ document.getElementById("faq-search").addEventListener("input", function () {
             const answerElement = document.createElement("p");
             answerElement.innerHTML = answer.replace(searchRegex, match => `<span class="highlight">${match}</span>`);
             answerElement.style.display = "none";
+*/
+
+const faqItems = document.querySelectorAll(".faq-item");
+
+faqItems.forEach(faqItem => {
+    const question = faqItem.querySelector(".faq-question");
+    const answer = faqItem.querySelector(".faq-answer");
+
+    question.innerHTML = question.innerHTML  = isExpanded ? `<span class="faq-icon">-</span>` : `<span class="faq-icon">+</span>`;  // Change the icon text
+
+    // Apply the highlighting to both question and answer
+   question.innerHTML = highlightText(question.innerHTML, searchQuery);
+    answer.innerHTML = highlightText(answer.innerHTML, searchQuery);
+
+    question.addEventListener("click", () => {
+        const isExpanded = faqItem.classList.toggle("active");
+        const icon = faqItem.querySelector(".faq-icon");
+
+        icon.innerHTML = isExpanded ? `<span class="faq-icon">-</span>` : `<span class="faq-icon">+</span>`;  // Change the icon text
+        answer.style.display = isExpanded ? "block" : "none"; // Show or hide answer
+
+    });
+});
 
             console.log("questionElement    ",questionElement);
             console.log("answerElement    ",answerElement);
@@ -428,7 +453,7 @@ document.getElementById("faq-search").addEventListener("input", function () {
             faqItem.appendChild(questionElement);
             faqItem.appendChild(answerElement);
             faqItemsContainer.appendChild(faqItem);
-
+/*
             // Toggle answer visibility
             questionElement.addEventListener("click", () => {
                 const isExpanded = questionElement.getAttribute("aria-expanded") === "true";
@@ -437,7 +462,7 @@ document.getElementById("faq-search").addEventListener("input", function () {
             });
         //}
     });
-
+*/
     // Show or hide the 'No Results' message based on search results
     document.getElementById("no-results").style.display = hasResults ? "none" : "block";
     document.querySelector("load-more").style.display = hasResults ? "none" : "block";
