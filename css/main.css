@@ -276,6 +276,12 @@ main {
         margin-left: 20px; /* Optional: Indents the bullet for better alignment */
     }
     
+    a:hover {
+        color: #272829;
+        text-decoration: underline;
+        font-weight: 700;
+        transform: translateY(5px);
+    }
 
 
 
