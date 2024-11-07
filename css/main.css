@@ -251,6 +251,11 @@ main {
     margin: 3rem auto;
     }
 
+    .membership-card > #features-list {
+        padding: 2rem;
+
+    }
+
     #features-list li {
         list-style-type: circle;
         text-align: left;
