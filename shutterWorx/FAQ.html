@@ -228,10 +228,10 @@ displayFaqs(faqs);
         const faqsPerPage = 10; // Initial number of FAQs to display
 
 const topicsContainer = document.getElementById("topics-container");
-        //let faqItemsContainer = document.getElementById("faq-items");
+        let faqItemsContainer = document.getElementById("faq-items");
 
         const topicFilter = document.getElementById("faq-topic-filter");
-       let  faqItemsContainer = document.getElementById("faq-items-container");
+      // let  faqItemsContainer = document.getElementById("faq-items-container");
 
 let displayedFaqs = faqsPerPage;
 
@@ -351,7 +351,7 @@ document.getElementById("faq-search").addEventListener("input", function () {
     }
 
 
-    faqItemsContainer = document.getElementById("faq-items-container");
+   // faqItemsContainer = document.getElementById("faq-items-container");
 
 
     // Highlight matching text
