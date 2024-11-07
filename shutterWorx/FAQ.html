@@ -300,7 +300,7 @@ function displayFaqs(faqData, limit = displayedFaqs) {
     }
     const isExpanded = faqItem.classList.toggle("active");
     question.setAttribute("aria-expanded", isExpanded.toString());
-    document.getElementById(`answer-${faq.id}`).setAttribute("aria-hidden", (!isExpanded).toString());
+    document.getElementById(`answer-${faqCount}`).setAttribute("aria-hidden", (!isExpanded).toString());
     answer.style.display = isExpanded ? "block" : "none"; // Toggle visibility
     // Toggle the icon between plus and minus
     const icon = faqItem.querySelector('.faq-icon');
@@ -353,9 +353,9 @@ document.getElementById("faq-search").addEventListener("input", function () {
         faqItemsContainer.innerHTML = ''; // Clear current FAQ items
     } else {
         noResultsBox.style.display = 'none'; // Hide no results message
-       // faqItemsContainer.innerHTML = ''; // Clear current FAQ items
+        faqItemsContainer.innerHTML = ''; // Clear current FAQ items
 
-       /*
+       
        const faqItems = faqItemsContainer.querySelectorAll(".faq-item");
         faqItems.forEach(item => {
             const question = item.querySelector("h3");
@@ -363,10 +363,10 @@ document.getElementById("faq-search").addEventListener("input", function () {
             question.innerHTML = highlightText(item.querySelector("h3").textContent, query);  // Highlight in question
                 answer.innerHTML = highlightText(item.querySelector("p").textContent, query); 
                 const isExpanded = item.classList.toggle("active");
-               // question.innerHTML += isExpanded ? `<span class="faq-icon">-</span>` : `<span class="faq-icon">+</span>`;  // Change the icon text
+                question.innerHTML += isExpanded ? `<span class="faq-icon">-</span>` : `<span class="faq-icon">+</span>`;  // Change the icon text
             });
-    */
-
+    
+/*
     filteredFaqs.forEach(faq => {
                 const faqItem = document.createElement("div");
                 faqItem.className = "faq-item mb-3 p-3 border rounded";
@@ -385,7 +385,7 @@ document.getElementById("faq-search").addEventListener("input", function () {
 
                 faqItemsContainer.appendChild(faqItem);
             });
-
+*/
 
 
         }   
