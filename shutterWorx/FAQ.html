@@ -74,7 +74,13 @@
     transform: rotate(45deg); /* Rotates icon when active */
 }
 
-    
+#no-results-box {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 18px;
+    color: red;
+}
+
     
     
     </style>
@@ -139,7 +145,31 @@
     </section>
 
 
-
+    <div id="no-results" class="container py-4">
+        <!-- Message Section -->
+        <div class="alert alert-info mb-4">
+            <p class="mb-0">If you have any additional questions, feel free to browse the FAQs below for more information.</p>
+        </div>
+        
+        <!-- FAQ Items Section -->
+        <div id="faq-items-container" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            <!-- The random FAQ questions will be populated here -->
+        </div>
+    
+        <!-- No Results Box -->
+        <div id="no-results-box" class="alert alert-warning text-center mt-4" style="display: none;">
+            No results found. Please refine your search and try again.
+        </div>
+    
+        <!-- Contact Us Link -->
+        <div class="text-center mt-4">
+            <small>
+                Still have questions? 
+                <a href="../shutterWorx/contact" class="text-primary">Contact us</a> for further assistance.
+            </small>
+        </div>
+    </div>
+    
 
 
         <div class="mt-5 text-center">
@@ -301,6 +331,19 @@ document.getElementById("faq-search").addEventListener("input", function () {
     }
     // Highlight matching text
     if (query) {
+
+        
+        const noResultsBox = document.getElementById("no-results");
+        const faqItemsContainer = document.getElementById("faq-items-container");
+    faqItemsContainer.innerHTML = ''; // Clear existing content
+
+    if (filteredFaqs.length === 0) {
+        noResultsBox.style.display = 'block'; // Show no results message
+        faqItemsContainer.innerHTML = ''; // Clear current FAQ items
+    } else {
+        noResultsBox.style.display = 'none'; // Hide no results message
+        faqItemsContainer.innerHTML = ''; // Clear current FAQ items
+
         const faqItems = faqItemsContainer.querySelectorAll(".faq-item");
         faqItems.forEach(item => {
             const question = item.querySelector("h3");
@@ -311,12 +354,29 @@ document.getElementById("faq-search").addEventListener("input", function () {
                 question.innerHTML += isExpanded ? `<span class="faq-icon">-</span>` : `<span class="faq-icon">+</span>`;  // Change the icon text
                 // Highlight in answer
             });
+    
+        }    }
+    
+    });
+
+    
+// Function to display random FAQs (5 random questions)
+function displayRandomFaqs() {
+    const randomFaqs = [];
+    while (randomFaqs.length < 5) {
+        const randomIndex = Math.floor(Math.random() * faqs.length);
+        if (!randomFaqs.includes(faqs[randomIndex])) {
+            randomFaqs.push(faqs[randomIndex]);
+        }
     }
-});
 
-
+}
 console.log("faq ???   ",faqs); // Check if faqs is an array
 
+// Initialize the random FAQs on page load
+document.addEventListener("DOMContentLoaded", function() {
+    displayRandomFaqs();
+});
 
 function scrollToFaq() {
     document.getElementById("faq-items").scrollIntoView({ behavior: 'smooth' });
