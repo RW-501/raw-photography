@@ -217,13 +217,25 @@ main {
             margin: 20px 0;
         }
     }
+    .join-button {
+        animation: heroGradientAnimation 20s ease-in-out infinite;
+        transition: background 0.3s ease;
 
+    }
+.join-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgb(41 9 244 / 8%);
 
+}
     .hero {
         animation: heroGradientAnimation 12s ease-in-out infinite;
         margin: 2rem 0;
         text-align: center;
-
+        transition: background 0.3s ease;
+    }
+    .hero:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgb(41 9 244 / 8%);
     }
 
     @keyframes heroGradientAnimation {
