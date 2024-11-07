@@ -328,9 +328,10 @@ faqItem.classList.add( "fade-in"); // Initially hidden for transition
     }, 500);
     });
 
+    loadMoreBtn.style.display = faqs.length > displayedFaqs ? "block" : "none";
 
     // Show or hide the Load More button
-    loadMoreBtn.style.display = faqData.length > limit ? "block" : "none";
+   // loadMoreBtn.style.display = faqData.length > limit ? "block" : "none";
 }
 
 // Function to highlight matching text
@@ -340,49 +341,61 @@ function highlightText(text, query) {
 }
 
 
-// Event listener for search input to highlight matching FAQ content
+//// Search and Highlight FAQ Items
 document.getElementById("faq-search").addEventListener("input", function () {
-    const query = this.value.toLowerCase();
-    if (faqs) {
-     filteredFaqs = faqs.filter(faq => 
-     faq.question.toLowerCase().includes(query) || faq.answer.toLowerCase().includes(query));
-    displayFaqs(filteredFaqs);
-    displayRandomFaqs(filteredFaqs);
+    const searchQuery = this.value.toLowerCase();
+    let hasResults = false;
 
-    }
+    faqItemsContainer.innerHTML = ""; // Clear the container before displaying results
 
+    filteredFaqs.forEach((faq, index) => {
+        const question = faq.question.toLowerCase();
+        const answer = faq.answer.toLowerCase();
 
-   
+        if (question.includes(searchQuery) || answer.includes(searchQuery)) {
+            hasResults = true;
+            const faqItem = document.createElement("div");
+            faqItem.className = "faq-item";
 
+            // Highlight matched text
+            const highlightedQuestion = faq.question.replace(
+                new RegExp(searchQuery, "gi"),
+                match => `<span class="highlight">${match}</span>`
+            );
 
-    // Highlight matching text
-    if (query) {
+            const questionElement = document.createElement("h3");
+            questionElement.innerHTML = highlightedQuestion + `<span class="faq-icon">+</span>`;
+            questionElement.setAttribute("aria-expanded", "false");
 
-        
-        const noResultsBox = document.getElementById("no-results");
-        const ran_faqItemsContainer = document.getElementById("ran-faq-items-container");
+            const answerElement = document.createElement("p");
+            answerElement.innerHTML = faq.answer.replace(
+                new RegExp(searchQuery, "gi"),
+                match => `<span class="highlight">${match}</span>`
+            );
+            answerElement.style.display = "none";
 
-        
-    if (filteredFaqs.length === 0) {
-        noResultsBox.style.display = 'block'; // Show no results message
-        faqItemsContainer.innerHTML = ''; // Clear current FAQ items
+            faqItem.appendChild(questionElement);
+            faqItem.appendChild(answerElement);
+            faqItemsContainer.appendChild(faqItem);
 
-    } else {
-        noResultsBox.style.display = 'none'; // Hide no results message
-        faqItemsContainer.innerHTML = ''; // Clear current FAQ items
+            questionElement.addEventListener("click", () => {
+                const isExpanded = questionElement.getAttribute("aria-expanded") === "true";
+                answerElement.style.display = isExpanded ? "none" : "block";
+                questionElement.setAttribute("aria-expanded", !isExpanded);
+            });
+        }
+    });
 
-      //  faqItemsContainer = document.getElementById("faq-items-container");
-        const faqItems = document.querySelectorAll(".faq-item");
-        faqItems.forEach(item => {
-    // Get the actual elements instead of their innerHTML content
-    const questionEl = item.querySelector("h3");
-    const answerEl = item.querySelector("p");
+    // Show or hide the 'No Results' message based on search results
+    document.getElementById("no-results-box").style.display = hasResults ? "none" : "block";
+});
+
     
-    // Apply the highlight to the text content
-    questionEl.innerHTML = highlightText(questionEl.textContent, query); // Highlight in question
-    answerEl.innerHTML = highlightText(answerEl.textContent, query);     // Highlight in answer
-    
-    // Toggle expansion state and update icon
+/*
+
+
+
+  // Toggle expansion state and update icon
     const isExpanded = item.classList.toggle("active");
     questionEl.innerHTML += isExpanded ? `<span class="faq-icon">-</span>` : `<span class="faq-icon">+</span>`;
     faqItem.classList.add( "fade-in"); // Initially hidden for transition
@@ -395,10 +408,9 @@ document.getElementById("faq-search").addEventListener("input", function () {
 
                 setTimeout(() => {
         }, 300);
-});
-  
-    
-/*
+
+
+
     filteredFaqs.forEach(faq => {
                 const faqItem = document.createElement("div");
                 faqItem.className = "faq-item mb-3 p-3 border rounded";
@@ -420,11 +432,7 @@ document.getElementById("faq-search").addEventListener("input", function () {
 */
 
 
-        }   
-
-    }
     
-    });
 
     let randomFaqS = [];
 // Function to display random FAQs (5 random questions)
