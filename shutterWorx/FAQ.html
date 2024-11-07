@@ -228,10 +228,10 @@ displayFaqs(faqs);
         const faqsPerPage = 10; // Initial number of FAQs to display
 
 const topicsContainer = document.getElementById("topics-container");
-        //let faqItemsContainer = document.getElementById("faq-items");
+        let faqItemsContainer = document.getElementById("faq-items");
 
         const topicFilter = document.getElementById("faq-topic-filter");
-       let  faqItemsContainer = document.getElementById("faq-items-container");
+      // let  faqItemsContainer = document.getElementById("faq-items-container");
 
 let displayedFaqs = faqsPerPage;
 
@@ -243,13 +243,14 @@ let faqs = []; let  filteredFaqs;
         .then(FAQs => {
             faqs = FAQs
             displayFaqs(faqs);
-            displayRandomFaqs(faqs);
 
             // Filter FAQs when a topic is selected
             topicFilter.addEventListener("change", (e) => {
                 const selectedTopic = e.target.value;
                  filteredFaqs = selectedTopic ? faqs.filter(faq => faq.topic === selectedTopic) : faqs;
                 displayFaqs(filteredFaqs);
+                displayRandomFaqs(filteredFaqs);
+
             });
 
         })
@@ -351,7 +352,7 @@ document.getElementById("faq-search").addEventListener("input", function () {
     }
 
 
-    faqItemsContainer = document.getElementById("faq-items-container");
+   // faqItemsContainer = document.getElementById("faq-items-container");
 
 
     // Highlight matching text
@@ -384,15 +385,15 @@ document.getElementById("faq-search").addEventListener("input", function () {
     // Toggle expansion state and update icon
     const isExpanded = item.classList.toggle("active");
     questionEl.innerHTML += isExpanded ? `<span class="faq-icon">-</span>` : `<span class="faq-icon">+</span>`;
-    faqItem.classList.add("show "); // Trigger the show class after appending
+    faqItem.classList.add( "fade-in"); // Initially hidden for transition
 
     faqItem.appendChild(question);
                 faqItem.appendChild(answer);
 
                 faqItemsContainer.appendChild(faqItem);
+                faqItem.classList.remove( "fade-in"); // Initially hidden for transition
 
                 setTimeout(() => {
-            faqItem.classList.remove("show");
         }, 300);
 });
   
