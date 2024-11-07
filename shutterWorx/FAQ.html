@@ -220,6 +220,18 @@ let faqs = []; let  filteredFaqs;
 });
 
 
+const loadMoreBtn = document.createElement("button");
+loadMoreBtn.textContent = "Load More";
+loadMoreBtn.className = "load-more";
+loadMoreBtn.style.display = "none";
+faqItemsContainer.after(loadMoreBtn);
+
+   // Load more FAQs when the button is clicked
+   loadMoreBtn.addEventListener("click", () => {
+displayedFaqs += faqsPerPage;
+displayFaqs(faqs, displayedFaqs);
+
+});
 
 
         // Function to display FAQs with optional limit
@@ -259,7 +271,7 @@ function displayFaqs(faqData, limit = displayedFaqs) {
     answer.style.display = isExpanded ? "block" : "none"; // Toggle visibility
     // Toggle the icon between plus and minus
     const icon = faqItem.querySelector('.faq-icon');
-    icon.innerHTML = isExpanded ? '`<span class="faq-icon">-</span>`' : '`<span class="faq-icon">+</span>`';  // Change the icon text
+    icon.innerHTML = isExpanded ? `<span class="faq-icon">-</span>` : `<span class="faq-icon">+</span>`;  // Change the icon text
 });
 
 
@@ -268,18 +280,6 @@ function displayFaqs(faqData, limit = displayedFaqs) {
         faqItemsContainer.appendChild(faqItem);
     });
 
-const loadMoreBtn = document.createElement("button");
-loadMoreBtn.textContent = "Load More";
-loadMoreBtn.className = "load-more";
-loadMoreBtn.style.display = "none";
-faqItemsContainer.after(loadMoreBtn);
-
-   // Load more FAQs when the button is clicked
-   loadMoreBtn.addEventListener("click", () => {
-displayedFaqs += faqsPerPage;
-displayFaqs(faqs, displayedFaqs);
-
-});
 
     // Show or hide the Load More button
     loadMoreBtn.style.display = faqData.length > limit ? "block" : "none";
