@@ -376,14 +376,15 @@ document.getElementById("faq-search").addEventListener("input", function () {
  console.log("faqItems    ",faqItems);
 
     faqItemsContainer.innerHTML = ""; // Clear the container before displaying results
-    console.log("filteredFaqs main search    ",filteredFaqs);
+    //console.log("filteredFaqs main search    ",filteredFaqs);
 
     faqItems.forEach((faq, index) => {
+    const question = faq.querySelector(".faq-question");
+    const answer = faq.querySelector(".faq-answer");
 
         console.log("faq    ",faq);
-        console.log("faqItems    ",faq.outerHTML);
-        const question = faq.question.toLowerCase();
-        const answer = faq.answer.toLowerCase();
+        console.log("question    ",question);
+  
 
 return;
         if (question.includes(searchQuery) || answer.includes(searchQuery)) {
