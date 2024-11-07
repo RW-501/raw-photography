@@ -384,6 +384,7 @@ faqItem.appendChild(answer);
 document.getElementById("faq-search").addEventListener("input", function () {
     const searchQuery = this.value.toLowerCase();
     let hasResults = false;
+    const searchRegex = new RegExp(searchQuery, "gi");
 
     /*
     const searchRegex = new RegExp(searchQuery, "gi");
@@ -430,10 +431,13 @@ faqItems.forEach(faqItem => {
     const isExpanded = faqItem.classList.toggle("active");
 
     question.innerHTML = question.innerHTML  = isExpanded ? `<span class="faq-icon">-</span>` : `<span class="faq-icon">+</span>`;  // Change the icon text
+    console.log("question    ",question);
+
+    const highlightedQuestion = question.replace(searchRegex, match => `<span class="highlight">${match}</span>`);
 
     // Apply the highlighting to both question and answer
-   question.innerHTML = highlightText(question.innerHTML, searchQuery);
-    answer.innerHTML = highlightText(answer.innerHTML, searchQuery);
+   question.innerHTML = highlightedQuestion(question.innerHTML, searchQuery);
+    answer.innerHTML = highlightedQuestion(answer.innerHTML, searchQuery);
 
     question.addEventListener("click", () => {
         const isExpanded = faqItem.classList.toggle("active");
