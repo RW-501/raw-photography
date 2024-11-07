@@ -288,7 +288,7 @@ function displayFaqs(faqData, limit = displayedFaqs) {
     }
     if (Array.isArray(faqData)) {
 
-   // displayRandomFaqs(faqData)
+    displayRandomFaqs(faqData)
     console.log("faqData    ",faqData);
     }
 
@@ -365,7 +365,7 @@ document.getElementById("faq-search").addEventListener("input", function () {
     faqItemsContainer.innerHTML = ""; // Clear the container before displaying results
     console.log("filteredFaqs main search    ",filteredFaqs);
 
-    filteredFaqs.forEach((faq, index) => {
+    faqItems.forEach((faq, index) => {
         const question = faq.question.toLowerCase();
         const answer = faq.answer.toLowerCase();
 
@@ -452,7 +452,7 @@ document.getElementById("faq-search").addEventListener("input", function () {
     let randomFaqS = [];
 // Function to display random FAQs (5 random questions)
 function displayRandomFaqs(randomFaqs) {
-    while (randomFaqs.length < 10) {
+    while (randomFaqS.length < 10) {
         console.log("randomFaqs.length    ",randomFaqs.length);
 
         const randomIndex = Math.floor(Math.random() * randomFaqs.length);
