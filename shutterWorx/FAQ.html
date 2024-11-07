@@ -304,15 +304,15 @@ function displayFaqs(faqData, limit = displayedFaqs) {
     const icon = faqItem.querySelector('.faq-icon');
     icon.innerHTML = isExpanded ? `<span class="faq-icon">-</span>` : `<span class="faq-icon">+</span>`;  // Change the icon text
 });
-faqItem.classList.add( "d-none"); // Initially hidden for transition
+faqItem.classList.add( "fade-in"); // Initially hidden for transition
 
 
         faqItem.appendChild(question);
         faqItem.appendChild(answer);
         faqItemsContainer.appendChild(faqItem);
         setTimeout(() => {
-        faqItem.classList.remove("d-none");
-        faqItem.classList.add("fade-in");
+        faqItem.classList.remove("fade-in");
+     //   faqItem.classList.add("fade-in");
     }, 100);
     });
 
