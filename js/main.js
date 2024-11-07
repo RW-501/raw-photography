@@ -437,6 +437,7 @@ function loadMenuToggleControls(){
         // Get the current URL
         const currentUrl = window.location.href;
         console.log("currentUrl   ",currentUrl);
+        console.log("keyword   ",keyword);
       
         // Check if the URL contains 
         if (currentUrl.includes(keyword)) {
@@ -448,7 +449,7 @@ function loadMenuToggleControls(){
 
         
       document.addEventListener("DOMContentLoaded", () => {
-        if (!window.checkUrl("/admin/") || !window.checkUrl("/shutterWorx/")) {
+        if (!window.checkUrl("/admin/") || !window.checkUrl("shutterWorx")) {
         // Apply fetched or default settings
         // Call the function to apply settings
 applyLoadingSpinnerColors();
