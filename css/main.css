@@ -232,6 +232,9 @@ main {
         margin: 2rem 0;
         text-align: center;
         transition: background 0.3s ease;
+
+        border-radius: 20px;
+        overflow: hidden;
     }
     .hero:hover {
         transform: translateY(-10px);
