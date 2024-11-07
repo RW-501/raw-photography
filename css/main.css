@@ -234,8 +234,8 @@ main {
         transition: background 0.3s ease;
     }
     .hero:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 16px rgb(41 9 244 / 8%);
+        transform: translateY(-10px);
+        box-shadow: 0 8px 16px 6px #1b1e2129
     }
 
     @keyframes heroGradientAnimation {
@@ -246,6 +246,17 @@ main {
             background: linear-gradient(90deg, #6a11cb, #2575fc);
         }
     }
+
+    .membership-card {
+    margin: 2rem auto;
+    }
+
+    #features-list .list-unstyled li {
+        list-style: circle;
+        text-align: left;
+        }
+
+
 
 /* Color Classes */
 .mainBGcolor, .bg-mainColor { background-color: #639ad4 !important; }
