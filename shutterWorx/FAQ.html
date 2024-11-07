@@ -330,7 +330,7 @@ function displayFaqs(faqData, limit = displayedFaqs) {
 
   
          const question = document.createElement("h3");
-        question.innerHTML = faq.question;
+        question.textContent = faq.question;
         question.setAttribute("aria-expanded", "false");
         question.setAttribute("aria-controls", `question-${faqCount}`);
         question.classList.add( "faq-question"); 
