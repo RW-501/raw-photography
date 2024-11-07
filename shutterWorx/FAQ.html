@@ -290,7 +290,7 @@ function displayFaqs(faqData, limit = displayedFaqs) {
         const question = document.createElement("h3");
         question.innerHTML = faq.question + `<span class="faq-icon">+</span>`;
         question.setAttribute("aria-expanded", "false");
-        question.setAttribute("aria-controls", `answer-${faq.id}`);
+        question.setAttribute("aria-controls", `answer-${faqCount}`);
 
         question.addEventListener("click", () => {
     const isLoaded = answer.getAttribute("data-loaded") === "true";
@@ -334,7 +334,8 @@ function highlightText(text, query) {
 document.getElementById("faq-search").addEventListener("input", function () {
     const query = this.value.toLowerCase();
     if (faqs) {
-     filteredFaqs = faqs.filter(faq => faq.question.toLowerCase().includes(query) || faq.answer.toLowerCase().includes(query));
+     filteredFaqs = faqs.filter(faq => 
+     faq.question.toLowerCase().includes(query) || faq.answer.toLowerCase().includes(query));
     displayFaqs(filteredFaqs);
     displayRandomFaqs(faqs);
 
@@ -352,9 +353,10 @@ document.getElementById("faq-search").addEventListener("input", function () {
         faqItemsContainer.innerHTML = ''; // Clear current FAQ items
     } else {
         noResultsBox.style.display = 'none'; // Hide no results message
-        faqItemsContainer.innerHTML = ''; // Clear current FAQ items
+       // faqItemsContainer.innerHTML = ''; // Clear current FAQ items
 
-        const faqItems = faqItemsContainer.querySelectorAll(".faq-item");
+       /*
+       const faqItems = faqItemsContainer.querySelectorAll(".faq-item");
         faqItems.forEach(item => {
             const question = item.querySelector("h3");
             const answer = item.querySelector("p");
@@ -363,8 +365,32 @@ document.getElementById("faq-search").addEventListener("input", function () {
                 const isExpanded = item.classList.toggle("active");
                // question.innerHTML += isExpanded ? `<span class="faq-icon">-</span>` : `<span class="faq-icon">+</span>`;  // Change the icon text
             });
-    
-        }    }
+    */
+
+    filteredFaqs.forEach(faq => {
+                const faqItem = document.createElement("div");
+                faqItem.className = "faq-item mb-3 p-3 border rounded";
+
+                const question = document.createElement("h3");
+                question.innerHTML = highlightText(faq.question, query); // Highlight in question
+               
+                const isExpanded = faqItem.classList.toggle("active");
+                question.innerHTML += isExpanded ? `<span class="faq-icon">-</span>` : `<span class="faq-icon">+</span>`;  // Change the icon text
+           
+                const answer = document.createElement("p");
+                answer.innerHTML = highlightText(faq.answer, query); // Highlight in answer
+
+                faqItem.appendChild(question);
+                faqItem.appendChild(answer);
+
+                faqItemsContainer.appendChild(faqItem);
+            });
+
+
+
+        }   
+
+    }
     
     });
 
