@@ -248,13 +248,15 @@ main {
     }
 
     .membership-card {
-    margin: 2rem auto;
+    margin: 3rem auto;
     }
 
-    #features-list .list-unstyled li {
-        list-style: circle;
+    #features-list li {
+        list-style-type: circle;
         text-align: left;
-        }
+        margin-left: 20px; /* Optional: Indents the bullet for better alignment */
+    }
+    
 
 
 
