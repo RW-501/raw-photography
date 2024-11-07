@@ -172,7 +172,8 @@ main {
     }
 
     #nav-menu ul li a:hover {
-        color: #ffbb00;
+        color: #565656;
+        font-weight: 800;
     }
 
     /* Mobile Styles: Hide menu initially */
