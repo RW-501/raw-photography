@@ -394,8 +394,10 @@ document.getElementById("faq-search").addEventListener("input", function () {
     //console.log("filteredFaqs main search    ",filteredFaqs);
 
     faqItems.forEach((faq, index) => {
-    const question = faq.querySelector(".faq-question").innerText;
-    const answer = faq.querySelector(".faq-answer").innerText;
+
+        const question = faq.querySelector(".faq-question")?.innerText || '';
+const answer = faq.querySelector(".faq-answer")?.innerText || '';
+
     console.log(" faq    ",faq);
 
         console.log("question    ",question);
