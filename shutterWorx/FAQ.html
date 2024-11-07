@@ -278,11 +278,11 @@ displayFaqs(faqs, displayedFaqs);
 // Function to display FAQs with optional limit
 function displayFaqs(faqData, limit = displayedFaqs) {
     faqItemsContainer.innerHTML = ""; // Clear current FAQs
-    if (!Array.isArray(faqData)) {
-        faqData = faqs;
-        console.log("not an array");
+    if (Array.isArray(faqData)) {
+        console.log("faqData is an array");
     }else{
         console.log("NO Arrays");
+      //  faqData = faqs;
 
         return;
     }
