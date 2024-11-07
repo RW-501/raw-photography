@@ -259,7 +259,7 @@ function displayFaqs(faqData, limit = displayedFaqs) {
     answer.style.display = isExpanded ? "block" : "none"; // Toggle visibility
     // Toggle the icon between plus and minus
     const icon = faqItem.querySelector('.faq-icon');
-    icon.textContent = isExpanded ? '`<span class="faq-icon">-</span>`' : '`<span class="faq-icon">+</span>`';  // Change the icon text
+    icon.innerHTML = isExpanded ? '`<span class="faq-icon">-</span>`' : '`<span class="faq-icon">+</span>`';  // Change the icon text
 });
 
 
