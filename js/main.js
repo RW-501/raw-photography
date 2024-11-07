@@ -430,45 +430,32 @@ function loadMenuToggleControls(){
   
 }
   
-    
+ // Define the checkUrl function to check if a specific keyword is in the URL
+window.checkUrl = function(keyword) {
+  // Get the current URL
+  const currentUrl = window.location.href;
+  console.log("currentUrl:", currentUrl);
+  //console.log("keyword:", keyword);
 
-      window.checkUrl = (function(keyword) {
+  // Return true if the keyword is found in the URL, otherwise false
+  return currentUrl.includes(keyword);
+};
 
-        // Get the current URL
-        const currentUrl = window.location.href;
-        console.log("currentUrl   ",currentUrl);
-        console.log("keyword   ",keyword);
-      
-        // Check if the URL contains 
-        if (currentUrl.includes(keyword)) {
-            return true; // The URL contains either 
-            }
-        return false; // Neither keyword is found
-      });
-      
+// Run this after the DOM has loaded
+document.addEventListener("DOMContentLoaded", () => {
+  // Check if either /admin/ OR shutterWorx exists in the URL
+  if (window.checkUrl("/admin/") || window.checkUrl("shutterWorx")) {
+      console.log("Admin/Member View");
+      // Add any admin-specific functionality or settings here
 
-        
-      document.addEventListener("DOMContentLoaded", () => {
-        if (!window.checkUrl("/admin/") || !window.checkUrl("shutterWorx")) {
-        // Apply fetched or default settings
-        // Call the function to apply settings
-applyLoadingSpinnerColors();
-applySettings();
-loadMenuToggleControls();
-console.log("User View");
-
-    }else{
-      console.log("Admin/ Member View");
-    } 
-    
-
-
-
-
-    });
-
-
-
+  } else {
+      console.log("User View");
+      // Apply fetched or default settings for user view
+      applyLoadingSpinnerColors();
+      applySettings();
+      loadMenuToggleControls();
+  }
+});
 
 
 
