@@ -337,7 +337,7 @@ function displayFaqs(faqData, limit = displayedFaqs) {
 
       
         const faqItemOuter = document.createElement("span");
-       faqItemOuter.innerHTML = question +''+ plus;
+       faqItemOuter.textContent = question +''+ plus;
 
 
        faqItemOuter.addEventListener("click", () => {
