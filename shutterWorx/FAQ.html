@@ -391,6 +391,10 @@ document.getElementById("faq-search").addEventListener("input", function () {
     faqItems.forEach((faq) => {
         const question = faq.querySelector(".faq-question")?.innerText || '';
         const answer = faq.querySelector(".faq-answer")?.innerText || '';
+        console.log("question    ",question);
+        console.log("answer    ",answer);
+
+
 
         if (question.toLowerCase().includes(searchQuery) || answer.toLowerCase().includes(searchQuery)) {
             hasResults = true;
@@ -408,6 +412,12 @@ document.getElementById("faq-search").addEventListener("input", function () {
             const answerElement = document.createElement("p");
             answerElement.innerHTML = answer.replace(searchRegex, match => `<span class="highlight">${match}</span>`);
             answerElement.style.display = "none";
+
+            console.log("questionElement    ",questionElement);
+            console.log("answerElement    ",answerElement);
+
+
+
 
             faqItem.appendChild(questionElement);
             faqItem.appendChild(answerElement);
