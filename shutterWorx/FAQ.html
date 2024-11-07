@@ -326,7 +326,7 @@ function displayFaqs(faqData, limit = displayedFaqs) {
         answer.classList.add( "fade-in");
 
   const plus = document.createElement("div");
-         plus.innerHTML = `<span class="faq-icon">+</span>`;
+         plus.textContent = `<span class="faq-icon">+</span>`;
 
   
          const question = document.createElement("h3");
@@ -337,7 +337,7 @@ function displayFaqs(faqData, limit = displayedFaqs) {
 
       
         const faqItemOuter = document.createElement("span");
-       faqItemOuter.innerHTML = "text"; //question , plus;
+       faqItemOuter.innerHTML = question , plus;
 
 
        faqItemOuter.addEventListener("click", () => {
