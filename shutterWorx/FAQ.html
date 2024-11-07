@@ -309,6 +309,10 @@ function displayFaqs(faqData, limit = displayedFaqs) {
         faqItem.appendChild(question);
         faqItem.appendChild(answer);
         faqItemsContainer.appendChild(faqItem);
+        setTimeout(() => {
+        faqItem.classList.remove("d-none");
+        faqItem.classList.add("fade-in");
+    }, 100);
     });
 
 
@@ -329,6 +333,8 @@ document.getElementById("faq-search").addEventListener("input", function () {
     if (faqs) {
      filteredFaqs = faqs.filter(faq => faq.question.toLowerCase().includes(query) || faq.answer.toLowerCase().includes(query));
     displayFaqs(filteredFaqs);
+    displayRandomFaqs(faqs);
+
     }
     // Highlight matching text
     if (query) {
@@ -361,8 +367,7 @@ document.getElementById("faq-search").addEventListener("input", function () {
 
     
 // Function to display random FAQs (5 random questions)
-function displayRandomFaqs() {
-    const randomFaqs = [];
+function displayRandomFaqs(randomFaqs) {
     while (randomFaqs.length < 5) {
         const randomIndex = Math.floor(Math.random() * faqs.length);
         if (!randomFaqs.includes(faqs[randomIndex])) {
@@ -391,11 +396,12 @@ function displayRandomFaqs() {
     });
 }
 
-console.log("faq ???   ",faqs); // Check if faqs is an array
 
 // Initialize the random FAQs on page load
 document.addEventListener("DOMContentLoaded", function() {
-    displayRandomFaqs();
+    console.log("faq ???   ",faqs); // Check if faqs is an array
+
+    displayRandomFaqs(faqs);
 });
 
 function scrollToFaq() {
