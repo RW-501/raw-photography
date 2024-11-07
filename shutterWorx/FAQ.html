@@ -325,15 +325,19 @@ function displayFaqs(faqData, limit = displayedFaqs) {
         answer.classList.add( "faq-answer"); 
         answer.classList.add( "fade-in");
 
+  const plus = document.createElement("div");
+         plus.innerHTML = `<span class="faq-icon">+</span>`;
+
+  
         const question = document.createElement("h3");
         question.innerHTML = faq.question;
         question.setAttribute("aria-expanded", "false");
         question.setAttribute("aria-controls", `question-${faqCount}`);
         question.classList.add( "faq-question"); 
 
-       // const plus = document.createElement("div");
-       //  plus.innerHTML = `<span class="faq-icon">+</span>`;
-
+      
+        const faqItemOuter = document.createElement("div");
+       faqItemOuter.innerHTML = question += plus;
 
 
         question.addEventListener("click", () => {
@@ -355,8 +359,8 @@ function displayFaqs(faqData, limit = displayedFaqs) {
 faqItem.classList.add( "fade-in"); // Initially hidden for transition
 
 
-//faqItem.appendChild(plus);
-faqItem.appendChild(question);
+faqItem.appendChild(faqItemOuter);
+//faqItem.appendChild(question);
 faqItem.appendChild(answer);
         faqItemsContainer.appendChild(faqItem);
         setTimeout(() => {
@@ -429,9 +433,12 @@ faqItems.forEach(faqItem => {
     const question = faqItem.querySelector(".faq-question");
     const answer = faqItem.querySelector(".faq-answer");
     const isExpanded = faqItem.classList.toggle("active");
+    console.log("question    ",question.innerText);
+    console.log("questioninnerContext    ",question.innerContext);
+    console.log("question before   ",question);
 
     question.innerHTML = question.innerHTML  = isExpanded ? `<span class="faq-icon">-</span>` : `<span class="faq-icon">+</span>`;  // Change the icon text
-    console.log("question    ",question);
+    console.log("question after    ",question);
 
     const highlightedQuestion = question.replace(searchRegex, match => `<span class="highlight">${match}</span>`);
 
