@@ -282,6 +282,14 @@ function displayFaqs(faqData, limit = displayedFaqs) {
         faqData = faqs;
         console.log("not an array");
     }
+    if (!Array.isArray(faqData)) {
+        faqData = faqs;
+        console.log("still not an array");
+    }else{
+        console.log("NO Arrays");
+
+        return;
+    }
     //displayRandomFaqs(faqData)
     console.log("faqData    ",faqData);
 
@@ -521,7 +529,7 @@ topics.forEach(topic => {
     displayFaqs(faqs);
 });
 
-
+/*
 const faqItems = document.querySelectorAll(".faq-item");
 
 faqItems.forEach(faqItem => {
@@ -544,7 +552,7 @@ faqItems.forEach(faqItem => {
     });
 });
 
- 
+ */
 
      
 
