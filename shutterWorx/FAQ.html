@@ -348,11 +348,13 @@ document.getElementById("faq-search").addEventListener("input", function () {
         
         const noResultsBox = document.getElementById("no-results");
         const ran_faqItemsContainer = document.getElementById("ran-faq-items-container");
-    faqItemsContainer.innerHTML = ''; // Clear existing content
+        faqItemsContainer = document.getElementById("faq-items-container");
 
+        
     if (filteredFaqs.length === 0) {
-        noResultsBox.style.display = 'block'; // Show no results message
         faqItemsContainer.innerHTML = ''; // Clear current FAQ items
+        noResultsBox.style.display = 'block'; // Show no results message
+
     } else {
         noResultsBox.style.display = 'none'; // Hide no results message
         faqItemsContainer.innerHTML = ''; // Clear current FAQ items
