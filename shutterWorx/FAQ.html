@@ -345,7 +345,7 @@ document.getElementById("faq-search").addEventListener("input", function () {
 
         
         const noResultsBox = document.getElementById("no-results");
-        const faqItemsContainer = document.getElementById("faq-items-container");
+        const faqItemsContainer = document.getElementById("ran-faq-items-container");
     faqItemsContainer.innerHTML = ''; // Clear existing content
 
     if (filteredFaqs.length === 0) {
@@ -356,8 +356,8 @@ document.getElementById("faq-search").addEventListener("input", function () {
         faqItemsContainer.innerHTML = ''; // Clear current FAQ items
 
        
-       const faqItems = faqItemsContainer.querySelectorAll(".faq-item");
-        faqItems.forEach(item => {
+       //const faqItems = faqItemsContainer.querySelectorAll(".faq-item");
+       filteredFaqs.forEach(item => {
             const question = item.querySelector("h3");
             const answer = item.querySelector("p");
             question.innerHTML = highlightText(item.querySelector("h3").textContent, query);  // Highlight in question
@@ -409,7 +409,7 @@ function displayRandomFaqs(randomFaqs) {
     const faqItemsContainer = document.getElementById("ran-faq-items-container");
     faqItemsContainer.innerHTML = ''; // Clear existing content
 
-    
+
     randomFaqs.forEach(faq => {
         console.log("faq ???   ",faq);
         console.log("faq.question ???   ",faq.question);
