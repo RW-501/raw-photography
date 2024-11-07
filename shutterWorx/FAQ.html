@@ -340,7 +340,7 @@ function displayFaqs(faqData, limit = displayedFaqs) {
        faqItemOuter.innerHTML = question += plus;
 
 
-        question.addEventListener("click", () => {
+       faqItemOuter.addEventListener("click", () => {
     const isLoaded = answer.getAttribute("data-loaded") === "true";
     if (!isLoaded) {
         answer.textContent = faq.answer;
