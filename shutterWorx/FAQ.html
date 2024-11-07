@@ -256,6 +256,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(FAQs => {
             faqs = FAQs;
             displayFaqs(faqs);
+            displayRandomFaqs(faqs);
 
             // Filter FAQs by topic
             topicFilter.addEventListener("change", (e) => {
@@ -269,6 +270,7 @@ document.addEventListener("DOMContentLoaded", function () {
             faqItemsContainer.innerHTML = "<p>Sorry, we're unable to load the FAQs at the moment.</p>";
         });
 
+     
     // Load more button setup
     const loadMoreBtn = document.createElement("button");
     loadMoreBtn.textContent = "Load More";
@@ -287,6 +289,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Ensure faqData is an array
         if (!Array.isArray(faqData)) return;
+
 
         // Display limited number of FAQs
         faqData.slice(0, limit).forEach((faq, index) => {
@@ -369,7 +372,95 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("no-results").style.display = hasResults ? "none" : "block";
         loadMoreBtn.style.display = hasResults ? "none" : "block";
     });
+
+
+
+    let randomFaqS = [];
+
+// Function to display random FAQs (10 random questions)
+function displayRandomFaqs(faqs) {
+    randomFaqS = []; // Clear any previously stored FAQs in randomFaqS
+    const maxFaqsToDisplay = 10;
+
+    // Randomly select up to 10 unique FAQs
+    while (randomFaqS.length < maxFaqsToDisplay && randomFaqS.length < faqs.length) {
+        const randomIndex = Math.floor(Math.random() * faqs.length);
+        const selectedFaq = faqs[randomIndex];
+
+        // Ensure the selected FAQ is unique
+        if (!randomFaqS.includes(selectedFaq)) {
+            randomFaqS.push(selectedFaq);
+           // console.log("Selected random FAQ: ", selectedFaq);
+        }
+    }
+
+    const ran_faqItemsContainer = document.getElementById("ran-faq-items-container");
+    ran_faqItemsContainer.innerHTML = ''; // Clear existing content
+    //console.log("Final list of random FAQs:", randomFaqS);
+
+    // Display each selected FAQ in the container
+    randomFaqS.forEach(faq => {
+       // console.log("Displaying FAQ:", faq);
+
+        const faqItem = document.createElement("div");
+        faqItem.classList.add("faq-item");
+
+        const question = document.createElement("li");
+        question.textContent = faq.question;
+        faqItem.appendChild(question);
+        ran_faqItemsContainer.appendChild(faqItem);
+
+        // Add a click listener to each question to initiate a search
+        question.addEventListener("click", function () {
+            const faqSearch = document.getElementById("faq-search");
+            faqSearch.value = faq.question;
+            faqSearch.dispatchEvent(new Event("input"));
+        });
+    });
+}
+
+
+
+function scrollToFaq() {
+    document.getElementById("faq-items").scrollIntoView({ behavior: 'smooth' });
+}
+
+//const topics = ["Account", "General", "Subscription", "Support"]; // This can be dynamic
+if (Array.isArray(faqs)) {
+
+            // Create a set of unique topics
+    const topics = [...new Set(faqs.map(faq => faq.topic))];
+    
+    // Populate topics dynamically
+topics.forEach(topic => {
+    const topicElement = document.createElement("div");
+    topicElement.classList.add("topic");
+    topicElement.textContent = topic;
+    topicElement.addEventListener("click", () => {
+        const filteredFaqs = faqs.filter(faq => faq.topic === topic);
+        displayFaqs(filteredFaqs);
+    });
+    topicsContainer.appendChild(topicElement);
 });
+
+}
+    // Filter by topic
+    function filterByTopic(topic) {
+         filteredFaqs = faqs.filter(faq => faq.topic === topic);
+        displayFaqs(filteredFaqs);
+    }
+
+
+
+
+
+});
+
+
+
+
+
+
 
 /*
 const faqItems = document.querySelectorAll(".faq-item");
