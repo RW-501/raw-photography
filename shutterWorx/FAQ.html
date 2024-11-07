@@ -235,7 +235,7 @@ const topicsContainer = document.getElementById("topics-container");
 
 let displayedFaqs = faqsPerPage;
 
-let faqs = []; let  filteredFaqs;
+let faqs = []; let  filteredFaqs = [];
 
     // Fetch FAQ data from the JSON file
     fetch('faqs.json')
@@ -249,7 +249,7 @@ let faqs = []; let  filteredFaqs;
                 const selectedTopic = e.target.value;
                  filteredFaqs = selectedTopic ? faqs.filter(faq => faq.topic === selectedTopic) : faqs;
                 displayFaqs(filteredFaqs);
-
+                console.log("filteredFaqs topicFilter   ",filteredFaqs);
             });
 
         })
@@ -281,6 +281,9 @@ function displayFaqs(faqData, limit = displayedFaqs) {
         faqData = faqs;
         console.log("not an array");
     }
+    displayRandomFaqs(faqData)
+    console.log("faqData    ",faqData);
+
     // Display FAQs based on limit
     let faqCount = 0;
     faqData.slice(0, limit).forEach(faq => {
@@ -341,12 +344,16 @@ function highlightText(text, query) {
 }
 
 
+
+
 //// Search and Highlight FAQ Items
 document.getElementById("faq-search").addEventListener("input", function () {
     const searchQuery = this.value.toLowerCase();
     let hasResults = false;
 
     faqItemsContainer.innerHTML = ""; // Clear the container before displaying results
+    console.log("hasResults    ",hasResults);
+    console.log("filteredFaqs    ",filteredFaqs);
 
     filteredFaqs.forEach((faq, index) => {
         const question = faq.question.toLowerCase();
@@ -432,8 +439,6 @@ document.getElementById("faq-search").addEventListener("input", function () {
 */
 
 
-    
-
     let randomFaqS = [];
 // Function to display random FAQs (5 random questions)
 function displayRandomFaqs(randomFaqs) {
@@ -441,15 +446,19 @@ function displayRandomFaqs(randomFaqs) {
         const randomIndex = Math.floor(Math.random() * randomFaqs.length);
         if (!randomFaqs.includes(faqs[randomIndex])) {
             randomFaqS.push(faqs[randomIndex]);
+
+            console.log("randomFaqs.length    ",randomFaqs.length);
+            console.log("faqs[randomIndex]    ",faqs[randomIndex]);
+            console.log("randomFaqS    ",randomFaqS);
         }
    
 }
     const ran_faqItemsContainer = document.getElementById("ran-faq-items-container");
     ran_faqItemsContainer.innerHTML = ''; // Clear existing content
-
-console.log("randomFaqS    ",randomFaqS);
+console.log("randomFaqS outside    ",randomFaqS);
 
     randomFaqS.forEach(faq => {
+        console.log("randomFaqS faq    ",faq);
 
         const faqItem = document.createElement("div");
         faqItem.classList.add("faq-item");
