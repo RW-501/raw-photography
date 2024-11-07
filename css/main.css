@@ -220,12 +220,12 @@ main {
 
 
     hero {
-        animation: gradientAnimation 12s ease-in-out infinite;
+        animation: heroGradientAnimation 12s ease-in-out infinite;
         margin: 2rem 0;
         text-align: center;
     }
 
-    @keyframes gradientAnimation {
+    @keyframes heroGradientAnimation {
         0%, 100% {
             background: linear-gradient(90deg, #df2238, #2ccf2c);
         }
