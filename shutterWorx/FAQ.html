@@ -336,7 +336,7 @@ document.getElementById("faq-search").addEventListener("input", function () {
     if (faqs) {
      filteredFaqs = faqs.filter(faq => faq.question.toLowerCase().includes(query) || faq.answer.toLowerCase().includes(query));
     displayFaqs(filteredFaqs);
-    displayRandomFaqs(faq.question);
+    displayRandomFaqs(faqs);
 
     }
     // Highlight matching text
