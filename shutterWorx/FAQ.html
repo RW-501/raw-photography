@@ -152,12 +152,12 @@
         </div>
         
         <!-- FAQ Items Section -->
-        <div id="faq-items-container" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div id="ran-faq-items-container" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             <!-- The random FAQ questions will be populated here -->
         </div>
     
         <!-- No Results Box -->
-        <div id="no-results-box" class="alert alert-warning text-center mt-4" style="display: none;">
+        <div id="no-results-box" class="alert alert-warning text-center mt-4" >
             No results found. Please refine your search and try again.
 
     
@@ -404,11 +404,15 @@ function displayRandomFaqs(randomFaqs) {
             randomFaqs.push(faqs[randomIndex]);
         }
     }
+    console.log("randomFaqs ??? 5   ",randomFaqs);
 
-    const faqItemsContainer = document.getElementById("faq-items-container");
+    const faqItemsContainer = document.getElementById("ran-faq-items-container");
     faqItemsContainer.innerHTML = ''; // Clear existing content
 
     randomFaqs.forEach(faq => {
+        console.log("faq ???   ",faq);
+        console.log("faq.question ???   ",faq.question);
+
         const faqItem = document.createElement("div");
         faqItem.classList.add("faq-item");
         
@@ -430,6 +434,7 @@ function displayRandomFaqs(randomFaqs) {
 // Initialize the random FAQs on page load
 document.addEventListener("DOMContentLoaded", function() {
   // Check if faqs is an array
+  console.log("load??????????  ");
 
     displayRandomFaqs(faqs);
 });
