@@ -281,18 +281,17 @@ function displayFaqs(faqData, limit = displayedFaqs) {
     if (!Array.isArray(faqData)) {
         faqData = faqs;
         console.log("not an array");
-    }
-    if (!Array.isArray(faqData)) {
-        faqData = faqs;
-        console.log("still not an array");
     }else{
         console.log("NO Arrays");
 
         return;
     }
-    //displayRandomFaqs(faqData)
-    console.log("faqData    ",faqData);
+    if (Array.isArray(faqData)) {
 
+    displayRandomFaqs(faqData)
+    console.log("faqData    ",faqData);
+    }
+    
     // Display FAQs based on limit
     let faqCount = 0;
     faqData.slice(0, limit).forEach(faq => {
@@ -360,9 +359,11 @@ document.getElementById("faq-search").addEventListener("input", function () {
     const searchQuery = this.value.toLowerCase();
     let hasResults = false;
 
+    const faqItems = document.querySelectorAll(".faq-item");
+ console.log("faqItems    ",faqItems);
+
     faqItemsContainer.innerHTML = ""; // Clear the container before displaying results
-    console.log("hasResults    ",hasResults);
-    console.log("filteredFaqs    ",filteredFaqs);
+    console.log("filteredFaqs main search    ",filteredFaqs);
 
     filteredFaqs.forEach((faq, index) => {
         const question = faq.question.toLowerCase();
