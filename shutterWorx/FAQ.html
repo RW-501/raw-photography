@@ -193,6 +193,8 @@ const topicFilter = document.getElementById("faq-topic-filter");
 
 let displayedFaqs = faqsPerPage;
 
+let faqs;
+
     document.addEventListener("DOMContentLoaded", function () {
     // Fetch FAQ data from the JSON file
     fetch('faqs.json')
