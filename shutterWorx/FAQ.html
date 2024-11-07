@@ -184,7 +184,7 @@ const faqSnapshot = await getDocs(faqsRef);
 const faqs = faqSnapshot.docs.map(doc => doc.data());
 displayFaqs(faqs);
 */
-const faqsPerPage = 5; // Initial number of FAQs to display
+const faqsPerPage = 10; // Initial number of FAQs to display
 
 const topicsContainer = document.getElementById("topics-container");
         const faqItemsContainer = document.getElementById("faq-items");
@@ -213,19 +213,6 @@ let faqs; let  filteredFaqs;
         .catch(error => {
     console.error("Error fetching FAQ data:", error);
     faqItemsContainer.innerHTML = "<p>Sorry, we're unable to load the FAQs at the moment.</p>";
-});
-
-const loadMoreBtn = document.createElement("button");
-loadMoreBtn.textContent = "Load More";
-loadMoreBtn.className = "load-more";
-loadMoreBtn.style.display = "none";
-faqItemsContainer.after(loadMoreBtn);
-
-   // Load more FAQs when the button is clicked
-   loadMoreBtn.addEventListener("click", () => {
-displayedFaqs += faqsPerPage;
-displayFaqs(faqs, displayedFaqs);
-
 });
 
 
@@ -273,6 +260,19 @@ function displayFaqs(faqData, limit = displayedFaqs) {
         faqItem.appendChild(answer);
         faqItemsContainer.appendChild(faqItem);
     });
+
+const loadMoreBtn = document.createElement("button");
+loadMoreBtn.textContent = "Load More";
+loadMoreBtn.className = "load-more";
+loadMoreBtn.style.display = "none";
+faqItemsContainer.after(loadMoreBtn);
+
+   // Load more FAQs when the button is clicked
+   loadMoreBtn.addEventListener("click", () => {
+displayedFaqs += faqsPerPage;
+displayFaqs(faqs, displayedFaqs);
+
+});
 
     // Show or hide the Load More button
     loadMoreBtn.style.display = faqData.length > limit ? "block" : "none";
