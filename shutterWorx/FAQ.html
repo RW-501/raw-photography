@@ -416,15 +416,18 @@ function displayRandomFaqs(randomFaqs) {
         faqItem.classList.add("faq-item");
         
         const question = document.createElement("div");
-        question.innerHTML = `<h3><li>`+faq.question+`</li></h3>`;
+        question.innerHTML = `<li>`+faq.question+`</li>`;
 
         faqItem.appendChild(question);
         ran_faqItemsContainer.appendChild(faqItem);
 
         // Add a click listener to search for the clicked question
         question.addEventListener("click", function () {
-            document.getElementById("faq-search").value = faq.question;
-            searchFaqs(faq.question);
+            const faqSearch = document.getElementById("faq-search");
+
+            faqSearch.value = faq.question;
+            faqSearch.dispatchEvent(new Event("input"));  // or "change" if it applies
+
         });
     });
 
