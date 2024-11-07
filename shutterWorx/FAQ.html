@@ -304,6 +304,7 @@ function displayFaqs(faqData, limit = displayedFaqs) {
     const icon = faqItem.querySelector('.faq-icon');
     icon.innerHTML = isExpanded ? `<span class="faq-icon">-</span>` : `<span class="faq-icon">+</span>`;  // Change the icon text
 });
+faqItem.classList.add( "d-none"); // Initially hidden for transition
 
 
         faqItem.appendChild(question);
