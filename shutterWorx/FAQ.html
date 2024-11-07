@@ -193,7 +193,7 @@ const topicFilter = document.getElementById("faq-topic-filter");
 
 let displayedFaqs = faqsPerPage;
 
-let faqs;
+let faqs; let  filteredFaqs;
 
     document.addEventListener("DOMContentLoaded", function () {
     // Fetch FAQ data from the JSON file
@@ -205,12 +205,15 @@ let faqs;
             // Filter FAQs when a topic is selected
             topicFilter.addEventListener("change", (e) => {
                 const selectedTopic = e.target.value;
-                const filteredFaqs = selectedTopic ? faqs.filter(faq => faq.topic === selectedTopic) : faqs;
+                 filteredFaqs = selectedTopic ? faqs.filter(faq => faq.topic === selectedTopic) : faqs;
                 displayFaqs(filteredFaqs);
             });
 
-
-           
+        })
+        .catch(error => {
+    console.error("Error fetching FAQ data:", error);
+    faqItemsContainer.innerHTML = "<p>Sorry, we're unable to load the FAQs at the moment.</p>";
+});
 
 const loadMoreBtn = document.createElement("button");
 loadMoreBtn.textContent = "Load More";
@@ -221,18 +224,9 @@ faqItemsContainer.after(loadMoreBtn);
    // Load more FAQs when the button is clicked
    loadMoreBtn.addEventListener("click", () => {
 displayedFaqs += faqsPerPage;
-displayFaqs(faqs, displayedFaqs);
+displayFaqs(filteredFaqs, displayedFaqs);
 
 });
-
-
-        })
-        .catch(error => {
-    console.error("Error fetching FAQ data:", error);
-    faqItemsContainer.innerHTML = "<p>Sorry, we're unable to load the FAQs at the moment.</p>";
-});
-
-
 
 
 
@@ -294,7 +288,7 @@ function highlightText(text, query) {
 // Event listener for search input to highlight matching FAQ content
 document.getElementById("faq-search").addEventListener("input", function () {
     const query = this.value.toLowerCase();
-    const filteredFaqs = faqs.filter(faq => faq.question.toLowerCase().includes(query) || faq.answer.toLowerCase().includes(query));
+     filteredFaqs = faqs.filter(faq => faq.question.toLowerCase().includes(query) || faq.answer.toLowerCase().includes(query));
     displayFaqs(filteredFaqs);
 
     // Highlight matching text
@@ -335,7 +329,7 @@ topics.forEach(topic => {
 
     // Filter by topic
     function filterByTopic(topic) {
-        const filteredFaqs = faqs.filter(faq => faq.topic === topic);
+         filteredFaqs = faqs.filter(faq => faq.topic === topic);
         displayFaqs(filteredFaqs);
     }
 
