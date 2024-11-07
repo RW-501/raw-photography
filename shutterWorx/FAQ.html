@@ -405,7 +405,7 @@ document.getElementById("faq-search").addEventListener("input", function () {
             faqItem.className = "faq-item";
 
             // Highlight matched text
-            const highlightedQuestion = faq.question.replace(
+            const highlightedQuestion = question.replace(
                 new RegExp(searchQuery, "gi"),
                 match => `<span class="highlight">${match}</span>`
             );
@@ -415,7 +415,7 @@ document.getElementById("faq-search").addEventListener("input", function () {
             questionElement.setAttribute("aria-expanded", "false");
 
             const answerElement = document.createElement("p");
-            answerElement.innerHTML = faq.answer.replace(
+            answerElement.innerHTML = answer.replace(
                 new RegExp(searchQuery, "gi"),
                 match => `<span class="highlight">${match}</span>`
             );
