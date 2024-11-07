@@ -128,24 +128,26 @@
             <div class="col-md-8 col-12">
                 <input type="text" id="faq-search" placeholder="Search FAQs..." class="form-control">
             </div>
+
+            <select id="faq-topic-filter" class="m-auto my-4">
+                <option value="">All Topics</option>
+                <option value="Account">Account</option>
+                <option value="General">General</option>
+                <option value="Subscription">Subscription</option>
+                <option value="Support">Support</option>
+            </select>
+        
         </div>
     </section>
     
 
-    <select id="faq-topic-filter" class="m-auto my-4">
-        <option value="">All Topics</option>
-        <option value="Account">Account</option>
-        <option value="General">General</option>
-        <option value="Subscription">Subscription</option>
-        <option value="Support">Support</option>
-    </select>
 
     <!--
     <button aria-label="Scroll to FAQs" onclick="scrollToFaq()">Go to FAQs</button>
 -->
 
     <!-- Dynamic Topics Area -->
-    <section class="topics-area text-center my-5">
+    <section class="topics-area text-center my-2">
         <h2>Popular Topics</h2>
         <div id="topics-container" class="d-flex flex-wrap justify-content-center">
             <!-- Topics will be dynamically inserted here -->
