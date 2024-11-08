@@ -114,7 +114,8 @@ const styles = `
                 background-color: rgba(255, 255, 255, 0.2);
             }
             to {
-                background cubic-bezier(0.6, -0.28, 0.735, 0.045);
+                background-color: rgb(132 173 234);
+                   box-shadow: 0 6px 12px rgb(242 229 42);
             }
         }
 
