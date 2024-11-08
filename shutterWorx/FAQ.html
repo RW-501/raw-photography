@@ -303,8 +303,8 @@ document.addEventListener("DOMContentLoaded", function () {
             question.classList.add("faq-question");
 
             const icon = document.createElement("div");
-            icon.className = "faq-icon";
-            icon.textContent = "+";
+           // icon.className = "faq-icon";
+            icon.textContent = '<div class="faq-icon">+</div>';
 
             const faqItemOuter = document.createElement("span");
             faqItemOuter.appendChild(question);
@@ -353,8 +353,11 @@ document.addEventListener("DOMContentLoaded", function () {
         faqItems.forEach(faqItem => {
             const question = faqItem.querySelector(".faq-question");
             const answer = faqItem.querySelector(".faq-answer");
-            const questionText = question.textContent.toLowerCase();
-            const answerText = answer.textContent.toLowerCase();
+            
+        // Null checks for question and answer text content
+        const questionText = question?.textContent?.toLowerCase() || "";
+        const answerText = answer?.textContent?.toLowerCase() || "";
+
 
             // Check if search term exists in question or answer
             if (searchRegex.test(questionText) || searchRegex.test(answerText)) {
