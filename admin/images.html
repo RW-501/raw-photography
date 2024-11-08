@@ -295,7 +295,7 @@ select, input[type="range"], input[type="number"] {
 
 
 
-                <div class="container-fluid d-flex mb-2">
+                <div class="container-fluid d-flex mb-4">
                 <!-- Watermark preview canvas -->
 
                 <div id="watermark-holder">
@@ -309,7 +309,7 @@ select, input[type="range"], input[type="number"] {
                         id="watermarkScale" 
                         min="0" 
                         max="5" 
-                        step="0.1" 
+                        step="1" 
                         value="1"
                         style=" width: 200px !important;" >
                 
@@ -320,10 +320,13 @@ select, input[type="range"], input[type="number"] {
 
 
                 <div class="container-fluid d-flex">
-                    <div class="container-fluid">
+
+
+                        <div class="watermark-controls container-fluid d-grid">
+                            <div class="container-fluid">
 
                 <!-- Watermark input fields -->
-                <label for="watermarkText">ShutterWorx</label>
+                <label for="watermarkText">Text</label>
                 <input type="text" id="watermarkText" class="form-control" placeholder="Enter watermark text">
                
             </div>
@@ -409,8 +412,9 @@ select, input[type="range"], input[type="number"] {
                 <label for="watermarkPositionY">Position Y</label>
                 <input type="number" id="watermarkPositionY" class="form-control" placeholder="140" value="140">
             </div>
-            </div>
         </div>
+    </div>
+</div>
 
         <div class="modal-footer">
                 <button id="applyWatermarkSettings" type="button" class="btn btn-primary">Apply</button>

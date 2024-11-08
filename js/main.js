@@ -105,20 +105,19 @@ const styles = `
     border-radius: 50%;
     top: 5px;
     left: 5px;
-            animation: lensE 0.4s ease-in;
-        }
+    animation: lensGradientAnimation 12s ease-in-out infinite;
 
-        /* Smooth lens effect */
-        @keyframes lensE {
-            from {
-                background-color: rgba(255, 255, 255, 0.2);
-            }
-            to {
-                background-color: rgb(132 173 234);
-                   box-shadow: 0 6px 12px rgb(242 229 42);
-            }
-        }
+  }
 
+  @keyframes lensGradientAnimation {
+    0%, 100% {
+        background: linear-gradient(90deg, #df2238, #2ccf2c);
+    }
+    50% {
+        background: linear-gradient(90deg, #6a11cb, #2575fc);
+    }
+}
+      
   /* Spinner Circle to simulate rotating lens */
   .spinner-circle {
     position: absolute;
@@ -135,14 +134,17 @@ const styles = `
 
   }
 
-  @keyframes spinnerGradientAnimation {
-    0%, 100% {
-        background: linear-gradient(90deg, #df2238, #2ccf2c);
-    }
-    50% {
-        background: linear-gradient(90deg, #6a11cb, #2575fc);
-    }
-}
+  /* Smooth spinnerGradientAnimation effect */
+        @keyframes spinnerGradientAnimation {
+            from {
+                background-color: rgba(255, 255, 255, 0.2);
+            }
+            to {
+                background-color: rgb(132 173 234);
+                   box-shadow: 0 6px 12px rgb(242 229 42);
+            }
+        }
+
 
   @keyframes spin {
     0% {
