@@ -924,6 +924,14 @@ function addWatermark(ctx, width, height) {
     ctx.textBaseline = "middle";
     ctx.textAlign = "center";
 
+    // Calculate zoom level based on canvas dimensions and font size
+    const desiredWatermarkWidth = ctx.measureText(text).width;
+    const targetWidthRatio = canvasWidth * 0.5 / desiredWatermarkWidth; // 50% of canvas width as target size
+    const targetHeightRatio = canvasHeight * 0.1 / fontSize; // Adjust based on desired watermark height as % of canvas height
+    const zoomLevel = Math.min(targetWidthRatio, targetHeightRatio);
+
+    // Apply scale transformation
+    ctx.scale(zoomLevel, zoomLevel);
     // Apply shadow if defined
     if (shadow) {
         ctx.shadowOffsetX = shadow.offsetX;
@@ -944,8 +952,8 @@ function addWatermark(ctx, width, height) {
 
     // Check if multiple watermarks are needed
     if (document.getElementById('multipleWaterMark').checked) {
-        const gap = Math.max(textWidth, fontSize) * 1.2;  // Adjust multiplier for spacing
-
+        const gap = Math.max(textWidth, fontSize) * 1.2; 
+        
 // Loop to fill canvas with watermarks
 for (let x = 0; x < width + gap; x += gap) {
     for (let y = 0; y < height + gap; y += gap) {
@@ -1048,12 +1056,17 @@ function updateWatermarkPreview() {
     const isUnderline = document.getElementById("watermarkUnderline").checked || false;
     const stroke = document.getElementById("watermarkStroke").value || 2;
     // Get the scale value from the vertical slider
-    const scale = parseFloat(document.getElementById("watermarkScale").value) || 1;
+    const zoomLevel =  parseInt(document.getElementById("watermarkScale").value) || 1;
 
     const width = previewCanvas.width;
     const height = previewCanvas.height;
 
     previewCtx.save();
+
+       // Apply the zoom scaling
+       
+    previewCtx.scale(zoomLevel, zoomLevel);
+
     previewCtx.globalAlpha = opacity;
     previewCtx.font = `${isBold ? "bold" : "normal"} ${fontSize}px ${font}`;
     previewCtx.fillStyle = color;
