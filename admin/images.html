@@ -1543,7 +1543,8 @@ function updateLogoSize(event) {
 }
 
 
-function showSlider(event) {
+// Function to handle the filter selection change
+function showSlider(event) { 
     event.preventDefault();
 
     const sliders = document.querySelectorAll('.slider_editor');
@@ -1555,7 +1556,7 @@ function showSlider(event) {
     
     if (selectedFilter !== 'none') {
         const filterElement = document.getElementById(selectedFilter);
-        if (filterElement) { // Check if the element exists
+        if (filterElement) {
             filterElement.classList.add('visible');
         } else {
             console.error(`Element with id "${selectedFilter}" not found.`);
@@ -1563,33 +1564,58 @@ function showSlider(event) {
     }
 }
 
+// Function to update the output display and apply the filter
+function updateValue(filter, value) {
+    const outputId = filter + 'Output';
+    const unit = (filter === 'blur' || filter === 'drop-shadow') ? 'px' :
+                 (filter === 'hue-rotate') ? '°' :
+                 (filter === 'scale') ? '' : '%';
 
-        function updateValue(filter, value) {
-            const outputId = filter + 'Output';
-            const unit = (filter === 'blur' || filter === 'drop-shadow') ? 'px' : (filter === 'hue-rotate') ? '°' : (filter === 'scale') ? '' : '%';
-            document.getElementById(outputId).textContent = value + unit;
+    const outputElement = document.getElementById(outputId);
+    if (outputElement) {
+        outputElement.textContent = value + unit;
+    } else {
+        console.error(`Element with id "${outputId}" not found.`);
+    }
 
-            // Apply the filter to the image in real-time
-            applyFilter(filter, value, unit);
-        }
+    applyFilter(filter, value, unit);
+}
 
-        function applyFilter(filter, value, unit) {
-            const image = document.getElementById('targetImage');
-            let currentFilters = image.style.filter ? image.style.filter.split(' ') : [];
+// Function to apply the filter on the image element
+function applyFilter(filter, value, unit) {
+    const image = document.getElementById('targetImage');
+    if (!image) {
+        console.error('Image element with id "targetImage" not found.');
+        return;
+    }
 
-            // Update filter value or add new one
-            const filterValue = `${filter}(${value}${unit})`;
-            const filterIndex = currentFilters.findIndex(f => f.startsWith(filter));
-            if (filterIndex >= 0) {
-                currentFilters[filterIndex] = filterValue; // Update existing filter
-            } else {
-                currentFilters.push(filterValue); // Add new filter
-            }
-            image.style.filter = currentFilters.join(' '); // Apply filters to the image
+    let currentFilters = image.style.filter ? image.style.filter.split(' ') : [];
+
+    const filterValue = `${filter}(${value}${unit})`;
+    const filterIndex = currentFilters.findIndex(f => f.startsWith(filter));
+    if (filterIndex >= 0) {
+        currentFilters[filterIndex] = filterValue; // Update existing filter
+    } else {
+        currentFilters.push(filterValue); // Add new filter
+    }
+
+    image.style.filter = currentFilters.join(' '); // Apply the updated filters to the image
+}
+
+// Add event listeners for all sliders
+document.querySelectorAll(".slider input[type='range']").forEach(slider => {
+    slider.addEventListener("input", function() {
+        const sliderValueId = slider.id;
+        const outputId = `${sliderValueId.replace("Value", "Output")}`;
+        const outputElement = document.getElementById(outputId);
+
+        outputElement.textContent = `${slider.value}${sliderValueId.includes("scale") ? '%' : 
+                                    sliderValueId.includes("rotate") || sliderValueId.includes("skew") ? '°' : 
+                                    sliderValueId.includes("blur") ? 'px' : '%'}`;
         
-        
-    redrawCanvas();
-        }
+        updateValue(sliderValueId.replace("Value", ""), slider.value);
+    });
+});
 
         function saveFilters() {
             const image = document.getElementById('targetImage');
@@ -1792,63 +1818,6 @@ document.getElementById("saveEvent").addEventListener("click", saveEvent);
 document.querySelector("#imageEditorModal .modal-header .close").addEventListener("click", closeImageEditor);
 
 
-
-document.querySelectorAll(".slider input[type='range']").forEach(slider => {
-    slider.addEventListener("input", function() {
-        const sliderValueId = slider.id;
-        const outputId = `${sliderValueId.replace("Value", "Output")}`;
-        const outputElement = document.getElementById(outputId);
-
-        // Update output display
-        outputElement.textContent = `${slider.value}${sliderValueId.includes("scale") ? '%' : sliderValueId.includes("rotate") || sliderValueId.includes("skew") ? '°' : sliderValueId.includes("blur") ? 'px' : '%'}`;
-        
-        // Call updateValue to apply the actual filter if needed
-        updateValue(sliderValueId.replace("Value", ""), slider.value);
-    });
-});
-
-// Additional function to handle filter application (modify as needed)
-function updateValue(filterType, value) {
-    const targetImage = document.getElementById("targetImage"); // Adjust ID to match your image element
-    
-    // Initialize filter styles array
-    let filters = [];
-
-    // Apply filters based on filter type
-    if (filterType === "grayscale") {
-        filters.push(`grayscale(${value}%)`);
-    } else if (filterType === "sepia") {
-        filters.push(`sepia(${value}%)`);
-    } else if (filterType === "invert") {
-        filters.push(`invert(${value}%)`);
-    } else if (filterType === "brightness") {
-        filters.push(`brightness(${value}%)`);
-    } else if (filterType === "contrast") {
-        filters.push(`contrast(${value}%)`);
-    } else if (filterType === "saturate") {
-        filters.push(`saturate(${value}%)`);
-    } else if (filterType === "hue-rotate") {
-        filters.push(`hue-rotate(${value}deg)`);
-    } else if (filterType === "blur") {
-        filters.push(`blur(${value}px)`);
-    } else if (filterType === "opacity") {
-        filters.push(`opacity(${value}%)`);
-    } else if (filterType === "drop-shadow") {
-        filters.push(`drop-shadow(0px 0px ${value}px rgba(0, 0, 0, 0.5))`);
-    }
-
-    // Apply transform styles based on filter type
-    if (filterType === "scale") {
-        targetImage.style.transform = `scale(${value})`;
-    } else if (filterType === "skewX") {
-        targetImage.style.transform = `skewX(${value}deg)`;
-    } else if (filterType === "skewY") {
-        targetImage.style.transform = `skewY(${value}deg)`;
-    }
-
-    // Combine all filters and apply them to the image
-    targetImage.style.filter = filters.join(" ");
-}
 
 
 // Logo Upload and Size Update
