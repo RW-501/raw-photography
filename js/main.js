@@ -89,11 +89,22 @@ const styles = `
     position: absolute;
     width: 15px;
     height: 15px;
-    background-color: rgba(255, 255, 255, 0.2);
+    
     border-radius: 50%;
     top: 5px;
     left: 5px;
-  }
+            animation: flash 0.4s ease-in-out;
+        }
+
+        /* Smooth flash effect */
+        @keyframes fadeIn {
+            from {
+                background-color: rgba(255, 255, 255, 0.2);
+            }
+            to {
+                background cubic-bezier(0.6, -0.28, 0.735, 0.045);
+            }
+        }
 
   /* Spinner Circle to simulate rotating lens */
   .spinner-circle {
