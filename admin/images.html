@@ -983,6 +983,9 @@ function resetWatermarkSettings() {
                 elements[key].checked = defaultSettings[key];
             }
         });
+           // Clear the canvas
+    previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
+
         updateWatermarkPreview();
     }
 
@@ -1120,28 +1123,6 @@ document.getElementById("watermarkSettingsBtn").addEventListener("click", () => 
     document.getElementById("watermarkSettingsModal").style.display = "block";
 });
 
-function resetWatermarkSettings() {
-    // Reset each setting to its default
-    document.getElementById("watermarkText").value = "Your Watermark";
-    document.getElementById("watermarkFont").value = "Arial Black";
-    document.getElementById("watermarkSize").value = 240;
-    document.getElementById("watermarkColor").value = "#000000";
-    document.getElementById("watermarkOpacity").value = 0.5;
-    document.getElementById("watermarkRotation").value = 0;
-    document.getElementById("watermarkPositionX").value = 160;
-    document.getElementById("watermarkPositionY").value = 95;
-    document.getElementById("watermarkBold").checked = false;
-    document.getElementById("watermarkUnderline").checked = false;
-    document.getElementById("watermarkStroke").value = 2;
-    document.getElementById("watermarkScale").value = 1.0;
-    document.getElementById("multipleWaterMark").checked = false;
-
-    // Clear the canvas
-    previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
-
-    // Call the update function to refresh the preview with default values
-    updateWatermarkPreview(true);
-}
 
 
 function updateWatermarkPreview(reset = false) { 
