@@ -977,8 +977,8 @@ function addWatermark(ctx, width, height) {
 
     // Calculate zoom level based on canvas dimensions and font size
     const desiredWatermarkWidth = ctx.measureText(text).width;
-    const targetWidthRatio = canvasWidth * 0.5 / desiredWatermarkWidth; // 50% of canvas width as target size
-    const targetHeightRatio = canvasHeight * 0.1 / fontSize; // Adjust based on desired watermark height as % of canvas height
+    const targetWidthRatio = width * 0.5 / desiredWatermarkWidth; // 50% of canvas width as target size
+    const targetHeightRatio = height * 0.1 / fontSize; // Adjust based on desired watermark height as % of canvas height
     const zoomLevel = Math.min(targetWidthRatio, targetHeightRatio);
 
     // Apply scale transformation
