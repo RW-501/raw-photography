@@ -70,7 +70,7 @@ const styles = `
     height: 10px;
     background-color: #999;
     border-radius: 2px;
-            animation: flash 0.3s ease-in-out;
+            animation: flash 0.3s ease-in-out infinite;
         }
 
         /* Smooth flash effect */
@@ -102,22 +102,24 @@ const styles = `
     position: absolute;
     width: 15px;
     height: 15px;
-    
+    animation: lensGradientAnimation .3 ease-in-out infinite;
     border-radius: 50%;
     top: 5px;
     left: 5px;
     
   }
-
-  @keyframes lensGradientAnimation {
-    0%, 100% {
+   @keyframes lensGradientAnimation {
+            from {
         background: linear-gradient(90deg, #df2238, #2ccf2c);
-    }
-    50% {
+            }
+            to {
         background: linear-gradient(90deg, #6a11cb, #2575fc);
-    }
-}
-      
+                    box-shadow: 0 6px 12px rgb(242 229 42);
+            }
+        }
+
+
+        
   /* Spinner Circle to simulate rotating lens */
   .spinner-circle {
     position: absolute;
