@@ -388,7 +388,6 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("questionText   ",questionText);
                 //console.log("question  ", question);
 
-                question = updateQuestionIcon(questionText);
                 console.log("question   ",question);
 
 
@@ -397,6 +396,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 hasResults = true;
                 faqItem.style.display = "block";
              
+                                
+                question.innerHTML = question.textContent.replace("+", match => `<div class="faq-icon">+</div>`);
+
                 // Highlight the matched text
                 question.innerHTML = question.textContent.replace(searchRegex, match => `<span class="highlight">${match}</span>`);
                 answer.innerHTML = answer.textContent.replace(searchRegex, match => `<span class="highlight">${match}</span>`);
