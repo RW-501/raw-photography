@@ -131,7 +131,18 @@ const styles = `
     border-radius: 50%;
     animation: spin 1s linear infinite;
     z-index: -1;
+     animation: spinnerGradientAnimation 12s ease-in-out infinite;
+
   }
+
+  @keyframes spinnerGradientAnimation {
+    0%, 100% {
+        background: linear-gradient(90deg, #df2238, #2ccf2c);
+    }
+    50% {
+        background: linear-gradient(90deg, #6a11cb, #2575fc);
+    }
+}
 
   @keyframes spin {
     0% {
