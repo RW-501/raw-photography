@@ -354,6 +354,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // FAQ Search functionality
     document.getElementById("faq-search").addEventListener("input", function () {
         const searchQuery = this.value.toLowerCase();
+        console.log("searchQuery  ", searchQuery);
+
         let hasResults = false;
         const searchRegex = new RegExp(searchQuery, "gi");
 
