@@ -251,6 +251,9 @@ select, input[type="range"], input[type="number"] {
                 </div>
             </div>
 
+
+
+            
             <section id="Watermark settings modal-Section">
 <!-- Watermark settings modal -->
 <div id="watermarkSettingsModal" class="modal" tabindex="-1" role="dialog">
@@ -1079,7 +1082,7 @@ function updateWatermarkPreview() {
     const isUnderline = document.getElementById("watermarkUnderline").checked || false;
     const stroke = document.getElementById("watermarkStroke").value || 2;
     // Get the scale value from the vertical slider
-    const zoomLevel =  parseInt(document.getElementById("watermarkScale").value) || 1;
+    const zoomLevel =  parseInt(document.getElementById("watermarkScale").value) || 1.0;
 /*
     const width = previewCanvas.width;
     const height = previewCanvas.height;
