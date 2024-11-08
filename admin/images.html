@@ -416,9 +416,10 @@ select, input[type="range"], input[type="number"] {
     </div>
 </div>
 
-        <div class="modal-footer">
-                <button id="applyWatermarkSettings" type="button" class="btn btn-primary">Apply</button>
-                <button id="closeWatermarkModal" type="button" class="btn btn-secondary">Close</button>
+        <div class="watermarkSettingsFooter modal-footer">
+            <button id="resetWatermarkSettings" type="button" class="btn btn-secondary">Reset</button>
+            <button id="applyWatermarkSettings" type="button" class="btn btn-primary">Apply</button>
+            <button id="closeWatermarkModal" type="button" class="btn btn-secondary">Close</button>
             </div>
         </div>
     </div>
@@ -1093,7 +1094,27 @@ document.getElementById("watermarkSettingsBtn").addEventListener("click", () => 
 });
 
 
-function updateWatermarkPreview() { 
+function resetWatermarkSettings() {
+    // Reset each setting to its default
+    document.getElementById("watermarkText").value = "Your Watermark";
+    document.getElementById("watermarkFont").value = "Arial Black";
+    document.getElementById("watermarkSize").value = 240;
+    document.getElementById("watermarkColor").value = "#000000";
+    document.getElementById("watermarkOpacity").value = 0.5;
+    document.getElementById("watermarkRotation").value = 0;
+    document.getElementById("watermarkPositionX").value = 160;
+    document.getElementById("watermarkPositionY").value = 95;
+    document.getElementById("watermarkBold").checked = false;
+    document.getElementById("watermarkUnderline").checked = false;
+    document.getElementById("watermarkStroke").value = 2;
+    document.getElementById("watermarkScale").value = 1.0;
+    document.getElementById("multipleWaterMark").checked = false;
+
+    // Call the update function to refresh the preview with default values
+    updateWatermarkPreview();
+}
+
+function updateWatermarkPreview(reset = false) { 
     if (!previewCtx) return;
 
     // Clear previous preview
@@ -1200,6 +1221,8 @@ document.getElementById("watermarkBold").addEventListener("click", updateWaterma
 document.getElementById("watermarkUnderline").addEventListener("click", updateWatermarkPreview);
 
 document.getElementById("watermarkScale").addEventListener("change", updateWatermarkPreview);
+// Attach event listener for the reset button
+document.getElementById("resetWatermarkSettings").addEventListener("click", resetWatermarkSettings);
 
 
 
