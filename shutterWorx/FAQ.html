@@ -437,7 +437,13 @@ function displayRandomFaqs(faqs) {
         question.addEventListener("click", function () {
             const faqSearch = document.getElementById("faq-search");
             faqSearch.value = faq.question;
-            faqSearch.dispatchEvent(new Event("input"));
+            const event = new Event("input", {
+        bubbles: true,  // Make sure the event bubbles up if needed
+        cancelable: true  // Allow the event to be canceled if needed
+    });
+
+    // Dispatch the event to simulate user input
+    faqSearch.dispatchEvent(event);
         });
     });
 }
