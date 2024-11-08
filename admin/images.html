@@ -1884,43 +1884,47 @@ function saveEvent() {
         }
 
 
-// Function to save input values to localStorage
-function saveWatermarkSettings() {
-    const rangeInputs = document.querySelectorAll("#watermarkSettingsModal input[type='range'], #watermarkSettingsModal input[type='number']");
+        function saveWatermarkSettings() {
     const watermarkSettings = {};
 
-    rangeInputs.forEach(input => {
-        watermarkSettings[input.name] = input.value; // Save each input's value using its name as the key
+    // Gather values from each input field
+    document.querySelectorAll("#watermarkSettingsModal input, #watermarkSettingsModal select").forEach(input => {
+        if (input.type === "checkbox") {
+            watermarkSettings[input.id] = input.checked; // Save checked state for checkboxes
+        } else {
+            watermarkSettings[input.id] = input.value; // Save value for other types
+        }
     });
 
-    localStorage.setItem("watermarkSettings", JSON.stringify(watermarkSettings)); // Store the object as a JSON string
+    // Save settings to localStorage
+    localStorage.setItem("watermarkSettings", JSON.stringify(watermarkSettings));
 }
 
-// Function to load saved input values from localStorage
+// Attach save function to a button or event, e.g., "Apply" button click
+//document.getElementById("applyWatermarkSettings").addEventListener("click", saveWatermarkSettings);
+
 function loadWatermarkSettings() {
     const savedSettings = localStorage.getItem("watermarkSettings");
 
     if (savedSettings) {
-        const watermarkSettings = JSON.parse(savedSettings); // Parse the JSON string back into an object
+        const watermarkSettings = JSON.parse(savedSettings); // Parse JSON back into an object
 
+        // Iterate over each saved setting and apply it to the corresponding input field
         Object.keys(watermarkSettings).forEach(key => {
-            const input = document.querySelector(`#watermarkSettingsModal input[name="${key}"]`);
+            const input = document.getElementById(key);
+
             if (input) {
-                input.value = watermarkSettings[key]; // Set the value of the input
+                if (input.type === "checkbox") {
+                    input.checked = watermarkSettings[key]; // Set checked state for checkboxes
+                } else {
+                    input.value = watermarkSettings[key]; // Set value for other types of inputs
+                }
             }
         });
     }
 }
 
-// Add event listeners to inputs inside watermarkSettingsModal
-document.querySelectorAll("#watermarkSettingsModal input[type='range'], #watermarkSettingsModal input[type='number']").forEach(input => {
-    input.addEventListener("input", saveWatermarkSettings); // Save on input change
-});
-
-// Load settings when the modal is shown
-//document.querySelector("#watermarkSettingsModal").addEventListener("shown.bs.modal", loadWatermarkSettings);
-
-// Optionally, you could also load the settings when the page is loaded
+// Call this function on page load or when opening the modal
 document.addEventListener("DOMContentLoaded", loadWatermarkSettings);
 
 
