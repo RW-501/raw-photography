@@ -304,7 +304,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const icon = document.createElement("div");
             icon.className = "faq-icon";
-            icon.innerHTML = "+";
+            icon.textContent = "+";
 
             const faqItemOuter = document.createElement("span");
             faqItemOuter.appendChild(question);
@@ -325,7 +325,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 question.setAttribute("aria-expanded", isExpanded.toString());
                 answer.setAttribute("aria-hidden", (!isExpanded).toString());
                 answer.style.display = isExpanded ? "block" : "none";
-                icon.innerHTML = isExpanded ? "-" : "+";
+                icon.textContent = isExpanded ? "-" : "+";
             });
 
             // Append elements to the container
