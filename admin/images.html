@@ -953,7 +953,7 @@ function addWatermark(ctx, width, height) {
     // Check if multiple watermarks are needed
     if (document.getElementById('multipleWaterMark').checked) {
         const gap = Math.max(textWidth, fontSize) * 1.2; 
-        
+
 // Loop to fill canvas with watermarks
 for (let x = 0; x < width + gap; x += gap) {
     for (let y = 0; y < height + gap; y += gap) {
@@ -1096,8 +1096,9 @@ function updateWatermarkPreview() {
         }
     } else {
         // Draw a single centered watermark
-        const centerX = width / 2;
-        const centerY = height / 2;
+const centerX = Math.floor(width / 2);
+const centerY = Math.floor(height / 2);
+
         previewCtx.translate(centerX, centerY);
         previewCtx.rotate((rotation * Math.PI) / 180);
 
