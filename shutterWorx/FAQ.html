@@ -351,7 +351,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     
 
-
+    
 
     // FAQ Search functionality
     document.getElementById("faq-search").addEventListener("input", function () {
@@ -369,19 +369,19 @@ document.addEventListener("DOMContentLoaded", function () {
         let questionText = question?.textContent?.toLowerCase() || "";
         let answerText = answer?.textContent?.toLowerCase() || "";
 
-        console.log("questionText   ",questionText);
-                //console.log("question  ", question);
-
-                console.log("question   ",question);
-
-
+ 
             // Check if search term exists in question or answer
             if (searchRegex.test(questionText) || searchRegex.test(answerText)) {
                 hasResults = true;
                 faqItem.style.display = "block";
              
                                 
-                question = question.textContent.replace("+", match => `<div class="faq-icon">+</div>`);
+                question.textContent = question.textContent.replace("+", match => `<div class="faq-icon">+</div>`);
+
+                //console.log("question  ", question);
+
+                console.log("question   ",question);
+
 
                 // Highlight the matched text
                 question.innerHTML = question.textContent.replace(searchRegex, match => `<span class="highlight">${match}</span>`);
