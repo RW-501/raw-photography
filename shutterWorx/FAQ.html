@@ -388,6 +388,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 answer.innerHTML = answer.textContent.replace(searchRegex, match => `<span class="highlight">${match}</span>`);
             } else {
                 faqItem.style.display = "none";
+                hasResults = false;
+
             }
         });
 
