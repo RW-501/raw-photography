@@ -292,7 +292,7 @@ select, input[type="range"], input[type="number"] {
 
             <section id="Watermark settings modal-Section">
 <!-- Watermark settings modal -->
-<div id="watermarkSettingsModal" class="modal" tabindex="-1" role="dialog">
+<div id="watermarkSettingsModal" class=" " tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -1084,7 +1084,6 @@ updateWatermarkPreview();
 
 
 // Function to process image and apply watermark
-// Function to process image and apply watermark
 async function processImage(dataURL, file, fileSize, fileType, fileName) {
     try {
         // Check if watermark text is set properly before processing
@@ -1169,76 +1168,80 @@ function getEventPos(event) {
 
 
 // Start dragging on mousedown or touchstart
-function startDrag(e) {
-    const { x, y } = getEventPos(e);
-    console.log("x y startDrag Working???    ",x, y);
 
-    // Calculate offset based on current watermark position
-    const fontSize = parseInt(document.getElementById("watermarkSize").value) || 240;
-    previewCtx.font = `${fontSize}px ${document.getElementById("watermarkFont").value}`;
-    const text = document.getElementById("watermarkText").value || "Your Watermark";
+// Unified event position handler for mouse and touch
+function getEventPos(e) {
+    const rect = previewCanvas.getBoundingClientRect();
+    const clientX = e.clientX ?? e.touches?.[0]?.clientX;
+    const clientY = e.clientY ?? e.touches?.[0]?.clientY;
+    return {
+        x: clientX - rect.left,
+        y: clientY - rect.top,
+    };
+}
+
+// Start drag if within watermark bounds
+function startDrag(e) { 
+    const { x, y } = getEventPos(e);
+    const fontSize = parseInt(document.getElementById("watermarkSize")?.value) || 240;
+    const fontFamily = document.getElementById("watermarkFont")?.value || "Arial";
+    const text = document.getElementById("watermarkText")?.value || "Your Watermark";
+
+    // Set font to measure text width accurately
+    previewCtx.font = `${fontSize}px ${fontFamily}`;
     const textWidth = previewCtx.measureText(text).width;
 
-    const watermarkPosY = parseInt(document.getElementById("watermarkPositionY").value, 10) || 95;
-    const watermarkPosX = parseInt(document.getElementById("watermarkPositionX").value, 10) || 160;
+    // Update watermark position if defined
+    watermarkPosX = parseInt(document.getElementById("watermarkPositionX")?.value, 10) || watermarkPosX;
+    watermarkPosY = parseInt(document.getElementById("watermarkPositionY")?.value, 10) || watermarkPosY;
 
-
-    if (
-        x >= watermarkPosX &&
-        x <= watermarkPosX + textWidth * 10 &&
-        y >= watermarkPosY - fontSize * 10 &&
-        y <= watermarkPosY
-        ) {
-        isDragging = true; // Only start dragging if within bounds
+    // Check if click is within the text area bounds
+    if (x >= watermarkPosX && x <= watermarkPosX + textWidth &&
+        y >= watermarkPosY - fontSize && y <= watermarkPosY) {
+        
+        isDragging = true;
         offsetX = x - watermarkPosX;
         offsetY = y - watermarkPosY;
-        e.preventDefault(); // Prevents scrolling on touch
-    } else {
-        isDragging = false; // Ensure dragging is false if not within bounds
+        
+        e.preventDefault(); // Prevents page scroll on touch
     }
 }
 
-// Dragging logic for mousemove and touchmove
+// Execute dragging if drag state is true
 function drag(e) {
-    if (isDragging) {
-        e.preventDefault(); // Prevents scrolling on touch devices during drag
-        const { x, y } = getEventPos(e);
-        watermarkPosX = x - offsetX;
-        watermarkPosY = y - offsetY;
+    if (!isDragging) return;
+    
+    e.preventDefault(); // Prevents touch scrolling
+    const { x, y } = getEventPos(e);
 
-        console.log("x y drag Working???    ", x, y);
+    // Update watermark position
+    watermarkPosX = x - offsetX;
+    watermarkPosY = y - offsetY;
 
-        // Update the input fields for X and Y
-        document.getElementById("watermarkPositionX").value = Math.round(watermarkPosX);
-        document.getElementById("watermarkPositionY").value = Math.round(watermarkPosY);
+    // Update position inputs in real time
+    document.getElementById("watermarkPositionX").value = Math.round(watermarkPosX);
+    document.getElementById("watermarkPositionY").value = Math.round(watermarkPosY);
 
-        // Update preview
-        updateWatermarkPreview();
-    }
+    // Update the watermark preview display
+    updateWatermarkPreview();
 }
 
-
-
-// Stop dragging on mouseup or touchend
+// Stop drag state on release
 function stopDrag() {
     isDragging = false;
 }
-if (previewCanvas) {
 
-// Mouse events
-previewCanvas.addEventListener("mousedown", startDrag);
-previewCanvas.addEventListener("mousemove", drag);
-previewCanvas.addEventListener("mouseup", stopDrag);
-previewCanvas.addEventListener("mouseleave", stopDrag);
-
-// Touch events with passive: false
-previewCanvas.addEventListener("touchstart", startDrag, { passive: false });
-previewCanvas.addEventListener("touchmove", drag, { passive: false });
-previewCanvas.addEventListener("touchend", stopDrag, { passive: false });
-previewCanvas.addEventListener("touchcancel", stopDrag, { passive: false });
+// Bind mouse and touch events if canvas and context exist
+if (previewCanvas && previewCtx) {
+    ["mousedown", "touchstart"].forEach(evt => previewCanvas.addEventListener(evt, startDrag, { passive: false }));
+    ["mousemove", "touchmove"].forEach(evt => previewCanvas.addEventListener(evt, drag, { passive: false }));
+    ["mouseup", "mouseleave", "touchend", "touchcancel"].forEach(evt => previewCanvas.addEventListener(evt, stopDrag));
 } else {
     console.error("Preview canvas is not available.");
 }
+
+
+
 
 // Close watermark settings modal
 function closeWatermarkModal(){
