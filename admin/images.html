@@ -1109,36 +1109,12 @@ async function processImage(dataURL, file, fileSize, fileType, fileName) {
     }
 }
 
-    // Get modal element
-    const modal = document.getElementById("watermark-settings-modal");
 
-    // Function to open the modal
-    function openModal() {
-        modal.classList.add("show");
-        modal.style.display = "block";
-        document.body.classList.add("modal-open"); // Prevents background scroll
-    }
- // Function to close the modal
- function closeModal() {
-        modal.classList.remove("show");
-        modal.style.display = "none";
-        document.body.classList.remove("modal-open");
-    }
-
-    // Add event listeners to open and close buttons
-    document.getElementById("openModalBtn").addEventListener("click", openModal);
-    document.getElementById("closeModalBtn").addEventListener("click", closeModal);
-    document.getElementById("modalCloseBtn").addEventListener("click", closeModal);
-    document.getElementById("closeFooterBtn").addEventListener("click", closeModal);
-
-    // Optional: Close modal when clicking outside of it
-    window.addEventListener("click", function(event) {
-        if (event.target === modal) {
-            closeModal();
-        }
-    });
-
-
+// Show watermark settings modal
+document.getElementById("watermarkSettingsBtn").addEventListener("click", () => {
+    loadWatermarkSettings();
+    document.getElementById("watermarkSettingsModal").style.display = "block";
+});
 
 function resetWatermarkSettings() {
     // Reset each setting to its default
