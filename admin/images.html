@@ -1448,7 +1448,7 @@ async function renderImages(imagesData) {
             openImageEditor(event.target.getAttribute("data-original-url"));
         });
         imgDiv.querySelector("Edit-Water-Mark").addEventListener("click", (event) => {
-            removeCardByRef(event.target.getAttribute(`data-set-ref=${picCount}`));
+            removeCardByRef(event.target.getAttribute(`data-set-ref`));
         });
     });
 }
