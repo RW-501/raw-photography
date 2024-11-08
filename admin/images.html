@@ -1544,7 +1544,8 @@ function updateLogoSize(event) {
 
 
 // Function to handle the filter selection change
-function showSlider(event) { 
+
+function showSlider(event) {
     event.preventDefault();
 
     const sliders = document.querySelectorAll('.slider_editor');
@@ -1555,6 +1556,7 @@ function showSlider(event) {
     const selectedFilter = event.target.value;
     
     if (selectedFilter !== 'none') {
+        console.log("Selected filter:", selectedFilter);  // Debugging line
         const filterElement = document.getElementById(selectedFilter);
         if (filterElement) {
             filterElement.classList.add('visible');
@@ -1563,6 +1565,7 @@ function showSlider(event) {
         }
     }
 }
+
 
 // Function to update the output display and apply the filter
 function updateValue(filter, value) {
@@ -1684,8 +1687,8 @@ function redo() {
 
 // Redraw the canvas with the current image and logo
 function redrawCanvas(img) {
-    // Check if img is defined
-    if (!img) {
+    // Check if img is defined and is an Image object
+    if (!img || !(img instanceof HTMLImageElement)) {
         console.log("Image element is not defined. redrawCanvas");
         return;
     }
@@ -1717,6 +1720,7 @@ function redrawCanvas(img) {
     // Save the current state after redraw
     saveToHistory(canvas); // Assuming `saveToHistory` takes canvas as a parameter
 }
+
 
 
 // Dynamic cropping functionality
@@ -1825,7 +1829,12 @@ document.getElementById("uploadLogo").addEventListener("change", addLogo);
 document.getElementById("logoSize").addEventListener("input", updateLogoSize(event));
 
 // Filter dropdown
-document.getElementById("filters").addEventListener("change", showSlider(event));
+document.getElementById("filters").addEventListener("change", showSlider);
+
+
+
+
+
 });
 
 
