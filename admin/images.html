@@ -1080,9 +1080,13 @@ function updateWatermarkPreview() {
     const stroke = document.getElementById("watermarkStroke").value || 2;
     // Get the scale value from the vertical slider
     const zoomLevel =  parseInt(document.getElementById("watermarkScale").value) || 1;
-
+/*
     const width = previewCanvas.width;
     const height = previewCanvas.height;
+*/
+    const width = Math.floor(previewCanvas.width / 2);
+    const height = Math.floor(previewCanvas.height / 2);
+
 
 console.log("zoomLevel  ",zoomLevel);
 
