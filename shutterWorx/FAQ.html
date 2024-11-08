@@ -386,6 +386,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Highlight the matched text
                 question.innerHTML = question.textContent.replace(searchRegex, match => `<span class="highlight">${match}</span>`);
                 answer.innerHTML = answer.textContent.replace(searchRegex, match => `<span class="highlight">${match}</span>`);
+                question.classList.add("fade-in");
+
             } else {
                 faqItem.style.display = "none";
                 hasResults = false;
