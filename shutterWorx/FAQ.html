@@ -359,9 +359,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const icon = document.createElement("div");
     icon.className = "faq-icon";
     icon.textContent = "+"; // Add "+" as the icon text
-
+    
+    question.appendChild(icon);
     // Append the icon to the question element (or its parent container if needed)
-    return question += icon;
+    return question;
 }
 
 
@@ -378,11 +379,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
         faqItems.forEach(faqItem => {
             let question = faqItem.querySelector(".faq-question");
-            const answer = faqItem.querySelector(".faq-answer");
+            let answer = faqItem.querySelector(".faq-answer");
 
         // Null checks for question and answer text content
         let questionText = question?.textContent?.toLowerCase() || "";
-        const answerText = answer?.textContent?.toLowerCase() || "";
+        let answerText = answer?.textContent?.toLowerCase() || "";
 
         console.log("questionText   ",questionText);
                 //console.log("question  ", question);
@@ -397,7 +398,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 faqItem.style.display = "block";
              
                 // Highlight the matched text
-                question.innerHTML = question.replace(searchRegex, match => `<span class="highlight">${match}</span>`);
+                question.innerHTML = question.textContent.replace(searchRegex, match => `<span class="highlight">${match}</span>`);
                 answer.innerHTML = answer.textContent.replace(searchRegex, match => `<span class="highlight">${match}</span>`);
             } else {
                 faqItem.style.display = "none";
