@@ -1056,6 +1056,38 @@ function drawSingleWatermark(settings, textWidth) {
     previewCtx.restore();
 }
 
+
+
+
+
+
+
+
+
+let gapSize = 10;
+
+function drawDiagonalLeftWatermarks(settings, gap) {
+    // Modify the settings to apply a -45 degree rotation for diagonal left
+    settings.rotation = -45; // Rotate watermark to diagonal left
+    const gap = gapSize; // 150 pixels between each watermark
+    drawRepeatedWatermarks(settings, gap); // Call the common function to draw the watermarks
+}
+
+function drawDiagonalRightWatermarks(settings, gap) {
+    // Modify the settings to apply a 45 degree rotation for diagonal right
+    const gap = gapSize; // 150 pixels between each watermark 
+    settings.rotation = 45; // Rotate watermark to diagonal right
+    drawRepeatedWatermarks(settings, gap); // Call the common function to draw the watermarks
+}
+
+function drawRegularWatermarks(settings, gap) {
+    // No rotation needed for regular watermarks
+    const gap = gapSize; // 150 pixels between each watermark
+    settings.rotation = 0; // Set rotation to 0 for no rotation
+    drawRepeatedWatermarks(settings, gap); // Call the common function to draw the watermarks
+}
+
+
 // Draw multiple watermarks
 function drawRepeatedWatermarks(settings, gap) {
     for (let x = 0; x < previewCanvas.width + gap; x += gap) {
