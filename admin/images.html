@@ -1070,9 +1070,9 @@ let gapSize = 10;
 
 function drawDiagonalLeftWatermarks(settings, gap) {
     // Modify the settings to apply a -45 degree rotation for diagonal left
-    settings.rotation = -45; // Rotate watermark to diagonal left
      gap = gapSize; // 150 pixels between each watermark
-    drawRepeatedWatermarks(settings, gap); // Call the common function to draw the watermarks
+     settings.rotation = -45; // Rotate watermark to diagonal left
+     drawRepeatedWatermarks(settings, gap); // Call the common function to draw the watermarks
 }
 
 function drawDiagonalRightWatermarks(settings, gap) {
