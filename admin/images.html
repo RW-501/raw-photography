@@ -289,7 +289,14 @@ select, input[type="range"], input[type="number"] {
 
 
 
+<style>
+    .form-check {
+    position: relative;
+    display: grid;
+    padding-left: 1.25rem;
+}
 
+</style>
 
              
 <!-- Watermark Settings Modal Section -->
@@ -298,7 +305,7 @@ select, input[type="range"], input[type="number"] {
         <div class="modal-content">
             <div class="modal-header">
                 <h5 id="watermarkSettingsLabel" class="modal-title">Watermark Settings</h5>
-                <button id="closeWatermarkX" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button id="closeWatermarkX" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
             </div>
 
             <div class="modal-body">
@@ -335,6 +342,10 @@ select, input[type="range"], input[type="number"] {
                             <input type="text" id="watermarkText" class="form-control" placeholder="Enter watermark text">
                         </div>
 
+
+
+                        <div class="col-12 d-flex justify-content-around">
+
                         <div class="col-md-6">
                             <label for="watermarkFont" class="form-label">Font</label>
                             <select id="watermarkFont" class="form-select">
@@ -367,6 +378,10 @@ select, input[type="range"], input[type="number"] {
                             <label for="watermarkColor" class="form-label">Color</label>
                             <input type="color" id="watermarkColor" class="form-control" value="#000000">
                         </div>
+</div>
+
+
+<div class="col-12 d-flex justify-content-around">
 
                         <div class="col-md-3">
                             <label for="watermarkOpacity" class="form-label">Opacity</label>
@@ -377,6 +392,8 @@ select, input[type="range"], input[type="number"] {
                             <label for="watermarkRotation" class="form-label">Rotation</label>
                             <input type="range" id="watermarkRotation" class="form-range" min="0" max="360" step="1" value="0">
                         </div>
+</div>
+
 
                         <!-- Style Toggles -->
                         <div class="col-12 d-flex justify-content-around">
@@ -1070,7 +1087,7 @@ function setupEventListeners() {
 async function processImage(dataURL, file, fileSize, fileType, fileName) {
     try {
         // Check if watermark text is set properly before processing
-        if (watermarkSettings.text === "Your Watermark") {
+        if (defaultSettings.text === "Your Watermark") {
             showToast("Create a Watermark");
             document.getElementById("watermarkSettingsModal").style.display = "block";
             return;
