@@ -105,7 +105,7 @@ const styles = `
     border-radius: 50%;
     top: 5px;
     left: 5px;
-    animation: lensGradientAnimation 12s ease-in-out infinite;
+    animation: lensGradientAnimation .3 ease-in-out infinite;
 
   }
 
@@ -130,7 +130,7 @@ const styles = `
     border-radius: 50%;
     animation: spin 1s linear infinite;
     z-index: -1;
-     animation: spinnerGradientAnimation 12s ease-in-out infinite;
+     animation: spinnerGradientAnimation .2s ease-in-out infinite;
 
   }
 
