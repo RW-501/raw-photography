@@ -92,9 +92,23 @@ const styles = `
     border-radius: 50%;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.3) inset;
     position: relative;
-    animation: lensGradientAnimation .3 ease-in-out infinite;
+    animation: lensSpin 1s linear infinite;
 
   }
+
+  @keyframes lensSpin {
+    0% {
+      transform: rotate(0deg);
+border: 5px solid rgb(126 126 126);
+
+    }
+    100% {
+      transform: rotate(90deg);
+        border: 5px solid rgb(135 135 135);
+    }
+  }
+
+
 
   /* Inner lens glass effect */
 .lens::after {
@@ -113,13 +127,13 @@ const styles = `
         background: linear-gradient(180deg,  #2575fc, #6a11cb);
                     box-shadow: 0 6px 12px rgb(242 229 42);
                  transform: rotate(0deg);
-
+opacity: 0;
               }
             to {
         background: linear-gradient(90deg, #6a11cb, #2575fc);
                     box-shadow: 0 6px 12px rgb(242 229 42);
                           transform: rotate(360deg);
-
+opacity: 1;
             }
         }
 
