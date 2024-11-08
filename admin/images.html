@@ -994,14 +994,31 @@ function resetWatermarkSettings() {
         updateWatermarkPreview();
     }
 
-// Fetch current settings with validation
+    function parseValue(element, defaultValue) {
+    // Handle different element types
+    if (element.type === "text") {
+        return element.value || defaultValue;
+    } else if (element.type === "color") {
+        return element.value || defaultValue;
+    } else if (element.type === "range" || element.type === "number") {
+        return element.value || defaultValue;
+    } else if (element.type === "select-one") {
+        return element.value || defaultValue;
+    } else if (element.type === "checkbox") {
+        return element.checked;
+    }
+    return defaultValue;
+}
+
 function getWatermarkSettings() {
     const settings = {};
     Object.entries(watermarkElements).forEach(([key, element]) => {
-        settings[key] = element.type === "checkbox" ? element.checked : parseValue(element, defaultSettings[key]);
+        // Make sure we handle all elements
+        settings[key] = parseValue(element, defaultSettings[key] || "");
     });
     return settings;
 }
+
 
 // Helper to parse numeric values with fallback
 function parseValue(element, fallback) {
