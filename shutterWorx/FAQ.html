@@ -349,11 +349,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
     function updateQuestionIcon(question) {
-    // Remove the "+" from the question text if present
-    if (question.textContent.endsWith('+')) {
-        question.textContent = question.textContent.slice(0, -1); // Removes the last character "+"
+    // Ensure question.textContent is a string and check if it ends with '+'
+    if (question.textContent && question.textContent.trim().slice(-1) === '+') {
+        question.textContent = question.textContent.trim().slice(0, -1); // Remove the last character "+"
     }
 
     // Create the icon element
@@ -364,6 +363,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Append the icon to the question element (or its parent container if needed)
     question.appendChild(icon);
 }
+
 
 
 
