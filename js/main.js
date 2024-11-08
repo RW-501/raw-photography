@@ -93,6 +93,8 @@ const styles = `
     border-radius: 50%;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.3) inset;
     position: relative;
+    animation: lensGradientAnimation .3 ease-in-out infinite;
+
   }
 
   /* Inner lens glass effect */
@@ -105,8 +107,7 @@ const styles = `
     border-radius: 50%;
     top: 5px;
     left: 5px;
-    animation: lensGradientAnimation .3 ease-in-out infinite;
-
+    
   }
 
   @keyframes lensGradientAnimation {
@@ -137,10 +138,10 @@ const styles = `
   /* Smooth spinnerGradientAnimation effect */
         @keyframes spinnerGradientAnimation {
             from {
-                background-color: rgba(255, 255, 255, 0.2);
+                border-top-color rgba(255, 255, 255, 0.2);
             }
             to {
-                background-color: rgb(132 173 234);
+                border-top-color rgb(132 173 234);
                    box-shadow: 0 6px 12px rgb(242 229 42);
             }
         }
