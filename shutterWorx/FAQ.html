@@ -282,64 +282,68 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Function to display FAQs with a limit
-    function displayFaqs(faqData, limit = displayedFaqs) {
-        faqItemsContainer.innerHTML = ""; // Clear existing FAQs
+  
+// Function to display FAQs with a limit
+function displayFaqs(faqData, limit = displayedFaqs) {
+    faqItemsContainer.innerHTML = ""; // Clear existing FAQs
 
-        // Ensure faqData is an array
-        if (!Array.isArray(faqData)) return;
+    // Ensure faqData is an array
+    if (!Array.isArray(faqData)) return;
 
+    // Display only the limited number of FAQs
+    faqData.slice(0, limit).forEach((faq, index) => {
+        const faqItem = document.createElement("div");
+        faqItem.className = "faq-item fade-in";
 
-        // Display limited number of FAQs
-        faqData.slice(0, limit).forEach((faq, index) => {
-            const faqItem = document.createElement("div");
-            faqItem.className = "faq-item";
+        // Question element with toggle icon
+        const question = document.createElement("h3");
+        question.textContent = faq.question;
+        question.setAttribute("aria-expanded", "false");
+        question.classList.add("faq-question");
 
-            // Question element with toggle icon
-            const question = document.createElement("h3");
-            question.textContent = faq.question;
-            question.setAttribute("aria-expanded", "false");
-            question.classList.add("faq-question");
+        const icon = document.createElement("div");
+        icon.className = "faq-icon";
+        icon.textContent = '+';
 
-            const icon = document.createElement("div");
-            icon.className = "faq-icon";
-            icon.textContent = '+';
+        const faqItemOuter = document.createElement("span");
+        faqItemOuter.appendChild(question);
+        question.appendChild(icon);
 
-            const faqItemOuter = document.createElement("span");
-            faqItemOuter.appendChild(question);
-            question.appendChild(icon);
+        faqItemOuter.style.display = "block";
 
-            faqItemOuter.style.display = "block";
+        // Answer element
+        const answer = document.createElement("p");
+        answer.textContent = faq.answer;
+        answer.classList.add("faq-answer");
+        answer.setAttribute("aria-hidden", "true");
+        answer.style.display = "none";
 
-            // Answer element
-            const answer = document.createElement("p");
-            answer.textContent = faq.answer;
-            answer.classList.add("faq-answer", "fade-in");
-            answer.setAttribute("aria-hidden", "true");
-            answer.style.display = "none";
-
-            // Toggle FAQ visibility
-            faqItemOuter.addEventListener("click", () => {
-                const isExpanded = faqItem.classList.toggle("active");
-                question.setAttribute("aria-expanded", isExpanded.toString());
-                answer.setAttribute("aria-hidden", (!isExpanded).toString());
-                answer.style.display = isExpanded ? "block" : "none";
-                icon.textContent = isExpanded ? '-' : '+';
-           
-            });
-
-            // Append elements to the container
-            faqItem.appendChild(faqItemOuter);
-            faqItem.appendChild(answer);
-            faqItemsContainer.appendChild(faqItem);
-
-            // Fade-in animation
-            setTimeout(() => {
-                faqItem.classList.remove("fade-in");
-            }, 1000);
+        // Toggle FAQ visibility
+        faqItemOuter.addEventListener("click", () => {
+            const isExpanded = faqItem.classList.toggle("active");
+            question.setAttribute("aria-expanded", isExpanded.toString());
+            answer.setAttribute("aria-hidden", (!isExpanded).toString());
+            answer.style.display = isExpanded ? "block" : "none";
+            icon.textContent = isExpanded ? '-' : '+';
         });
 
-        loadMoreBtn.style.display = faqData.length > limit ? "block" : "none";
-    }
+        // Append elements to the container
+        faqItem.appendChild(faqItemOuter);
+        faqItem.appendChild(answer);
+        faqItemsContainer.appendChild(faqItem);
+    });
+
+    // Fade-in animation for each FAQ item (optional)
+    setTimeout(() => {
+        faqItemsContainer.querySelectorAll(".faq-item").forEach(item => {
+            item.classList.remove("fade-in");
+        });
+    }, 500);
+
+    // Show or hide "Load More" button based on remaining FAQs
+    loadMoreBtn.style.display = faqData.length > limit ? "block" : "none";
+}
+
 
 
 
