@@ -290,45 +290,10 @@ select, input[type="range"], input[type="number"] {
 
 
 
-<!-- Watermark settings modal -->
-<section id="watermarkSettingsModal" class=" " tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Watermark Settings</h5>
-                <button id="closeWatermarkX" type="button" class="close" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
 
-
-
-
-                <div class="container-fluid d-flex mb-4">
-                <!-- Watermark preview canvas -->
-
-                <div id="watermark-holder">
-                <div id="watermarkCanvas-holder">
-                <canvas id="watermarkPreviewCanvas" width="400" height="200" style="border:1px solid #ccc;"></canvas>
-            </div>
-
-            <div id="watermarkZoom-holder">
-                    <input  class="ml-1 custom-slider"
-                        type="range" 
-                        id="watermarkScale" 
-                        min="0" 
-                        max="5" 
-                        step="1" 
-                        value="1"
-                        style=" width: 200px !important;" >
-                
-                </div>
-            </div>
-        </div>
-
+             
 <!-- Watermark Settings Modal Section -->
-<div id="watermark-settings-modal" class=" fade" tabindex="-1" role="dialog" aria-labelledby="watermarkSettingsLabel" >
+<section id="watermarkSettingsModal" class=" modal fade" tabindex="-1" role="dialog" aria-labelledby="watermarkSettingsLabel" >
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -338,11 +303,28 @@ select, input[type="range"], input[type="number"] {
 
             <div class="modal-body">
                 <!-- Watermark Preview Canvas -->
-                <div class="row mb-4 text-center">
-                    <div class="col-12">
-                        <canvas id="watermarkPreviewCanvas" width="400" height="200" class="border rounded shadow-sm"></canvas>
+                <div class="container-fluid d-flex mb-4">
+                    <!-- Watermark preview canvas -->
+    
+                    <div id="watermark-holder">
+                    <div id="watermarkCanvas-holder">
+                    <canvas id="watermarkPreviewCanvas" width="400" height="200" style="border:1px solid #ccc;"></canvas>
+                </div>
+    
+                <div id="watermarkZoom-holder">
+                        <input  class="ml-1 custom-slider"
+                            type="range" 
+                            id="watermarkScale" 
+                            min="0" 
+                            max="5" 
+                            step="1" 
+                            value="1"
+                            style=" width: 200px !important;" >
+                    
                     </div>
                 </div>
+            </div>
+    
 
                 <!-- Watermark Controls -->
                 <div class="container-fluid">
@@ -408,8 +390,7 @@ select, input[type="range"], input[type="number"] {
             <!-- Modal Footer -->
             <div class="modal-footer">
                 <button type="button" id="resetWatermarkSettings" class="btn btn-secondary">Reset</button>
-                <button type="button" id="applyWatermarkSettings" class="btn btn-primary">Apply</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
