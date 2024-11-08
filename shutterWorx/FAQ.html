@@ -325,7 +325,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 question.setAttribute("aria-expanded", isExpanded.toString());
                 answer.setAttribute("aria-hidden", (!isExpanded).toString());
                 answer.style.display = isExpanded ? "block" : "none";
-                icon.textContent = isExpanded ? '<div class="faq-icon">-</div>' : '<div class="faq-icon">+</div>';
+                icon.textContent = isExpanded ? '-' : '+';
             });
 
             // Append elements to the container
@@ -353,7 +353,7 @@ document.addEventListener("DOMContentLoaded", function () {
         faqItems.forEach(faqItem => {
             const question = faqItem.querySelector(".faq-question");
             const answer = faqItem.querySelector(".faq-answer");
-            
+
         // Null checks for question and answer text content
         const questionText = question?.textContent?.toLowerCase() || "";
         const answerText = answer?.textContent?.toLowerCase() || "";
