@@ -326,6 +326,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 answer.setAttribute("aria-hidden", (!isExpanded).toString());
                 answer.style.display = isExpanded ? "block" : "none";
                 icon.textContent = isExpanded ? '-' : '+';
+           
             });
 
             // Append elements to the container
@@ -341,6 +342,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
         loadMoreBtn.style.display = faqData.length > limit ? "block" : "none";
     }
+
+
+
+
+
+
+
+
+
+
+
 
     // FAQ Search functionality
     document.getElementById("faq-search").addEventListener("input", function () {
@@ -364,6 +376,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 hasResults = true;
                 faqItem.style.display = "block";
                 console.log("questionText   ",questionText);
+                console.log("question  ", question);
 
 
                 // Highlight the matched text
