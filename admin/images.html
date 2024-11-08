@@ -328,114 +328,97 @@ select, input[type="range"], input[type="number"] {
             </div>
         </div>
 
-
-        <div class="watermark-controls container-fluid d-grid">
-
-                <div class="container-fluid d-flex">
-                            <div class="container-fluid">
-
-                <!-- Watermark input fields -->
-                <label for="watermarkText">Text</label>
-                <input type="text" id="watermarkText" class="form-control" placeholder="Enter watermark text">
-               
+<!-- Watermark Settings Modal Section -->
+<section id="watermark-settings-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="watermarkSettingsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="watermarkSettingsLabel" class="modal-title">Watermark Settings</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="container-fluid">
-                <label for="watermarkFont">Font</label>
-                <select id="watermarkFont" class="form-control">
-                    <option value="Arial Black">Arial Black</option>
-                    <option value="Arial">Arial</option>
-                    <option value="Times New Roman">Times New Roman</option>
-                    <option value="Courier New">Courier New</option>
-                    <option value="Verdana">Verdana</option>
-                    <option value="Georgia">Georgia</option>
-                    <option value="Tahoma">Tahoma</option>
-                    <option value="Trebuchet MS">Trebuchet MS</option>
-                    <option value="Comic Sans MS">Comic Sans MS</option>
-                    <option value="Lucida Console">Lucida Console</option>
-                    <option value="Impact">Impact</option>
-                    <option value="Palatino">Palatino</option>
-                    <option value="Consolas">Consolas</option>
-                </select>
-            </div>
-            <div class="container-fluid">
-                <label for="watermarkSize">Font Size</label>
-                <input type="number" id="watermarkSize" class="form-control" placeholder="240" value="240">
-            </div>
-        </div>
-               
-            <div class="container-fluid d-flex">
 
+            <div class="modal-body">
+                <!-- Watermark Preview Canvas -->
+                <div class="row mb-4 text-center">
+                    <div class="col-12">
+                        <canvas id="watermarkPreviewCanvas" width="400" height="200" class="border rounded shadow-sm"></canvas>
+                    </div>
+                </div>
+
+                <!-- Watermark Controls -->
                 <div class="container-fluid">
-                <label class="custom-checkbox-container">
-                    <span class="custom-checkbox-label">Multiple Watermarks</span>
-                </label>
-                    <input type="checkbox" id="multipleWaterMark" class="custom-checkbox">
-                 </div>
+                    <div class="row g-3">
+                        <!-- Text and Font Selection -->
+                        <div class="col-md-6">
+                            <label for="watermarkText" class="form-label">Watermark Text</label>
+                            <input type="text" id="watermarkText" class="form-control" placeholder="Enter watermark text">
+                        </div>
 
-          <!-- Bold and Underline Toggle Buttons -->
-<div class="container-fluid">
-    <label class="custom-checkbox-container">
-        <span class="custom-checkbox-label">Underline</span>
-    </label>
-        <input type="checkbox" id="watermarkUnderline" class="custom-checkbox">
-</div>
-<div class="container-fluid">
-    <label class="custom-checkbox-container">
-        <span class="custom-checkbox-label">Bold</span>
-    </label> 
-        <input type="checkbox" id="watermarkBold" class="custom-checkbox">
-     </div>
+                        <div class="col-md-6">
+                            <label for="watermarkFont" class="form-label">Font</label>
+                            <select id="watermarkFont" class="form-select">
+                                <option>Arial Black</option>
+                                <option>Arial</option>
+                                <option>Verdana</option>
+                                <option>Times New Roman</option>
+                            </select>
+                        </div>
 
-                <div class="container-fluid">
-                <label for="watermarkColor">Color</label>
-                <input type="color" id="watermarkColor" class="form-control" value="#000000">
+                        <!-- Size, Color, Opacity, and Scale -->
+                        <div class="col-md-3">
+                            <label for="watermarkSize" class="form-label">Font Size</label>
+                            <input type="number" id="watermarkSize" class="form-control" value="240">
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="watermarkColor" class="form-label">Color</label>
+                            <input type="color" id="watermarkColor" class="form-control" value="#000000">
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="watermarkOpacity" class="form-label">Opacity</label>
+                            <input type="range" id="watermarkOpacity" class="form-range" min="0" max="1" step="0.1" value="0.5">
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="watermarkScale" class="form-label">Scale</label>
+                            <input type="range" id="watermarkScale" class="form-range" min="0.1" max="5" step="0.1" value="1">
+                        </div>
+
+                        <!-- Style Toggles -->
+                        <div class="col-12 d-flex justify-content-around">
+                            <div class="form-check">
+                                <input type="checkbox" id="watermarkBold" class="form-check-input">
+                                <label for="watermarkBold" class="form-check-label">Bold</label>
+                            </div>
+
+                            <div class="form-check">
+                                <input type="checkbox" id="watermarkUnderline" class="form-check-input">
+                                <label for="watermarkUnderline" class="form-check-label">Underline</label>
+                            </div>
+
+                            <div class="form-check">
+                                <input type="checkbox" id="multipleWaterMark" class="form-check-input">
+                                <label for="multipleWaterMark" class="form-check-label">Multiple Watermarks</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="container-fluid">
-                <label for="watermarkOpacity">Opacity</label>
-                <input type="range" id="watermarkOpacity" class="form-control custom-slider" min="0" max="1" step="0.1" value="0.5">
-            </div>
 
-    
-
-        </div>
-
-               <div class="container-fluid d-flex">
-                    <div class="container-fluid">
-                        <!-- Add Stroke Width Dropdown -->
-            <label for="watermarkStroke">Stroke Width:</label>
-            <select id="watermarkStroke">
-                <option value="1">Thin</option>
-                <option value="2">Medium</option>
-                <option value="3">Bold</option>
-            </select>
-            </div>
-
-            <div class="container-fluid">
-                <label for="watermarkRotation">Rotation (degrees)</label>
-                <input type="number" id="watermarkRotation" class="form-control" placeholder="0" value="0">
-            </div>
-            <div class="container-fluid">
-                <label for="watermarkPositionX">Position X</label>
-                <input type="number" id="watermarkPositionX" class="form-control" placeholder="95" value="95">
-            </div>
-            <div class="container-fluid">
-                <label for="watermarkPositionY">Position Y</label>
-                <input type="number" id="watermarkPositionY" class="form-control" placeholder="140" value="140">
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" id="resetWatermarkSettings" class="btn btn-secondary">Reset</button>
+                <button type="button" id="applyWatermarkSettings" class="btn btn-primary">Apply</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
-</div>
-
-        <div class="watermarkSettingsFooter modal-footer">
-            <button id="resetWatermarkSettings" type="button" class="btn btn-secondary">Reset</button>
-            <button id="applyWatermarkSettings" type="button" class="btn btn-primary">Apply</button>
-            <button id="closeWatermarkModal" type="button" class="btn btn-secondary">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 </section>
+
+
+
+
 
 
 <section id="imageEditorModal-section">
@@ -947,118 +930,148 @@ async function createLowerQualityImage(dataURL) {
     return canvas.toDataURL("image/jpeg", 0.7); // Compression quality
 }
 
-let watermarkSettings = {
+
+
+
+
+
+// Element selectors and default settings
+const watermarkElements = { 
+    text: document.getElementById("watermarkText"),
+    font: document.getElementById("watermarkFont"),
+    fontSize: document.getElementById("watermarkSize"),
+    color: document.getElementById("watermarkColor"),
+    opacity: document.getElementById("watermarkOpacity"),
+    rotation: document.getElementById("watermarkRotation"),
+    posX: document.getElementById("watermarkPositionX"),
+    posY: document.getElementById("watermarkPositionY"),
+    bold: document.getElementById("watermarkBold"),
+    underline: document.getElementById("watermarkUnderline"),
+    stroke: document.getElementById("watermarkStroke"),
+    scale: document.getElementById("watermarkScale"),
+    multipleWatermark: document.getElementById("multipleWaterMark")
+};
+
+
+const RADIAN_FACTOR = Math.PI / 180;
+
+const defaultSettings = {
     text: "Your Watermark",
-    font: "Arial",
+    font: "Arial Black",
     fontSize: 240,
     color: "#000000",
     opacity: 0.5,
     rotation: 0,
-    posX: 160,
-    posY: 95,
-    isBold: true,  // Option for bold text
-    isUnderline: false, // Option for underlined text
-    shadow: {
-        offsetX: 2,
-        offsetY: 2,
-        blur: 5,
-        color: "rgba(0, 0, 0, 0.5)"
-    },
-    stroke: {
-        width: 2,
-        color: "#fff"
-    }
+    posX: 95,
+    posY: 140,
+    bold: false,
+    underline: false,
+    stroke: 2,
+    scale: 1,
+    multipleWatermark: false
 };
-let textX = 0;
-let textY = 0;
 
-// Function to add watermark to an image on canvas
-function addWatermark(ctx, width, height) {
-    const { text, font, fontSize, color, opacity, rotation, isBold, isUnderline, shadow, stroke } = watermarkSettings;
-
-    if (text === "Your Watermark") {
-        showToast("Create a Watermark");
-        document.getElementById("watermarkSettingsModal").style.display = "block";
-        return;
-    }
-
-    ctx.save();
-    const fontStyle = isBold ? "bold" : "normal";
-    ctx.font = `${fontStyle} ${fontSize}px ${font}`;
-    ctx.fillStyle = color;
-    ctx.globalAlpha = opacity;
-    ctx.textBaseline = "middle";
-    ctx.textAlign = "center";
-
-    // Calculate zoom level based on canvas dimensions and font size
-    const desiredWatermarkWidth = ctx.measureText(text).width;
-    const targetWidthRatio = width * 0.5 / desiredWatermarkWidth; // 50% of canvas width as target size
-    const targetHeightRatio = height * 0.1 / fontSize; // Adjust based on desired watermark height as % of canvas height
-    const zoomLevel = Math.min(targetWidthRatio, targetHeightRatio);
-
-    // Apply scale transformation
-    ctx.scale(zoomLevel, zoomLevel);
-    // Apply shadow if defined
-    if (shadow) {
-        ctx.shadowOffsetX = shadow.offsetX;
-        ctx.shadowOffsetY = shadow.offsetY;
-        ctx.shadowBlur = shadow.blur;
-        ctx.shadowColor = shadow.color;
-    }
-
-    // Apply stroke settings
-    if (stroke) {
-        ctx.lineWidth = stroke.width;
-        ctx.strokeStyle = stroke.color;
-        ctx.lineJoin = "round";
-    }
-
-    const textWidth = ctx.measureText(text).width;
-    const textHeight = fontSize;
-
-    // Check if multiple watermarks are needed
-    if (document.getElementById('multipleWaterMark').checked) {
-        const gap = Math.max(textWidth, fontSize) * 1.2; 
-
-// Loop to fill canvas with watermarks
-for (let x = 0; x < width + gap; x += gap) {
-    for (let y = 0; y < height + gap; y += gap) {
-
-        ctx.save();
-        ctx.translate(x, y);
-        ctx.rotate((rotation * Math.PI) / 180);
-
-        if (stroke) ctx.strokeText(text, 0, 0);
-        ctx.fillText(text, 0, 0);
-
-        ctx.restore();
+// Reset settings to defaults
+function resetWatermarkSettings() {
+        Object.keys(defaultSettings).forEach(key => {
+            if (elements[key]) {
+                elements[key].value = defaultSettings[key];
+                elements[key].checked = defaultSettings[key];
             }
-        }
-    } else {
-        const centerX = width / 2;
-        const centerY = height / 2;
-        ctx.translate(centerX, centerY);
-        ctx.rotate((rotation * Math.PI) / 180);
-
-        if (stroke) ctx.strokeText(text, -textWidth / 2, textHeight / 2);
-        ctx.fillText(text, -textWidth / 2, textHeight / 2);
+        });
+        updateWatermarkPreview();
     }
 
-    // Underline Effect
-    if (isUnderline) {
-        ctx.beginPath();
-        ctx.moveTo(textX, textY + 2);
-        ctx.lineTo(textX + textWidth, textY + 2);
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = color;
-        ctx.stroke();
-    }
-
-    ctx.restore();
-
-    updateWatermarkPreview();
-
+// Fetch current settings with validation
+function getWatermarkSettings() {
+    const settings = {};
+    Object.entries(watermarkElements).forEach(([key, element]) => {
+        settings[key] = element.type === "checkbox" ? element.checked : parseValue(element, defaultSettings[key]);
+    });
+    return settings;
 }
+
+// Helper to parse numeric values with fallback
+function parseValue(element, fallback) {
+    const value = parseFloat(element.value);
+    return isNaN(value) ? fallback : value;
+}
+
+// Update preview with current settings
+function updateWatermarkPreview() {
+    previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
+    const settings = getWatermarkSettings();
+    
+    previewCtx.save();
+    previewCtx.globalAlpha = settings.opacity;
+    previewCtx.font = `${settings.bold ? "bold" : "normal"} ${settings.fontSize}px ${settings.font}`;
+    previewCtx.fillStyle = settings.color;
+    previewCtx.textAlign = "center";
+    previewCtx.textBaseline = "middle";
+    previewCtx.scale(settings.scale, settings.scale);
+
+    const textWidth = previewCtx.measureText(settings.text).width;
+    const gap = Math.max(textWidth, settings.fontSize) * 1.2;
+
+    settings.multipleWatermark ? drawRepeatedWatermarks(settings, gap) : drawSingleWatermark(settings, textWidth);
+    previewCtx.restore();
+}
+
+// Draw a single watermark
+function drawSingleWatermark(settings, textWidth) {
+    previewCtx.save();
+    previewCtx.translate(previewCanvas.width / 2, previewCanvas.height / 2);
+    previewCtx.rotate(settings.rotation * RADIAN_FACTOR);
+    renderText(settings, textWidth);
+    if (settings.underline) drawUnderline(textWidth, settings.fontSize);
+    previewCtx.restore();
+}
+
+// Draw multiple watermarks
+function drawRepeatedWatermarks(settings, gap) {
+    for (let x = 0; x < previewCanvas.width + gap; x += gap) {
+        for (let y = 0; y < previewCanvas.height + gap; y += gap) {
+            previewCtx.save();
+            previewCtx.translate(x, y);
+            previewCtx.rotate(settings.rotation * RADIAN_FACTOR);
+            renderText(settings);
+            previewCtx.restore();
+        }
+    }
+}
+
+// Render text with stroke and fill
+function renderText(settings) {
+    if (settings.stroke) {
+        previewCtx.lineWidth = settings.stroke;
+        previewCtx.strokeStyle = settings.color;
+        previewCtx.strokeText(settings.text, 0, 0);
+    }
+    previewCtx.fillText(settings.text, 0, 0);
+}
+
+// Draw underline for text
+function drawUnderline(textWidth, fontSize) {
+    const underlineY = fontSize / 2 + 5;
+    previewCtx.beginPath();
+    previewCtx.moveTo(-textWidth / 2, underlineY);
+    previewCtx.lineTo(textWidth / 2, underlineY);
+    previewCtx.lineWidth = 2;
+    previewCtx.stroke();
+}
+
+// Bind event listeners
+function setupEventListeners() {
+    document.getElementById("resetWatermarkSettings").addEventListener("click", resetWatermarkSettings);
+    Object.values(watermarkElements).forEach(element => {
+        element.addEventListener("input", updateWatermarkPreview);
+    });
+}
+
+// Initialize setup
+setupEventListeners();
+updateWatermarkPreview();
+
 
 
 
@@ -1103,7 +1116,6 @@ document.getElementById("watermarkSettingsBtn").addEventListener("click", () => 
     document.getElementById("watermarkSettingsModal").style.display = "block";
 });
 
-
 function resetWatermarkSettings() {
     // Reset each setting to its default
     document.getElementById("watermarkText").value = "Your Watermark";
@@ -1120,9 +1132,13 @@ function resetWatermarkSettings() {
     document.getElementById("watermarkScale").value = 1.0;
     document.getElementById("multipleWaterMark").checked = false;
 
+    // Clear the canvas
+    previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
+
     // Call the update function to refresh the preview with default values
-    updateWatermarkPreview();
+    updateWatermarkPreview(true);
 }
+
 
 function updateWatermarkPreview(reset = false) { 
     if (!previewCtx) return;
@@ -1187,30 +1203,45 @@ console.log("zoomLevel  ",zoomLevel);
             }
         }
     } else {
-        // Draw a single centered watermark
-const centerX = Math.floor(width / 2);
-const centerY = Math.floor(height / 2);
+        const centerX = width;
+    const centerY = height;
 
-        previewCtx.translate(centerX, centerY);
-        previewCtx.rotate((rotation * Math.PI) / 180);
+    previewCtx.save();
+    previewCtx.translate(centerX, centerY);
+    previewCtx.rotate((rotation * Math.PI) / 180);
 
-        if (stroke) {
-            previewCtx.lineWidth = 2;
-            previewCtx.strokeStyle = color;
-            previewCtx.strokeText(text, 0, 0);
-        }
-        previewCtx.fillText(text, 0, 0);
+    if (stroke) {
+        previewCtx.lineWidth = stroke;
+        previewCtx.strokeStyle = color;
+        previewCtx.strokeText(text, 0, 0);
     }
+    previewCtx.fillText(text, 0, 0);
 
-    // Underline Effect
+    // Draw underline if checked
     if (isUnderline) {
+        const underlineY = fontSize / 2 + 5;
         previewCtx.beginPath();
-        previewCtx.moveTo(centerX - textWidth / 2, centerY + fontSize / 2 + 5);
-        previewCtx.lineTo(centerX + textWidth / 2, centerY + fontSize / 2 + 5);
+        previewCtx.moveTo(-textWidth / 2, underlineY);
+        previewCtx.lineTo(textWidth / 2, underlineY);
         previewCtx.lineWidth = 2;
         previewCtx.strokeStyle = color;
         previewCtx.stroke();
     }
+
+    previewCtx.restore();
+    }
+
+// Draw the underline after text drawing
+if (isUnderline) {
+    const underlineY = fontSize / 2 + 5;  // Adjust underline position relative to font size
+    previewCtx.beginPath();
+    previewCtx.moveTo(-textWidth / 2, underlineY);
+    previewCtx.lineTo(textWidth / 2, underlineY);
+    previewCtx.lineWidth = 2;
+    previewCtx.strokeStyle = color;
+    previewCtx.stroke();
+}
+
 
     previewCtx.restore();
 }
