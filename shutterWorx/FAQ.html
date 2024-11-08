@@ -387,8 +387,8 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("questionText   ",questionText);
                 //console.log("question  ", question);
 
-                questionText = updateQuestionIcon(questionText);
-                console.log("questionText   ",questionText);
+                question = updateQuestionIcon(questionText);
+                console.log("question   ",question);
 
 
             // Check if search term exists in question or answer
@@ -397,7 +397,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 faqItem.style.display = "block";
              
                 // Highlight the matched text
-                question.innerHTML = question.textContent.replace(searchRegex, match => `<span class="highlight">${match}</span>`);
+                question.innerHTML = question.replace(searchRegex, match => `<span class="highlight">${match}</span>`);
                 answer.innerHTML = answer.textContent.replace(searchRegex, match => `<span class="highlight">${match}</span>`);
             } else {
                 faqItem.style.display = "none";
