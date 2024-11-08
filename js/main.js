@@ -84,11 +84,10 @@ const styles = `
             }
         }
 
-  /* Lens */
+  /* Lens     background-color: #222;  */
   .lens {
     width: 35px;
     height: 35px;
-    background-color: #222;
     border: 5px solid #666;
     border-radius: 50%;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.3) inset;
@@ -131,28 +130,22 @@ const styles = `
     border-radius: 50%;
     animation: spin 1s linear infinite;
     z-index: -1;
-     animation: spinnerGradientAnimation .2s ease-in-out infinite;
 
   }
 
-  /* Smooth spinnerGradientAnimation effect */
-        @keyframes spinnerGradientAnimation {
-            from {
-                border-top-color rgba(255, 255, 255, 0.2);
-            }
-            to {
-                border-top-color rgb(132 173 234);
-                   box-shadow: 0 6px 12px rgb(242 229 42);
-            }
-        }
+
 
 
   @keyframes spin {
     0% {
       transform: rotate(0deg);
+       border-top-color rgba(255, 255, 255, 0.2);
+
     }
     100% {
       transform: rotate(360deg);
+                    border-top-color rgb(132 173 234);
+                   box-shadow: 0 6px 12px rgb(242 229 42);
     }
   }
 `;
