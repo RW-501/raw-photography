@@ -82,21 +82,32 @@ select, input[type="range"], input[type="number"] {
 }
 
 #watermark-holder {
-
-    display: flex;
+    /* display: flex; */
     margin: auto;
+    position: relative;
 }
 
 #watermarkCanvas-holder {
     display: block;
+    width: auto;
+    position: relative;
+    margin: auto;
+    width: 400px;
+    height: 200px;
 
 }
 
 #watermarkZoom-holder {
     display: block;
-    width: 40px;
+    width: 200px;
     transform: rotate(270deg);
-    position: relative;
+    position: absolute;
+    /* bottom: 0; */
+    /* left: 0; */
+    /* top: 0; */
+    height: 20px;
+    top: 95px;
+    left: 325px;
 }
 
 #watermarkScale {
