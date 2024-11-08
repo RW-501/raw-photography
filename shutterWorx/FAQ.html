@@ -376,7 +376,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 faqItem.style.display = "block";
              
                                 
-                question.textContent = question.textContent.replace("+", match => `<div class="faq-icon">+</div>`);
+                question.innerHTML = question.textContent.replace("+", match => `<div class="faq-icon">+</div>`);
 
                 //console.log("question  ", question);
 
