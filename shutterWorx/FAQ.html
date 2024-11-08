@@ -360,7 +360,9 @@ document.addEventListener("DOMContentLoaded", function () {
             if (searchRegex.test(questionText) || searchRegex.test(answerText)) {
                 hasResults = true;
                 faqItem.style.display = "block";
-                
+                console.log("questionText   ",questionText);
+
+
                 // Highlight the matched text
                 question.innerHTML = question.textContent.replace(searchRegex, match => `<span class="highlight">${match}</span>`);
                 answer.innerHTML = answer.textContent.replace(searchRegex, match => `<span class="highlight">${match}</span>`);
