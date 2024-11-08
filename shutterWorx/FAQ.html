@@ -392,8 +392,14 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         // Show or hide 'No Results' message
-        document.getElementById("no-results").style.display = hasResults ? "none" : "block";
-        document.querySelector(".load-more").style.display = hasResults ? "none" : "block";
+  // Ensure to show or hide the 'Load More' button based on the results
+  const loadMoreBtn = document.querySelector(".load-more");
+    if (loadMoreBtn) {
+        loadMoreBtn.style.display = hasResults ? "none" : "block";
+    }
+    
+    document.getElementById("no-results").style.display = hasResults ? "none" : "block";
+
     });
 
 
