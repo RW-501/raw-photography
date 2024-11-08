@@ -325,6 +325,8 @@ function displayFaqs(faqData, limit = displayedFaqs) {
             answer.setAttribute("aria-hidden", (!isExpanded).toString());
             answer.style.display = isExpanded ? "block" : "none";
             icon.textContent = isExpanded ? '-' : '+';
+            answer.classList.add("fade-in");
+
         });
 
         // Append elements to the container
@@ -380,7 +382,7 @@ function displayFaqs(faqData, limit = displayedFaqs) {
                 faqItem.style.display = "block";
              
                                 
-                question.innerHTML = question.textContent.replace("+", match => `<div class="faq-icon">+</div>`);
+                question.textContent = question.textContent.replace("+", match => `<div class="faq-icon">+</div>`);
 
                 //console.log("question  ", question);
 
