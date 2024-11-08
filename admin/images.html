@@ -1546,16 +1546,23 @@ function updateLogoSize(event) {
 function showSlider(event) {
     event.preventDefault();
 
-            const sliders = document.querySelectorAll('.slider_editor');
-            sliders.forEach(slider => {
-                slider.classList.remove('visible');
-            });
+    const sliders = document.querySelectorAll('.slider_editor');
+    sliders.forEach(slider => {
+        slider.classList.remove('visible');
+    });
 
-            const selectedFilter = event.target.value;
-            if (selectedFilter !== 'none') {
-                document.getElementById(selectedFilter).classList.add('visible');
-            }
+    const selectedFilter = event.target.value;
+    
+    if (selectedFilter !== 'none') {
+        const filterElement = document.getElementById(selectedFilter);
+        if (filterElement) { // Check if the element exists
+            filterElement.classList.add('visible');
+        } else {
+            console.error(`Element with id "${selectedFilter}" not found.`);
         }
+    }
+}
+
 
         function updateValue(filter, value) {
             const outputId = filter + 'Output';
