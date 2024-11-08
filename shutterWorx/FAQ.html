@@ -350,6 +350,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+    function updateQuestionIcon(question) {
+    // Remove the "+" from the question text if present
+    if (question.textContent.endsWith('+')) {
+        question.textContent = question.textContent.slice(0, -1); // Removes the last character "+"
+    }
+
+    // Create the icon element
+    const icon = document.createElement("div");
+    icon.className = "faq-icon";
+    icon.textContent = "+"; // Add "+" as the icon text
+
+    // Append the icon to the question element (or its parent container if needed)
+    question.appendChild(icon);
+}
 
 
 
@@ -367,18 +381,20 @@ document.addEventListener("DOMContentLoaded", function () {
             const answer = faqItem.querySelector(".faq-answer");
 
         // Null checks for question and answer text content
-        const questionText = question?.textContent?.toLowerCase() || "";
+        let questionText = question?.textContent?.toLowerCase() || "";
         const answerText = answer?.textContent?.toLowerCase() || "";
+
+        console.log("questionText   ",questionText);
+                console.log("question  ", question);
+
+                questionText = updateQuestionIcon(questionText);
 
 
             // Check if search term exists in question or answer
             if (searchRegex.test(questionText) || searchRegex.test(answerText)) {
                 hasResults = true;
                 faqItem.style.display = "block";
-                console.log("questionText   ",questionText);
-                console.log("question  ", question);
-
-
+             
                 // Highlight the matched text
                 question.innerHTML = question.textContent.replace(searchRegex, match => `<span class="highlight">${match}</span>`);
                 answer.innerHTML = answer.textContent.replace(searchRegex, match => `<span class="highlight">${match}</span>`);
