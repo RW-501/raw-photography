@@ -87,10 +87,8 @@
     margin: auto;
     justify-content: center;
 }
-#ran-faq-items-container > .faq-item-random {
 
 
-}
 #ran-faq-items-container > .faq-item-random li {
     padding: .5rem;
     /* text-indent: 1rem; */
@@ -380,7 +378,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 //console.log("question  ", question);
 
-                console.log("question.textContent   ",question.textContent);
+               // console.log("question.textContent   ",question.textContent);
 
 
                 // Highlight the matched text
@@ -393,7 +391,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Show or hide 'No Results' message
         document.getElementById("no-results").style.display = hasResults ? "none" : "block";
-        loadMoreBtn.style.display = hasResults ? "none" : "block";
+        document.querySelector(".load-more").style.display = hasResults ? "none" : "block";
     });
 
 
