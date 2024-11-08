@@ -83,17 +83,29 @@ select, input[type="range"], input[type="number"] {
 
 #watermark-holder {
 
-
+    display: flex;
+    margin: auto;
 }
 
 #watermarkCanvas-holder {
-    
+    display: block;
+
 }
 
 #watermarkZoom-holder {
-    
+    display: block;
+    width: 40px;
+
 }
 
+#watermarkScale {
+    transform: rotate(270deg);
+    width: 200px !important;
+    min-width: 200px !important;
+    height: 10px !important;
+    min-height: 10px !important;
+    padding: 8px !important;
+}
 
 </style>
     <header class="admin-header">
@@ -253,7 +265,7 @@ select, input[type="range"], input[type="number"] {
 
 
 
-            
+
             <section id="Watermark settings modal-Section">
 <!-- Watermark settings modal -->
 <div id="watermarkSettingsModal" class="modal" tabindex="-1" role="dialog">
@@ -282,9 +294,9 @@ select, input[type="range"], input[type="number"] {
                     <input  class="ml-1 custom-slider"
                         type="range" 
                         id="watermarkScale" 
-                        min="-5" 
+                        min="0" 
                         max="5" 
-                        step="0.1" 
+                        step="0.01" 
                         value="1"
                         style=" transform: rotate(270deg);width: 200px !important;" >
                 
