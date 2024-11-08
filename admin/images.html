@@ -1062,10 +1062,6 @@ function setupEventListeners() {
     });
 }
 
-// Initialize setup
-setupEventListeners();
-updateWatermarkPreview();
-
 
 
 
@@ -1119,13 +1115,13 @@ document.getElementById("watermarkSize").addEventListener("input", updateWaterma
 document.getElementById("watermarkColor").addEventListener("input", updateWatermarkPreview);
 document.getElementById("watermarkOpacity").addEventListener("input", updateWatermarkPreview);
 document.getElementById("watermarkRotation").addEventListener("input", updateWatermarkPreview);
-document.getElementById("watermarkPositionY").addEventListener("input", updateWatermarkPreview);
-document.getElementById("watermarkPositionX").addEventListener("input", updateWatermarkPreview);
+//document.getElementById("watermarkPositionY").addEventListener("input", updateWatermarkPreview);
+//document.getElementById("watermarkPositionX").addEventListener("input", updateWatermarkPreview);
 document.getElementById("multipleWaterMark").addEventListener("change", updateWatermarkPreview);
 
-document.getElementById("watermarkStroke").addEventListener("change", updateWatermarkPreview);
+//document.getElementById("watermarkStroke").addEventListener("change", updateWatermarkPreview);
 document.getElementById("watermarkBold").addEventListener("click", updateWatermarkPreview);
-document.getElementById("watermarkUnderline").addEventListener("click", updateWatermarkPreview);
+//document.getElementById("watermarkUnderline").addEventListener("click", updateWatermarkPreview);
 
 document.getElementById("watermarkScale").addEventListener("change", updateWatermarkPreview);
 // Attach event listener for the reset button
@@ -1742,7 +1738,10 @@ function saveImage() {
 // Wait for the document to fully load
 document.addEventListener("DOMContentLoaded", function () {
 // Initialize preview on load
+// Initialize setup
+setupEventListeners();
 updateWatermarkPreview();
+
 
 // Bind undo/redo buttons
 document.getElementById("undoBtn").addEventListener("click", undo);
