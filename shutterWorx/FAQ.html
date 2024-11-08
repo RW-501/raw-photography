@@ -447,6 +447,7 @@ function displayRandomFaqs(faqs) {
         bubbles: true,  // Make sure the event bubbles up if needed
         cancelable: true  // Allow the event to be canceled if needed
     });
+    faqSearch.dispatchEvent(new Event("input"));
 
     // Dispatch the event to simulate user input
     faqSearch.dispatchEvent(event);
