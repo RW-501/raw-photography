@@ -70,7 +70,19 @@ const styles = `
     height: 10px;
     background-color: #999;
     border-radius: 2px;
-  }
+            animation: flash 0.3s ease-in-out;
+        }
+
+        /* Smooth flash effect */
+        @keyframes flash {
+            from {
+                background-color: rgba(255, 255, 255, 0.2);
+            }
+            to {
+                   background-color: rgb(233 224 93);
+                    box-shadow: 0 6px 12px rgb(242 229 42);
+            }
+        }
 
   /* Lens */
   .lens {
@@ -93,11 +105,11 @@ const styles = `
     border-radius: 50%;
     top: 5px;
     left: 5px;
-            animation: flash 0.4s ease-in-out;
+            animation: lensE 0.4s ease-in;
         }
 
-        /* Smooth flash effect */
-        @keyframes fadeIn {
+        /* Smooth lens effect */
+        @keyframes lensE {
             from {
                 background-color: rgba(255, 255, 255, 0.2);
             }
