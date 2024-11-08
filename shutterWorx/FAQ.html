@@ -349,23 +349,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-    function updateQuestionIcon(question) {
-    // Ensure question.textContent is a string and check if it ends with '+'
-    if (question.textContent && question.textContent.trim().slice(-1) === '+') {
-        question.textContent = question.textContent.trim().slice(0, -1); // Remove the last character "+"
-    }
-
-    // Create the icon element
-    const icon = document.createElement("div");
-    icon.className = "faq-icon";
-    icon.textContent = "+"; // Add "+" as the icon text
     
-    question.appendChild(icon);
-    // Append the icon to the question element (or its parent container if needed)
-    return question;
-}
-
-
 
 
 
@@ -397,7 +381,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 faqItem.style.display = "block";
              
                                 
-                question.innerHTML = question.textContent.replace("+", match => `<div class="faq-icon">+</div>`);
+                question = question.textContent.replace("+", match => `<div class="faq-icon">+</div>`);
 
                 // Highlight the matched text
                 question.innerHTML = question.textContent.replace(searchRegex, match => `<span class="highlight">${match}</span>`);
