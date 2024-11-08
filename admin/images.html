@@ -69,7 +69,7 @@
 select, input[type="range"], input[type="number"] {
             margin-bottom: 10px;
         }
-        .slider {
+        .slider_editor {
             display: none; /* Start hidden */
             margin-bottom: 20px;
         }
@@ -578,7 +578,7 @@ select, input[type="range"], input[type="number"] {
 
 
 <div class="d-flex align-items-center">
-    <div id="grayscale" class="slider">
+    <div id="grayscale" class="slider_editor">
         <label for="grayscaleValue" class="me-2">Grayscale:</label>
         <input type="range" id="grayscaleValue" min="0" max="100" value="100">
         <span id="grayscaleOutput" class="ms-2">100%</span>
@@ -586,7 +586,7 @@ select, input[type="range"], input[type="number"] {
 </div>
 
 <div class="d-flex align-items-center">
-    <div id="sepia" class="slider">
+    <div id="sepia"  class="slider_editor">
         <label for="sepiaValue" class="me-2">Sepia:</label>
         <input type="range" id="sepiaValue" min="0" max="100" value="100">
         <span id="sepiaOutput" class="ms-2">100%</span>
@@ -595,7 +595,7 @@ select, input[type="range"], input[type="number"] {
 
 
     <div class="d-flex align-items-center">
-    <div id="invert" class="slider">
+    <div id="invert"  class="slider_editor">
         <label for="invertValue" class="me-2">Invert:</label>
         <input type="range" id="invertValue" min="0" max="100" value="100">
         <span id="invertOutput" class="ms-2">100%</span>
@@ -606,7 +606,7 @@ select, input[type="range"], input[type="number"] {
 
 
                   <div class="d-flex align-items-center">
-                    <div id="brightness" class="slider">
+                    <div id="brightness"  class="slider_editor">
                     <label for="brightnessValue" class="me-2">Brightness:</label>
                     <input type="range" id="brightnessValue" min="0" max="200" value="100" class="form-range" />
                     <span id="brightnessOutput" class="ms-2">100%</span>
@@ -615,7 +615,7 @@ select, input[type="range"], input[type="number"] {
 
 
                   <div class="d-flex align-items-center">
-                    <div id="contrast" class="slider">
+                    <div id="contrast"  class="slider_editor">
                     <label for="contrastValue" class="me-2">Contrast:</label>
                     <input type="range" id="contrastValue" min="0" max="200" value="100" class="form-range" />
                     <span id="contrastOutput" class="ms-2">100%</span>
@@ -623,7 +623,7 @@ select, input[type="range"], input[type="number"] {
             </div>
                   
                   <div class="d-flex align-items-center">
-                    <div id="saturate" class="slider">
+                    <div id="saturate"  class="slider_editor">
                     <label for="saturateValue" class="me-2">Saturation:</label>
                     <input type="range" id="saturateValue" min="0" max="200" value="100" class="form-range" />
                     <span id="saturateOutput" class="ms-2">100%</span>
@@ -634,49 +634,49 @@ select, input[type="range"], input[type="number"] {
 
 
                 <div class="d-flex align-items-center">
-                  <div id="hue-rotate" class="slider">
+                  <div id="hue-rotate"  class="slider_editor">
                     <label for="hueRotateValue" class="me-2">Hue Rotate:</label>
                     <input type="range" id="hueRotateValue" min="0" max="360" value="0">
                     <span id="hueRotateOutput" class="ms-2">0°</span>
                   </div>
                 </div>
                 <div class="d-flex align-items-center">
-                  <div id="blur" class="slider">
+                  <div id="blur"  class="slider_editor">
                     <label for="blurValue" class="me-2">Blur:</label>
                     <input type="range" id="blurValue" min="0" max="20" value="0">
                     <span id="blurOutput" class="ms-2">0px</span>
                   </div>
                 </div>
                 <div class="d-flex align-items-center">
-                  <div id="opacity" class="slider">
+                  <div id="opacity"  class="slider_editor">
                     <label for="opacityValue" class="me-2">Opacity:</label>
                     <input type="range" id="opacityValue" min="0" max="100" value="100">
                     <span id="opacityOutput" class="ms-2">100%</span>
                   </div>
                 </div>
                 <div class="d-flex align-items-center">
-                  <div id="drop-shadow" class="slider">
+                  <div id="drop-shadow"  class="slider_editor">
                     <label for="dropShadowValue" class="me-2">Drop Shadow (px):</label>
                     <input type="number" id="dropShadowValue" min="0" value="5">
                     <span id="dropShadowOutput" class="ms-2">5px</span>
                   </div>
                 </div>
                 <div class="d-flex align-items-center">
-                  <div id="scale" class="slider">
+                  <div id="scale"  class="slider_editor">
                     <label for="scaleValue" class="me-2">Scale:</label>
                     <input type="range" id="scaleValue" min="0.1" max="3" step="0.1" value="1">
                     <span id="scaleOutput" class="ms-2">100%</span>
                   </div>
                 </div>
                 <div class="d-flex align-items-center">
-                  <div id="skewX" class="slider">
+                  <div id="skewX"  class="slider_editor">
                     <label for="skewXValue" class="me-2">Skew X:</label>
                     <input type="range" id="skewXValue" min="-90" max="90" value="0">
                     <span id="skewXOutput" class="ms-2">0°</span>
                   </div>
                 </div>
                 <div class="d-flex align-items-center">
-                  <div id="skewY" class="slider">
+                  <div id="skewY"  class="slider_editor">
                     <label for="skewYValue" class="me-2">Skew Y:</label>
                     <input type="range" id="skewYValue" min="-90" max="90" value="0">
                     <span id="skewYOutput" class="ms-2">0°</span>
@@ -1652,7 +1652,7 @@ function updateLogoSize(event) {
 function showSlider(event) {
     event.preventDefault();
 
-            const sliders = document.querySelectorAll('.slider');
+            const sliders = document.querySelectorAll('.slider_editor');
             sliders.forEach(slider => {
                 slider.classList.remove('visible');
             });
